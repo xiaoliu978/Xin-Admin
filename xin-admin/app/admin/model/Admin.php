@@ -1,0 +1,82 @@
+<?php
+
+namespace app\admin\model;
+
+use app\common\model\BaseModel;
+use app\common\library\Token;
+
+class Admin extends BaseModel
+{
+
+    protected $hidden = [
+        'password', 'create_time', 'update_time', 'status', 'create_ip'
+    ];
+
+    /**
+     * @description: 模型登录
+     * @param string $username 用户名
+     * @param string $password 密码
+     * @return bool|array
+     */    
+    public function login(string $username, string $password): bool | array
+    {
+        $user = $this->where('username',$username)->find();
+        if(!$user) {
+            $this->setErrorMsg('用户不存在');
+            return false;
+        }
+        // 验证密码
+        if(!password_verify($password,$user['password'])){
+            $this->setErrorMsg('密码错误');
+            return false;
+        }
+        try {
+            $token = new Token();
+            $token->clear('admin',$user['id']);
+            $token->clear('admin-refresh',$user['id']);
+
+            $data = $user->toArray();
+            $data['refresh_token'] =  md5(random_bytes(10));
+            $data['token'] =  md5(random_bytes(10));
+            if(
+                $token->set($data['token'],'admin',$user['id']) && 
+                $token->set($data['refresh_token'],'admin-refresh',$user['id'],2592000)
+            ) {
+                return $data;
+            } else {
+                $this->setErrorMsg('token 生成失败');
+                return false;
+            }
+            
+        }catch(\Exception $e){
+            $this->setErrorMsg($e->getMessage());
+            return false;
+        }
+
+    }
+
+    /**
+     * @description: 退出登录
+     * @param {*} $user_id
+     * @return {*}
+     */    
+    public function logout($user_id)
+    {
+        $user = $this->where('id',$user_id)->find();
+        if(!$user) {
+            $this->setErrorMsg('用户不存在');
+            return false;
+        }
+        try {
+            $token = new Token;
+            $token->clear('admin',$user['id']);
+            $token->clear('admin-refresh',$user['id']);
+            return true;
+        }catch(\Exception $e){
+            $this->setErrorMsg($e->getMessage());
+            return false;
+        }
+    }
+
+
+}
