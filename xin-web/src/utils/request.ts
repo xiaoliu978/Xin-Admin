@@ -1,7 +1,8 @@
 import { RefreshToken } from '@/services/admin';
 import { history, request } from '@umijs/max';
 import { message,notification } from 'antd';
-import type { AxiosResponse } from '@umijs/max'
+import type { AxiosResponse } from '@umijs/max';
+
 // 错误处理方案： 错误类型
 enum ErrorShowType {
   SILENT = 0,
@@ -13,7 +14,7 @@ enum ErrorShowType {
 
 const requestConfig = {
   // 统一的请求设定
-  baseURL: 'https://xineny.cn/admin.php',
+  baseURL: '/admin.php',
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
 
@@ -90,7 +91,6 @@ const requestConfig = {
       // 拦截响应数据，进行个性化处理
       // 没有登录拒绝访问
       if (response.data.status === 403) {
-        message.error('请先登录！');
         history.push('/login');
         return Promise.resolve(response);
       }
@@ -101,8 +101,8 @@ const requestConfig = {
           localStorage.setItem('token', res.data.token);
           response.headers!.Authorization = res.data.token;
           // 重新发送请求
-          let ress = await request(response.config.url!,response.config);
-          return Promise.resolve(ress);
+          let data = await request(response.config.url!,response.config);
+          return Promise.resolve(data);
         } else {
           return Promise.reject(res);
         }

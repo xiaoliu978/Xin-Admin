@@ -10,3 +10,6 @@ Thumbs.db
 /.settings
 /.buildpath
 /.project
+/public/assets
+/public/*.html
+/public/*.ini

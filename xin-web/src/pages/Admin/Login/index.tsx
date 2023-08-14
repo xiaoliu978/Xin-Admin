@@ -64,17 +64,23 @@ const Login: React.FC =  () => {
           title: 'Xin Admin',
           subTitle: '这是一个热爱技术并且追求极致的开发者',
           action: (
-            <Button
-              size="large"
-              style={{
-                borderRadius: 20,
-                background: '#fff',
-                color: '#1677FF',
-                width: 120,
-              }}
-            >
-              去看看
-            </Button>
+            <>
+              <Button
+                size="large"
+                style={{
+                    borderRadius: 20,
+                    background: '#fff',
+                    color: '#1677FF',
+                    width: 120,
+                }}
+                onClick={() => window.open("https://gitee.com/xineny",'_blank')}
+              >
+                去看看
+              </Button>
+              <Button type="link" color="#fff" danger onClick={() => window.open("https://beian.miit.gov.cn/",'_blank')}>
+                ICP备案
+              </Button>
+            </>
           ),
         }}
         actions={
@@ -167,7 +173,7 @@ const Login: React.FC =  () => {
                 size: 'large',
                 prefix: <UserOutlined className={'prefixIcon'} />,
               }}
-              placeholder={'用户名: admin or user'}
+              placeholder={'用户名: admin'}
               rules={[
                 {
                   required: true,
@@ -181,7 +187,7 @@ const Login: React.FC =  () => {
                 size: 'large',
                 prefix: <LockOutlined className={'prefixIcon'} />,
               }}
-              placeholder={'密码: ant.design'}
+              placeholder={'密码: 123456'}
               rules={[
                 {
                   required: true,
