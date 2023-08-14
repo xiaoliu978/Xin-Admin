@@ -4,8 +4,9 @@ declare (strict_types=1);
 namespace app\admin\controller;
 
 use app\common\library\Token;
-use app\admin\validate\Login as LoginVal;
-use app\admin\model\Admin as AdminModel;
+use app\common\controller\AdminController as Controller;
+use think\response\Json;
+
 class Index extends Controller
 {
 
@@ -13,7 +14,7 @@ class Index extends Controller
     protected array $allowAction = ['login', 'index'];
 
 
-    public function index()
+    public function index(): Json
     {
         // $token = new Token();
         // $token->clear('admin',1);
@@ -29,7 +30,7 @@ class Index extends Controller
         return $this->success('ok',$data);
     }
 
-    public function queryUserInfo()
+    public function queryUserInfo(): Json
     {
         $token = new Token();
         $data = $token->get('f57d0e41ebdc8b9008cdb027ebddbd39f6efea15');

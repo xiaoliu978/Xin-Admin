@@ -2,7 +2,7 @@
 
 namespace app\admin\controller\system;
 
-use app\admin\controller\Controller;
+use app\common\controller\AdminController as Controller;
 use app\admin\model\system\Dict as DictModel;
 use app\admin\validate\system\Dict as DictVal;
 

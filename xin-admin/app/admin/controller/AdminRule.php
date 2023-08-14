@@ -7,7 +7,7 @@ use app\admin\model\AdminRule as AdminRuleModel;
 use Exception;
 use think\Model;
 use think\response\Json;
-
+use app\common\controller\AdminController as Controller;
 class AdminRule extends Controller
 {
     protected array $searchField = [

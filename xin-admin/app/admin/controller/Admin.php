@@ -2,7 +2,7 @@
 declare (strict_types=1);
 namespace app\admin\controller;
 
-use app\admin\controller\Controller;
+use app\common\controller\AdminController as Controller;
 use app\admin\model\Admin as AdminModel;
 use app\admin\validate\Admin as AdminVal;
 use app\common\library\Token;

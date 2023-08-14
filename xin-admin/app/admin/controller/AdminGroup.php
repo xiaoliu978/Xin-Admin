@@ -2,6 +2,7 @@
 declare (strict_types=1);
 namespace app\admin\controller;
 
+use app\common\controller\AdminController as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
 use app\admin\validate\AdminGroup as AdminGroupVal;
 class AdminGroup extends Controller

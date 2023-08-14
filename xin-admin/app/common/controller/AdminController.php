@@ -1,6 +1,6 @@
 <?php
 
-namespace app\admin\controller;
+namespace app\common\controller;
 
 use app\BaseController;
 use think\db\exception\DbException;
@@ -10,13 +10,13 @@ use think\db\exception\PDOException;
 use think\Model;
 use think\response\Json;
 
-class Controller extends BaseController
+class AdminController extends RequestController
 {
 
     // 登录验证白名单
     protected array $allowAction = [];
 
-    // 当前请求 token 
+    // 当前请求 token
     protected string $token = '';
 
     // 查询字段
