@@ -4,7 +4,7 @@ import {Badge, Tag} from "antd";
 const XinDict = (props: { value: any, dict: string }) => {
   const { value, dict } = props
 
-  const { getDictionaryData } = useModel('global');
+  const { getDictionaryData } = useModel('dictModel');
   const dictData = getDictionaryData(dict)
 
   const dictItem = dictData!.filter(d=>d.value ===value)[0]

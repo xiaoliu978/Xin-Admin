@@ -7,12 +7,13 @@ export default function Page() {
   const [refresh_token, setRefreshToken] = useState(localStorage.getItem('refresh_token'));
   const [userinfo, setUserinfo ] = useState<USER.UserInfo>({});
 
-  const getAdminInfo = async () => {
-    const res = await GetAdminInfo();
-    if (res.success) {
-      setUserinfo(res.data)
-      localStorage.setItem('userinfo', JSON.stringify(res.data));
-    }
+  const getAdminInfo = () => {
+    GetAdminInfo().then(res=>{
+      if (res.success) {
+        setUserinfo(res.data)
+        localStorage.setItem('userinfo', JSON.stringify(res.data));
+      }
+    })
   }
 
   useEffect(() => {
