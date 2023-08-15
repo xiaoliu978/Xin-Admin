@@ -14,6 +14,7 @@ export default defineConfig({
    * 数据流
    */
   model: {},
+  dva: false,
   /**
    * 初始化状态
    */

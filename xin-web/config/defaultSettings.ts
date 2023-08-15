@@ -5,7 +5,7 @@ const Settings: ProLayoutProps  = {
   // 拂晓蓝
   colorPrimary: '#1890ff',
   // colorPrimary: '#2F54EB',
-  layout: 'side',
+  layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: true,
   token: {
@@ -18,6 +18,7 @@ const Settings: ProLayoutProps  = {
     },
     header: {
       colorBgHeader: '#ffffff',
+      colorHeaderTitle: '#000'
     }
   },
 };

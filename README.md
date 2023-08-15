@@ -25,7 +25,7 @@
     </a>
 </p>
 
-<img src="https://xineny.cn/static/home.png"/>
+<img src="./demo.png"/>
 
 ### 介绍
 ✨ 基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Ant Design Pro components 等流行技术栈的后台管理系统，提供权限验证、用户分组、数据字典、XinTable等便捷开发，

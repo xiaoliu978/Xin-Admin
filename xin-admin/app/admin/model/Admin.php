@@ -4,6 +4,9 @@ namespace app\admin\model;
 
 use app\common\model\BaseModel;
 use app\common\library\Token;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 
 class Admin extends BaseModel
 {
@@ -16,30 +19,31 @@ class Admin extends BaseModel
      * @description: 模型登录
      * @param string $username 用户名
      * @param string $password 密码
-     * @return bool|array
-     */    
+     * @return bool | array
+     */
     public function login(string $username, string $password): bool | array
     {
-        $user = $this->where('username',$username)->find();
-        if(!$user) {
-            $this->setErrorMsg('用户不存在');
-            return false;
-        }
-        // 验证密码
-        if(!password_verify($password,$user['password'])){
-            $this->setErrorMsg('密码错误');
-            return false;
-        }
         try {
+            $user = $this->where('username',$username)->find();
+            if(!$user) {
+                $this->setErrorMsg('用户不存在');
+                return false;
+            }
+            // 验证密码
+            if(!password_verify($password,$user['password'])){
+                $this->setErrorMsg('密码错误');
+                return false;
+            }
+
             $token = new Token();
             $token->clear('admin',$user['id']);
             $token->clear('admin-refresh',$user['id']);
 
-            $data = $user->toArray();
+            $data = [];
             $data['refresh_token'] =  md5(random_bytes(10));
             $data['token'] =  md5(random_bytes(10));
             if(
-                $token->set($data['token'],'admin',$user['id']) && 
+                $token->set($data['token'],'admin',$user['id'],600) &&
                 $token->set($data['refresh_token'],'admin-refresh',$user['id'],2592000)
             ) {
                 return $data;
