@@ -202,7 +202,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
   }
 
   return (
-    <Watermark content="Xin Table">
+    <Watermark>
       <ProTable<TableData>
         { ...Object.assign(defaultProTableConfig, tableConfig) }
       />

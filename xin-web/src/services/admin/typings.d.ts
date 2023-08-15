@@ -15,7 +15,7 @@ declare namespace USER {
 
   interface UserInfo {
     id?: string
-    username?: string
+    name?: string
     nickName?: string
     email?: string
     avatar?: string
@@ -25,10 +25,16 @@ declare namespace USER {
     refresh_token?:string
   }
 
-  type UserResult = {
-    data: UserInfo
-    success: boolean
-  };
+  type UserResult = API.ResponseStructure<{
+    userinfo: UserInfo,
+    settings?: {[key: string] : any},
+    route?: {[key: string] : any}
+  }>
+
+  type LoginResult = API.ResponseStructure<{
+    token: string
+    refresh_token: string
+  }>
 
   type ReToken = {
     data: {

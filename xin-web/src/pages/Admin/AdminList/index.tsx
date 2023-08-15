@@ -2,16 +2,19 @@ import XinTable from '@/components/XinTable'
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import XinDict from "@/components/XinDict";
 import {useModel} from "@@/exports";
+import {Avatar} from "antd";
+import UploadImgItem from "@/components/XinForm/UploadImgItem";
+
 const api = {
   list: '/admin/list',
   add : '/admin/add',
-  edit: '/admin/add',
+  edit: '/admin/edit',
   delete: '/admin/delete'
 }
 
 interface ResponseAdminList {
   id?: number
-  username?: string
+  name?: string
   nickname?: string
   avatar?: string
   email?: string
@@ -19,15 +22,13 @@ interface ResponseAdminList {
   motto?: string
   sex?: number
   create_time?: string
-  updata_time?: string
+  update_time?: string
 }
-
-
 
 
 const Table : React.FC = () => {
 
-  const {getDictionaryData} = useModel('global')
+  const {getDictionaryData} = useModel('dictModel')
 
   const columns: ProFormColumnsAndProColumns<ResponseAdminList>[] = [
     {
@@ -42,7 +43,7 @@ const Table : React.FC = () => {
     },
     {
       title: '昵称',
-      dataIndex: 'nickname',
+      dataIndex: 'name',
       valueType: 'text',
       params: {
         select: 'like'
@@ -65,21 +66,13 @@ const Table : React.FC = () => {
       dataIndex: 'avatar',
       hideInSearch: true,
       valueType: 'text',
-      hideInForm: true
+      renderFormItem: (schema,config, form) => <UploadImgItem config={config} schema={schema} form={form} ></UploadImgItem>,
+      render: (_,date) => <Avatar src={<img src={date.avatar} alt="avatar" />} />
     },
     {
       title: '手机号',
       dataIndex: 'mobile',
       valueType: 'text',
-    },
-    {
-      title: '密码',
-      dataIndex: 'password',
-      hideInSearch: true,
-      hideInTable: true,
-      fieldProps: {
-        initialValue: '123'
-      }
     }
   ];
 

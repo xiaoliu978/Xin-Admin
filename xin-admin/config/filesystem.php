@@ -2,7 +2,7 @@
 
 return [
     // 默认磁盘
-    'default' => 'local',
+    'default' => 'public',
     // 磁盘列表
     'disks'   => [
         'local'  => [

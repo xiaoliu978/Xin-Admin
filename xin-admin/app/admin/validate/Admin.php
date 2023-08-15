@@ -14,7 +14,7 @@ class Admin extends Validate
         'mobile'    =>  'require|mobile',
         'captcha'   =>  'require|max:4',
         'nickname'  =>  'require',
-        'sex'       =>  'max:1|int'
+        'sex'       =>  'max:1|string'
     ];
 
     protected $message  =   [
@@ -46,7 +46,7 @@ class Admin extends Validate
     // edit 验证场景定义
     public function sceneEdit()
     {
-    	return $this->only(['id','username','password','mobile','nickname','sex'])
+    	return $this->only(['username','password','mobile','nickname','sex'])
             ->remove('username', 'require')
             ->remove('nickname', 'require')
             ->remove('mobile', 'require')

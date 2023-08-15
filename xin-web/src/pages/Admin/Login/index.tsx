@@ -1,4 +1,4 @@
-import { UserLogin } from '@/services/admin/login';
+import { UserLogin } from '@/services/admin';
 import {
   AlipayOutlined,
   LockOutlined,
@@ -16,7 +16,7 @@ import {
 import { history, useModel } from '@umijs/max';
 import { Button, Divider, message, Space, Tabs } from 'antd';
 import type { CSSProperties } from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 const iconStyles: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
   fontSize: '18px',
@@ -27,15 +27,22 @@ const iconStyles: CSSProperties = {
 import logo from '@/assets/static/logo.png';
 
 const Login: React.FC =  () => {
+
+  const { refresh } = useModel('@@initialState');
+  const { refreshCache } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
-  const { setToken, setRefreshToken } = useModel('adminModel');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
     const msg = await UserLogin({ ...values, loginType });
     if (msg.success) {
+      // 登录成功
       message.success('登录成功！');
-      setToken(msg.data.token!);
-      setRefreshToken(msg.data.refresh_token!)
+      // 记录令牌
+      localStorage.setItem('token',msg.data.token);
+      localStorage.setItem('token',msg.data.refresh_token);
+      // 刷新全局初始化状态
+      refresh();
+      refreshCache.toggle();
       const urlParams = new URL(window.location.href).searchParams;
       history.push(urlParams.get('redirect') || '/');
       return;

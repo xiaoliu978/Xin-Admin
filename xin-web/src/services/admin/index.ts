@@ -1,5 +1,12 @@
 import { request } from '@umijs/max';
 
+export async function UserLogin(data: USER.UserLoginFrom) {
+  return request<USER.LoginResult>('/admin/login', {
+    method: 'post',
+    data
+  });
+}
+
 export async function GetAdminInfo() {
   return request<USER.UserResult>('/admin/getAdminInfo', {
     method: 'get'
