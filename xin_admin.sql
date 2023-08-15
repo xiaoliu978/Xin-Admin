@@ -3,15 +3,15 @@
 
  Source Server         : 本地
  Source Server Type    : MySQL
- Source Server Version : 50740 (5.7.40)
+ Source Server Version : 50740
  Source Host           : localhost:3306
  Source Schema         : xin_admin
 
  Target Server Type    : MySQL
- Target Server Version : 50740 (5.7.40)
+ Target Server Version : 50740
  File Encoding         : 65001
 
- Date: 15/08/2023 19:08:18
+ Date: 16/08/2023 04:13:33
 */
 
 SET NAMES utf8mb4;
@@ -37,12 +37,12 @@ CREATE TABLE `xin_admin`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
   UNIQUE INDEX `mobile`(`mobile`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', '0', '2302563948@qq.com', '18888888888', '1', '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692097546);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', '0', '2302563948@qq.com', '18888888888', '1', '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692128955);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -86,7 +86,7 @@ DROP TABLE IF EXISTS `xin_admin_rule`;
 CREATE TABLE `xin_admin_rule`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `pid` int(11) NOT NULL DEFAULT 0 COMMENT '父ID',
-  `type` enum('0','1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '类型 0：一级菜单 1：子菜单 2：按钮',
+  `type` enum('0','1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '类型 0：页面 1：数据 2：按钮',
   `title` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '标题',
   `key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限标识',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
@@ -94,13 +94,24 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
 -- ----------------------------
 INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', '首页', 'index', '首页', 1691653415, 1691653415);
 INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', '数据展示', 'data', '数据展示', 1691653452, 1691653452);
+INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', '定义列表', 'list', '定义列表', 1692102396, 1692102396);
+INSERT INTO `xin_admin_rule` VALUES (5, 0, '0', '权限演示', 'rule', '权限演示', 1692126701, 1692126701);
+INSERT INTO `xin_admin_rule` VALUES (6, 0, '0', '管理员设置', 'admin', '管理员设置', 1692126728, 1692126728);
+INSERT INTO `xin_admin_rule` VALUES (7, 6, '1', '管理员列表', 'admin:list', '管理员列表', 1692126786, 1692126786);
+INSERT INTO `xin_admin_rule` VALUES (8, 6, '1', '管理员分组', 'admin:group', '管理员分组', 1692126825, 1692126825);
+INSERT INTO `xin_admin_rule` VALUES (9, 6, '1', '权限管理', 'admin:rule', '权限管理', 1692126876, 1692126876);
+INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', '系统管理', 'system', '系统管理', 1692127577, 1692127577);
+INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', '字典管理', 'system:dict', '字典管理', 1692127607, 1692127607);
+INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', '字典新建', 'system:dict:add', '字典新建', 1692127688, 1692127688);
+INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', '字典删除', 'system:dict:delete', '字典删除', 1692127723, 1692127723);
+INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', '字典编辑', 'system:dict:edit', '字典编辑', 1692127804, 1692127804);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -116,7 +127,7 @@ CREATE TABLE `xin_dict`  (
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict
@@ -141,7 +152,7 @@ CREATE TABLE `xin_dict_item`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`dict_id`, `value`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict_item
@@ -151,9 +162,9 @@ INSERT INTO `xin_dict_item` VALUES (2, 14, '女', '1', '1', 'default', 169147459
 INSERT INTO `xin_dict_item` VALUES (3, 12, '男', '0', '1', 'success', 1691474602, 1691636823);
 INSERT INTO `xin_dict_item` VALUES (5, 12, '女', '1', '1', 'error', 1691474667, 1691636827);
 INSERT INTO `xin_dict_item` VALUES (6, 14, '变态', '3', '1', 'default', 1691475812, 1691475812);
-INSERT INTO `xin_dict_item` VALUES (7, 16, '一级菜单', '0', '1', 'processing', 1691482807, 1691651259);
-INSERT INTO `xin_dict_item` VALUES (8, 16, '子菜单', '1', '1', 'success', 1691482817, 1691651275);
-INSERT INTO `xin_dict_item` VALUES (9, 16, '按钮', '2', '1', 'default', 1691651294, 1691651294);
+INSERT INTO `xin_dict_item` VALUES (7, 16, '一级菜单', '0', '1', 'processing', 1691482807, 1692127961);
+INSERT INTO `xin_dict_item` VALUES (8, 16, '子菜单', '1', '1', 'success', 1691482817, 1692127975);
+INSERT INTO `xin_dict_item` VALUES (9, 16, '按钮', '2', '1', 'default', 1691651294, 1692128005);
 
 -- ----------------------------
 -- Table structure for xin_file
@@ -171,7 +182,7 @@ CREATE TABLE `xin_file`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`file_id`) USING BTREE,
   UNIQUE INDEX `file_name`(`file_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_file
@@ -181,6 +192,11 @@ INSERT INTO `xin_file` VALUES (13, 'd1a4c7b61016c0a22c8559b4651dca.png', 1, 1, '
 INSERT INTO `xin_file` VALUES (14, 'f3048addd9c5b7aee7ac728b5dd12b.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/49\\f3048addd9c5b7aee7ac728b5dd12b.png', 32565, 1692097300, 1692097300);
 INSERT INTO `xin_file` VALUES (15, 'c96530775f2b747b5ebf491e908719.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/fc\\c96530775f2b747b5ebf491e908719.png', 25669, 1692097475, 1692097475);
 INSERT INTO `xin_file` VALUES (16, '531f3c8809dd46382f4149a2afee86.jpg', 1, 1, 'jpg', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', 23966, 1692097545, 1692097545);
+INSERT INTO `xin_file` VALUES (17, 'db3edbd3582a030750223ac0f277de.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/c6\\db3edbd3582a030750223ac0f277de.png', 4366, 1692101992, 1692101992);
+INSERT INTO `xin_file` VALUES (18, '8254977b68347f4b831b6a72658aa8.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/28\\8254977b68347f4b831b6a72658aa8.png', 26995, 1692102192, 1692102192);
+INSERT INTO `xin_file` VALUES (19, '6784aff49221e6f735a792391c075f.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/8f\\6784aff49221e6f735a792391c075f.png', 10650, 1692113871, 1692113871);
+INSERT INTO `xin_file` VALUES (20, 'ef324135a0a3a2351b9b08080c885a.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/0b\\ef324135a0a3a2351b9b08080c885a.png', 1387, 1692113924, 1692113924);
+INSERT INTO `xin_file` VALUES (21, '6ec9464deb3ec2e830d3dc8280c142.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', 1556451, 1692128954, 1692128954);
 
 -- ----------------------------
 -- Table structure for xin_file_group
@@ -195,7 +211,7 @@ CREATE TABLE `xin_file_group`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `file`(`pid`, `user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件分组表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_file_group
@@ -214,12 +230,12 @@ CREATE TABLE `xin_token`  (
   `expire_time` int(10) NULL DEFAULT NULL COMMENT '过期时间',
   PRIMARY KEY (`token`) USING BTREE,
   UNIQUE INDEX `token`(`token`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户Token表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户Token表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('471795ecf07de9fdb225b4f59cbf8e0e55f61771', 'admin', 1, 1692097175, 1692097775);
-INSERT INTO `xin_token` VALUES ('edceb3483b112827b337420702932314341c49d1', 'admin-refresh', 1, 1692097175, 1694689175);
+INSERT INTO `xin_token` VALUES ('3cef27799b7d5a9b908a9c35c133e4e040fb5ae5', 'admin-refresh', 1, 1692101975, 1694693975);
+INSERT INTO `xin_token` VALUES ('4cc1845566421c9122d6ebcad68aae5ca89c1ec0', 'admin', 1, 1692101975, 1692102575);
 
 SET FOREIGN_KEY_CHECKS = 1;

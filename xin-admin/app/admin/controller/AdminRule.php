@@ -61,12 +61,47 @@ class AdminRule extends Controller
         $node['children'] = $childNode;
     }
 
+    /**
+     * 获取菜单节点
+     * @return Json
+     * @throws Exception
+     */
     public function getRulePid(): Json
     {
-        $rootNode = $this->model->field('id as value,title as label')->where('type','<>','2')->paginate([
-            'page' => 1,
-            'list_rows' => 100
-        ])->toArray();
+        $rootNode = $this->model
+            ->field('id as value,title as label')
+            ->where('type','<>','2')
+            ->where('pid',0)
+            ->paginate([
+                'page' => 1,
+                'list_rows' => 100
+            ])->toArray();
+        foreach ($rootNode['data'] as &$item){
+            $this->getRulePidNode($item, $this->model);
+        }
         return $this->success('ok',$rootNode);
+    }
+
+    /**
+     * @param $node
+     * @param Model $model
+     * @return void
+     * @throws Exception
+     */
+    public function getRulePidNode(&$node, Model $model): void
+    {
+        $childNode = $model
+            ->field('id as value,title as label')
+            ->where('pid',$node['value'])
+            ->where('type','<>','2')
+            ->select()
+            ->toArray();
+        if(!count($childNode)){
+            return;
+        }
+        foreach ($childNode as &$item){
+            $this->getRulePidNode($item, $model);
+        }
+        $node['children'] = $childNode;
     }
 }

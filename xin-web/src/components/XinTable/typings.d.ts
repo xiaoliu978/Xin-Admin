@@ -69,6 +69,10 @@ export interface TableProps<TableData> {
    * 自定义新建提交事件
    */
   handleAdd?: (formData:TableData) => Promise<boolean>
+  /**
+   * 添加成功事件，重写 handleAdd 此功能失效
+   */
+  addBefore?: () => void
 }
 
 /**
@@ -85,6 +89,10 @@ export interface CreateFormProps<T> {
    * 自定义新建提交事件
    */
   handleAdd?: (formData:T) => Promise<boolean>
+  /**
+   * 添加成功事件，重写 handleAdd 此功能失效
+   */
+  addBefore?: () => void
 }
 
 /**

@@ -27,7 +27,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     operateShow,
     tableConfig = {},
     handleUpdate,
-    handleAdd
+    handleAdd,
+    addBefore
   } = props;
 
   /**
@@ -86,14 +87,17 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     }).finally(() => hide())
   }
 
+
   /**
    * 操作栏按钮，自定义按钮：operateRender
    */
-  const defaultButton: ProDescriptionsItemProps<any>[] = operateShow !== false ? [
+  const defaultButton: ProDescriptionsItemProps<TableData>[] = operateShow !== false ? [
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
+      // @ts-ignore
+      align: 'center',
       render: (_, record) => (
         <>
           {editShow === false ? null :
@@ -130,6 +134,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           api={tableApi.add}
           tableRef={actionRef}
           handleAdd={handleAdd}
+          addBefore={addBefore}
         />
     ) : <></>,
     allKeys.length > dataSource.length ? (

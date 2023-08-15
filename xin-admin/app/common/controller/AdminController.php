@@ -3,6 +3,7 @@
 namespace app\common\controller;
 
 use app\BaseController;
+use app\common\library\Request;
 use think\db\exception\DbException;
 use think\facade\Db;
 use app\common\library\Token;
@@ -10,8 +11,11 @@ use think\db\exception\PDOException;
 use think\Model;
 use think\response\Json;
 
-class AdminController extends RequestController
+class AdminController extends BaseController
 {
+
+    use Request;
+
 
     // 登录验证白名单
     protected array $allowAction = [];

@@ -5,7 +5,7 @@ import { CreateFormProps } from '../typings';
 import {addApi} from "@/services/table";
 
 function CreateForm<TableData>(props: CreateFormProps<TableData>){
-  const { columns, api, tableRef, handleAdd } = props;
+  const { columns, api, tableRef, handleAdd, addBefore } = props;
 
   /**
    * 添加节点
@@ -21,6 +21,7 @@ function CreateForm<TableData>(props: CreateFormProps<TableData>){
       return addApi(api, Object.assign({},formData)).then(res=>{
         if (res.success) {
           message.success('添加成功');
+          addBefore?.()
           return true
         }
         return false
