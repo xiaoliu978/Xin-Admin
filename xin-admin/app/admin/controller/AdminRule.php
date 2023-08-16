@@ -5,6 +5,9 @@ namespace app\admin\controller;
 use app\admin\validate\AdminRule as AdminRuleVal;
 use app\admin\model\AdminRule as AdminRuleModel;
 use Exception;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\Model;
 use think\response\Json;
 use app\common\controller\AdminController as Controller;
@@ -155,10 +158,11 @@ class AdminRule extends Controller
     /**
      * @param $node
      * @param Model $model
+     * @param array $where
      * @return void
      * @throws Exception
      */
-    public function parentNodeByGroup(&$node, Model $model, $where = []): void
+    public function parentNodeByGroup(&$node, Model $model, array $where = []): void
     {
         $childNode = $model->where('pid',$node['id'])->where($where)->select()->toArray();
         if(!count($childNode)){
