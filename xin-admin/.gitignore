@@ -13,3 +13,4 @@ Thumbs.db
 /public/assets
 /public/*.html
 /public/*.ini
+/public/storage

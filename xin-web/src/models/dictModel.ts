@@ -1,6 +1,7 @@
 // 全局共享数据示例
 import {useMemo, useState} from 'react';
 import {gitDict} from "@/services/system";
+import {useBoolean} from "ahooks";
 
 interface DictItem {
   label:string
@@ -19,7 +20,7 @@ interface DictDate {
 const useUser = () => {
 
   const [dictionaryCache , setDictionaryCache ] = useState<Map<string,DictItem[]>>(new Map())
-
+  const [cache,refreshCache ] = useBoolean();
   /**
    * 格式化字典
    * @param data
@@ -44,19 +45,22 @@ const useUser = () => {
     return dictionaryCache.has(key)?dictionaryCache.get(key)!:[]
   }
 
-
   useMemo (()=>{
-    gitDict().then(res=>{
-      let { success, data } = res
-      if(success){
-        localStorage.setItem('dictMap',JSON.stringify(data))
-        setDictionaryCache(setDictJson(data))
-      }
-    })
-  },[])
+    let token = localStorage.getItem('token');
+    if (token) {
+      gitDict().then(res=>{
+        let { success, data } = res
+        if(success){
+          localStorage.setItem('dictMap',JSON.stringify(data))
+          setDictionaryCache(setDictJson(data))
+        }
+      })
+    }
+  },[cache])
 
   return {
-    getDictionaryData
+    getDictionaryData,
+    refreshCache
   };
 };
 

@@ -53,11 +53,6 @@ const router =  [
     component: './Table',
   },
   {
-    name: '权限控制',
-    path: '/rule',
-    component: './Rule',
-  },
-  {
     name: '管理员设置',
     path: '/admin',
     routes: [

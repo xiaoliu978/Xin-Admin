@@ -4,11 +4,12 @@ import XinDict from "@/components/XinDict";
 import {useModel} from "@umijs/max";
 import {getRulePid} from "@/services/admin";
 import {useEffect, useState} from "react";
+import {useBoolean} from "ahooks";
 
 const api = {
   list: '/adminRule/list',
   add: '/adminRule/add',
-  edit: '/adminRule/add',
+  edit: '/adminRule/edit',
   delete: '/adminRule/delete'
 }
 
@@ -24,8 +25,10 @@ interface ResponseAdminList {
 }
 
 const Table: React.FC = () => {
-  const {getDictionaryData} = useModel('global')
+  const {getDictionaryData} = useModel('dictModel')
   const [parentNode,setParentNode] = useState<{value:any,label:string}[]>([])
+  const [ref,setref] = useBoolean()
+
 
   // 获取父节点ID
   useEffect(() => {
@@ -34,7 +37,7 @@ const Table: React.FC = () => {
         setParentNode(res.data.data)
       }
     })
-  },[])
+  },[ref])
 
 
   // 父ID选择框
@@ -43,7 +46,7 @@ const Table: React.FC = () => {
       ? [{
         title: '父节点',
         dataIndex: 'pid',
-        valueType: 'select',
+        valueType: 'treeSelect',
         initialValue: '0',
         fieldProps: {
           options: parentNode
@@ -79,6 +82,7 @@ const Table: React.FC = () => {
           { required: true, message: '此项为必填项'},
         ],
       },
+      width: 420,
     },
     {
       title: 'KEY',
@@ -89,6 +93,7 @@ const Table: React.FC = () => {
           { required: true, message: '此项为必填项'},
         ],
       },
+      width: 280,
     },
     {
       valueType: 'dependency',
@@ -102,24 +107,28 @@ const Table: React.FC = () => {
       valueType: 'radioButton',
       request: async () => getDictionaryData('ruleType'),
       render: (_, date) => <XinDict value={date.type} dict={'ruleType'} />,
-      hideInForm: true
+      hideInForm: true,
+      width: 160
     },
     {
       title: '备注',
       dataIndex: 'remark',
-      valueType: 'text'
+      valueType: 'text',
+      width: 150
     },
     {
       title: '创建时间',
       dataIndex: 'create_time',
       valueType: 'date',
-      hideInForm: true
+      hideInForm: true,
+      width: 150
     },
     {
       title: '修改时间',
       dataIndex: 'update_time',
       valueType: 'date',
-      hideInForm: true
+      hideInForm: true,
+      width: 150
     },
   ];
 
@@ -130,6 +139,7 @@ const Table: React.FC = () => {
         tableConfig={{
           search: false
         }}
+        addBefore={()=> setref.toggle() }
       />
   )
 

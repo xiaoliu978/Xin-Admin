@@ -4,16 +4,23 @@ namespace app\admin\controller;
 
 use app\common\controller\AdminController as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
+use app\admin\model\AdminGroupRule as AdminGroupRuleModel;
 use app\admin\validate\AdminGroup as AdminGroupVal;
+use Exception;
+use think\Model;
+use think\response\Json;
+
 class AdminGroup extends Controller
 {
 
-    protected array $allowAction = [];
+    protected array $methodRules = [
+        'setGroupRule' => 'POST'
+    ];
+
     protected array $searchField = [
-        'id' => '=',
-        'name'=> 'like',
-        'pid' => '=',
-        'status' => '=',
+        'id'          => '=',
+        'name'        => 'like',
+        'pid'         => '=',
         'create_time' => 'date',
         'update_time' => 'date'
     ];
@@ -23,6 +30,116 @@ class AdminGroup extends Controller
         parent::initialize();
         $this->model = new AdminGroupModel();
         $this->validate = new AdminGroupVal();
+    }
+
+    /**
+     * @return Json
+     * @throws Exception
+     */
+    public function list(): Json
+    {
+        $rootNode = $this->model->where('pid',0)->paginate([
+            'page' => 1,
+            'list_rows' => 100
+        ])->toArray();
+        foreach ($rootNode['data'] as &$item){
+            $this->parentNode($item, $this->model);
+        }
+        return $this->success('ok',$rootNode);
+    }
+
+    /**
+     * @param $node
+     * @param Model $model
+     * @return void
+     * @throws Exception
+     */
+    public function parentNode(&$node, Model $model): void
+    {
+        $childNode = $model->where('pid',$node['id'])->select()->toArray();
+        if(!count($childNode)){
+            return;
+        }
+        foreach ($childNode as &$item){
+            $this->parentNode($item, $model);
+        }
+        $node['children'] = $childNode;
+    }
+
+    /**
+     * 获取菜单节点
+     * @return Json
+     * @throws Exception
+     */
+    public function getGroupPid(): Json
+    {
+        $rootNode = $this->model
+            ->field('id as value,name as label')
+            ->where('pid',0)
+            ->paginate([
+                'page' => 1,
+                'list_rows' => 100
+            ])->toArray();
+        foreach ($rootNode['data'] as &$item){
+            $this->getGroupPidNode($item, $this->model);
+        }
+        return $this->success('ok',$rootNode);
+    }
+
+    /**
+     * @param $node
+     * @param Model $model
+     * @return void
+     * @throws Exception
+     */
+    public function getGroupPidNode(&$node, Model $model): void
+    {
+        $childNode = $model
+            ->field('id as value,name as label')
+            ->where('pid',$node['value'])
+            ->select()
+            ->toArray();
+        if(!count($childNode)){
+            return;
+        }
+        foreach ($childNode as &$item){
+            $this->getGroupPidNode($item, $model);
+        }
+        $node['children'] = $childNode;
+    }
+
+    /**
+     * 设置分组权限
+     */
+    public function setGroupRule(): Json
+    {
+        $params = $this->request->param();
+        if(!isset($params['id'])){
+            return $this->warn('请选择管理分组');
+        }
+        $group = $this->model->where('id',$params['id'])->find();
+        if(!$group){
+            return $this->warn('用户组不存在');
+        }
+        $group->roles()->detach();
+        $group->roles()->saveAll($params['rule_ids']);
+
+        return $this->success('ok');
+    }
+
+    /**
+     * 获取分组权限
+     */
+    public function getGroupRule(): Json
+    {
+        $params = $this->request->param();
+        if(!isset($params['group_id'])){
+            return $this->warn('请选择管理分组');
+        }
+        $group = new AdminGroupRuleModel();
+        $rules = $group->field('rule_id')->where('group_id',$params['group_id'])->select()->toArray();
+
+        return $this->success('ok',array_column($rules,'rule_id'));
     }
 
 }

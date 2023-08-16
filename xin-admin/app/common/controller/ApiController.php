@@ -2,11 +2,14 @@
 namespace app\common\controller;
 
 use app\BaseController;
+use app\common\library\Request;
 use think\facade\Db;
 use think\db\exception\PDOException;
 
-class ApiController extends RequestController
+class ApiController extends BaseController
 {
+
+    use Request;
 
     // 登录验证白名单
     protected $allowAllAction = [];

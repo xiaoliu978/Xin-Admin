@@ -112,6 +112,21 @@ class Admin extends Controller
         }
     }
 
+
+    /**
+     * 基础控制器编辑方法
+     * @return Json
+     */
+    public function edit(): Json
+    {
+        $data = $this->request->param();
+        if (!$this->validate->scene('edit')->check($data)) {
+            return $this->warn($this->validate->getError());
+        }
+        $data['id'] = $this->getAdminId();
+        $this->model->update($data);
+        return $this->success('ok');
+    }
     
 
 }
