@@ -3,15 +3,15 @@
 
  Source Server         : 本地
  Source Server Type    : MySQL
- Source Server Version : 50740 (5.7.40)
+ Source Server Version : 50740
  Source Host           : localhost:3306
  Source Schema         : xin_admin
 
  Target Server Type    : MySQL
- Target Server Version : 50740 (5.7.40)
+ Target Server Version : 50740
  File Encoding         : 65001
 
- Date: 16/08/2023 19:09:10
+ Date: 16/08/2023 20:37:01
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `xin_admin`  (
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', '0', '2302563948@qq.com', '18888888888', '1', NULL, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692148053);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', '0', '2302563948@qq.com', '18888888888', '1', NULL, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692187036);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -69,6 +69,22 @@ INSERT INTO `xin_admin_group` VALUES (5, 4, '管理员设置访客', 1692183966,
 INSERT INTO `xin_admin_group` VALUES (6, 4, '系统管理访客', 1692183987, 1692183987);
 
 -- ----------------------------
+-- Table structure for xin_admin_group_access
+-- ----------------------------
+DROP TABLE IF EXISTS `xin_admin_group_access`;
+CREATE TABLE `xin_admin_group_access`  (
+  `uid` int(10) UNSIGNED NOT NULL COMMENT '管理员ID',
+  `group_id` int(10) UNSIGNED NOT NULL COMMENT '分组ID',
+  UNIQUE INDEX `uid_group_id`(`uid`, `group_id`) USING BTREE,
+  INDEX `uid`(`uid`) USING BTREE,
+  INDEX `group_id`(`group_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理权限分组表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of xin_admin_group_access
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for xin_admin_group_rule
 -- ----------------------------
 DROP TABLE IF EXISTS `xin_admin_group_rule`;
@@ -82,15 +98,6 @@ CREATE TABLE `xin_admin_group_rule`  (
 -- ----------------------------
 -- Records of xin_admin_group_rule
 -- ----------------------------
-INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 10);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 11);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 12);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 13);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 14);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 6);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
@@ -113,8 +120,34 @@ INSERT INTO `xin_admin_group_rule` VALUES (6, 14);
 INSERT INTO `xin_admin_group_rule` VALUES (6, 15);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 1);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 10);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 11);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 10);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 12);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 13);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 14);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 5);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 2);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 16);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 17);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 18);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 19);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 20);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 21);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 22);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 23);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 24);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 25);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 15);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -131,7 +164,7 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
@@ -150,6 +183,16 @@ INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', '字典新建', 'system:dict:a
 INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', '字典删除', 'system:dict:delete', '字典删除', 1692127723, 1692127723);
 INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', '字典编辑', 'system:dict:edit', '字典编辑', 1692127804, 1692127804);
 INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', '字典查看', 'system:dict:list', '字典查看', 1692148153, 1692148153);
+INSERT INTO `xin_admin_rule` VALUES (16, 7, '2', '查看管理员列表', 'admin:list:list', '查看管理员列表', 1692187226, 1692187213);
+INSERT INTO `xin_admin_rule` VALUES (17, 7, '2', '新增管理员', 'admin:list:add', '新增管理员', 1692187255, 1692187255);
+INSERT INTO `xin_admin_rule` VALUES (18, 7, '2', '编辑管理员', 'admin:list:edit', '编辑管理员信息', 1692187292, 1692187292);
+INSERT INTO `xin_admin_rule` VALUES (19, 7, '2', '删除管理员', 'admin:list:delete', '删除管理员', 1692187357, 1692187357);
+INSERT INTO `xin_admin_rule` VALUES (20, 8, '2', '管理员分组查看', 'admin:group:list', '管理员分组查看', 1692187425, 1692187425);
+INSERT INTO `xin_admin_rule` VALUES (21, 8, '2', '管理员分组新增', 'admin:group:add', '管理员分组新增', 1692187454, 1692187454);
+INSERT INTO `xin_admin_rule` VALUES (22, 8, '2', '管理员分组编辑', 'admin:group:edit', '管理员分组编辑', 1692187489, 1692187489);
+INSERT INTO `xin_admin_rule` VALUES (23, 8, '2', '管理员分组删除', 'admin:group:delete', '管理员分组删除', 1692187534, 1692187534);
+INSERT INTO `xin_admin_rule` VALUES (24, 8, '2', '分组权限查看', 'admin:group:rule', '分组权限查看', 1692187596, 1692187596);
+INSERT INTO `xin_admin_rule` VALUES (25, 8, '2', '管理员权限修改', 'admin:group:ruleEdit', '管理员权限修改', 1692187636, 1692187636);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -273,7 +316,7 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('1230fc8ef95dbface43cfebd95986ef3ce602ffc', 'admin-refresh', 1, 1692146522, 1694738522);
-INSERT INTO `xin_token` VALUES ('f10dfdc709b09a6c84bbb5ff1e8a7f658b2dd726', 'admin', 1, 1692146522, 1692147122);
+INSERT INTO `xin_token` VALUES ('252f5f22466d8eef8857bf5d908d145b6ab9effd', 'admin', 1, 1692186978, 1692187578);
+INSERT INTO `xin_token` VALUES ('f464e0b2ac17ddfeaa75d09983e2c5bd5bc02ada', 'admin-refresh', 1, 1692186978, 1694778978);
 
 SET FOREIGN_KEY_CHECKS = 1;
