@@ -3,15 +3,15 @@
 
  Source Server         : 本地
  Source Server Type    : MySQL
- Source Server Version : 50740
+ Source Server Version : 50740 (5.7.40)
  Source Host           : localhost:3306
  Source Schema         : xin_admin
 
  Target Server Type    : MySQL
- Target Server Version : 50740
+ Target Server Version : 50740 (5.7.40)
  File Encoding         : 65001
 
- Date: 16/08/2023 04:13:33
+ Date: 16/08/2023 19:09:10
 */
 
 SET NAMES utf8mb4;
@@ -30,6 +30,7 @@ CREATE TABLE `xin_admin`  (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '手机',
   `status` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '状态:0=禁用,1=启用',
+  `group_id` int(11) NULL DEFAULT NULL COMMENT '用户组',
   `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '密码',
   `motto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '签名',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
@@ -42,7 +43,7 @@ CREATE TABLE `xin_admin`  (
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', '0', '2302563948@qq.com', '18888888888', '1', '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692128955);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', '0', '2302563948@qq.com', '18888888888', '1', NULL, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1692148053);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -52,32 +53,68 @@ CREATE TABLE `xin_admin_group`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `pid` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级分组',
   `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '组名',
-  `rules` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '权限规则ID',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
-  `status` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '状态:0=禁用,1=启用',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理分组表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_group
 -- ----------------------------
+INSERT INTO `xin_admin_group` VALUES (1, 0, '系统管理员', 1692163328, 1692163328);
+INSERT INTO `xin_admin_group` VALUES (2, 1, '二级管理员', 1692163920, 1692163920);
+INSERT INTO `xin_admin_group` VALUES (3, 2, '三级管理员', 1692164762, 1692164762);
+INSERT INTO `xin_admin_group` VALUES (4, 0, '访客', 1692183930, 1692183930);
+INSERT INTO `xin_admin_group` VALUES (5, 4, '管理员设置访客', 1692183966, 1692183966);
+INSERT INTO `xin_admin_group` VALUES (6, 4, '系统管理访客', 1692183987, 1692183987);
 
 -- ----------------------------
--- Table structure for xin_admin_group_access
+-- Table structure for xin_admin_group_rule
 -- ----------------------------
-DROP TABLE IF EXISTS `xin_admin_group_access`;
-CREATE TABLE `xin_admin_group_access`  (
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '管理员ID',
+DROP TABLE IF EXISTS `xin_admin_group_rule`;
+CREATE TABLE `xin_admin_group_rule`  (
   `group_id` int(10) UNSIGNED NOT NULL COMMENT '分组ID',
-  UNIQUE INDEX `uid_group_id`(`uid`, `group_id`) USING BTREE,
-  INDEX `uid`(`uid`) USING BTREE,
-  INDEX `group_id`(`group_id`) USING BTREE
+  `rule_id` int(10) UNSIGNED NOT NULL COMMENT '权限ID',
+  INDEX `group`(`group_id`) USING BTREE,
+  INDEX `rule`(`rule_id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理权限分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of xin_admin_group_access
+-- Records of xin_admin_group_rule
 -- ----------------------------
+INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 10);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 12);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 13);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 14);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 10);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 12);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 13);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 14);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 15);
+INSERT INTO `xin_admin_group_rule` VALUES (5, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (5, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (5, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (5, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 10);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 12);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 13);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 14);
+INSERT INTO `xin_admin_group_rule` VALUES (6, 15);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 1);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (2, 8);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -94,7 +131,7 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
@@ -112,6 +149,7 @@ INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', '字典管理', 'system:dict',
 INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', '字典新建', 'system:dict:add', '字典新建', 1692127688, 1692127688);
 INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', '字典删除', 'system:dict:delete', '字典删除', 1692127723, 1692127723);
 INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', '字典编辑', 'system:dict:edit', '字典编辑', 1692127804, 1692127804);
+INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', '字典查看', 'system:dict:list', '字典查看', 1692148153, 1692148153);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -235,7 +273,7 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('3cef27799b7d5a9b908a9c35c133e4e040fb5ae5', 'admin-refresh', 1, 1692101975, 1694693975);
-INSERT INTO `xin_token` VALUES ('4cc1845566421c9122d6ebcad68aae5ca89c1ec0', 'admin', 1, 1692101975, 1692102575);
+INSERT INTO `xin_token` VALUES ('1230fc8ef95dbface43cfebd95986ef3ce602ffc', 'admin-refresh', 1, 1692146522, 1694738522);
+INSERT INTO `xin_token` VALUES ('f10dfdc709b09a6c84bbb5ff1e8a7f658b2dd726', 'admin', 1, 1692146522, 1692147122);
 
 SET FOREIGN_KEY_CHECKS = 1;

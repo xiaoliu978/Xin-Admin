@@ -15,9 +15,7 @@ class AdminGroup extends Validate
      */
     protected $rule = [
         'name'  => 'require',
-        'pid'   => 'require|number|max:2',
-        'status'=> 'require|number|max:1',
-        'rules' => 'require'
+        'pid'   => 'number|max:2',
     ];
 
     /**
@@ -28,9 +26,6 @@ class AdminGroup extends Validate
      */
     protected $message = [
         'name.require' => '请输入名字',
-        'pid.require'  => '请输入父ID',
-        'pid.number'   => '父ID格式错误',
-        'status.require'=> '请输入状态',
-        'rules.require'=> '请输入权限'
+        'pid.number'   => '父ID格式错误'
     ];
 }

@@ -1,5 +1,11 @@
 import XinTable from '@/components/XinTable'
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
+import React, {useEffect, useState} from "react";
+import {getAdminGroupPid} from "@/services/admin";
+import {useBoolean} from "ahooks";
+import GroupRule from "./components/GroupRule";
+import {Divider} from "antd";
+
 const api = {
   list: '/adminGroup/list',
   add : '/adminGroup/add',
@@ -9,74 +15,128 @@ const api = {
 
 interface ResponseAdminList {
   id?: number
-  username?: string
-  nickname?: string
-  avatar?: string
-  email?: string
-  mobile?: string
-  motto?: string
+  name?: string
+  pid?: string
   create_time?: string
   updata_time?: string
 }
 
-const columns: ProFormColumnsAndProColumns<ResponseAdminList>[] = [
-  {
-    title: 'ID',
-    dataIndex: 'id',
-    hideInForm: true,
-  },
-  {
-    title: '权限名',
-    dataIndex: 'name',
-    valueType: 'text',
-  },
-  {
-    title: '父ID',
-    dataIndex: 'pid',
-    valueType: 'text'
-  },
-  // {
-  //   title: '权限',
-  //   dataIndex: 'rules',
-  //   valueType: 'text',
-  //   hideInSearch: true
-  // },
-  {
-    title: '是否启用',
-    dataIndex: 'status',
-    valueEnum: {
-      0: {
-        text: '禁用',
-        status: 'Error',
-      },
-      1: {
-        text: '启用',
-        status: 'Success',
-      },
-    }
-  },
-  {
-    title: '创建时间',
-    dataIndex: 'create_time',
-    valueType: 'date',
-    hideInForm: true
-  },
-  {
-    title: '编辑时间',
-    dataIndex: 'update_time',
-    valueType: 'date',
-    hideInForm: true,
-  },
-];
 
 const Table : React.FC = () => {
-  
-  return (
 
+  const [parentNode,setParentNode] = useState();
+  const [ref, setRef] = useBoolean();
+
+  // 获取父节点ID
+  useEffect(() => {
+    getAdminGroupPid().then(res=>{
+      if(res.success){
+        setParentNode(res.data.data)
+      }
+    })
+  },[ref])
+
+  const formPid = ({ type }: any): any[] => {
+    return type !== '0'
+      ? [{
+        title: '父节点',
+        dataIndex: 'pid',
+        valueType: 'treeSelect',
+        initialValue: '0',
+        fieldProps: {
+          options: parentNode
+        },
+        formItemProps: {
+          rules: [
+            {required: true, message: '此项为必填项'},
+          ],
+        },
+      }] : []
+  }
+
+  const columns: ProFormColumnsAndProColumns<ResponseAdminList>[] = [
+    {
+      title: '类型',
+      dataIndex: 'type',
+      valueType: 'radio',
+      hideInTable: true,
+      initialValue: '0',
+      formItemProps: {
+        rules: [
+          { required: true, message: '此项为必填项'},
+        ],
+      },
+      fieldProps: {
+        options: [
+          {
+            label: '根节点',
+            value: '0',
+          },
+          {
+            label: '子节点',
+            value: '1',
+          },
+        ],
+      },
+    },
+    {
+      title: 'ID',
+      dataIndex: 'id',
+      hideInForm: true,
+      hideInTable: true
+    },
+    {
+      title: '分组名',
+      dataIndex: 'name',
+      valueType: 'text',
+    },
+    {
+      valueType: 'dependency',
+      name: ['type'],
+      hideInTable: true,
+      columns: formPid
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      valueType: 'date',
+      hideInForm: true
+    },
+    {
+      title: '编辑时间',
+      dataIndex: 'update_time',
+      valueType: 'date',
+      hideInForm: true,
+    },
+  ];
+  const [open, setOpen ] = useState(false);
+  const [ record, setRecord ] = useState<ResponseAdminList>({})
+  const onClose = () =>  setOpen(false);
+
+  return (
+    <>
+      <GroupRule open={open} onClose={onClose} record={record}></GroupRule>
       <XinTable<ResponseAdminList>
         tableApi = {api}
         columns= {columns}
+        tableConfig={{
+          // 搜索配置
+          search: false
+        }}
+        addBefore={()=> setRef.toggle()}
+        operateRender = { (data) => {
+          return (
+            <>
+              <Divider type="vertical" />
+              <a onClick={() => {
+                setRecord(data)
+                setOpen(true)
+              }}>权限配置</a>
+            </>
+          )
+        } }
       />
+    </>
   )
 
 }
