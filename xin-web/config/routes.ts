@@ -22,6 +22,12 @@ const router =  [
     access: 'index'
   },
   {
+    name: '登录',
+    path: '/login',
+    component: './Admin/Login',
+    layout: false,
+  },
+  {
     name: '数据展示',
     path: '/data',
     access: 'data',
@@ -51,12 +57,6 @@ const router =  [
     path: '/access',
     component: './Access',
     access: 'rule'
-  },
-  {
-    name: 'CRUD 示例',
-    path: '/table',
-    component: './Table',
-    access: 'crud'
   },
   {
     name: '管理员设置',
@@ -97,10 +97,20 @@ const router =  [
     ]
   },
   {
-    name: '登录',
-    path: '/login',
-    component: './Admin/Login',
-    layout: false,
+    name: 'CRUD 示例',
+    path: '/table',
+    component: './Table',
+    access: 'crud'
+  },
+  {
+    name: 'CRUD 代码生成',
+    path: '/crud',
+    component: './Crud',
+  },
+
+  {
+    name: 'Xin Admin',
+    path: 'https://xineny.cn'
   },
 ]
 

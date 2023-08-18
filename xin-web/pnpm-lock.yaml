@@ -10,6 +10,15 @@ dependencies:
   '@ant-design/pro-components':
     specifier: ^2.6.8
     version: 2.6.12(antd@5.8.3)(rc-field-form@1.37.0)(react-dom@17.0.2)(react@17.0.2)
+  '@dnd-kit/core':
+    specifier: ^6.0.8
+    version: 6.0.8(react-dom@17.0.2)(react@17.0.2)
+  '@dnd-kit/sortable':
+    specifier: ^7.0.2
+    version: 7.0.2(@dnd-kit/core@6.0.8)(react@17.0.2)
+  '@dnd-kit/utilities':
+    specifier: ^3.2.1
+    version: 3.2.1(react@17.0.2)
   '@umijs/max':
     specifier: ^4.0.73
     version: 4.0.75(@babel/core@7.22.10)(@types/react-dom@18.2.7)(@types/react@18.2.20)(dva@2.5.0-beta.2)(postcss@8.4.27)(prettier@3.0.0)(rc-field-form@1.37.0)(react-dom@17.0.2)(react@17.0.2)(styled-components@6.0.7)(typescript@5.1.6)(webpack@5.88.2)
