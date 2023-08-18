@@ -3,6 +3,8 @@ import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import {Divider} from "antd";
 import DictItem from "./components/DictItem";
 import {useState} from "react";
+import {Access} from "@umijs/max";
+import {useAccess} from "@@/exports";
 
 const api = {
   list: '/system.dict/list',
@@ -77,7 +79,7 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
 const Table: React.FC = () => {
   const [open, setOpen ] = useState(false);
   const [ record, setRecord ] = useState<Data>({})
-
+  const access = useAccess();
   const onClose = () =>  setOpen(false);
 
   return (
@@ -88,15 +90,15 @@ const Table: React.FC = () => {
         columns={columns}
         operateRender = { (record: Data) => {
           return (
-            <>
-              <Divider type="vertical" />
+            <Access accessible={access.buttonAccess('system:dict:item:list')}>
               <a onClick={() => {
                 setRecord(record)
                 setOpen(true)
               }}>字典配置</a>
-            </>
+            </Access>
           )
-        } }
+        }}
+        accessName={'system:dict'}
       />
     </>
 

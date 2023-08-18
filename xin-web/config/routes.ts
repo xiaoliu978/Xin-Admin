@@ -19,26 +19,30 @@ const router =  [
     name: '首页',
     path: '/home',
     component: './Home',
+    access: 'index'
   },
   {
     name: '数据展示',
     path: '/data',
-    // access: 'dataPage',
+    access: 'data',
     routes: [
       {
         name: '定义列表',
         path: '/data/descriptions',
-        component: './Data/Descriptions'
+        component: './Data/Descriptions',
+        access: 'dataList'
       },
       {
         name: '高级列表',
         path: '/data/list',
-        component: './Data/List'
+        component: './Data/List',
+        access:  'dataListUp'
       },
       {
         name: '单选卡片',
         path: '/data/checkcard',
-        component: './Data/CheckCard'
+        component: './Data/CheckCard',
+        access: 'dataCard'
       }
     ]
   },
@@ -46,41 +50,49 @@ const router =  [
     name: '权限演示',
     path: '/access',
     component: './Access',
+    access: 'rule'
   },
   {
     name: 'CRUD 示例',
     path: '/table',
     component: './Table',
+    access: 'crud'
   },
   {
     name: '管理员设置',
     path: '/admin',
+    access: 'admin',
     routes: [
       {
         name: '管理员列表',
         path: '/admin/list',
         component: './Admin/AdminList',
+        access: 'adminList'
       },
       {
         name: '管理员分组',
         path: '/admin/group',
         component: './Admin/AdminGroup',
+        access: 'adminGroup'
       },
       {
         name: '权限管理',
         path: '/admin/rule',
         component: './Admin/AdminRule',
+        access: 'adminRule'
       }
     ]
   },
   {
     name: '系统管理',
     path: '/system',
+    access: 'system',
     routes: [
       {
         name: '字典管理',
         path: '/system/dict',
         component: './System/Dict',
+        access: 'systemDict'
       },
     ]
   },

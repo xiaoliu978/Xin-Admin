@@ -11,6 +11,7 @@ import { TableProps } from './typings';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
 import { ProTableProps } from "@ant-design/pro-components";
+import {Access, useAccess} from "@umijs/max";
 
 
 function XinTable<TableData extends Record<string, any>>(props: TableProps<TableData>) {
@@ -28,7 +29,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     tableConfig = {},
     handleUpdate,
     handleAdd,
-    addBefore
+    addBefore,
+    accessName
   } = props;
 
   /**
@@ -51,6 +53,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    * 表格所有节点的Key
    */
   const [allKeys, setAllKeys] = useState([]);
+
+  const access = useAccess();
 
   /**
    * 递归收集所有 Key
@@ -101,24 +105,29 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       render: (_, record) => (
         <>
           {editShow === false ? null :
-            <UpdateForm<TableData>
-              values={record}
-              columns={columns}
-              id={record.id}
-              api={tableApi.edit}
-              tableRef={actionRef}
-              handleUpdate={handleUpdate}
-            />
+            <Access accessible={ accessName?access.buttonAccess(accessName+':edit'):true }>
+              <UpdateForm<TableData>
+                values={record}
+                columns={columns}
+                id={record.id}
+                api={tableApi.edit}
+                tableRef={actionRef}
+                handleUpdate={handleUpdate}
+              />
+            </Access>
           }
           {deleteShow === false ? null :
-            <>
+            <Access accessible={ accessName?access.buttonAccess(accessName+':delete'):true }>
               <Divider type="vertical" />
               <a onClick={() => { handleRemove([record]) }}>删除</a>
+            </Access>
+          }
+          {operateRender === undefined ? null :
+            <>
+              <Divider type="vertical" />
+              {operateRender(record)}
             </>
           }
-          {operateRender === undefined ? null : (
-            operateRender(record)
-          )}
         </>
       ),
     }
@@ -129,6 +138,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    */
   const defaultToolBarRender = () => [
     addShow !== false ? (
+      <Access accessible={ accessName?access.buttonAccess(accessName+':add'):true}>
         <CreateForm<TableData>
           columns = { columns }
           api={tableApi.add}
@@ -136,6 +146,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           handleAdd={handleAdd}
           addBefore={addBefore}
         />
+      </Access>
     ) : <></>,
     allKeys.length > dataSource.length ? (
       <>

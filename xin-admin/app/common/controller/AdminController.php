@@ -3,7 +3,8 @@
 namespace app\common\controller;
 
 use app\BaseController;
-use app\common\library\Request;
+use app\common\library\RequestJson;
+use Exception;
 use think\db\exception\DbException;
 use think\facade\Db;
 use app\common\library\Token;
@@ -11,10 +12,11 @@ use think\db\exception\PDOException;
 use think\Model;
 use think\response\Json;
 use think\Validate;
+use app\common\attribute\Auth;
 
 class AdminController extends BaseController
 {
-    use Request;
+    use RequestJson;
 
     /**
      * 登录验证白名单
@@ -47,10 +49,10 @@ class AdminController extends BaseController
     protected null | Validate  $validate = null;
 
     /**
-     * 方法权限标识
-     * @var array
+     * 当前类权限标识
+     * @var string
      */
-    protected array $funRule = [];
+    protected string $authName;
 
     /**
      * 可直接使用的数据库术语
@@ -67,6 +69,7 @@ class AdminController extends BaseController
     /**
      * 初始化
      * @return void
+     * @throws Exception
      */
     public function initialize(): void
     {
@@ -82,10 +85,16 @@ class AdminController extends BaseController
         $this->getRouteinfo();
         // 获取登录信息
         $this->checkLogin();
-        // 验证权限
-        $this->checkAuth();
         // 验证请求方式
         $this->checkMethodRules();
+
+        // 运行注解
+        $ref = new \ReflectionObject($this);
+        $attrs = $ref->getMethod($this->action)->getAttributes();
+        foreach ($attrs as $attr){
+            trace(1);
+            $attr->newInstance();
+        }
     }
 
     /**
@@ -104,15 +113,6 @@ class AdminController extends BaseController
             $this->error('请先登录！', [], 403, 'throw');
         }
         $this->token = $token;
-    }
-
-    /**
-     * 验证方法权限
-     * @return void
-     */
-    private function checkAuth(): void
-    {
-
     }
 
     /**
@@ -158,7 +158,7 @@ class AdminController extends BaseController
      * 构建查询方法
      * @return array
      */
-    public function buildSearch(): array
+    protected function buildSearch(): array
     {
         $params = $this->request->get();
         $where = [];
@@ -193,6 +193,7 @@ class AdminController extends BaseController
      * @return Json
      * @throws DbException
      */
+    #[Auth('list')]
     public function list(): Json
     {
         list($where, $paginate) = $this->buildSearch();
@@ -207,6 +208,7 @@ class AdminController extends BaseController
      * 基础控制器新增方法
      * @return Json
      */
+    #[Auth('add')]
     public function add(): Json
     {
         $data = $this->request->post();
@@ -221,6 +223,7 @@ class AdminController extends BaseController
      * 基础控制器编辑方法
      * @return Json
      */
+    #[Auth('edit')]
     public function edit(): Json
     {
         $data = $this->request->param();
@@ -235,6 +238,7 @@ class AdminController extends BaseController
      * 基础控制器删除方法
      * @return Json
      */
+    #[Auth('delete')]
     public function delete(): Json
     {
         $data = $this->request->param();
@@ -244,12 +248,11 @@ class AdminController extends BaseController
         $delArr = explode(',', $data['ids']);
 
         $delNum = $this->model->where('id', 'in', $delArr)->delete();
-        if ($delNum) {
+        if ($delNum != 0 ) {
             return $this->success('删除成功，删除了' . $delNum . '条数据');
         } else {
             return $this->warn('没有删除任何数据');
         }
-
     }
 
 }

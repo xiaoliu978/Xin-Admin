@@ -84,6 +84,7 @@ const Table : React.FC = () => {
         tableConfig = {{
           headerTitle: '表格属性'
         }}
+        accessName={'admin:list'}
       />
   )
 

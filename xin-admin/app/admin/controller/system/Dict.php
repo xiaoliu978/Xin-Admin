@@ -8,6 +8,8 @@ use app\admin\validate\system\Dict as DictVal;
 
 class Dict extends Controller
 {
+    protected string $authName = 'system:dict';
+
     protected array $searchField = [
         'id'            => '=',
         'name'          => 'like',

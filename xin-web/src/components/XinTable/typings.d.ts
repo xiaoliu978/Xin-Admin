@@ -73,6 +73,10 @@ export interface TableProps<TableData> {
    * 添加成功事件，重写 handleAdd 此功能失效
    */
   addBefore?: () => void
+  /**
+   * access 权限前缀
+   */
+  accessName?: string
 }
 
 /**

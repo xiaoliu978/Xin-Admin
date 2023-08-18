@@ -2,6 +2,7 @@
 declare (strict_types=1);
 namespace app\admin\controller;
 
+use app\common\attribute\Auth;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
 use app\admin\model\AdminGroupRule as AdminGroupRuleModel;
@@ -10,12 +11,15 @@ use Exception;
 use think\Model;
 use think\response\Json;
 
+#[Auth]
 class AdminGroup extends Controller
 {
 
     protected array $methodRules = [
         'setGroupRule' => 'POST'
     ];
+
+    protected string $authName = 'admin:group';
 
     protected array $searchField = [
         'id'          => '=',
@@ -36,6 +40,7 @@ class AdminGroup extends Controller
      * @return Json
      * @throws Exception
      */
+    #[Auth('list')]
     public function list(): Json
     {
         $rootNode = $this->model->where('pid',0)->paginate([
@@ -109,7 +114,24 @@ class AdminGroup extends Controller
     }
 
     /**
+     * 获取分组权限
+     */
+    public function getGroupRule(): Json
+    {
+        $params = $this->request->param();
+        if(!isset($params['group_id'])){
+            return $this->warn('请选择管理分组');
+        }
+        $group = new AdminGroupRuleModel();
+        $rules = $group->field('rule_id')->where('group_id',$params['group_id'])->select()->toArray();
+
+        return $this->success('ok',array_column($rules,'rule_id'));
+    }
+
+    /**
      * 设置分组权限
+     * @return Json
+     * @throws Exception
      */
     public function setGroupRule(): Json
     {
@@ -125,21 +147,6 @@ class AdminGroup extends Controller
         $group->roles()->saveAll($params['rule_ids']);
 
         return $this->success('ok');
-    }
-
-    /**
-     * 获取分组权限
-     */
-    public function getGroupRule(): Json
-    {
-        $params = $this->request->param();
-        if(!isset($params['group_id'])){
-            return $this->warn('请选择管理分组');
-        }
-        $group = new AdminGroupRuleModel();
-        $rules = $group->field('rule_id')->where('group_id',$params['group_id'])->select()->toArray();
-
-        return $this->success('ok',array_column($rules,'rule_id'));
     }
 
 }
