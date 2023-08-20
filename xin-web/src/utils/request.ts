@@ -91,6 +91,7 @@ const requestConfig = {
       // 拦截响应数据，进行个性化处理
       // 没有登录拒绝访问
       if (response.data.status === 403) {
+        localStorage.removeItem('token')
         history.push('/login');
         return Promise.resolve(response);
       }

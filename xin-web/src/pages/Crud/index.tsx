@@ -9,28 +9,14 @@ function App() {
   const [isDropped, setIsDropped] = useState(false);
 
 
-  const cardStyle = {
-    background: '#fff',
-    paddingBottom: '10px',
-    paddingTop: '10px',
-    paddingRight: '10px',
-    paddingLeft: '10px',
-    borderRadius: '10px'
-  }
-
   return (
     <DndContext>
-      <Row justify="space-between">
+      <Row gutter={16}>
         <Col span={6} style={{zIndex:1}}>
-          <div style={cardStyle}>
-            <Draggable/>
-          </div>
+          <Draggable/>
         </Col>
-        <Col span={11}>
+        <Col span={18}>
           <Droppable/>
-        </Col>
-        <Col style={cardStyle} span={6}>
-          <div style={cardStyle}>col-6</div>
         </Col>
       </Row>
     </DndContext>

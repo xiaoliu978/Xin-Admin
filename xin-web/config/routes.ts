@@ -107,7 +107,39 @@ const router =  [
     path: '/crud',
     component: './Crud',
   },
+  {
+    name: '表格设计',
+    path: '/online/table/devise/:id',
+    component: './Online/OnlineTable/Devise',
+    layout: false,
+  },
+  {
+    name: '在线开发',
+    path: '/online',
+    routes: [
+      {
+        name: '表格设计',
+        path: '/online/table',
+        component: './Online/OnlineTable'
+      },
 
+      {
+        name: '页面设计',
+        path: '/online/page',
+        component: './Online/OnlinePage'
+      },
+      {
+        name: 'App页面设计',
+        path: '/online/app-page',
+        component: './Online/OnlineAppPage'
+      },
+      {
+        name: '图标设计',
+        path: '/online/charts',
+        component: './Online/OnlineCharts'
+      }
+    ]
+  },
   {
     name: 'Xin Admin',
     path: 'https://xineny.cn'

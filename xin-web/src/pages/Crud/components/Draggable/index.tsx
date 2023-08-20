@@ -9,7 +9,7 @@ const draggingTag: React.CSSProperties = {
   border: 0,
   padding: '10px 20px',
   backgroundColor: '#181a22',
-  borderRadius: '5px',
+  borderRadius: '6px',
   transition: 'transform .25s cubic-bezier(.18,.67,.6,1.22),box-shadow .3s ease',
   transform: 'scale(1)',
   touchAction: 'none',
@@ -56,7 +56,7 @@ export default function Draggable() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: '基础组件',
+      label: '常规组件',
       children: (
         <div className={'nodeClass'}>
           <div ref={textNode.setNodeRef} style={style(textNode)} {...textNode.attributes} {...textNode.listeners}>
@@ -84,7 +84,9 @@ export default function Draggable() {
 
 
   return (
-    <Collapse defaultActiveKey={['1']} ghost items={items}/>
+    <div className={'crud-items'}>
+      <Collapse defaultActiveKey={['1']} ghost items={items}/>
+    </div>
   );
 
   // const style = transform ? {

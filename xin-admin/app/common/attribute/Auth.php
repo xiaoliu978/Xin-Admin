@@ -46,6 +46,10 @@ class Auth
             $reflection = new ReflectionClass($class);
             $properties = $reflection->getProperty('authName')->getDefaultValue();
 
+            if(!$properties){
+                return;
+            }
+
             $authKey = $properties . ':' . $key;
 
             $tokenData = (new Token)->get($this->token);

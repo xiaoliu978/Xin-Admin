@@ -24,6 +24,9 @@ export async function getInitialState(): Promise<initialStateType> {
   const data: initialStateType = {
     settings: defaultSettings as Partial<LayoutSettings>
   };
+  if(!localStorage.getItem('token')){
+    return data
+  }
   let res = await GetAdminInfo()
   data.currentUser = res.data.userinfo
   let access = await getAdminRule()

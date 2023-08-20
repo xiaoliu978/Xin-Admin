@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
 import {useDroppable} from '@dnd-kit/core';
 import { useSortable } from '@dnd-kit/sortable';
-import {MenuOutlined} from '@ant-design/icons';
+import {MenuOutlined, SettingOutlined} from '@ant-design/icons';
 import { CSS } from '@dnd-kit/utilities';
 import {Form, Input} from "antd";
+import './index.less'
+import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
+import {Access} from "@@/exports";
+import XinTable from "@/components/XinTable";
+
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {
   'key': number;
   item: any;
 }
-
 
 const Row = ({ key , item }: RowProps) => {
   const {
@@ -53,53 +57,54 @@ const Row = ({ key , item }: RowProps) => {
   );
 };
 
+interface Data {[key:string]: any}
 
 const Droppable = () => {
-  const {isOver, setNodeRef} = useDroppable({
-    id: 'droppable',
-  });
-
-  const nodeList = useState([])
-
+  const {isOver, setNodeRef} = useDroppable({id: 'droppable'});
 
   const style: React.CSSProperties = {
-    border: isOver? '3px dashed #ccc' : '3px dashed #fff',
-    boxSizing: 'content-box',
-    zIndex: -1,
-    height: 'calc(100vh - 180px)',
-    background: '#fff',
-    borderRadius: '10px',
-    padding: '10px',
-    transition: 'box-shadow .25s ease',
+    border: isOver? '2px dashed #95de64' : '2px dashed #ccc',
   };
+
+  const api = {}
+
+  const [columns,setColumns] = useState<ProFormColumnsAndProColumns<Data>[]>([
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      valueType: 'date',
+      hideInForm: true
+    },
+    {
+      title: '修改时间',
+      dataIndex: 'update_time',
+      valueType: 'date',
+      hideInForm: true
+    },
+
+  ])
+
   return (
-    <div ref={setNodeRef} style={style}>
-      <div>
-        <Form
-          layout={'inline'}
-        >
-          <Form.Item label="字段名">
-            <Input placeholder="请输入字段名" />
-          </Form.Item>
-          <Form.Item label="字段注释">
-            <Input placeholder="请输入字段值" />
+    <div className={'crud-card'}>
+      <div ref={setNodeRef} style={style} className={'curd-card-header'}>
+        <Form layout={'inline'}>
+          <Form.Item>
+            <Input addonBefore="文本框" addonAfter={<SettingOutlined />} defaultValue="mysite" />
           </Form.Item>
         </Form>
-        <Input addonBefore="属性值" defaultValue="mysite" />
-        <Input addonBefore="字段注释" defaultValue="mysite" />
       </div>
 
+      <div className={'crud-card-body'}>
+        <XinTable<Data>
+          tableApi={api}
+          columns={columns}
+        />
+      </div>
 
-      {
-        nodeList.map((item,index) =>
-          <>
-            {/*<Row key={index} item={item}/>*/}
-          </>
-        )
-      }
       {/*<Row/>*/}
     </div>
   );
 }
+
 
 export default Droppable;
