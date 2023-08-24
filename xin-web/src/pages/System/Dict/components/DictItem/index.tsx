@@ -119,6 +119,7 @@ const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: 
           tableConfig={tableConfig}
           handleAdd={handleAdd}
           rowSelectionShow = {false}
+          accessName={'system:dict:item'}
         />
       </Drawer>
   );

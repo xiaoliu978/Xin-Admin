@@ -3,10 +3,16 @@ declare (strict_types=1);
 
 namespace app\admin\controller;
 
+use app\common\attribute\Auth;
 use app\common\library\Token;
 use app\common\controller\AdminController as Controller;
 use think\response\Json;
 
+/**
+ * 后台默认控制器示例
+ * 如果整个控制器的所有方法都需要权限验证 在类的前面增加注解即可
+ */
+#[Auth]
 class Index extends Controller
 {
 

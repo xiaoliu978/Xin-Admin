@@ -12,7 +12,7 @@ use app\common\enum\ApiEnum\ShowType as ShopTypeEnum;
 /**
  * 控制器基础类
  */
-trait Request
+trait RequestJson
 {
 
     /**
@@ -26,9 +26,9 @@ trait Request
     protected function success(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
     {
         if ($type === 'throw') {
-            $this->renderThrow(true, $data, $status, $message);
+            self::renderThrow(true, $data, $status, $message);
         }
-        return $this->renderJson(true, $data, $status, $message);
+        return self::renderJson(true, $data, $status, $message);
     }
 
 
@@ -43,9 +43,9 @@ trait Request
     protected function error(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
     {
         if ($type === 'throw') {
-            $this->renderThrow(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
+            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
         }
-        return $this->renderJson(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
+        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
     }
 
     /**
@@ -59,9 +59,9 @@ trait Request
     protected function warn(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
     {
         if ($type === 'throw') {
-            $this->renderThrow(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
+            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
         }
-        return $this->renderJson(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
+        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
     }
 
     /**
@@ -75,9 +75,9 @@ trait Request
     protected function silent(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
     {
         if ($type === 'throw') {
-            $this->renderThrow(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
+            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
         }
-        return $this->renderJson(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
+        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
     }
 
     /**
@@ -89,7 +89,7 @@ trait Request
      * @param int $showType 响应类型
      * @return Json
      */
-    protected function renderJson(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0): Json
+    protected static function renderJson(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0): Json
     {
         return json(compact('data', 'success', 'status', 'msg', 'showType'), 200);
     }
@@ -102,7 +102,7 @@ trait Request
      * @param string $msg
      * @param int $showType
      */
-    public function renderThrow(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0)
+    public static function renderThrow(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0)
     {
         $response = Response::create(compact('data', 'success', 'status', 'msg', 'showType'), 'json', 200);
         throw new HttpResponseException($response);

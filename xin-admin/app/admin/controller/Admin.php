@@ -2,15 +2,20 @@
 declare (strict_types=1);
 namespace app\admin\controller;
 
+use app\admin\model\AdminGroup;
+use app\common\attribute\Auth;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\Admin as AdminModel;
 use app\admin\validate\Admin as AdminVal;
 use app\common\library\Token;
+use Exception;
 use think\response\Json;
 
+#[Auth]
 class Admin extends Controller
 {
 
+    protected string $authName = 'admin:list';
     protected array $allowAction = ['refreshToken','login'];
     protected array $searchField = [
         'id'        => '=',
@@ -28,6 +33,7 @@ class Admin extends Controller
         $this->validate = new AdminVal();
     }
 
+    #[Auth]
     public function getAdminInfo(): Json
     {
         $user_id = $this->getAdminId();
@@ -112,11 +118,11 @@ class Admin extends Controller
         }
     }
 
-
     /**
      * 基础控制器编辑方法
      * @return Json
      */
+    #[Auth('edit')]
     public function edit(): Json
     {
         $data = $this->request->param();
@@ -126,6 +132,23 @@ class Admin extends Controller
         $data['id'] = $this->getAdminId();
         $this->model->update($data);
         return $this->success('ok');
+    }
+
+    /**
+     * @return Json
+     * @throws Exception
+     */
+    #[Auth]
+    public function getAdminRule(): Json
+    {
+        $adminInfo = (new Auth)->getAdminInfo();
+        // 获取用户所有权限
+        $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
+        $access = [];
+        foreach ($group->roles as $role) {
+            $access[] =  $role->key;
+        }
+        return $this->success('ok',compact('access'));
     }
     
 

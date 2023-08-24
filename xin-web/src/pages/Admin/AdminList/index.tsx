@@ -5,12 +5,7 @@ import {useModel} from "@@/exports";
 import {Avatar} from "antd";
 import UploadImgItem from "@/components/XinForm/UploadImgItem";
 
-const api = {
-  list: '/admin/list',
-  add : '/admin/add',
-  edit: '/admin/edit',
-  delete: '/admin/delete'
-}
+const api = '/admin';
 
 interface ResponseAdminList {
   id?: number
@@ -79,11 +74,10 @@ const Table : React.FC = () => {
 
   return (
       <XinTable<ResponseAdminList>
+        headerTitle={'表格属性'}
         tableApi = {api}
         columns= {columns}
-        tableConfig = {{
-          headerTitle: '表格属性'
-        }}
+        accessName={'admin:list'}
       />
   )
 

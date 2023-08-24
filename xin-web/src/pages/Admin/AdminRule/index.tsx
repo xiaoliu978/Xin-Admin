@@ -6,13 +6,7 @@ import {getRulePid} from "@/services/admin";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
 
-const api = {
-  list: '/adminRule/list',
-  add: '/adminRule/add',
-  edit: '/adminRule/edit',
-  delete: '/adminRule/delete'
-}
-
+const api = '/adminRule';
 interface ResponseAdminList {
   id?: number
   title?: string
@@ -82,7 +76,6 @@ const Table: React.FC = () => {
           { required: true, message: '此项为必填项'},
         ],
       },
-      width: 420,
     },
     {
       title: 'KEY',
@@ -93,7 +86,6 @@ const Table: React.FC = () => {
           { required: true, message: '此项为必填项'},
         ],
       },
-      width: 280,
     },
     {
       valueType: 'dependency',
@@ -108,13 +100,11 @@ const Table: React.FC = () => {
       request: async () => getDictionaryData('ruleType'),
       render: (_, date) => <XinDict value={date.type} dict={'ruleType'} />,
       hideInForm: true,
-      width: 160
     },
     {
       title: '备注',
       dataIndex: 'remark',
       valueType: 'text',
-      width: 150
     },
     {
       title: '创建时间',
@@ -136,10 +126,9 @@ const Table: React.FC = () => {
       <XinTable<ResponseAdminList>
         tableApi={api}
         columns={columns}
-        tableConfig={{
-          search: false
-        }}
+        search={false}
         addBefore={()=> setref.toggle() }
+        accessName={'admin:rule'}
       />
   )
 

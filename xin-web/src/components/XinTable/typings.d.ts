@@ -7,17 +7,11 @@ import {react} from "@babel/types";
 type ProFormColumnsAndProColumns<T> = ProFormColumnsType<T> &
   ProColumns<T>;
 
-export interface TableProps<TableData> {
-
+export type TableProps<TableData> = {
   /**
    * Api 配置
    */
-  tableApi: {
-    list: string;
-    add: string;
-    edit: string;
-    delete: string;
-  };
+  tableApi: string;
   /**
    * 表头配置
    */
@@ -58,10 +52,6 @@ export interface TableProps<TableData> {
    */
   toolBarRender?: JSX.Element[];
   /**
-   * 自定义表格配置
-   */
-  tableConfig?: ProTableProps<TableData, any>;
-  /**
    * 自定义更新提交事件
    */
   handleUpdate?: (formData:TableData) => Promise<boolean>
@@ -73,7 +63,11 @@ export interface TableProps<TableData> {
    * 添加成功事件，重写 handleAdd 此功能失效
    */
   addBefore?: () => void
-}
+  /**
+   * access 权限前缀
+   */
+  accessName?: string
+} & ProTableProps<TableData, any>;
 
 /**
  * 创建表单参数

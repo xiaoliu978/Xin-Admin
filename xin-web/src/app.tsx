@@ -1,6 +1,6 @@
 // 运行时配置
 import type {RunTimeLayoutConfig} from '@umijs/max';
-import type {Settings as LayoutSettings} from '@ant-design/pro-components';
+import type {ActionType, Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
 import {SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
@@ -10,21 +10,28 @@ import React from "react";
 import { XinRight, Question } from "@/components/XinTitle";
 import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
-import { GetAdminInfo } from '@/services/admin';
+import {GetAdminInfo, getAdminRule} from '@/services/admin';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
-interface initialStateType {
+export interface initialStateType {
   settings?: any
   currentUser?: USER.UserInfo
+  access?: string[]
 }
 
 export async function getInitialState(): Promise<initialStateType> {
   const data: initialStateType = {
-    settings: defaultSettings as Partial<LayoutSettings>,
+    settings: defaultSettings as Partial<LayoutSettings>
   };
+  if(!localStorage.getItem('token')){
+    return data
+  }
   let res = await GetAdminInfo()
   data.currentUser = res.data.userinfo
+  let access = await getAdminRule()
+  data.access = access.data.access
+  console.log(data.access)
   return data
 }
 

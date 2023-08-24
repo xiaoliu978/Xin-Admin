@@ -69,11 +69,7 @@ const Table : React.FC = () => {
     }
   ];
   return (
-    <XinTable<Table.ResponseAdminList>
-      api = {api}
-      columns= {columns}
-    >
-    </XinTable>
+    <></>
   )
 
 }

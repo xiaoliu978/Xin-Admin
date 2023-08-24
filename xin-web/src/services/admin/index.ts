@@ -29,6 +29,12 @@ export async function Logout() {
   });
 }
 
+export async function getAdminRule() {
+  return request<ResponseStructure>('/admin/getAdminRule', {
+    method: 'get'
+  });
+}
+
 export async function getRulePid() {
   return request<ResponseStructure>('/adminRule/getRulePid', {
     method: 'get'
@@ -61,4 +67,5 @@ export async function getGroupRule(params: {group_id:number}) {
     params
   });
 }
+
 

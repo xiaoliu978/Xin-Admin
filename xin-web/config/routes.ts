@@ -19,26 +19,36 @@ const router =  [
     name: '首页',
     path: '/home',
     component: './Home',
+    access: 'index'
+  },
+  {
+    name: '登录',
+    path: '/login',
+    component: './Admin/Login',
+    layout: false,
   },
   {
     name: '数据展示',
     path: '/data',
-    // access: 'dataPage',
+    access: 'data',
     routes: [
       {
         name: '定义列表',
         path: '/data/descriptions',
-        component: './Data/Descriptions'
+        component: './Data/Descriptions',
+        access: 'dataList'
       },
       {
         name: '高级列表',
         path: '/data/list',
-        component: './Data/List'
+        component: './Data/List',
+        access:  'dataListUp'
       },
       {
         name: '单选卡片',
         path: '/data/checkcard',
-        component: './Data/CheckCard'
+        component: './Data/CheckCard',
+        access: 'dataCard'
       }
     ]
   },
@@ -46,49 +56,93 @@ const router =  [
     name: '权限演示',
     path: '/access',
     component: './Access',
-  },
-  {
-    name: 'CRUD 示例',
-    path: '/table',
-    component: './Table',
+    access: 'rule'
   },
   {
     name: '管理员设置',
     path: '/admin',
+    access: 'admin',
     routes: [
       {
         name: '管理员列表',
         path: '/admin/list',
         component: './Admin/AdminList',
+        access: 'adminList'
       },
       {
         name: '管理员分组',
         path: '/admin/group',
         component: './Admin/AdminGroup',
+        access: 'adminGroup'
       },
       {
         name: '权限管理',
         path: '/admin/rule',
         component: './Admin/AdminRule',
+        access: 'adminRule'
       }
     ]
   },
   {
     name: '系统管理',
     path: '/system',
+    access: 'system',
     routes: [
       {
         name: '字典管理',
         path: '/system/dict',
         component: './System/Dict',
+        access: 'systemDict'
       },
     ]
   },
   {
-    name: '登录',
-    path: '/login',
-    component: './Admin/Login',
+    name: 'CRUD 示例',
+    path: '/table',
+    component: './Table',
+    access: 'crud'
+  },
+  {
+    name: 'CRUD 代码生成',
+    path: '/crud',
+    component: './Crud',
+  },
+  {
+    name: '表格设计',
+    path: '/online/table/devise/:id',
+    component: './Online/OnlineTable/Devise',
     layout: false,
+  },
+  {
+    name: '在线开发',
+    path: '/online',
+    routes: [
+      {
+        name: '表格设计',
+        path: '/online/table',
+        component: './Online/OnlineTable'
+      },
+
+      {
+        name: '页面设计',
+        path: '/online/page',
+        component: './Online/OnlinePage'
+      },
+      {
+        name: 'App页面设计',
+        path: '/online/app-page',
+        component: './Online/OnlineAppPage'
+      },
+      {
+        name: '图标设计',
+        path: '/online/charts',
+        component: './Online/OnlineCharts'
+      }
+    ]
+  },
+  {
+    name: 'Xin Admin',
+    path: 'https://xineny.cn'
   },
 ]
 

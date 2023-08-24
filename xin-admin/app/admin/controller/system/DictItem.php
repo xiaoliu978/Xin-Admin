@@ -2,6 +2,7 @@
 
 namespace app\admin\controller\system;
 
+use app\common\attribute\Auth;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\system\DictItem as DictItemModel;
 use app\admin\validate\system\DictItem as DictItemVal;
@@ -11,6 +12,9 @@ use app\admin\model\system\Dict as DictModel;
 
 class DictItem extends Controller
 {
+
+    protected string $authName = 'system:dict:item';
+
     protected array $searchField = [
         'name'      => 'like'
     ];
@@ -22,6 +26,7 @@ class DictItem extends Controller
         $this->validate = new DictItemVal();
     }
 
+    #[Auth('list')]
     public function list(): Json
     {
         list($where, $paginate) = $this->buildSearch();

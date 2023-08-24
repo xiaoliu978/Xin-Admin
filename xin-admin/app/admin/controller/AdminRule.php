@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\admin\validate\AdminRule as AdminRuleVal;
 use app\admin\model\AdminRule as AdminRuleModel;
+use app\common\attribute\Auth;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -12,6 +13,8 @@ use think\Model;
 use think\response\Json;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
+
+#[Auth]
 class AdminRule extends Controller
 {
     protected array $searchField = [
@@ -24,6 +27,8 @@ class AdminRule extends Controller
         'update_time' => 'date'
     ];
 
+    protected string $authName = 'admin:rule';
+
     public function initialize(): void
     {
         parent::initialize();
@@ -35,6 +40,7 @@ class AdminRule extends Controller
      * @return Json
      * @throws Exception
      */
+    #[Auth('list')]
     public function list(): Json
     {
         $rootNode = $this->model->where('pid',0)->paginate([
