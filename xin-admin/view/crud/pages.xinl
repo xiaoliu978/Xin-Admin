@@ -1,0 +1,40 @@
+import XinTable from '@/components/XinTable'
+import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
+// import XinDict from "@/components/XinDict";
+import {useModel} from "@umijs/max";
+
+/**
+ *  Api 接口
+ */
+const api = '/{$api}'
+
+/**
+ *  数据类型
+ */
+interface Data {
+  [key: string] : any
+}
+
+
+/**
+ * 表格渲染
+ */
+const {$name}: React.FC = () => {
+  // 字典 Model
+  // const {getDictionaryData} = useModel('dictModel')
+
+  const columns: ProFormColumnsAndProColumns<Data>[] =
+  <?php echo htmlspecialchars_decode($columns) ?>
+
+  return (
+    <XinTable<Data>
+      tableApi={api}
+      columns={columns}
+<?php echo htmlspecialchars_decode($table_config) ?>
+      accessName={'admin:rule'}
+    />
+  )
+
+}
+
+export default {$name}

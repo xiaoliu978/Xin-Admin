@@ -26,7 +26,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     operateRender,
     toolBarRender,
     operateShow,
-    tableConfig = {},
     handleUpdate,
     handleAdd,
     addBefore,
@@ -77,11 +76,12 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    */
   const handleRemove = async (selectedRows: TableData[]) => {
     const hide = message.loading('正在删除');
-    if (!selectedRows || deleteShow === false || !tableApi.delete){
+    if (!selectedRows || deleteShow === false || !tableApi+'/delete'){
       message.warning('请选择需要删除的节点');
+      return
     }
     let ids = selectedRows.map(x => x.id)
-    deleteApi(tableApi.delete, { ids: ids.join() || '' }).then( res => {
+    deleteApi(tableApi+'/delete', { ids: ids.join() || '' }).then( res => {
       if (res.success) {
         message.success(res.msg);
         actionRef.current?.reloadAndRest?.();
@@ -110,7 +110,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
                 values={record}
                 columns={columns}
                 id={record.id}
-                api={tableApi.edit}
+                api={tableApi+'/edit'}
                 tableRef={actionRef}
                 handleUpdate={handleUpdate}
               />
@@ -141,7 +141,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       <Access accessible={ accessName?access.buttonAccess(accessName+':add'):true}>
         <CreateForm<TableData>
           columns = { columns }
-          api={tableApi.add}
+          api={tableApi+'/add'}
           tableRef={actionRef}
           handleAdd={handleAdd}
           addBefore={addBefore}
@@ -200,7 +200,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       onExpandedRowsChange: (expandedKeys) => { setExpandedRowKeys([...expandedKeys]) }
     },
     request: async (params, sorter, filter) => {
-      const { data, success } = await listApi(tableApi.list, {
+      const { data, success } = await listApi(tableApi+'/list', {
         ...params,
         sorter,
         filter,
@@ -213,14 +213,14 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
         total: data?.total
       };
     },
-    columns: [...columns, ...defaultButton],
     rowSelection: rowSelectionShow !== false ? { onChange: (_, selectedRows) => setSelectedRows(selectedRows) } : undefined
   }
 
   return (
     <Watermark>
       <ProTable<TableData>
-        { ...Object.assign(defaultProTableConfig, tableConfig) }
+        { ...Object.assign(defaultProTableConfig, props) }
+        columns={[...columns, ...defaultButton]}
       />
       {footerBar()}
     </Watermark>

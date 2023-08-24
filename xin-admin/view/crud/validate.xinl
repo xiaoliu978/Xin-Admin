@@ -1,0 +1,21 @@
+<?php echo('<?php') ?>
+
+namespace {$validatePath};;
+
+use think\Validate;
+
+class {$name} extends Validate
+{
+    /**
+     *  字段验证规则
+     */
+    protected $rule = [];
+
+
+    /**
+     *  字段验证场景
+     */
+    protected $scene = [];
+
+
+}

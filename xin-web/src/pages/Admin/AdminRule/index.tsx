@@ -6,13 +6,7 @@ import {getRulePid} from "@/services/admin";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
 
-const api = {
-  list:   '/adminRule/list',
-  add: '/adminRule/add',
-  edit: '/adminRule/edit',
-  delete: '/adminRule/delete'
-}
-
+const api = '/adminRule';
 interface ResponseAdminList {
   id?: number
   title?: string
@@ -132,9 +126,7 @@ const Table: React.FC = () => {
       <XinTable<ResponseAdminList>
         tableApi={api}
         columns={columns}
-        tableConfig={{
-          search: false
-        }}
+        search={false}
         addBefore={()=> setref.toggle() }
         accessName={'admin:rule'}
       />

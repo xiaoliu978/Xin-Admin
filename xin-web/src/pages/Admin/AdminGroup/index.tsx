@@ -4,15 +4,9 @@ import React, {useEffect, useState} from "react";
 import {getAdminGroupPid} from "@/services/admin";
 import {useBoolean} from "ahooks";
 import GroupRule from "./components/GroupRule";
-import {Divider} from "antd";
 import {Access, useAccess} from "@umijs/max";
 
-const api = {
-  list: '/adminGroup/list',
-  add : '/adminGroup/add',
-  edit: '/adminGroup/add',
-  delete: '/adminGroup/delete'
-}
+const api = '/adminGroup';
 
 interface ResponseAdminList {
   id?: number
@@ -120,10 +114,7 @@ const Table : React.FC = () => {
       <XinTable<ResponseAdminList>
         tableApi = {api}
         columns= {columns}
-        tableConfig={{
-          // 搜索配置
-          search: false
-        }}
+        search={false}
         accessName={'admin:group'}
         addBefore={()=> setRef.toggle()}
         operateRender = { (data) => {
