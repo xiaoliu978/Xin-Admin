@@ -108,6 +108,11 @@ const router =  [
     component: './Crud',
   },
   {
+    name: '文章列表',
+    path: '/content',
+    component: './Content',
+  },
+  {
     name: '表格设计',
     path: '/online/table/devise/:id',
     component: './Online/OnlineTable/Devise',

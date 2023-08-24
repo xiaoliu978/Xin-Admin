@@ -108,6 +108,9 @@ const requestConfig = {
           return Promise.reject(res);
         }
       }
+      if (response.data.status !== 200) {
+        return Promise.reject(response);
+      }
       return Promise.resolve(response);
     }
   ],
