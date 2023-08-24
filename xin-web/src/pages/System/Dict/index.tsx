@@ -1,17 +1,11 @@
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
-import {Divider} from "antd";
 import DictItem from "./components/DictItem";
 import {useState} from "react";
 import {Access} from "@umijs/max";
 import {useAccess} from "@@/exports";
 
-const api = {
-  list: '/system.dict/list',
-  add: '/system.dict/add',
-  edit: '/system.dict/edit',
-  delete: '/system.dict/delete'
-}
+const api = '/system.dict';
 
 interface Data {
   id?: number

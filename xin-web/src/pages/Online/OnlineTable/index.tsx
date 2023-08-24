@@ -8,12 +8,7 @@ interface Data {
   create_time: string
 }
 
-const api = {
-  list: '/online.online_table/list',
-  add: '/online.online_table/add',
-  edit: '/online.online_table/edit',
-  delete: '/online.online_table/delete'
-}
+const api = '/online.online_table';
 
 const OnlineTable = () => {
   const columns: ProFormColumnsAndProColumns<Data>[] = [

@@ -4,12 +4,7 @@ import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import {addApi, listApi} from "@/services/table";
 import {ProTableProps} from "@ant-design/pro-components";
 
-const api = {
-  list: '/system.dictItem/list',
-  add: '/system.dictItem/add',
-  edit: '/system.dictItem/edit',
-  delete: '/system.dictItem/delete'
-}
+const api = '/system.dictItem';
 
 interface Data {
   id?: number
@@ -74,27 +69,10 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
 const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: any}}> = (props) => {
   const { open, onClose, dictData } = props;
 
-  const tableConfig: ProTableProps<Data, any> = {
-    request: async (params, sorter, filter) => {
-      const { data, success } = await listApi(api.list, {
-        ...params,
-        sorter,
-        filter,
-        dictId: dictData.id
-      });
-      return {
-        data: data?.data || [],
-        success,
-        total: data?.total
-      };
-    },
-    search: false,
-    headerTitle: dictData.name
-  }
 
   const handleAdd = async (formData: Data) => {
     const hide = message.loading('正在添加');
-    return addApi(api.add, Object.assign({dict_id:dictData.id},formData)).then(res=>{
+    return addApi(api+'/add', Object.assign({dict_id:dictData.id},formData)).then(res=>{
       if (res.success) {
         message.success('添加成功');
         return true
@@ -103,6 +81,19 @@ const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: 
     }).finally(()=>hide());
   };
 
+  const request:ProTableProps<Data,any>['request']  =  async (params, sorter, filter) => {
+    const { data, success } = await listApi(api+'/list', {
+      ...params,
+      sorter,
+      filter,
+      dictId: dictData.id
+    });
+    return {
+      data: data?.data || [],
+      success,
+      total: data?.total
+    };
+  }
 
   return (
       <Drawer
@@ -113,13 +104,15 @@ const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: 
         bodyStyle={{ paddingBottom: 80 }}
       >
         <XinTable<Data>
+          search={false}
+          headerTitle={dictData.name}
           key={dictData.id}
           tableApi={api}
           columns={columns}
-          tableConfig={tableConfig}
           handleAdd={handleAdd}
           rowSelectionShow = {false}
           accessName={'system:dict:item'}
+          request = {request}
         />
       </Drawer>
   );
