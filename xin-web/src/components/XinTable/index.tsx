@@ -76,7 +76,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    */
   const handleRemove = async (selectedRows: TableData[]) => {
     const hide = message.loading('正在删除');
-    if (!selectedRows || deleteShow === false || !tableApi+'/delete'){
+    if (!selectedRows || deleteShow === false){
       message.warning('请选择需要删除的节点');
       return
     }

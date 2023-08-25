@@ -53,10 +53,26 @@ const router =  [
     ]
   },
   {
-    name: '权限演示',
-    path: '/access',
-    component: './Access',
-    access: 'rule'
+    name: '在线开发示例',
+    path: '/test',
+    routes: [
+      {
+        name: '字典管理',
+        path: '/Test/table',
+        component: './test/TestTable',
+      },
+    ]
+  },
+  {
+    name: '会员管理',
+    path: '/user',
+    routes: [
+      {
+        name: '会员列表',
+        path: '/user/index',
+        component: './User'
+      },
+    ]
   },
   {
     name: '管理员设置',
@@ -95,17 +111,6 @@ const router =  [
         access: 'systemDict'
       },
     ]
-  },
-  {
-    name: 'CRUD 示例',
-    path: '/table',
-    component: './Table',
-    access: 'crud'
-  },
-  {
-    name: 'CRUD 代码生成',
-    path: '/crud',
-    component: './Crud',
   },
   {
     name: '文章列表',

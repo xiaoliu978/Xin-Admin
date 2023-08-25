@@ -32,7 +32,6 @@ export default defineConfig({
    */
   routes,
   npmClient: 'pnpm',
-  mock: false,
   /**
    * 第三方统计，百度统计配置
    */

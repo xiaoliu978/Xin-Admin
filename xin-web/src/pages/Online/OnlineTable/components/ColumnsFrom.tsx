@@ -1,10 +1,11 @@
-import {Button, Divider} from 'antd';
-import React from 'react';
+import {Button, Divider, Form} from 'antd';
+import React, {useEffect} from 'react';
 import {BetaSchemaForm, ProFormColumnsType} from '@ant-design/pro-components';
 import {useModel} from "@@/exports";
-import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
 import {SettingOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
+import defaultSql from "../defaultSql";
+
 function CreateForm(props: {
   itemIndex?: number;
   setColumns:  React.Dispatch<React.SetStateAction<OnlineType.ColumnsConfig[]>>;
@@ -12,17 +13,103 @@ function CreateForm(props: {
 }){
   const {itemIndex, setColumns, defaultColumns} = props
   const {getDictionaryData} = useModel('dictModel')
+  const [form] = Form.useForm()
+
+  const  formDict = ({isDict} : {isDict: boolean}): any[] => {
+    if(!isDict) return [{
+      title: '数据枚举',
+      dataIndex: 'enum',
+      valueType: 'textarea',
+      colProps: {span: 8},
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ]
+      },
+    }]
+    return [
+      {
+        title: '字典Code',
+        dataIndex: 'dict',
+        valueType: 'text',
+        colProps: {span: 8},
+        formItemProps: {
+          rules: [
+            {required: true, message: '此项为必填项'},
+          ],
+        },
+      },
+    ]
+  }
+  const formIsDict = ({valueType} : {valueType: string}): any[] => {
+    if(!valueType) return []
+    console.log(valueType)
+    return ['select','checkbox','radio','radioButton'].includes(valueType)
+      ? [
+        {
+          valueType: 'dependency',
+          name: ['isDict'],
+          columns: formDict
+        },
+        {
+          title: '是否字典',
+          dataIndex: 'isDict',
+          valueType: 'switch',
+          colProps: {span: 4}
+        }
+      ] : []
+  }
+
   const columns:  ProFormColumnsType<OnlineType.ColumnsConfig, "text">[] = [
     {
       title: '表单类型',
       dataIndex: 'valueType',
       valueType: 'select',
       request: async () => getDictionaryData('valueType'),
+      proFieldProps: {
+        onChange: (value: any) => {
+          if(defaultSql.hasOwnProperty(value)){
+            form.setFieldsValue({
+              ...form.getFieldsValue(),
+              ...defaultSql[value]
+            })
+          }
+        }
+      },
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+      colProps: {span: 8}
+    },
+    {
+      title: '字段索引',
+      dataIndex: 'dataIndex',
+      valueType: 'text',
+      colProps: {span: 8},
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
     },
     {
       title: '表格 title',
       dataIndex: 'title',
       valueType: 'text',
+      colProps: {span: 8},
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
+    {
+      valueType: 'dependency',
+      name: ['valueType'],
+      hideInTable: true,
+      columns: formIsDict
     },
     {
       title: '权重',
@@ -62,12 +149,6 @@ function CreateForm(props: {
       request: async () => getDictionaryData('sqlType'),
     },
     {
-      title: '字段名',
-      dataIndex: 'dataIndex',
-      valueType: 'text',
-      colProps: {span: 6}
-    },
-    {
       title: '字段备注',
       dataIndex: 'remark',
       valueType: 'text',
@@ -77,7 +158,7 @@ function CreateForm(props: {
       title: '字段默认值',
       dataIndex: 'defaultValue',
       valueType: 'text',
-      initialValue: 'empty string',
+      initialValue: 'null',
       colProps: {span: 6}
     },
     {
@@ -88,7 +169,7 @@ function CreateForm(props: {
       colProps: {span: 4}
     },
     {
-      title: '是否为空',
+      title: '不为空',
       dataIndex: 'null',
       valueType: 'switch',
       initialValue: false,
@@ -121,34 +202,49 @@ function CreateForm(props: {
     },
   ]
 
+  const onFinish = async (formData: OnlineType.ColumnsConfig)=> {
+    if(['select','checkbox','radio','radioButton'].includes(formData.valueType!)){
+      if(formData.isDict){
+
+      }else {
+        let item = formData.enum!.split('\n')
+        let map = new Map;
+        item.forEach((str:string)=>{
+          let data = str.split(':')
+          map.set(data[0],data[1])
+        })
+        formData.valueEnum = map
+      }
+    }
+    let arr;
+    if(itemIndex !== undefined) {
+      arr = [...defaultColumns.filter((item,index)=> itemIndex !== index),formData]
+    }else {
+      arr = [...defaultColumns,formData]
+    }
+    arr.sort(function(a, b) {
+      return b.order! - a.order!;
+    })
+    setColumns(arr)
+    return true
+  }
+
 
   return (
-    <BetaSchemaForm<ProFormColumnsAndProColumns<any>>
+    <BetaSchemaForm<OnlineType.ColumnsConfig>
       rowProps={{
         gutter: [16, 16],
       }}
+      initialValues={itemIndex!==undefined?defaultColumns.at(itemIndex):{}}
       title={itemIndex!==undefined?'编辑':'新增'}
       trigger={itemIndex!==undefined?<SettingOutlined style={{color:'#000'}}/>:<Button style={{ width: 60 }}>{'新增'}</Button> }
       layoutType={'ModalForm'}
       colProps={{ span: 12 }}
       modalProps = {{ destroyOnClose: true }}
-      initialValues={itemIndex!==undefined?defaultColumns.at(itemIndex):{}}
       grid={ true }
+      form={form}
       columns= { columns }
-      onFinish={async (formData: ProFormColumnsAndProColumns<any>)=> {
-        if(itemIndex!==undefined) {
-          let arr = [...defaultColumns.fill(formData, itemIndex, itemIndex + 1)].sort(function(a, b) {
-            return b.order! - a.order!;
-          })
-          setColumns(arr)
-        }else {
-          let arr = [...defaultColumns,formData].sort(function(a, b) {
-            return b.order! - a.order!;
-          })
-          setColumns(arr)
-        }
-        return true
-      }}
+      onFinish={onFinish}
     />
   );
 }
@@ -156,9 +252,4 @@ function CreateForm(props: {
 export default CreateForm;
 
 
-const defaultSql = {
-  password: {
-    remark: '密码输入框',
 
-  }
-}
