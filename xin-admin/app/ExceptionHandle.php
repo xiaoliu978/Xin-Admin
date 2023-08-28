@@ -56,8 +56,11 @@ class ExceptionHandle extends Handle
     {
         // 添加自定义异常处理机制
         // 其他错误交给系统处理
-        return $this->error($e->getMessage());
+        if($e instanceof HttpResponseException) {
+            return  parent::render($request, $e);
+        }
+        return $this->error($e->getMessage(), (array)$e);
 
-        // parent::render($request, $e);
+
     }
 }

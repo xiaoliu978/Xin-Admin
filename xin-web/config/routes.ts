@@ -18,6 +18,7 @@ const router =  [
   {
     name: '首页',
     path: '/home',
+    icon: 'HomeOutlined',
     component: './Home',
     access: 'index'
   },
@@ -30,6 +31,7 @@ const router =  [
   {
     name: '数据展示',
     path: '/data',
+    icon: 'SignalFilled',
     access: 'data',
     routes: [
       {
@@ -55,17 +57,19 @@ const router =  [
   {
     name: '在线开发示例',
     path: '/test',
+    icon: 'BuildFilled',
     routes: [
       {
-        name: '字典管理',
-        path: '/Test/table',
-        component: './test/TestTable',
+        name: '表格示例',
+        path: '/test/table',
+        component: './Test/TestTable',
       },
     ]
   },
   {
     name: '会员管理',
     path: '/user',
+    icon: 'user',
     routes: [
       {
         name: '会员列表',
@@ -78,6 +82,7 @@ const router =  [
     name: '管理员设置',
     path: '/admin',
     access: 'admin',
+    icon: 'SmileOutlined',
     routes: [
       {
         name: '管理员列表',
@@ -102,8 +107,14 @@ const router =  [
   {
     name: '系统管理',
     path: '/system',
+    icon: 'SettingOutlined',
     access: 'system',
     routes: [
+      {
+        name: '系统设置',
+        path: '/system/settings',
+        component: './System/Settings'
+      },
       {
         name: '字典管理',
         path: '/system/dict',
@@ -113,9 +124,16 @@ const router =  [
     ]
   },
   {
-    name: '文章列表',
+    name: '内容管理',
     path: '/content',
-    component: './Content',
+    icon: 'TableOutlined',
+    routes: [
+      {
+        name: '文章列表',
+        path: '/content/article',
+        component: './Content/Article',
+      },
+    ]
   },
   {
     name: '表格设计',
@@ -126,6 +144,7 @@ const router =  [
   {
     name: '在线开发',
     path: '/online',
+    icon: 'RocketOutlined',
     routes: [
       {
         name: '表格设计',

@@ -39,12 +39,12 @@ const Login: React.FC =  () => {
       message.success('登录成功！');
       // 记录令牌
       localStorage.setItem('token',msg.data.token);
-      localStorage.setItem('token',msg.data.refresh_token);
+      localStorage.setItem('refresh_token',msg.data.refresh_token);
+      const urlParams = new URL(window.location.href).searchParams;
+      history.push(urlParams.get('redirect') || '/');
       // 刷新全局初始化状态
       refresh();
       refreshCache.toggle();
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
       return;
     }
   };

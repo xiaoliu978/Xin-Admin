@@ -1,11 +1,11 @@
 <?php
 
-namespace app\admin\controller\file;
+namespace app\admin\controller\system;
 
+use app\admin\model\file\File as FileModel;
 use app\common\controller\AdminController as Controller;
 use SplFileInfo;
 use think\facade\Filesystem;
-use app\admin\model\file\File as FileModel;
 use think\response\Json;
 
 class File extends Controller
@@ -40,7 +40,7 @@ class File extends Controller
         if($this->model->saveFile($data,$this->getAdminId())){
             return $this->success('上传成功！',$data);
         }else {
-        return $this->error($this->model->getErrorMsg());
+            return $this->error($this->model->getErrorMsg());
         }
 
 

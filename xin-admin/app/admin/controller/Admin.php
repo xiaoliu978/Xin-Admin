@@ -11,12 +11,11 @@ use app\common\library\Token;
 use Exception;
 use think\response\Json;
 
-#[Auth]
 class Admin extends Controller
 {
 
     protected string $authName = 'admin:list';
-    protected array $allowAction = ['refreshToken','login'];
+
     protected array $searchField = [
         'id'        => '=',
         'username'  => '=',
@@ -31,15 +30,6 @@ class Admin extends Controller
         parent::initialize();
         $this->model = new AdminModel();
         $this->validate = new AdminVal();
-    }
-
-    #[Auth]
-    public function getAdminInfo(): Json
-    {
-        $user_id = $this->getAdminId();
-        $admin = new AdminModel;
-        $userinfo = $admin->where('id',$user_id)->find();
-        return $this->success('ok',compact('userinfo'));
     }
 
     public function refreshToken(): Json
@@ -107,9 +97,10 @@ class Admin extends Controller
         
     }
 
+    #[Auth]
     public function logout(): Json
     {
-        $user_id = $this->getAdminId();
+        $user_id = (new Auth())->getAdminId();
         $admin = new AdminModel;
         if($admin->logout($user_id)){
             return $this->success('退出登录成功');
@@ -150,6 +141,16 @@ class Admin extends Controller
         }
         return $this->success('ok',compact('access'));
     }
-    
+
+    /**
+     * @return Json
+     * @throws Exception
+     */
+    #[Auth]
+    public function getAdminInfo(): Json
+    {
+        $adminInfo = (new Auth)->getAdminInfo();
+        return $this->success('ok',compact('adminInfo'));
+    }
 
 }
