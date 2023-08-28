@@ -19,7 +19,8 @@ const dict = {
   null: false,
   length: 26,
   decimal: 0,
-  unsign: false
+  unsign: false,
+  select: '=',
 }
 
 const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
@@ -36,7 +37,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     autoIncrement: true,
     length: 10,
     decimal: 0,
-    unsign: true
+    unsign: true,
+    select: '='
   },
   select: dict,
   checkbox: dict,
@@ -61,7 +63,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     autoIncrement: false,
     length: 255,
-    unsign: false
+    unsign: false,
+    select: 'like',
   },
   textarea: {
     remark: '文本域',
@@ -71,7 +74,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     autoIncrement: false,
     length: 0,
-    unsign: false
+    unsign: false,
+    select: 'like',
   },
   digit: {
     remark: '数字',
@@ -81,7 +85,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     autoIncrement: false,
     length: 10,
-    unsign: false
+    unsign: false,
+    select: '=',
   },
   money: {
     remark: '金额',
@@ -92,7 +97,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 2,
     autoIncrement: false,
     length: 0,
-    unsign: false
+    unsign: false,
+    select: '=',
   },
   switch: {
     remark: '开关',
@@ -104,7 +110,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 1,
     decimal: 0,
-    unsign: true
+    unsign: true,
+    select: '=',
   },
   rate: {
     remark: '评分',
@@ -116,7 +123,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 1,
     decimal: 0,
-    unsign: true
+    unsign: true,
+    select: '=',
   },
   date: {
     remark: '日期',
@@ -128,7 +136,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 0,
     decimal: 0,
-    unsign: false
+    unsign: false,
+    select: 'date',
   },
   dateTime: {
     remark: '日期时间',
@@ -140,7 +149,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 0,
     decimal: 0,
-    unsign: false
+    unsign: false,
+    select: 'date'
   },
   createTime: {
     remark: '创建时间',
@@ -152,7 +162,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 11,
     decimal: 0,
-    unsign: false
+    unsign: false,
+    select: 'date',
   },
   updateTime: {
     remark: '更新时间',
@@ -164,7 +175,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     null: false,
     length: 11,
     decimal: 0,
-    unsign: false
+    unsign: false,
+    select: 'date',
   }
 }
 export default defaultSql;

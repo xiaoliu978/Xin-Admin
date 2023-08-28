@@ -43,7 +43,7 @@ class AdminRule extends Controller
     #[Auth('list')]
     public function list(): Json
     {
-        $rootNode = $this->model->where('pid',0)->paginate([
+        $rootNode = $this->model->where('pid',0)->order('sort')->paginate([
             'page' => 1,
             'list_rows' => 100
         ])->toArray();
@@ -61,7 +61,7 @@ class AdminRule extends Controller
      */
     public function parentNode(&$node, Model $model): void
     {
-        $childNode = $model->where('pid',$node['id'])->select()->toArray();
+        $childNode = $model->where('pid',$node['id'])->order('sort')->select()->toArray();
         if(!count($childNode)){
             return;
         }
@@ -82,6 +82,7 @@ class AdminRule extends Controller
             ->field('id as value,title as label')
             ->where('type','<>','2')
             ->where('pid',0)
+            ->order('sort')
             ->paginate([
                 'page' => 1,
                 'list_rows' => 100
@@ -104,6 +105,7 @@ class AdminRule extends Controller
             ->field('id as value,title as label')
             ->where('pid',$node['value'])
             ->where('type','<>','2')
+            ->order('sort')
             ->select()
             ->toArray();
         if(!count($childNode)){

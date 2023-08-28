@@ -43,13 +43,14 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
       default: {  text: 'default', status: 'Default'},
       processing: {  text: 'processing', status: 'Processing'},
       warning: {  text: 'warning', status: 'Warning'},
-    }
+    },
+    initialValue: 'default'
   },
   {
     title: '是否启用',
     dataIndex: 'switch',
     valueType: 'switch',
-    initialValue: false
+    initialValue: true
   },
   {
     title: '创建时间',

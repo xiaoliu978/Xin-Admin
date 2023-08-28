@@ -50,12 +50,24 @@ class Crud
     }
 
     /**
+     * @param array $columns
      * @param array $crud_config
      * @param array $viewData
      * @return void
      */
-    public function buildController(array $crud_config, array $viewData): void
+    public function buildController(array $columns ,array $crud_config, array $viewData): void
     {
+        $select = '';
+        foreach ($columns as $item){
+            if(!isset($item['hideInSearch']) || !$item['hideInSearch']){
+                if(isset($item['select'])){
+                    $select .= "        '{$item['dataIndex']}'=> '{$item['select']}',".PHP_EOL;
+                }else {
+                    $select .= "        '{$item['dataIndex']}'=> '=',".PHP_EOL;
+                }
+            }
+        }
+        $viewData['select'] = $select;
         // 控制器渲染
         $controllerView = View::fetch('../crud/controller',$viewData);
         $path = root_path().$crud_config['controllerPath'].'/';

@@ -7,8 +7,25 @@ use app\admin\validate\test\TestTable as TestTableVal;
 
 class TestTable extends Controller
 {
-
-    protected array $searchField = [];
+    /**
+     * 字段查询表达式
+     */
+    protected array $searchField = [
+        'id'=> '=',
+        'title'=> 'like',
+        'number'=> '=',
+        'date'=> '=',
+        'money'=> '=',
+        'sex'=> '=',
+        'check'=> '=',
+        'sex_dict'=> '=',
+        'rate'=> '=',
+        'op'=> '=',
+        'switch'=> '=',
+        'datetime'=> '=',
+        'create_time'=> 'date',
+        'update_time'=> 'date',
+    ];
 
     public function initialize(): void
     {

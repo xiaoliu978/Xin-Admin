@@ -74,9 +74,9 @@ const TestTable: React.FC = () => {
     {
       valueType:'checkbox',
       valueEnum: new Map([
-        [1,'one'],
-        [2,'two'],
-        [3,'three'],
+        [1,'啊啊啊'],
+        [2,'啦啦啦'],
+        [3,'哒哒哒'],
       ]),
       title:'多选框',
       order:86,

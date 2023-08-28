@@ -8,8 +8,12 @@ use {$validatePath}\{$name} as {$name}Val;
 
 class {$name} extends Controller
 {
-
-    protected array $searchField = [];
+    /**
+     * 字段查询表达式
+     */
+    protected array $searchField = [
+<?php echo htmlspecialchars_decode($select) ?>
+    ];
 
     public function initialize(): void
     {

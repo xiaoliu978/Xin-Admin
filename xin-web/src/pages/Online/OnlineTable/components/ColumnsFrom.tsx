@@ -81,13 +81,13 @@ function CreateForm(props: {
           {required: true, message: '此项为必填项'},
         ],
       },
-      colProps: {span: 8}
+      colProps: {span: 6}
     },
     {
       title: '字段索引',
       dataIndex: 'dataIndex',
       valueType: 'text',
-      colProps: {span: 8},
+      colProps: {span: 6},
       formItemProps: {
         rules: [
           {required: true, message: '此项为必填项'},
@@ -98,7 +98,19 @@ function CreateForm(props: {
       title: '表格 title',
       dataIndex: 'title',
       valueType: 'text',
-      colProps: {span: 8},
+      colProps: {span: 6},
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
+    {
+      title: '查询方式',
+      dataIndex: 'select',
+      request: async () => getDictionaryData('select'),
+      valueType: 'text',
+      colProps: {span: 6},
       formItemProps: {
         rules: [
           {required: true, message: '此项为必填项'},

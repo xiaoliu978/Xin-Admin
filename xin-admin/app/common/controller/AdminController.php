@@ -74,7 +74,7 @@ class AdminController extends BaseController
      * 构建查询方法
      * @return array
      */
-    private function buildSearch(): array
+    protected function buildSearch(): array
     {
         $params = $this->request->get();
         $where = [];

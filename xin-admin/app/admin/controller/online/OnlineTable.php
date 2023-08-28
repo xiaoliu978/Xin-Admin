@@ -93,7 +93,7 @@ class OnlineTable extends Controller
 
         $crud = new Crud();
         $crud->buildSql($data['sql_config'],$data['columns']);
-        $crud->buildController($data['crud_config'],$viewData);
+        $crud->buildController($data['columns'],$data['crud_config'],$viewData);
         $crud->buildModel($data['crud_config'],$viewData);
         $crud->buildValidate($data['crud_config'],$viewData);
         $crud->buildPage($data);

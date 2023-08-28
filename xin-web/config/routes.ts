@@ -58,10 +58,12 @@ const router =  [
     name: '在线开发示例',
     path: '/test',
     icon: 'BuildFilled',
+    access: 'example',
     routes: [
       {
         name: '表格示例',
         path: '/test/table',
+        access: 'exampleTable',
         component: './Test/TestTable',
       },
     ]
@@ -70,10 +72,12 @@ const router =  [
     name: '会员管理',
     path: '/user',
     icon: 'user',
+    access: 'user',
     routes: [
       {
         name: '会员列表',
         path: '/user/index',
+        access: 'userList',
         component: './User'
       },
     ]
@@ -127,10 +131,12 @@ const router =  [
     name: '内容管理',
     path: '/content',
     icon: 'TableOutlined',
+    access: 'content',
     routes: [
       {
         name: '文章列表',
         path: '/content/article',
+        access: 'contentList',
         component: './Content/Article',
       },
     ]
@@ -145,26 +151,31 @@ const router =  [
     name: '在线开发',
     path: '/online',
     icon: 'RocketOutlined',
+    access: 'online',
     routes: [
       {
         name: '表格设计',
         path: '/online/table',
+        access: 'onlineTable',
         component: './Online/OnlineTable'
       },
 
       {
         name: '页面设计',
         path: '/online/page',
+        access: 'onlinePages',
         component: './Online/OnlinePage'
       },
       {
         name: 'App页面设计',
         path: '/online/app-page',
+        access: 'onlineApp',
         component: './Online/OnlineAppPage'
       },
       {
-        name: '图标设计',
+        name: 'Charts 设计',
         path: '/online/charts',
+        access: 'onlineCharts',
         component: './Online/OnlineCharts'
       }
     ]
