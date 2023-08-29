@@ -12,6 +12,12 @@
  */
 const router =  [
   {
+    name: '首页',
+    path: '/index',
+    component: './Client/Index',
+    layout: false
+  },
+  {
     path: '/',
     redirect: '/home',
   },
