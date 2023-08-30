@@ -21,7 +21,7 @@ class AdminRule extends Controller
         'id'        => '=',
         'pid'       => '=',
         'type'      => '=',
-        'title'     => 'like',
+        'name'     => 'like',
         'key'       => '=',
         'create_time' => 'date',
         'update_time' => 'date'
@@ -79,7 +79,7 @@ class AdminRule extends Controller
     public function getRulePid(): Json
     {
         $rootNode = $this->model
-            ->field('id as value,title as label')
+            ->field('id as value,name as label')
             ->where('type','<>','2')
             ->where('pid',0)
             ->order('sort')
@@ -102,7 +102,7 @@ class AdminRule extends Controller
     public function getRulePidNode(&$node, Model $model): void
     {
         $childNode = $model
-            ->field('id as value,title as label')
+            ->field('id as value,name as label')
             ->where('pid',$node['value'])
             ->where('type','<>','2')
             ->order('sort')
@@ -137,7 +137,7 @@ class AdminRule extends Controller
         }
 
         if($group['pid'] == 0){
-            $rootNode = $this->model->where('pid',0)->paginate([
+            $rootNode = $this->model->field('*,name as title')->where('pid',0)->paginate([
                 'page' => 1,
                 'list_rows' => 100
             ])->toArray();
@@ -152,7 +152,7 @@ class AdminRule extends Controller
                 $rules[] = $rule->id;
             }
             $where[] = ['id','in',implode(',',$rules)];
-            $rootNode = $this->model->where('pid',0)->where($where)->paginate([
+            $rootNode = $this->model->field('*,name as title')->where('pid',0)->where($where)->paginate([
                 'page' => 1,
                 'list_rows' => 100
             ])->toArray();
@@ -172,7 +172,7 @@ class AdminRule extends Controller
      */
     public function parentNodeByGroup(&$node, Model $model, array $where = []): void
     {
-        $childNode = $model->where('pid',$node['id'])->where($where)->select()->toArray();
+        $childNode = $model->where('pid',$node['id'])->field('*,name as title')->where($where)->select()->toArray();
         if(!count($childNode)){
             return;
         }

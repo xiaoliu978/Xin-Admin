@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
-import {Breadcrumb, ConfigProvider, Layout, Menu, MenuProps, theme} from 'antd';
+import {Avatar, Breadcrumb, Col, ConfigProvider, Layout, Menu, MenuProps, Row, theme} from 'antd';
 import './index.less';
-import header from '@/assets/static/header.png';
-import {HomeOutlined,AppstoreOutlined,SettingOutlined} from "@ant-design/icons";
+import {HomeOutlined, AppstoreOutlined, SettingOutlined, UserOutlined} from "@ant-design/icons";
 const { Header, Content, Footer } = Layout;
 
 
@@ -61,11 +60,18 @@ const App: React.FC = () => {
       }}
     >
       <Layout className={'index-layout'}>
-        <Header className={'header'}>
-          <div className="demo-logo"/>
-          <Menu className={'menu'} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+        <Header className={'layout-header'}>
+          <Row wrap={false}  className={'header'}>
+            <Col flex="none" className="demo-logo"/>
+            <Col flex="auto">
+              <Menu className={'menu'} onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+            </Col>
+            <Col flex="none" className={'header-right'}>
+              <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+            </Col>
+          </Row>
         </Header>
-        <Content className="site-layout" style={{ padding: '0 50px' }}>
+        <Content className="layout-content" style={{ padding: '0 50px' }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
             <Breadcrumb.Item>Home</Breadcrumb.Item>
             <Breadcrumb.Item>List</Breadcrumb.Item>
@@ -76,7 +82,6 @@ const App: React.FC = () => {
         <Footer style={{ textAlign: 'center' }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </ConfigProvider>
-
   );
 };
 
