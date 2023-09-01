@@ -73,13 +73,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       }
     },
     actionsRender: () => [<Question key="doc" />],
-    avatarProps: {
-      src: initialState?.currentUser?.avatar,
-      title: <span className="anticon">{initialState?.currentUser?.name}</span>,
-      render: (_, avatarChildren) => {
-        return <XinRight>{avatarChildren}</XinRight>;
-      },
-    },
+    avatarProps: undefined,
     childrenRender: (children: any) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
