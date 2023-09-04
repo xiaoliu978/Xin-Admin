@@ -4,13 +4,11 @@ import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
 import {SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
-import XinTabs from '@/components/XinTabs'
 import './index.less';
 import React from "react";
-import { XinRight, Question } from "@/components/XinTitle";
 import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, getAdminRule} from '@/services/admin';
+import {GetAdminInfo, getAdminRule, Logout} from '@/services/admin';
 import {history} from '@umijs/max';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
@@ -72,15 +70,21 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
         history.push('/login');
       }
     },
-    actionsRender: () => [<Question key="doc" />],
+    logout: async () => {
+      const res = await Logout();
+      if (res.success) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('userinfo')
+        history.push('/login')
+      }
+    },
     avatarProps: undefined,
     childrenRender: (children: any) => {
       // if (initialState?.loading) return <PageLoading />;
       return (
         <>
-          <XinTabs>
-            {children}
-          </XinTabs>
+          {children}
           <SettingDrawer
             disableUrlParams
             enableDarkTheme

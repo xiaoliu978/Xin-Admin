@@ -1,14 +1,8 @@
-import './index.less';
-import {Affix, Avatar, Button, Dropdown, Space, Tabs} from 'antd';
-import {MoreOutlined, SearchOutlined, UserOutlined} from '@ant-design/icons'
 import {useLocation, useNavigate} from '@umijs/max'
 import {useEffect, useState} from "react";
-import {getMenuData, getPageTitle} from "@ant-design/pro-components";
-import {PageContainer, PageContainerProps } from '@ant-design/pro-components';
+import {getMenuData, getPageTitle, PageContainer} from "@ant-design/pro-components";
 import type { MenuProps, TabsProps } from 'antd';
 import routes from "../../../config/routes";
-import './index.less';
-import {Question, XinRight} from '../XinTitle';
 
 const XinTabs = (props: {children: never[]}) => {
   const location = useLocation();
@@ -62,17 +56,6 @@ const XinTabs = (props: {children: never[]}) => {
     },
   ]
 
-  const operations = (
-    <Space className={ 'tabsRight' } size={'large'}>
-      <Dropdown menu={{ items }}>
-        <Button type="text" onClick={(e) => e.preventDefault()}>
-          <MoreOutlined/>
-        </Button>
-      </Dropdown>
-      <Button color={'#ccd1d5'} shape="circle" ghost icon={<SearchOutlined />} href="https://www.google.com" size={'small'}/>
-      <XinRight/>
-    </Space>
-  )
 
   const tabProps: TabsProps = {
     id: 'tabs',
@@ -88,14 +71,9 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   return (
-    <>
-      <Affix offsetTop={0} >
-        <Tabs {...tabProps}/>
-      </Affix>
-      <div style={{paddingRight:'10px',paddingLeft: '10px',marginTop:'10px'}}>
-        { props.children }
-      </div>
-    </>
+    <PageContainer fixedHeader tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
+      {props.children}
+    </PageContainer>
 
   )
 }
