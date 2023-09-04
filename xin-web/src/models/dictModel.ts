@@ -2,6 +2,7 @@
 import {useMemo, useState} from 'react';
 import {gitDict} from "@/services/system";
 import {useBoolean} from "ahooks";
+import {history} from '@umijs/max';
 
 interface DictItem {
   label:string

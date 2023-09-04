@@ -10,7 +10,7 @@ import {OnlineType} from "@/pages/Online/typings";
 import {crudApi, getData, saveData} from "@/services/online";
 
 
-const api = '/system.dict';
+const api = '/online.test';
 
 const Devise = () => {
 
@@ -32,14 +32,20 @@ const Devise = () => {
       dataIndex: 'create_time',
       valueType: 'date',
       hideInForm: true,
-      order: 1
+      order: 1,
+      sqlType: 'int',
+      defaultValue: 'null',
+      remark: '创建时间'
     },
     {
       title: '修改时间',
       dataIndex: 'update_time',
       valueType: 'date',
       hideInForm: true,
-      order: 0
+      order: 0,
+      sqlType: 'int',
+      defaultValue: 'null',
+      remark: '修改时间'
     },
   ]);
 

@@ -17,15 +17,20 @@ declare namespace OnlineType {
   }
 
   type ColumnsConfig = ProFormColumnsAndProColumns<any> & {
+    valueType?: string;
     sqlType?: string;
     isKey?: boolean;
     remark?: string;
     defaultValue?: string;
-    length?: string;
+    length?: number;
     decimal?: number;
     unsign?: boolean;
     null?:boolean;
     autoIncrement?: boolean;
+    dict?: string;
+    enum?:string;
+    isDict?: boolean;
+    select?: string;
   }
 
   interface CrudConfig {

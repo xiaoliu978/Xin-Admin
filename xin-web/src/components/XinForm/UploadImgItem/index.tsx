@@ -45,7 +45,7 @@ const UploadImgItem: React.FC<{config:any,form:any,schema:any}> = (props) => {
       <ImgCrop rotationSlider>
         <Upload
           maxCount={1}
-          action="/admin.php/file.File/upload"
+          action="/admin.php/system.file/upload"
           listType="picture-card"
           fileList={fileList}
           onChange={onChange}

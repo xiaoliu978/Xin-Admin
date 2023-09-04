@@ -2,7 +2,7 @@ import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
 import XinTable from "@/components/XinTable";
 import {Link} from '@umijs/max';
 interface Data {
-  table_id: number
+  id: number
   table_name: string
   update_time: string
   create_time: string
@@ -14,7 +14,7 @@ const OnlineTable = () => {
   const columns: ProFormColumnsAndProColumns<Data>[] = [
     {
       title: 'ID',
-      dataIndex: 'table_id',
+      dataIndex: 'id',
       hideInForm: true
     },
     {
@@ -48,7 +48,7 @@ const OnlineTable = () => {
         columns={columns}
         operateRender = { (record: Data) => {
           return (
-            <Link to={'/online/table/devise/'+record.table_id} target="_blank">设计页面</Link>
+            <Link to={'/online/table/devise/'+record.id} target="_blank">设计页面</Link>
           )
         }}
       />

@@ -1,6 +1,6 @@
 // 运行时配置
 import type {RunTimeLayoutConfig} from '@umijs/max';
-import type {ActionType, Settings as LayoutSettings} from '@ant-design/pro-components';
+import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
 import {SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
@@ -11,28 +11,53 @@ import { XinRight, Question } from "@/components/XinTitle";
 import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
 import {GetAdminInfo, getAdminRule} from '@/services/admin';
+import {history} from '@umijs/max';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
+
+
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
 export interface initialStateType {
-  settings?: any
-  currentUser?: USER.UserInfo
-  access?: string[]
+  settings?: any;
+  loading?: boolean;
+  currentUser?: USER.UserInfo;
+  access?: string[];
+  fetchUserInfo?:  () => Promise<any>;
+  fetchAdminRule?: () => Promise<any>;
 }
 
 export async function getInitialState(): Promise<initialStateType> {
-  const data: initialStateType = {
-    settings: defaultSettings as Partial<LayoutSettings>
+  // 获取用户信息
+  const fetchUserInfo = async () => {
+    const msg = await GetAdminInfo();
+    return msg.data.userinfo;
   };
-  if(!localStorage.getItem('token')){
-    return data
+  // 获取权限
+  const fetchAdminRule = async () => {
+    const access = await getAdminRule();
+    // TODO 权限获取之后需要刷新一下页面，不然权限不生效
+    history.push(window.location.pathname);
+    return access.data.access;
   }
-  let res = await GetAdminInfo()
-  data.currentUser = res.data.userinfo
-  let access = await getAdminRule()
-  data.access = access.data.access
-  console.log(data.access)
-  return data
+  // 如果不是登录页面，执行
+  const { location } = history;
+  const data: initialStateType = {
+    access: [],
+    fetchUserInfo,
+    fetchAdminRule,
+    settings: defaultSettings as Partial<LayoutSettings>,
+  }
+  try {
+    if (location.pathname !== '/login') {
+      const currentUser = await fetchUserInfo();
+      const access = await fetchAdminRule();
+      data.currentUser = currentUser;
+      data.access = access;
+    }
+    return data;
+  }catch (error){
+    return data;
+  }
 }
 
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
@@ -40,14 +65,15 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     logo,
     title: 'Xin Admin',
     footerRender: () => <Footer/>,
-    actionsRender: () => [<Question key="doc" />],
-    avatarProps: {
-      src: initialState?.currentUser?.avatar,
-      title: <span className="anticon">{initialState?.currentUser?.name}</span>,
-      render: (_, avatarChildren) => {
-        return <XinRight>{avatarChildren}</XinRight>;
-      },
+    onPageChange: () => {
+      const { location } = history;
+      // 如果没有登录，重定向到 login
+      if (!localStorage.getItem('token') && location.pathname !== '/login') {
+        history.push('/login');
+      }
     },
+    actionsRender: () => [<Question key="doc" />],
+    avatarProps: undefined,
     childrenRender: (children: any) => {
       // if (initialState?.loading) return <PageLoading />;
       return (

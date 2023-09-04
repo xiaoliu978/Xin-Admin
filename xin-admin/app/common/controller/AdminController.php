@@ -3,12 +3,11 @@
 namespace app\common\controller;
 
 use app\BaseController;
+use app\common\attribute\Method;
 use app\common\library\RequestJson;
 use Exception;
 use think\db\exception\DbException;
-use think\facade\Db;
 use app\common\library\Token;
-use think\db\exception\PDOException;
 use think\Model;
 use think\response\Json;
 use think\Validate;
@@ -23,12 +22,6 @@ class AdminController extends BaseController
      * @var array
      */
     protected array $allowAction = [];
-
-    /**
-     * 当前请求 token
-     * @var string
-     */
-    protected string $token = '';
 
     /**
      * 查询字段
@@ -61,12 +54,6 @@ class AdminController extends BaseController
     protected array $sqlTerm = ['=', '>', '<>', '<', '>=', '<='];
 
     /**
-     * 强制验证当前访问的控制器方法method
-     * @var array
-     */
-    protected array $methodRules = [];
-
-    /**
      * 初始化
      * @return void
      * @throws Exception
@@ -75,83 +62,12 @@ class AdminController extends BaseController
     {
         parent::initialize();
 
-        // 检测数据库连接
-        try {
-            Db::execute("SELECT 1");
-        } catch (PDOException $e) {
-            $this->error($e->getMessage(), [], 200, 'throw');
-        }
-        // 获取请求路由信息
-        $this->getRouteinfo();
-        // 获取登录信息
-        $this->checkLogin();
-        // 验证请求方式
-        $this->checkMethodRules();
-
         // 运行注解
         $ref = new \ReflectionObject($this);
         $attrs = $ref->getMethod($this->action)->getAttributes();
         foreach ($attrs as $attr){
-            trace(1);
             $attr->newInstance();
         }
-    }
-
-    /**
-     * 验证登录状态
-     * @return void
-     */
-    private function checkLogin(): void
-    {
-        // 验证当前请求是否在白名单
-        if (in_array($this->action, $this->allowAction)) {
-            return;
-        }
-        // 验证登录状态
-        $token = $this->request->header('Authorization');
-        if (!$token || !(new Token)->get($token)) {
-            $this->error('请先登录！', [], 403, 'throw');
-        }
-        $this->token = $token;
-    }
-
-    /**
-     * 验证请求方式
-     * @return void
-     */
-    private function checkMethodRules(): void
-    {
-        $this->methodRules += [
-            'list'    => 'GET',
-            'add'     => 'POST',
-            'edit'    => 'PUT',
-            'delete'  => 'DELETE'
-        ];
-        if (!isset($this->methodRules[$this->action])) {
-            return;
-        }
-        $methodRule = $this->methodRules[$this->action];
-        $currentMethod = $this->request->method();
-        if (empty($methodRule)) {
-            return;
-        }
-        if (is_array($methodRule) && in_array($currentMethod, $methodRule)) {
-            return;
-        }
-        if (is_string($methodRule) && $methodRule == $currentMethod) {
-            return;
-        }
-        $this->error('请求方式错误，请检查！', [], 200, 'throw');
-    }
-
-    /**
-     * 获取当前管理员 ID
-     * @return int
-     */
-    public function getAdminId(): int
-    {
-        $tokenData = (new Token)->get($this->token);
-        return $tokenData['user_id'];
     }
 
     /**
@@ -193,7 +109,7 @@ class AdminController extends BaseController
      * @return Json
      * @throws DbException
      */
-    #[Auth('list')]
+    #[Auth('list'),Method('GET')]
     public function list(): Json
     {
         list($where, $paginate) = $this->buildSearch();
@@ -208,7 +124,7 @@ class AdminController extends BaseController
      * 基础控制器新增方法
      * @return Json
      */
-    #[Auth('add')]
+    #[Auth('add'),Method('POST')]
     public function add(): Json
     {
         $data = $this->request->post();
@@ -223,7 +139,7 @@ class AdminController extends BaseController
      * 基础控制器编辑方法
      * @return Json
      */
-    #[Auth('edit')]
+    #[Auth('edit'),Method('PUT')]
     public function edit(): Json
     {
         $data = $this->request->param();
@@ -238,7 +154,7 @@ class AdminController extends BaseController
      * 基础控制器删除方法
      * @return Json
      */
-    #[Auth('delete')]
+    #[Auth('delete'),Method('DELETE')]
     public function delete(): Json
     {
         $data = $this->request->param();

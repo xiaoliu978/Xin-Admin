@@ -10,6 +10,7 @@ use ReflectionClass;
 use think\db\exception\DbException;
 use app\common\library\RequestJson;
 use think\Model;
+use think\response\Json;
 
 /**
  * 接口权限注解
@@ -22,7 +23,7 @@ class Auth
     /**
      * @var string
      */
-    private string $token;
+    public string $token;
 
 
     /**
@@ -32,11 +33,10 @@ class Auth
      */
     public function __construct(string $key = '')
     {
-
         // 验证登录状态
         $token = request()->header('Authorization');
         if (!$token || !(new Token)->get($token)) {
-            $this->error('请先登录！', [], 403, 'throw');
+            $this->error('请先登录！', [], 403,'throw');
         }
 
         $this->token = $token;
@@ -46,24 +46,22 @@ class Auth
             $reflection = new ReflectionClass($class);
             $properties = $reflection->getProperty('authName')->getDefaultValue();
 
-            if(!$properties){
-                return;
-            }
+            if($properties){
+                $authKey = $properties . ':' . $key;
 
-            $authKey = $properties . ':' . $key;
-
-            $tokenData = (new Token)->get($this->token);
-            // 获取用户所在用户组
-            $admin = new AdminModel;
-            $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
-            // 获取用户所有权限
-            $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
-            $rules = [];
-            foreach ($group->roles as $role) {
-                $rules[] =  $role->key;
-            }
-            if(!in_array($authKey,$rules)){
-                self::renderThrow(false,[],200,'暂无权限',1);
+                $tokenData = (new Token)->get($this->token);
+                // 获取用户所在用户组
+                $admin = new AdminModel;
+                $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
+                // 获取用户所有权限
+                $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
+                $rules = [];
+                foreach ($group->roles as $role) {
+                    $rules[] =  $role->key;
+                }
+                if(!in_array($authKey,$rules)){
+                    $this->warn('暂无权限',[],200,'throw');
+                }
             }
         }
     }
@@ -89,13 +87,5 @@ class Auth
         $admin = new AdminModel;
         return $admin->where('id',$user_id)->find();
     }
-
-    public function getToken(): string
-    {
-        return $this->token;
-    }
-
-
-
 
 }

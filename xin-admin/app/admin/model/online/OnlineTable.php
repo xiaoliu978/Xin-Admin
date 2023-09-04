@@ -11,5 +11,5 @@ use think\Model;
 class OnlineTable extends Model
 {
     //
-    protected $pk = 'table_id';
+    protected $pk = 'id';
 }

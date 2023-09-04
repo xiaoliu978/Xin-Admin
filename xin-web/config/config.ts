@@ -5,7 +5,15 @@ export default defineConfig({
   /**
    * Ant Design 配置
    */
-  antd: {},
+  antd: {
+    theme: {
+      components: {
+        Tabs: {
+          cardHeight: 26
+        }
+      }
+    },
+  },
   /**
    * 权限配置
    */
@@ -32,7 +40,6 @@ export default defineConfig({
    */
   routes,
   npmClient: 'pnpm',
-  mock: false,
   /**
    * 第三方统计，百度统计配置
    */
@@ -49,6 +56,7 @@ export default defineConfig({
     { name: 'description', content: 'Xin Admin是一款基于 Ant Design Pro components 构建一套完善的 Xin Table， 只需一个 Columns 就可以实现增删改查等表单、表格、查询等功能，以及组件的高度自定义' },
   ],
 
+
   /**
    *  代理设置
    */
@@ -57,6 +65,11 @@ export default defineConfig({
       target: 'http://127.0.0.1:8000/admin.php',
       changeOrigin: true,
       pathRewrite: { '^/admin.php': '' },
+    },
+    '/storage': {
+      target: 'http://127.0.0.1:8000/storage',
+      changeOrigin: true,
+      pathRewrite: { '^/storage': '' },
     },
   },
 });

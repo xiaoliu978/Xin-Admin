@@ -102,6 +102,11 @@ const Table: React.FC = () => {
       hideInForm: true,
     },
     {
+      title: '排序',
+      dataIndex: 'sort',
+      valueType: 'text',
+    },
+    {
       title: '备注',
       dataIndex: 'remark',
       valueType: 'text',

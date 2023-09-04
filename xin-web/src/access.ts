@@ -5,10 +5,6 @@ export default (initialState:initialStateType) => {
   const { access = [] } = initialState;
 
   return {
-    canSeeAdmin: () => {
-      console.log(access)
-      return true
-    },
     crud: () => access.includes('crud'),
     index: () => access.includes('index'),
     data: () => access.includes('data'),
@@ -22,6 +18,17 @@ export default (initialState:initialStateType) => {
     adminRule: () => access.includes('admin:rule'),
     system: () => access.includes('system'),
     systemDict: () => access.includes('system:dict'),
+    example: () => access.includes('example'),
+    exampleTable: () => access.includes('example:table'),
+    user: () => access.includes('user'),
+    userList: () => access.includes('user:list'),
+    content: () => access.includes('content'),
+    contentList: () => access.includes('content:list'),
+    online: () => access.includes('online'),
+    onlineTable: () => access.includes('online:table'),
+    onlinePages: () => access.includes('online:pages'),
+    onlineApp: () => access.includes('online:app'),
+    onlineCharts: () => access.includes('online:charts'),
     buttonAccess: (name:string) => access.includes(name),
   }
 }

@@ -3,19 +3,17 @@ declare (strict_types = 1);
 
 namespace app;
 
+use app\common\library\RequestJson;
 use think\App;
-use think\Response;
-use think\exception\ValidateException;
-use think\exception\HttpResponseException;
-use think\Validate;
-use think\response\Json;
-use app\common\enum\ApiEnum\ShowType as ShopTypeEnum;
+use think\db\exception\PDOException;
+use think\facade\Db;
 
 /**
  * 控制器基础类
  */
 abstract class BaseController
 {
+    use RequestJson;
     /**
      * Request实例
      * @var \think\Request
@@ -27,12 +25,6 @@ abstract class BaseController
      * @var App
      */
     protected App $app;
-
-    /**
-     * 是否批量验证
-     * @var bool
-     */
-    protected bool $batchValidate = false;
 
     /**
      * 控制器中间件
@@ -73,8 +65,17 @@ abstract class BaseController
     }
 
     // 初始化
-    protected function initialize()
-    {}
+    protected function initialize(): void
+    {
+        // 检测数据库连接
+        try {
+            Db::execute("SELECT 1");
+        } catch (PDOException $e) {
+            $this->error($e->getMessage(), [], 200, 'throw');
+        }
+        // 获取请求路由信息
+        $this->getRouteinfo();
+    }
 
     /**
      * 解析当前路由参数 （分组名称、控制器名称、方法名）
