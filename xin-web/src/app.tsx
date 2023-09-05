@@ -33,8 +33,7 @@ export async function getInitialState(): Promise<initialStateType> {
   // 获取权限
   const fetchAdminRule = async () => {
     const access = await getAdminRule();
-    // TODO 权限获取之后需要刷新一下页面，不然权限不生效
-    history.push(window.location.pathname);
+
     return access.data.access;
   }
   // 如果不是登录页面，执行
@@ -49,6 +48,8 @@ export async function getInitialState(): Promise<initialStateType> {
     if (location.pathname !== '/login') {
       const currentUser = await fetchUserInfo();
       const access = await fetchAdminRule();
+      // TODO 权限获取之后需要刷新一下页面，不然权限不生效
+      // history.push('/');
       data.currentUser = currentUser;
       data.access = access;
     }

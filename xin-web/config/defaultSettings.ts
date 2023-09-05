@@ -10,8 +10,8 @@ const Settings: ProLayoutProps  = {
   fixedHeader: true,
   token: {
     pageContainer: {
-      paddingBlockPageContainerContent: 10,
-      paddingInlinePageContainerContent: 10,
+      paddingBlockPageContainerContent: 20,
+      paddingInlinePageContainerContent: 20,
     }
   },
 };

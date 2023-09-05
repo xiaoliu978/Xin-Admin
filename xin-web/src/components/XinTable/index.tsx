@@ -5,7 +5,7 @@ import {
   ProTable,
   ProDescriptionsItemProps
 } from '@ant-design/pro-components';
-import { Button, message, Divider, Watermark } from 'antd';
+import {Button, message, Divider, Watermark, Popconfirm} from 'antd';
 import React, {useRef,useState} from 'react';
 import { TableProps } from './typings';
 import UpdateForm from './components/UpdateForm';
@@ -119,7 +119,15 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           {deleteShow === false ? null :
             <Access accessible={ accessName?access.buttonAccess(accessName+':delete'):true }>
               <Divider type="vertical" />
-              <a onClick={() => { handleRemove([record]) }}>删除</a>
+              <Popconfirm
+                title="Delete the task"
+                description="你确定要删除这条数据吗？"
+                onConfirm={() => { handleRemove([record]) }}
+                okText="确认"
+                cancelText="取消"
+              >
+                <a>删除</a>
+              </Popconfirm>
             </Access>
           }
           {operateRender === undefined ? null :

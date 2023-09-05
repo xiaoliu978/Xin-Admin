@@ -1,4 +1,4 @@
-import {Button, Divider, Form} from 'antd';
+import {Button, Divider, Form, Select} from 'antd';
 import React, {useEffect} from 'react';
 import {BetaSchemaForm, ProFormColumnsType} from '@ant-design/pro-components';
 import {useModel} from "@@/exports";
@@ -111,6 +111,42 @@ function CreateForm(props: {
       request: async () => getDictionaryData('select'),
       valueType: 'text',
       colProps: {span: 6},
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
+    {
+      title: '验证规则',
+      dataIndex: 'select',
+      request: async () => getDictionaryData('select'),
+      valueType: 'text',
+      colProps: {span: 6},
+      renderFormItem: ()=>(
+        <>
+          <Select
+            mode="multiple"
+            allowClear
+            style={{ width: '100%' }}
+            placeholder="Please select"
+            options={[
+              {
+                label: '必填',
+                value: '',
+              },
+              {
+                label: '数字',
+                value: '2',
+              },
+              {
+                label: '邮箱',
+                value: '3',
+              }
+            ]}
+          />
+        </>
+      ),
       formItemProps: {
         rules: [
           {required: true, message: '此项为必填项'},
