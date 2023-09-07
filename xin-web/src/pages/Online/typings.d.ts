@@ -31,6 +31,7 @@ declare namespace OnlineType {
     enum?:string;
     isDict?: boolean;
     select?: string;
+    validation?: string[];
   }
 
   interface CrudConfig {

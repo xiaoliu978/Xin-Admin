@@ -1,6 +1,7 @@
 import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
+import * as verify from '@/utils/format';
 <?php
 if($isDict){
     echo("import XinDict from '@/components/XinDict';");

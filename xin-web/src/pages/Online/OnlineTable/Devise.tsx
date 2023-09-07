@@ -1,5 +1,5 @@
-import {useParams} from "@umijs/max";
-import {Row, Col, Collapse, Form, Input, CollapseProps, Radio, Button, Space, message} from 'antd';
+import {useModel, useParams} from "@umijs/max";
+import {Row, Col, Collapse, Form, Input, CollapseProps, Radio, Button, Space, message, FormRule, Spin} from 'antd';
 import XinTable from "@/components/XinTable";
 import React, {useEffect, useState} from "react";
 import './index.less'
@@ -8,6 +8,7 @@ import XinDict from "@/components/XinDict";
 import {DeleteFilled, KeyOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
 import {crudApi, getData, saveData} from "@/services/online";
+import * as verify from "@/utils/format";
 
 
 const api = '/online.test';
@@ -15,7 +16,7 @@ const api = '/online.test';
 const Devise = () => {
 
   const params  = useParams();
-
+  const [loading, setLoading] = useState(false);
   /**
    * columns 表格行默认字段
    */
@@ -76,7 +77,7 @@ const Devise = () => {
             operateShow: true,
             editShow: true,
             deleteShow: true,
-            rowSelectionShow: true
+            rowSelectionShow: true,
           }}
           onValuesChange={(changedValues, allValues)=>{
             setTableConfig(allValues)
@@ -236,10 +237,40 @@ const Devise = () => {
         crud_config: string
       }
     }>)=>{
-
       let columns: OnlineType.ColumnsConfig[] = JSON.parse(res.data.data.columns)
       if(columns) {
-        setColumns(columns)
+        let arr = columns.map((formData):OnlineType.ColumnsConfig =>{
+          if(['select','checkbox','radio','radioButton'].includes(formData.valueType!)){
+            if(formData.isDict){
+
+            }else {
+              let item = formData.enum!.split('\n')
+              let map = new Map;
+              item.forEach((str:string)=>{
+                let data = str.split(':')
+                map.set(data[0],data[1])
+              })
+              formData.valueEnum = map
+            }
+          }
+          if(formData.validation instanceof Array && formData.validation?.length > 0){
+            let rules: FormRule[] = []
+            formData.validation.forEach((item)=>{
+              if(item in verify){
+                rules.push(verify[item as keyof typeof verify])
+              }
+            })
+            formData.formItemProps = {
+              rules,
+              ...formData.formItemProps
+            }
+          }
+          return formData
+        })
+        arr.sort(function(a, b) {
+          return b.order! - a.order!;
+        })
+        setColumns(arr)
       }
       let table_config: OnlineType.TableConfig = JSON.parse(res.data.data.table_config)
       if(table_config){
@@ -265,59 +296,61 @@ const Devise = () => {
     paddingBottom: '16px',
   }
 
+  const saveOnlineTable = ()=> {
+    if(!params.id) {
+      message.warning('在线开发ID不存在')
+      return
+    }
+    let data = {
+      id: params.id,
+      columns: JSON.stringify(columns),
+      table_config: JSON.stringify(tableForm.getFieldsValue()),
+      sql_config: JSON.stringify(sqlForm.getFieldsValue()),
+      crud_config: JSON.stringify(crudForm.getFieldsValue())
+    }
+    setLoading(true)
+    saveData(data).then(res=>{
+      if(res.success){
+        message.success('保存成功！')
+      }
+    }).finally(()=>setLoading(false))
+  }
+
+  const crud = ()=> {
+    saveOnlineTable()
+    let data = {
+      id: params.id,
+      columns: columns,
+      table_config:tableForm.getFieldsValue(),
+      sql_config: sqlForm.getFieldsValue(),
+      crud_config: crudForm.getFieldsValue()
+    }
+    crudApi(data).then(res=>{
+      if(res.success){
+        message.success('代码生成成功！')
+      }
+    })
+  }
+
   return (
-    <Row gutter={[16, 16]} className={'devise-row'} style={{marginRight: 0,marginLeft:0}}>
-      <Col span={5} className={'devise-col'} style={colStyle}>
-        <Collapse size="small" defaultActiveKey={['1','2','3','4']} items={items}/>
-        <Space style={{marginTop: '10px',float:'right'}}>
-          <Button onClick={()=> {
-            if(!params.id) {
-              message.warning('在线开发ID不存在')
-              return
-            }
-            let data = {
-              id: params.id,
-              columns: columns,
-              table_config:tableForm.getFieldsValue(),
-              sql_config: sqlForm.getFieldsValue(),
-              crud_config: crudForm.getFieldsValue()
-            }
-            console.log(data)
-            crudApi(data).then(res=>{
-              if(res.success){
-                message.success('代码生成成功！')
-              }
-            })
-          }} type={'primary'}>代码生成</Button>
-          <Button onClick={()=> {
-            if(!params.id) {
-              message.warning('在线开发ID不存在')
-              return
-            }
-            let data = {
-              id: params.id,
-              columns: JSON.stringify(columns),
-              table_config: JSON.stringify(tableForm.getFieldsValue()),
-              sql_config: JSON.stringify(sqlForm.getFieldsValue()),
-              crud_config: JSON.stringify(crudForm.getFieldsValue())
-            }
-            console.log(data)
-            saveData(data).then(res=>{
-              if(res.success){
-                message.success('保存成功！')
-              }
-            })
-          }} type={'primary'}>保存编辑</Button>
-        </Space>
-      </Col>
-      <Col span={19} className={'devise-col-body'} style={colStyle}>
-        <XinTable<any>
-          {...tableConfig}
-          tableApi={api}
-          columns={columns}
-        />
-      </Col>
-    </Row>
+    <Spin tip="Loading..." spinning={loading} size={'large'}>
+      <Row gutter={[16, 16]} className={'devise-row'} style={{marginRight: 0,marginLeft:0}}>
+        <Col span={5} className={'devise-col'} style={colStyle}>
+          <Collapse size="small" defaultActiveKey={['1','2','3','4']} items={items}/>
+          <Space style={{marginTop: '10px',float:'right'}}>
+            <Button onClick={crud} type={'primary'}>保存并生成代码</Button>
+            <Button onClick={saveOnlineTable} type={'primary'}>保存编辑</Button>
+          </Space>
+        </Col>
+        <Col span={19} className={'devise-col-body'} style={colStyle}>
+          <XinTable<any>
+            {...tableConfig}
+            tableApi={api}
+            columns={columns}
+          />
+        </Col>
+      </Row>
+    </Spin>
   )
 }
 

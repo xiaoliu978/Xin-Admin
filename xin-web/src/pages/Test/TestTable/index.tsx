@@ -1,6 +1,7 @@
 import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
+import * as verify from '@/utils/format';
 import XinDict from '@/components/XinDict';import {useModel} from '@umijs/max';
 /**
  *  Api 接口
@@ -33,12 +34,22 @@ const TestTable: React.FC = () => {
       title:'测试标题',
       order:98,
       dataIndex:'title',
+      formItemProps: {
+        rules: [
+          verify.verifyRequired,
+        ]
+      },
     },
     {
       valueType:'digit',
       title:'测试数字',
       order:97,
       dataIndex:'number',
+      formItemProps: {
+        rules: [
+          verify.verifyNumber,
+        ]
+      },
     },
     {
       valueType:'date',
@@ -81,6 +92,13 @@ const TestTable: React.FC = () => {
       title:'多选框',
       order:86,
       dataIndex:'check',
+      formItemProps: {
+        rules: [
+          verify.verifyRequired,
+          verify.verifyNumber,
+          verify.verifyEmail,
+        ]
+      },
     },
     {
       request: async () => getDictionaryData('sex'),

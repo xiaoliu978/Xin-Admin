@@ -156,8 +156,17 @@ class Crud
             if(isset($field['hideInForm']) && $field['hideInForm']){
                 $columnsData .= '      hideInForm: true,' . PHP_EOL;
             }
-            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," .PHP_EOL. '    },'.PHP_EOL;
+            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," .PHP_EOL;
 
+            if(isset($field['validation']) && $field['validation']){
+                $val = '';
+                foreach ($field['validation'] as $item){
+                    $val .= "          verify.{$item},".PHP_EOL;
+                }
+                $columnsData .= "      formItemProps: {".PHP_EOL."        rules: [".PHP_EOL . $val .'        ]'.PHP_EOL."      },".PHP_EOL;
+            }
+
+            $columnsData .= '    },'.PHP_EOL;
             $columns .= $columnsData;
         }
         $columns .= '  ]';

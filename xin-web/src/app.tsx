@@ -2,7 +2,7 @@
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
-import {SettingDrawer} from '@ant-design/pro-components';
+import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
 import './index.less';
 import React from "react";
@@ -82,7 +82,7 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     },
     avatarProps: undefined,
     childrenRender: (children: any) => {
-      // if (initialState?.loading) return <PageLoading />;
+      if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}

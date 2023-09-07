@@ -1,11 +1,11 @@
-import {Button, Divider, Form, Select} from 'antd';
-import React, {useEffect} from 'react';
+import {Button, Divider, Form, FormRule, InputNumber, message, Select} from 'antd';
+import React from 'react';
 import {BetaSchemaForm, ProFormColumnsType} from '@ant-design/pro-components';
 import {useModel} from "@@/exports";
 import {SettingOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
 import defaultSql from "../defaultSql";
-
+import * as verify from '@/utils/format';
 function CreateForm(props: {
   itemIndex?: number;
   setColumns:  React.Dispatch<React.SetStateAction<OnlineType.ColumnsConfig[]>>;
@@ -21,6 +21,7 @@ function CreateForm(props: {
       dataIndex: 'enum',
       valueType: 'textarea',
       colProps: {span: 8},
+      tooltip: 'key:label 格式，以换行分割',
       formItemProps: {
         rules: [
           {required: true, message: '此项为必填项'},
@@ -33,6 +34,7 @@ function CreateForm(props: {
         dataIndex: 'dict',
         valueType: 'text',
         colProps: {span: 8},
+        tooltip: '字典需要生成之后才可以看到效果，如果你有办法请提交PR',
         formItemProps: {
           rules: [
             {required: true, message: '此项为必填项'},
@@ -47,20 +49,42 @@ function CreateForm(props: {
     return ['select','checkbox','radio','radioButton'].includes(valueType)
       ? [
         {
-          valueType: 'dependency',
-          name: ['isDict'],
-          columns: formDict
-        },
-        {
           title: '是否字典',
           dataIndex: 'isDict',
           valueType: 'switch',
           colProps: {span: 4}
+        },
+        {
+          valueType: 'dependency',
+          name: ['isDict'],
+          columns: formDict
         }
+
       ] : []
   }
 
   const columns:  ProFormColumnsType<OnlineType.ColumnsConfig, "text">[] = [
+    {
+      title: '字段名',
+      dataIndex: 'dataIndex',
+      tooltip: '作为数据库字段名和列索引',
+      valueType: 'text',
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
+    {
+      title: '列标题',
+      dataIndex: 'title',
+      valueType: 'text',
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
     {
       title: '表单类型',
       dataIndex: 'valueType',
@@ -84,86 +108,44 @@ function CreateForm(props: {
       colProps: {span: 6}
     },
     {
-      title: '字段索引',
-      dataIndex: 'dataIndex',
-      valueType: 'text',
-      colProps: {span: 6},
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
-      },
-    },
-    {
-      title: '表格 title',
-      dataIndex: 'title',
-      valueType: 'text',
-      colProps: {span: 6},
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
-      },
-    },
-    {
       title: '查询方式',
       dataIndex: 'select',
       request: async () => getDictionaryData('select'),
       valueType: 'text',
       colProps: {span: 6},
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
-      },
     },
     {
       title: '验证规则',
-      dataIndex: 'select',
-      request: async () => getDictionaryData('select'),
-      valueType: 'text',
+      dataIndex: 'validation',
+      valueType: 'select',
+      request: async () => getDictionaryData('validation'),
       colProps: {span: 6},
-      renderFormItem: ()=>(
-        <>
-          <Select
-            mode="multiple"
-            allowClear
-            style={{ width: '100%' }}
-            placeholder="Please select"
-            options={[
-              {
-                label: '必填',
-                value: '',
-              },
-              {
-                label: '数字',
-                value: '2',
-              },
-              {
-                label: '邮箱',
-                value: '3',
-              }
-            ]}
-          />
-        </>
-      ),
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
+      renderFormItem: (schema, config)=>{
+        return <Select
+          {...config}
+          mode="multiple"
+        />
       },
+      tooltip: '内置部分验证规则，需要自定义验证规则请看文档',
+    },
+    {
+      title: '权重',
+      dataIndex: 'order',
+      valueType: 'digit',
+      tooltip: '越大排行越靠前',
+      colProps: {span: 6},
+      renderFormItem: (schema, config) => {
+        return <InputNumber<string>
+          style={{ width: '100%' }}
+          {...config}
+        />
+      }
     },
     {
       valueType: 'dependency',
       name: ['valueType'],
       hideInTable: true,
       columns: formIsDict
-    },
-    {
-      title: '权重',
-      dataIndex: 'order',
-      valueType: 'digit',
-      colProps: {span: 4}
     },
     {
       title: '搜索中隐藏',
@@ -264,6 +246,22 @@ function CreateForm(props: {
         formData.valueEnum = map
       }
     }
+    if(formData.validation instanceof Array && formData.validation?.length > 0){
+      let rules: FormRule[] = []
+      formData.validation.forEach((item)=>{
+        if(item in verify){
+          rules.push(verify[item as keyof typeof verify])
+        }else {
+          message.warning('验证规则不存在')
+          return false
+        }
+      })
+      formData.formItemProps = {
+        rules,
+        ...formData.formItemProps
+      }
+    }
+
     let arr;
     if(itemIndex !== undefined) {
       arr = [...defaultColumns.filter((item,index)=> itemIndex !== index),formData]
@@ -284,7 +282,7 @@ function CreateForm(props: {
         gutter: [16, 16],
       }}
       initialValues={itemIndex!==undefined?defaultColumns.at(itemIndex):{}}
-      title={itemIndex!==undefined?'编辑':'新增'}
+      title={itemIndex!==undefined?'字段编辑':'字段新增'}
       trigger={itemIndex!==undefined?<SettingOutlined style={{color:'#000'}}/>:<Button style={{ width: 60 }}>{'新增'}</Button> }
       layoutType={'ModalForm'}
       colProps={{ span: 12 }}
