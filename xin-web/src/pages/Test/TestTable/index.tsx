@@ -31,37 +31,33 @@ const TestTable: React.FC = () => {
     },
     {
       valueType:'text',
-      title:'测试标题',
+      title:'标题',
       order:98,
       dataIndex:'title',
       formItemProps: {
         rules: [
           verify.verifyRequired,
+          verify.verifyString,
         ]
       },
     },
     {
       valueType:'digit',
-      title:'测试数字',
+      title:'年龄',
       order:97,
-      dataIndex:'number',
+      dataIndex:'age',
       formItemProps: {
         rules: [
           verify.verifyNumber,
+          verify.verifyRequired,
         ]
       },
     },
     {
       valueType:'date',
-      title:'测试日期',
+      title:'生日',
       order:95,
-      dataIndex:'date',
-    },
-    {
-      valueType:'money',
-      title:'测试金额',
-      order:90,
-      dataIndex:'money',
+      dataIndex:'barthday',
     },
     {
       valueType:'textarea',
@@ -72,40 +68,57 @@ const TestTable: React.FC = () => {
       dataIndex:'text',
     },
     {
-      valueType:'select',
-      valueEnum: new Map([
-        [1,'男'],
-        [2,'女'],
-        [3,'其他'],
-      ]),
-      title:'性别',
-      order:88,
-      dataIndex:'sex',
-    },
-    {
-      valueType:'checkbox',
-      valueEnum: new Map([
-        [1,'啊啊啊'],
-        [2,'啦啦啦'],
-        [3,'哒哒哒'],
-      ]),
-      title:'多选框',
-      order:86,
-      dataIndex:'check',
+      valueType:'money',
+      title:'余额',
+      order:90,
+      dataIndex:'money',
       formItemProps: {
         rules: [
-          verify.verifyRequired,
           verify.verifyNumber,
-          verify.verifyEmail,
         ]
       },
     },
     {
+      valueType:'select',
+      valueEnum: new Map([
+        [1,'男'],
+        [2,'女'],
+      ]),
+      title:'性别',
+      order:88,
+      dataIndex:'sex',
+      formItemProps: {
+        rules: [
+          verify.verifyRequired,
+        ]
+      },
+    },
+    {
+      valueType:'checkbox',
+      valueEnum: new Map([
+        [1,'足球'],
+        [2,'篮球'],
+        [3,'游泳'],
+        [4,'台球'],
+        [5,'乒乓球'],
+      ]),
+      title:'爱好',
+      order:86,
+      hideInSearch: true,
+      hideInTable: true,
+      dataIndex:'check',
+    },
+    {
       request: async () => getDictionaryData('sex'),
       render: (_, data) => <XinDict value={data.sex_dict} dict={'sex'} />,
-      title:'测试性别字典',
+      title:'性别字典',
       order:85,
       dataIndex:'sex_dict',
+      formItemProps: {
+        rules: [
+          verify.verifyRequired,
+        ]
+      },
     },
     {
       valueType:'rate',
@@ -116,25 +129,27 @@ const TestTable: React.FC = () => {
     {
       valueType:'radio',
       valueEnum: new Map([
-        [1,'one'],
-        [2,'two'],
-        [3,'three'],
+        [1,'小学'],
+        [2,'初中'],
+        [3,'高中'],
+        [4,'本科'],
+        [5,'专科'],
+        [6,'博士'],
       ]),
-      title:'数据字典',
+      title:'学历',
       order:74,
       dataIndex:'op',
+      formItemProps: {
+        rules: [
+          verify.verifyRequired,
+        ]
+      },
     },
     {
       valueType:'switch',
-      title:'开关',
+      title:'禁用账户',
       order:70,
       dataIndex:'switch',
-    },
-    {
-      valueType:'dateTime',
-      title:'日期时间',
-      order:50,
-      dataIndex:'datetime',
     },
     {
       valueType:'date',
@@ -145,7 +160,7 @@ const TestTable: React.FC = () => {
     },
     {
       valueType:'date',
-      title:'修改时间',
+      title:'更新时间',
       hideInForm: true,
       dataIndex:'update_time',
     },

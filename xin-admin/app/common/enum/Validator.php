@@ -10,5 +10,15 @@ enum Validator {
     case Integer;
     case Mobile;
     case IdCard;
+
+    /**
+     * @param string $validator
+     * @return void
+     */
+    public function verifyString(string $validator){
+        switch ($validator) {
+
+        }
+    }
 }
 

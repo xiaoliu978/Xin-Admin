@@ -13,16 +13,14 @@ class TestTable extends Controller
     protected array $searchField = [
         'id'=> '=',
         'title'=> 'like',
-        'number'=> '=',
-        'date'=> '=',
+        'age'=> '=',
+        'barthday'=> '=',
         'money'=> '=',
         'sex'=> '=',
-        'check'=> '=',
         'sex_dict'=> '=',
         'rate'=> '=',
         'op'=> '=',
         'switch'=> '=',
-        'datetime'=> '=',
         'create_time'=> 'date',
         'update_time'=> 'date',
     ];
