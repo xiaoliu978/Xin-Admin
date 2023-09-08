@@ -69,7 +69,7 @@ const Table: React.FC = () => {
     },
     {
       title: '规则名字',
-      dataIndex: 'title',
+      dataIndex: 'name',
       valueType: 'text',
       formItemProps: {
         rules: [

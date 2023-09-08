@@ -2,15 +2,13 @@
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
-import {SettingDrawer} from '@ant-design/pro-components';
+import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
-import XinTabs from '@/components/XinTabs'
 import './index.less';
 import React from "react";
-import { XinRight, Question } from "@/components/XinTitle";
 import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, getAdminRule} from '@/services/admin';
+import {GetAdminInfo, getAdminRule, Logout} from '@/services/admin';
 import {history} from '@umijs/max';
 
 // 全局初始化数据配置，用于 Layout 用户信息和权限初始化
@@ -35,8 +33,7 @@ export async function getInitialState(): Promise<initialStateType> {
   // 获取权限
   const fetchAdminRule = async () => {
     const access = await getAdminRule();
-    // TODO 权限获取之后需要刷新一下页面，不然权限不生效
-    history.push(window.location.pathname);
+
     return access.data.access;
   }
   // 如果不是登录页面，执行
@@ -51,6 +48,8 @@ export async function getInitialState(): Promise<initialStateType> {
     if (location.pathname !== '/login') {
       const currentUser = await fetchUserInfo();
       const access = await fetchAdminRule();
+      // TODO 权限获取之后需要刷新一下页面，不然权限不生效
+      // history.push('/');
       data.currentUser = currentUser;
       data.access = access;
     }
@@ -72,15 +71,21 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
         history.push('/login');
       }
     },
-    actionsRender: () => [<Question key="doc" />],
+    logout: async () => {
+      const res = await Logout();
+      if (res.success) {
+        localStorage.removeItem('token')
+        localStorage.removeItem('refresh_token')
+        localStorage.removeItem('userinfo')
+        history.push('/login')
+      }
+    },
     avatarProps: undefined,
     childrenRender: (children: any) => {
-      // if (initialState?.loading) return <PageLoading />;
+      if (initialState?.loading) return <PageLoading />;
       return (
         <>
-          <XinTabs>
-            {children}
-          </XinTabs>
+          {children}
           <SettingDrawer
             disableUrlParams
             enableDarkTheme

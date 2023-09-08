@@ -120,7 +120,7 @@ class Admin extends Controller
         if (!$this->validate->scene('edit')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        $data['id'] = $this->getAdminId();
+        $data['id'] = (new Auth())->getAdminId();
         $this->model->update($data);
         return $this->success('ok');
     }

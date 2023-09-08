@@ -12,3 +12,9 @@ export const gitDict = () => {
     method: 'get',
   })
 }
+
+export const gitSetting = () => {
+  return request<ResponseStructure>('/system.setting/list', {
+    method: 'get',
+  })
+}

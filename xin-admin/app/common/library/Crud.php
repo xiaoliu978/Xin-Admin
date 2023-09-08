@@ -9,6 +9,7 @@ class Crud
 {
 
     /**
+     * 构建 sql
      * @param array $sql_config
      * @param array $columns
      * @return void
@@ -50,6 +51,7 @@ class Crud
     }
 
     /**
+     * 构建控制器
      * @param array $columns
      * @param array $crud_config
      * @param array $viewData
@@ -78,6 +80,7 @@ class Crud
     }
 
     /**
+     * 构建模型
      * @param array $crud_config
      * @param array $viewData
      * @return void
@@ -94,12 +97,63 @@ class Crud
     }
 
     /**
+     * 构建验证器
+     * @param array $columns
      * @param array $crud_config
      * @param array $viewData
      * @return void
      */
-    public function buildValidate(array $crud_config, array $viewData): void
+    public function buildValidate(array $columns,array $crud_config, array $viewData): void
     {
+        $validation = '';
+        $massage = '';
+        foreach ($columns as $item){
+            if(isset($item['validation']) && $item['validation']){
+                $validation .= "        '{$item['dataIndex']}'  => '";
+
+                foreach ($item['validation'] as $val){
+                    switch ($val){
+                        case 'verifyRequired':
+                            $validation .= 'require|';
+                            $massage .= "        '{$item['dataIndex']}.require' => '字段{$item['title']}必填'," . PHP_EOL;
+                            break;
+                        case 'verifyEmail':
+                            $validation .= 'email|';
+                            $massage .= "        '{$item['dataIndex']}.email' => '{$item['title']}必须为 email'," . PHP_EOL;
+                            break;
+                        case 'verifyUrl':
+                            $validation .= 'url|';
+                            $massage .= "        '{$item['dataIndex']}.url' => '{$item['title']}必须为URL'," . PHP_EOL;
+                            break;
+                        case 'verifyNumber':
+                            $validation .= 'number|';
+                            $massage .= "        '{$item['dataIndex']}.number' => '{$item['title']}必须为数字'," . PHP_EOL;
+                            break;
+                        case 'verifyString':
+                            $validation .= 'string|';
+                            $massage .= "        '{$item['dataIndex']}.string' => '{$item['title']}必须为字符串'," . PHP_EOL;
+                            break;
+                        case 'verifyInteger':
+                            $validation .= 'integer|';
+                            $massage .= "        '{$item['dataIndex']}.integer' => '{$item['title']}必须为纯数字'," . PHP_EOL;
+                            break;
+                        case 'verifyMobile':
+                            $validation .= 'mobile|';
+                            $massage .= "        '{$item['dataIndex']}.mobile' => '{$item['title']}必须为手机号'," . PHP_EOL;
+                            break;
+                        case 'verifyIdCard':
+                            $validation .= 'idCard|';
+                            $massage .= "        '{$item['dataIndex']}.idCard' => '{$item['title']}必须为身份证号'," . PHP_EOL;
+                            break;
+                    }
+                }
+                $validation = substr($validation, 0, -1);
+                $validation .= "',".PHP_EOL;
+            }
+        }
+        $viewData['validation'] = $validation;
+        $viewData['massage']    = $massage;
+
         // 验证器渲染
         $validateView = View::fetch('../crud/validate',$viewData);
         $path = root_path().$crud_config['validatePath'].'/';
@@ -109,6 +163,12 @@ class Crud
         file_put_contents($path.$crud_config['name'].'.php', $validateView);
     }
 
+
+    /**
+     * 构建前端页面
+     * @param $data
+     * @return void
+     */
     public function buildPage($data): void
     {
         $columns = '['.PHP_EOL;
@@ -156,8 +216,17 @@ class Crud
             if(isset($field['hideInForm']) && $field['hideInForm']){
                 $columnsData .= '      hideInForm: true,' . PHP_EOL;
             }
-            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," .PHP_EOL. '    },'.PHP_EOL;
+            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," .PHP_EOL;
 
+            if(isset($field['validation']) && $field['validation']){
+                $val = '';
+                foreach ($field['validation'] as $item){
+                    $val .= "          verify.{$item},".PHP_EOL;
+                }
+                $columnsData .= "      formItemProps: {".PHP_EOL."        rules: [".PHP_EOL . $val .'        ]'.PHP_EOL."      },".PHP_EOL;
+            }
+
+            $columnsData .= '    },'.PHP_EOL;
             $columns .= $columnsData;
         }
         $columns .= '  ]';

@@ -9,13 +9,19 @@ class {$name} extends Validate
     /**
      *  字段验证规则
      */
-    protected $rule = [];
+    protected $rule = [
+<?php echo htmlspecialchars_decode($validation) ?>
+
+    ];
 
 
     /**
      *  字段验证场景
      */
-    protected $scene = [];
+    protected $scene = [
+<?php echo htmlspecialchars_decode($massage) ?>
+
+    ];
 
 
 }
