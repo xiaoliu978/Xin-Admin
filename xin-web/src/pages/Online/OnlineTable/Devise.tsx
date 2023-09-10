@@ -9,6 +9,7 @@ import {DeleteFilled, KeyOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
 import {crudApi, getData, saveData} from "@/services/online";
 import * as verify from "@/utils/format";
+import {listApi} from "@/services/table";
 
 
 const api = '/online.test';
@@ -369,6 +370,25 @@ const Devise = () => {
             {...tableConfig}
             tableApi={api}
             columns={columns}
+            request={async (params, sorter, filter) => {
+
+              let dataIndex = {}
+              columns.forEach(item => {
+                // @ts-ignore
+                dataIndex[item.dataIndex] = item.sqlType
+              })
+              const { data, success } = await listApi(api+'/list', {
+                ...params,
+                sorter,
+                filter,
+                data: dataIndex
+              });
+              return {
+                data: data?.data || [],
+                success,
+                total: data?.total
+              };
+            }}
           />
         </Col>
       </Row>
