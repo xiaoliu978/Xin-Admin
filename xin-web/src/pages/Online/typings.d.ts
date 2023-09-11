@@ -32,6 +32,7 @@ declare namespace OnlineType {
     isDict?: boolean;
     select?: string;
     validation?: string[];
+    mock?: string;
   }
 
   interface CrudConfig {

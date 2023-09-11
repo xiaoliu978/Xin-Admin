@@ -1,35 +1,35 @@
-const users = [
-  { id: 0, name: 'Umi', nickName: 'U', gender: 'MALE' },
-  { id: 1, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 3, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 4, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 5, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 6, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 7, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-  { id: 8, name: 'Fish', nickName: 'B', gender: 'FEMALE' },
-];
+import Mock from 'mockjs';
+import {OnlineType} from "@/pages/Online/typings";
 
 export default {
   'GET /api/v1/queryUserList': (req: any, res: any) => {
     res.json({
       success: true,
-      data: { list: users },
+      data: {},
       errorCode: 0,
     });
   },
   'GET /admin.php/online.test/list': (req: any, res: any) => {
+    // console.log(req.params.data)
+    let data = JSON.parse(req.param('data'))
+    let dataIndex = {}
+    data.forEach((item: OnlineType.ColumnsConfig) => {
+      // @ts-ignore
+      dataIndex[item.dataIndex] = item.mock
+    })
+
     res.json({
       msg: "ok",
       showType: 0,
       status: 200,
       success: true,
-      data: {
+      data: Mock.mock({
+        "data|10": [dataIndex],
         current_page: 1,
-        data: users,
         last_page: 1,
         per_page: 20,
-        total: 8,
-      },
+        total: 10,
+      })
     });
   },
 };
