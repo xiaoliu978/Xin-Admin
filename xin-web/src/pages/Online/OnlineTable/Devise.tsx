@@ -1,4 +1,4 @@
-import {useModel, useParams} from "@umijs/max";
+import {useParams} from "@umijs/max";
 import {Row, Col, Collapse, Form, Input, CollapseProps, Radio, Button, Space, message, FormRule, Spin} from 'antd';
 import XinTable from "@/components/XinTable";
 import React, {useEffect, useState} from "react";
@@ -33,6 +33,7 @@ const Devise = () => {
       defaultValue: '',
       isKey: true,
       null: true,
+      mock: '@increment',
       autoIncrement: true,
       length: 10,
       decimal: 0,
@@ -54,6 +55,7 @@ const Devise = () => {
       valueType: 'date',
       hideInForm: true,
       order: 1,
+      mock: '@datetime'
     },
     {
       remark: '更新时间',
@@ -70,6 +72,7 @@ const Devise = () => {
       valueType: 'date',
       hideInForm: true,
       order: 0,
+      mock: '@datetime'
     },
   ]);
 
@@ -355,6 +358,7 @@ const Devise = () => {
     })
   }
 
+
   return (
     <Spin tip="Loading..." spinning={loading} size={'large'}>
       <Row gutter={[16, 16]} className={'devise-row'} style={{marginRight: 0,marginLeft:0}}>
@@ -370,25 +374,7 @@ const Devise = () => {
             {...tableConfig}
             tableApi={api}
             columns={columns}
-            request={async (params, sorter, filter) => {
-
-              let dataIndex = {}
-              columns.forEach(item => {
-                // @ts-ignore
-                dataIndex[item.dataIndex] = item.sqlType
-              })
-              const { data, success } = await listApi(api+'/list', {
-                ...params,
-                sorter,
-                filter,
-                data: dataIndex
-              });
-              return {
-                data: data?.data || [],
-                success,
-                total: data?.total
-              };
-            }}
+            params={{data: JSON.stringify(columns)}}
           />
         </Col>
       </Row>

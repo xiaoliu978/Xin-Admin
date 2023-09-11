@@ -21,6 +21,7 @@ const dict = {
   decimal: 0,
   unsign: false,
   select: '=',
+  mock: '@integer(1, 3)'
 }
 
 const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
@@ -38,7 +39,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 10,
     decimal: 0,
     unsign: true,
-    select: '='
+    select: '=',
+    mock: '@increment'
   },
   select: dict,
   checkbox: dict,
@@ -53,7 +55,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     autoIncrement: false,
     length: 30,
     decimal: 0,
-    unsign: false
+    unsign: false,
+    mock: '@string(10,15)'
   },
   text: {
     remark: '文本框',
@@ -65,6 +68,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 255,
     unsign: false,
     select: 'like',
+    mock: '@string(10,15)'
   },
   textarea: {
     remark: '文本域',
@@ -76,6 +80,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 0,
     unsign: false,
     select: 'like',
+    mock: '@cparagraph'
   },
   digit: {
     remark: '数字',
@@ -87,6 +92,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 10,
     unsign: false,
     select: '=',
+    mock: '@number'
   },
   money: {
     remark: '金额',
@@ -99,6 +105,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 0,
     unsign: false,
     select: '=',
+    mock: '@float(100,999,2,2)'
   },
   switch: {
     remark: '开关',
@@ -112,6 +119,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: true,
     select: '=',
+    mock: '@boolean'
   },
   rate: {
     remark: '评分',
@@ -125,6 +133,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: true,
     select: '=',
+    mock: '@@integer(1, 5)'
   },
   date: {
     remark: '日期',
@@ -138,6 +147,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: false,
     select: 'date',
+    mock: '@date'
   },
   dateTime: {
     remark: '日期时间',
@@ -150,7 +160,8 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 0,
     decimal: 0,
     unsign: false,
-    select: 'date'
+    select: 'date',
+    mock: '@datetime'
   },
   createTime: {
     remark: '创建时间',
@@ -164,6 +175,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: false,
     select: 'date',
+    mock: '@datetime'
   },
   updateTime: {
     remark: '更新时间',
@@ -177,6 +189,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: false,
     select: 'date',
+    mock: '@datetime'
   }
 }
 export default defaultSql;
