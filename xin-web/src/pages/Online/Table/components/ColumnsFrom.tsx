@@ -169,7 +169,8 @@ function CreateForm(props: {
       title: 'Mock 模拟数据',
       dataIndex: 'mock',
       valueType: 'text',
-      tooltip: <>模拟数据格式，请查看文档<a href={'http://mockjs.com/examples.html'} target={'_blank'}>Mock</a></>,
+      colProps: {span: 8},
+      tooltip: <>模拟数据格式，请查看文档 <a href={'http://mockjs.com/examples.html'}  target={'_blank'}>Mock</a> </>,
       colProps: {span: 8},
       initialValue: '@string'
     },

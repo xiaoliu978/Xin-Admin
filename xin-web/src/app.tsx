@@ -5,53 +5,50 @@ import defaultConfig from './utils/request';
 import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
 import './index.less';
-import React from "react";
+import React, {lazy} from "react";
 import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, getAdminRule, Logout} from '@/services/admin';
-import {history} from '@umijs/max';
-
-// 全局初始化数据配置，用于 Layout 用户信息和权限初始化
+import {GetAdminInfo, GetAdminMenu, Logout} from '@/services/admin';
+import {history,Navigate} from '@umijs/max';
+import {RuntimeConfig} from "@umijs/max";
 
 
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
 export interface initialStateType {
   settings?: any;
+  isLogin: boolean;
+  isAccess: boolean;
   loading?: boolean;
   currentUser?: USER.UserInfo;
   access?: string[];
   fetchUserInfo?:  () => Promise<any>;
-  fetchAdminRule?: () => Promise<any>;
+  menus?: {[key: string] : any};
 }
+
 
 export async function getInitialState(): Promise<initialStateType> {
   // 获取用户信息
+  console.log('getInitialState')
   const fetchUserInfo = async () => {
     const msg = await GetAdminInfo();
-    return msg.data.userinfo;
+    return msg.data;
   };
-  // 获取权限
-  const fetchAdminRule = async () => {
-    const access = await getAdminRule();
-
-    return access.data.access;
-  }
   // 如果不是登录页面，执行
   const { location } = history;
   const data: initialStateType = {
     access: [],
     fetchUserInfo,
-    fetchAdminRule,
+    isLogin: false,
+    isAccess: false,
     settings: defaultSettings as Partial<LayoutSettings>,
   }
   try {
     if (location.pathname !== '/login') {
-      const currentUser = await fetchUserInfo();
-      const access = await fetchAdminRule();
-      // TODO 权限获取之后需要刷新一下页面，不然权限不生效
-      // history.push('/');
-      data.currentUser = currentUser;
-      data.access = access;
+      const userInfo = await fetchUserInfo();
+      data.isLogin = true;
+      data.isAccess = true;
+      data.currentUser = userInfo.userinfo;
+      data.access = userInfo.access;
     }
     return data;
   }catch (error){
@@ -64,12 +61,27 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     logo,
     title: 'Xin Admin',
     footerRender: () => <Footer/>,
+    menu: {
+      params: {
+        userId: initialState?.menus,
+      },
+      request: async () => {
+        let res = await GetAdminMenu()
+        if(res.success){
+          return res.data.menus
+        }
+      },
+    },
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!localStorage.getItem('token') && location.pathname !== '/login') {
+      if (!initialState!.isLogin && location.pathname !== '/login') {
         history.push('/login');
       }
+      // if(!initialState!.isAccess){
+      //   TODO 权限获取之后需要刷新一下页面，不然权限不生效
+      //   history.push(location.pathname);
+      // }
     },
     logout: async () => {
       const res = await Logout();
@@ -102,6 +114,45 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
     },
     ...initialState?.settings,
   };
+};
+
+const lazyLoad = (moduleName: string) => {
+  const Module = lazy(() => import(`./pages/${moduleName}`));
+  return <Module />;
+};
+
+const defaultRoutes = [
+  {
+    name: '表格设计',
+    path: '/online/table/devise/:id',
+    id: 'devise',
+    element: lazyLoad('Online/Table/Devise'),
+    layout: false,
+  },
+  {
+    name: '首页',
+    path: '/index',
+    id: 'index',
+    element: lazyLoad('Client/Index'),
+    layout: false
+  },
+  {
+    name: '登录',
+    path: '/login',
+    id: 'login',
+    element: lazyLoad('Admin/Login'),
+    layout: false,
+  },
+]
+
+export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({routes}) => {
+  console.log('patchClientRoutes')
+  console.log(routes)
+  routes.unshift({
+    path: '/',
+    element: <Navigate to="/home" replace />,
+  });
+  routes.push(...defaultRoutes)
 };
 
 export const request = {

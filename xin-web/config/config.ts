@@ -1,5 +1,4 @@
 import { defineConfig } from '@umijs/max';
-import routes from './routes';
 import defaultSettings from "./defaultSettings";
 export default defineConfig({
   /**
@@ -23,6 +22,9 @@ export default defineConfig({
    */
   model: {},
   dva: false,
+  conventionRoutes: {
+    exclude: [/\/components\//, /\/models\//,/\/noLayoutPage\//],
+  },
   /**
    * 初始化状态
    */
@@ -35,10 +37,6 @@ export default defineConfig({
    * 运行时配置
    */
   layout: defaultSettings,
-  /**
-   * 路由表配置
-   */
-  routes,
   npmClient: 'pnpm',
   /**
    * 第三方统计，百度统计配置

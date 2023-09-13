@@ -1,7 +1,7 @@
 import { RefreshToken } from '@/services/admin';
 import { history, request } from '@umijs/max';
 import { message,notification } from 'antd';
-import type { AxiosResponse } from '@umijs/max';
+import type { AxiosResponse, RuntimeConfig } from '@umijs/max';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -12,7 +12,7 @@ enum ErrorShowType {
   REDIRECT = 9,
 }
 
-const requestConfig = {
+const requestConfig: RuntimeConfig['request'] = {
   // 统一的请求设定
   baseURL: '/admin.php',
   timeout: 5000,
@@ -87,6 +87,7 @@ const requestConfig = {
 
   // 响应拦截器
   responseInterceptors: [
+    // @ts-ignore
     async (response: AxiosResponse): Promise<AxiosResponse> => {
       // 拦截响应数据，进行个性化处理
       // 没有登录拒绝访问

@@ -28,10 +28,15 @@ const TestTable: React.FC = () => {
       order:99,
       hideInForm: true,
       dataIndex:'id',
+      formItemProps: {
+        rules: [
+          verify.verifyNumber,
+        ]
+      },
     },
     {
       valueType:'text',
-      title:'标题',
+      title:'名字',
       order:98,
       dataIndex:'title',
       formItemProps: {
@@ -60,14 +65,6 @@ const TestTable: React.FC = () => {
       dataIndex:'barthday',
     },
     {
-      valueType:'textarea',
-      title:'测试文本域',
-      order:90,
-      hideInSearch: true,
-      hideInTable: true,
-      dataIndex:'text',
-    },
-    {
       valueType:'money',
       title:'余额',
       order:90,
@@ -77,6 +74,14 @@ const TestTable: React.FC = () => {
           verify.verifyNumber,
         ]
       },
+    },
+    {
+      valueType:'textarea',
+      title:'签名',
+      order:90,
+      hideInSearch: true,
+      hideInTable: true,
+      dataIndex:'text',
     },
     {
       valueType:'select',
@@ -152,14 +157,14 @@ const TestTable: React.FC = () => {
       dataIndex:'switch',
     },
     {
-      valueType:'date',
+      valueType:'createTime',
       title:'创建时间',
       order:1,
       hideInForm: true,
       dataIndex:'create_time',
     },
     {
-      valueType:'date',
+      valueType:'updateTime',
       title:'更新时间',
       hideInForm: true,
       dataIndex:'update_time',
