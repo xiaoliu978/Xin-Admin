@@ -11,6 +11,16 @@ declare namespace USER {
     loginType?: LoginType
   }
 
+  type MenuType = API.ResponseStructure<{
+    menus: {
+      name: string;
+      path: string;
+      component: string;
+      children: any[];
+      key: string;
+    }[]
+  }>
+
   type LoginType = 'phone' | 'account';
 
   interface UserInfo {
@@ -27,8 +37,9 @@ declare namespace USER {
 
   type UserResult = API.ResponseStructure<{
     userinfo: UserInfo,
+    access: string[]
     settings?: {[key: string] : any},
-    route?: {[key: string] : any}
+    menus?: {[key: string] : any},
   }>
 
   type LoginResult = API.ResponseStructure<{

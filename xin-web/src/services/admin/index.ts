@@ -25,6 +25,16 @@ export async function GetAdminInfo() {
 }
 
 /**
+ * 获取菜单路由
+ * @constructor
+ */
+export async function GetAdminMenu() {
+  return request<USER.MenuType>('/admin/getAdminMenu', {
+    method: 'get'
+  });
+}
+
+/**
  * 刷新 Token
  * @constructor
  */
@@ -44,15 +54,6 @@ export async function RefreshToken() {
 export async function Logout() {
   return request<ResponseStructure>('/admin/logout', {
     method: 'post'
-  });
-}
-
-/**
- * 获取当前登录管理员权限
- */
-export async function getAdminRule() {
-  return request<ResponseStructure>('/admin/getAdminRule', {
-    method: 'get'
   });
 }
 

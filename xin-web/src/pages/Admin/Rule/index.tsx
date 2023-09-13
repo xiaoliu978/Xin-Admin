@@ -35,13 +35,11 @@ const Table: React.FC = () => {
 
 
   // 父ID选择框
-  const formPid = ({ type }: any): any[] => {
-    return type !== '0'
-      ? [{
+  const formType = ({ type }: any): any[] => {
+    const pid = {
         title: '父节点',
         dataIndex: 'pid',
         valueType: 'treeSelect',
-        initialValue: '0',
         fieldProps: {
           options: parentNode
         },
@@ -50,7 +48,36 @@ const Table: React.FC = () => {
             {required: true, message: '此项为必填项'},
           ],
         },
-      }] : []
+    }
+    const rule = {
+      title: '权限标识',
+      dataIndex: 'key',
+      valueType: 'text',
+      formItemProps: {
+        rules: [
+          { required: true, message: '此项为必填项'},
+        ],
+      },
+    }
+    const path = {
+      title: '路由地址',
+      dataIndex: 'path',
+      valueType: 'text',
+      tooltip: '文件系统路径，如果组件为文件夹下的index.(ts|tsx) 请省略'
+    }
+    // const icon = {
+    //   title: '图标',
+    //   dataIndex: 'icon',
+    //   valueType: 'text',
+    // }
+    if(type === '0'){
+      return [path]
+    }else if(type === '1'){
+      return [pid,path]
+    }else if(type === '2'){
+      return [rule,pid]
+    }
+    return [];
   }
 
   const columns: ProFormColumnsAndProColumns<ResponseAdminList>[] = [
@@ -68,7 +95,7 @@ const Table: React.FC = () => {
       },
     },
     {
-      title: '规则名字',
+      title: '标题',
       dataIndex: 'name',
       valueType: 'text',
       formItemProps: {
@@ -77,21 +104,12 @@ const Table: React.FC = () => {
         ],
       },
     },
-    {
-      title: 'KEY',
-      dataIndex: 'key',
-      valueType: 'text',
-      formItemProps: {
-        rules: [
-          { required: true, message: '此项为必填项'},
-        ],
-      },
-    },
+
     {
       valueType: 'dependency',
       name: ['type'],
       hideInTable: true,
-      columns: formPid
+      columns: formType
     },
     {
       title: '类型',
@@ -105,6 +123,7 @@ const Table: React.FC = () => {
       title: '排序',
       dataIndex: 'sort',
       valueType: 'text',
+      tooltip: '数字越大排序越靠后'
     },
     {
       title: '备注',

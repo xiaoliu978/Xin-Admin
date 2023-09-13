@@ -11,7 +11,7 @@
  Target Server Version : 50740 (5.7.40)
  File Encoding         : 65001
 
- Date: 30/08/2023 10:35:09
+ Date: 13/09/2023 17:34:44
 */
 
 SET NAMES utf8mb4;
@@ -43,7 +43,7 @@ CREATE TABLE `xin_admin`  (
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', '0', '2302563948@qq.com', '18888888888', '1', 1, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1693018783);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', '0', '2302563948@qq.com', '18888888888', '1', 1, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1693894600);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -134,7 +134,6 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 10);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 11);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 9);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 2);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 16);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 17);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 18);
@@ -143,7 +142,6 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 21);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 22);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 24);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 25);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 15);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 3);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 12);
@@ -163,18 +161,21 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 14);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 33);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 19);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 29);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 37);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 38);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 40);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 41);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 42);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 43);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 44);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 45);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 46);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 47);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 39);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 49);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 43);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 48);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 37);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 2);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 38);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -187,7 +188,6 @@ CREATE TABLE `xin_admin_rule`  (
   `sort` int(2) NULL DEFAULT 0 COMMENT '排序',
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '标题',
   `path` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路由地址',
-  `component` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '组件地址',
   `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限标识',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
@@ -200,52 +200,52 @@ CREATE TABLE `xin_admin_rule`  (
 -- ----------------------------
 -- Records of xin_admin_rule
 -- ----------------------------
-INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', 1, '首页', '/home', 'HomeOutlined', './Home', 'index', '首页', 1693312584, 1691653415);
-INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '数据展示', '/data', NULL, 'SignalFilled', 'data', '数据展示', 1693312650, 1691653452);
-INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', './Data/Descriptions', NULL, 'data:list', '定义列表', 1693313052, 1692102396);
-INSERT INTO `xin_admin_rule` VALUES (6, 0, '0', 5, '管理员设置', '/admin', NULL, 'SmileOutlined', 'admin', '管理员设置', 1693313167, 1692126728);
-INSERT INTO `xin_admin_rule` VALUES (7, 6, '1', 0, '管理员列表', '/admin/list', './Admin/AdminList', NULL, 'admin:list', '管理员列表', 1693313185, 1692126786);
-INSERT INTO `xin_admin_rule` VALUES (8, 6, '1', 0, '管理员分组', '/admin/group', './Admin/AdminGroup', NULL, 'admin:group', '管理员分组', 1693313198, 1692126825);
-INSERT INTO `xin_admin_rule` VALUES (9, 6, '1', 0, '权限管理', '/admin/rule', './Admin/AdminRule', NULL, 'admin:rule', '权限管理', 1693313209, 1692126876);
-INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', 6, '系统管理', '/system', NULL, 'SettingOutlined', 'system', '系统管理', 1693313221, 1692127577);
-INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 0, '字典管理', '/system/dict', './System/Dict', NULL, 'system:dict', '字典管理', 1693313248, 1692127607);
-INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', 0, '字典新建', NULL, NULL, NULL, 'system:dict:add', '字典新建', 1692127688, 1692127688);
-INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', 0, '字典删除', NULL, NULL, NULL, 'system:dict:delete', '字典删除', 1692127723, 1692127723);
-INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', 0, '字典编辑', NULL, NULL, NULL, 'system:dict:edit', '字典编辑', 1692127804, 1692127804);
-INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', 0, '字典查看', NULL, NULL, NULL, 'system:dict:list', '字典查看', 1692148153, 1692148153);
-INSERT INTO `xin_admin_rule` VALUES (16, 7, '2', 0, '查看管理员列表', NULL, NULL, NULL, 'admin:list:list', '查看管理员列表', 1692187226, 1692187213);
-INSERT INTO `xin_admin_rule` VALUES (17, 7, '2', 0, '新增管理员', NULL, NULL, NULL, 'admin:list:add', '新增管理员', 1692187255, 1692187255);
-INSERT INTO `xin_admin_rule` VALUES (18, 7, '2', 0, '编辑管理员', NULL, NULL, NULL, 'admin:list:edit', '编辑管理员信息', 1692187292, 1692187292);
-INSERT INTO `xin_admin_rule` VALUES (19, 7, '2', 0, '删除管理员', NULL, NULL, NULL, 'admin:list:delete', '删除管理员', 1692187357, 1692187357);
-INSERT INTO `xin_admin_rule` VALUES (20, 8, '2', 0, '管理员分组查看', NULL, NULL, NULL, 'admin:group:list', '管理员分组查看', 1692187425, 1692187425);
-INSERT INTO `xin_admin_rule` VALUES (21, 8, '2', 0, '管理员分组新增', NULL, NULL, NULL, 'admin:group:add', '管理员分组新增', 1692187454, 1692187454);
-INSERT INTO `xin_admin_rule` VALUES (22, 8, '2', 0, '管理员分组编辑', NULL, NULL, NULL, 'admin:group:edit', '管理员分组编辑', 1692187489, 1692187489);
-INSERT INTO `xin_admin_rule` VALUES (23, 8, '2', 0, '管理员分组删除', NULL, NULL, NULL, 'admin:group:delete', '管理员分组删除', 1692187534, 1692187534);
-INSERT INTO `xin_admin_rule` VALUES (24, 8, '2', 0, '分组权限查看', NULL, NULL, NULL, 'admin:group:rule', '分组权限查看', 1692187596, 1692187596);
-INSERT INTO `xin_admin_rule` VALUES (25, 8, '2', 0, '管理员权限修改', NULL, NULL, NULL, 'admin:group:ruleEdit', '管理员权限修改', 1692187636, 1692187636);
-INSERT INTO `xin_admin_rule` VALUES (26, 9, '2', 0, '权限管理查看', NULL, NULL, NULL, 'admin:rule:list', '权限管理查看', 1692263193, 1692263193);
-INSERT INTO `xin_admin_rule` VALUES (27, 9, '2', 0, '权限管理新增', NULL, NULL, NULL, 'admin:rule:add', '权限管理新增', 1692263219, 1692263219);
-INSERT INTO `xin_admin_rule` VALUES (28, 9, '2', 0, '权限管理编辑', NULL, NULL, NULL, 'admin:rule:edit', '权限管理编辑', 1692263250, 1692263250);
-INSERT INTO `xin_admin_rule` VALUES (29, 9, '2', 0, '权限管理删除', NULL, NULL, NULL, 'admin:rule:delete', '权限管理删除', 1692263274, 1692263274);
-INSERT INTO `xin_admin_rule` VALUES (30, 11, '2', 0, '字典配置', NULL, NULL, NULL, 'system:dict:item:list', '字典配置', 1692263892, 1692263892);
-INSERT INTO `xin_admin_rule` VALUES (31, 11, '2', 0, '字典配置新增', NULL, NULL, NULL, 'system:dict:item:add', '字典配置新增', 1692263926, 1692263926);
-INSERT INTO `xin_admin_rule` VALUES (32, 11, '2', 0, '字典配置编辑', NULL, NULL, NULL, 'system:dict:item:edit', '字典配置编辑', 1692263954, 1692263954);
-INSERT INTO `xin_admin_rule` VALUES (33, 11, '2', 0, '字典配置删除', NULL, NULL, NULL, 'system:dict:item:delete', '字典配置删除', 1692263984, 1692263984);
-INSERT INTO `xin_admin_rule` VALUES (35, 2, '1', 0, '高级列表', '/data/list', './Data/List', NULL, 'data:listUp', '高级列表', 1693313067, 1692323263);
-INSERT INTO `xin_admin_rule` VALUES (36, 2, '1', 0, '单选卡片', '/data/checkcard', './Data/CheckCard', NULL, 'data:card', '单选卡片', 1693313084, 1692323398);
-INSERT INTO `xin_admin_rule` VALUES (37, 0, '0', 3, '在线开发示例', '/test', NULL, 'BuildFilled', 'example', '在线开发示例', 1693313100, 1693226160);
-INSERT INTO `xin_admin_rule` VALUES (38, 37, '1', 0, '表格示例', '/test/table', './Test/TestTable', NULL, 'example:table', '表格示例', 1693313118, 1693226204);
-INSERT INTO `xin_admin_rule` VALUES (39, 0, '0', 4, '会员管理', '/user', NULL, 'user', 'user', '会员管理', 1693313143, 1693226272);
-INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user/index', './User', NULL, 'user:list', '会员列表', 1693313157, 1693226294);
-INSERT INTO `xin_admin_rule` VALUES (41, 0, '0', 7, '内容管理', '/content', NULL, 'TableOutlined', 'content', '内容管理', 1693313303, 1693226346);
-INSERT INTO `xin_admin_rule` VALUES (42, 41, '1', 0, '文章列表', '/content/article', './Content/Article', NULL, 'content:list', '文章列表', 1693313319, 1693226378);
-INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', NULL, 'RocketOutlined', 'online', '在线开发', 1693313330, 1693226432);
-INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', './Online/OnlineTable', NULL, 'online:table', '表格设计', 1693313365, 1693226460);
-INSERT INTO `xin_admin_rule` VALUES (45, 43, '1', 1, '页面设计', '/online/page', './Online/OnlinePage', NULL, 'online:pages', '页面设计', 1693313375, 1693226489);
-INSERT INTO `xin_admin_rule` VALUES (46, 43, '1', 2, 'App页面设计', '/online/app-page', './Online/OnlineAppPage', NULL, 'online:app', 'App页面设计', 1693313386, 1693226518);
-INSERT INTO `xin_admin_rule` VALUES (47, 43, '1', 3, 'Charts 设计', '/online/charts', './Online/OnlineCharts', NULL, 'online:charts', 'Charts 图表设计', 1693313405, 1693226569);
-INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', NULL, NULL, NULL, 'xinadmin', 'Xin Admin 官网', 1693226618, 1693226618);
-INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 0, '系统设置', '/system/settings', './System/Settings', NULL, 'system:settings', '系统设置', 1693313283, 1693313283);
+INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', 1, '首页', '/home', 'HomeOutlined', 'index', '首页', 1694506947, 1691653415);
+INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '数据展示', '/data', 'SignalFilled', 'data', '数据展示', 1693312650, 1691653452);
+INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', NULL, 'data:list', '定义列表', 1694506967, 1692102396);
+INSERT INTO `xin_admin_rule` VALUES (6, 0, '0', 5, '管理员设置', '/admin', 'SmileOutlined', 'admin', '管理员设置', 1693313167, 1692126728);
+INSERT INTO `xin_admin_rule` VALUES (7, 6, '1', 0, '管理员列表', '/admin/list', NULL, 'admin:list', '管理员列表', 1694507007, 1692126786);
+INSERT INTO `xin_admin_rule` VALUES (8, 6, '1', 0, '管理员分组', '/admin/group', NULL, 'admin:group', '管理员分组', 1694507013, 1692126825);
+INSERT INTO `xin_admin_rule` VALUES (9, 6, '1', 0, '权限管理', '/admin/rule', NULL, 'admin:rule', '权限管理', 1694507019, 1692126876);
+INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', 6, '系统管理', '/system', 'SettingOutlined', 'system', '系统管理', 1693313221, 1692127577);
+INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 0, '字典管理', '/system/dict', NULL, 'system:dict', '字典管理', 1694507026, 1692127607);
+INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', 0, '字典新建', NULL, NULL, 'system:dict:add', '字典新建', 1692127688, 1692127688);
+INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', 0, '字典删除', NULL, NULL, 'system:dict:delete', '字典删除', 1692127723, 1692127723);
+INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', 0, '字典编辑', NULL, NULL, 'system:dict:edit', '字典编辑', 1692127804, 1692127804);
+INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', 0, '字典查看', NULL, NULL, 'system:dict:list', '字典查看', 1692148153, 1692148153);
+INSERT INTO `xin_admin_rule` VALUES (16, 7, '2', 0, '查看管理员列表', NULL, NULL, 'admin:list:list', '查看管理员列表', 1692187226, 1692187213);
+INSERT INTO `xin_admin_rule` VALUES (17, 7, '2', 0, '新增管理员', NULL, NULL, 'admin:list:add', '新增管理员', 1692187255, 1692187255);
+INSERT INTO `xin_admin_rule` VALUES (18, 7, '2', 0, '编辑管理员', NULL, NULL, 'admin:list:edit', '编辑管理员信息', 1692187292, 1692187292);
+INSERT INTO `xin_admin_rule` VALUES (19, 7, '2', 0, '删除管理员', NULL, NULL, 'admin:list:delete', '删除管理员', 1692187357, 1692187357);
+INSERT INTO `xin_admin_rule` VALUES (20, 8, '2', 0, '管理员分组查看', NULL, NULL, 'admin:group:list', '管理员分组查看', 1692187425, 1692187425);
+INSERT INTO `xin_admin_rule` VALUES (21, 8, '2', 0, '管理员分组新增', NULL, NULL, 'admin:group:add', '管理员分组新增', 1692187454, 1692187454);
+INSERT INTO `xin_admin_rule` VALUES (22, 8, '2', 0, '管理员分组编辑', NULL, NULL, 'admin:group:edit', '管理员分组编辑', 1692187489, 1692187489);
+INSERT INTO `xin_admin_rule` VALUES (23, 8, '2', 0, '管理员分组删除', NULL, NULL, 'admin:group:delete', '管理员分组删除', 1692187534, 1692187534);
+INSERT INTO `xin_admin_rule` VALUES (24, 8, '2', 0, '分组权限查看', NULL, NULL, 'admin:group:rule', '分组权限查看', 1692187596, 1692187596);
+INSERT INTO `xin_admin_rule` VALUES (25, 8, '2', 0, '管理员权限修改', NULL, NULL, 'admin:group:ruleEdit', '管理员权限修改', 1692187636, 1692187636);
+INSERT INTO `xin_admin_rule` VALUES (26, 9, '2', 0, '权限管理查看', NULL, NULL, 'admin:rule:list', '权限管理查看', 1692263193, 1692263193);
+INSERT INTO `xin_admin_rule` VALUES (27, 9, '2', 0, '权限管理新增', NULL, NULL, 'admin:rule:add', '权限管理新增', 1692263219, 1692263219);
+INSERT INTO `xin_admin_rule` VALUES (28, 9, '2', 0, '权限管理编辑', NULL, NULL, 'admin:rule:edit', '权限管理编辑', 1692263250, 1692263250);
+INSERT INTO `xin_admin_rule` VALUES (29, 9, '2', 0, '权限管理删除', NULL, NULL, 'admin:rule:delete', '权限管理删除', 1692263274, 1692263274);
+INSERT INTO `xin_admin_rule` VALUES (30, 11, '2', 0, '字典配置', NULL, NULL, 'system:dict:item:list', '字典配置', 1692263892, 1692263892);
+INSERT INTO `xin_admin_rule` VALUES (31, 11, '2', 0, '字典配置新增', NULL, NULL, 'system:dict:item:add', '字典配置新增', 1692263926, 1692263926);
+INSERT INTO `xin_admin_rule` VALUES (32, 11, '2', 0, '字典配置编辑', NULL, NULL, 'system:dict:item:edit', '字典配置编辑', 1692263954, 1692263954);
+INSERT INTO `xin_admin_rule` VALUES (33, 11, '2', 0, '字典配置删除', NULL, NULL, 'system:dict:item:delete', '字典配置删除', 1692263984, 1692263984);
+INSERT INTO `xin_admin_rule` VALUES (35, 2, '1', 0, '高级列表', '/data/list', NULL, 'data:listUp', '高级列表', 1694506977, 1692323263);
+INSERT INTO `xin_admin_rule` VALUES (36, 2, '1', 0, '单选卡片', '/data/checkcard', NULL, 'data:card', '单选卡片', 1694506982, 1692323398);
+INSERT INTO `xin_admin_rule` VALUES (37, 0, '0', 3, '在线开发示例', '/test', 'BuildFilled', 'example', '在线开发示例', 1693313100, 1693226160);
+INSERT INTO `xin_admin_rule` VALUES (38, 37, '1', 0, '表格示例', '/test/testtable', NULL, 'example:table', '表格示例', 1694584840, 1693226204);
+INSERT INTO `xin_admin_rule` VALUES (39, 0, '0', 4, '会员管理', '/user', 'user', 'user', '会员管理', 1693313143, 1693226272);
+INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user', NULL, 'user:list', '会员列表', 1694584881, 1693226294);
+INSERT INTO `xin_admin_rule` VALUES (41, 0, '0', 7, '内容管理', '/content', 'TableOutlined', 'content', '内容管理', 1693313303, 1693226346);
+INSERT INTO `xin_admin_rule` VALUES (42, 41, '1', 0, '文章列表', '/content/article', NULL, 'content:list', '文章列表', 1694507041, 1693226378);
+INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', 'RocketOutlined', 'online', '在线开发', 1693313330, 1693226432);
+INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', NULL, 'online:table', '表格设计', 1694507047, 1693226460);
+INSERT INTO `xin_admin_rule` VALUES (45, 43, '1', 1, '页面设计', '/online/page', NULL, 'online:pages', '页面设计', 1694507053, 1693226489);
+INSERT INTO `xin_admin_rule` VALUES (46, 43, '1', 2, 'App页面设计', '/online/apppage', NULL, 'online:app', 'App页面设计', 1694584915, 1693226518);
+INSERT INTO `xin_admin_rule` VALUES (47, 43, '1', 3, 'Charts 设计', '/online/charts', NULL, 'online:charts', 'Charts 图表设计', 1693313405, 1693226569);
+INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', 'https://xinadmin.cn/', NULL, 'xinadmin', 'Xin Admin 官网', 1694488334, 1693226618);
+INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 0, '系统设置', '/system/settings', NULL, 'system:settings', '系统设置', 1694507032, 1693313283);
 
 -- ----------------------------
 -- Table structure for xin_content
@@ -280,7 +280,7 @@ CREATE TABLE `xin_dict`  (
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict
@@ -292,6 +292,7 @@ INSERT INTO `xin_dict` VALUES (16, '权限类型', 'tag', '权限类型', 'ruleT
 INSERT INTO `xin_dict` VALUES (17, '字段类型', 'default', '前端表单类型字典，请不要修改', 'valueType', 1692536857, 1692880935);
 INSERT INTO `xin_dict` VALUES (18, '数据类型', 'default', '数据库字段类型字典，请不要修改', 'sqlType', 1692703434, 1692880948);
 INSERT INTO `xin_dict` VALUES (19, '查询操作符', 'default', '系统查询操作符，请不要修改', 'select', 1693227615, 1693227615);
+INSERT INTO `xin_dict` VALUES (20, '验证规则', 'default', 'CRUD 验证规则，请不要修改', 'validation', 1693895586, 1693895586);
 
 -- ----------------------------
 -- Table structure for xin_dict_item
@@ -308,7 +309,7 @@ CREATE TABLE `xin_dict_item`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`dict_id`, `value`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 58 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict_item
@@ -360,6 +361,14 @@ INSERT INTO `xin_dict_item` VALUES (46, 19, '小于等于', '<=', '1', 'default'
 INSERT INTO `xin_dict_item` VALUES (47, 19, '不等于', '<>', '1', 'default', 1693227836, 1693227836);
 INSERT INTO `xin_dict_item` VALUES (48, 19, '包含', 'like', '1', 'default', 1693227859, 1693227859);
 INSERT INTO `xin_dict_item` VALUES (49, 19, '日期查询', 'date', '1', 'default', 1693227872, 1693227872);
+INSERT INTO `xin_dict_item` VALUES (50, 20, '必填', 'verifyRequired', '1', 'default', 1694048800, 1694048800);
+INSERT INTO `xin_dict_item` VALUES (51, 20, '纯数字', 'verifyNumber', '1', 'default', 1694048819, 1694048819);
+INSERT INTO `xin_dict_item` VALUES (52, 20, '邮箱', 'verifyEmail', '1', 'default', 1694048829, 1694048829);
+INSERT INTO `xin_dict_item` VALUES (53, 20, 'Url', 'verifyUrl', '1', 'default', 1694048843, 1694048843);
+INSERT INTO `xin_dict_item` VALUES (54, 20, '整数', 'verifyInteger', '1', 'default', 1694048854, 1694048854);
+INSERT INTO `xin_dict_item` VALUES (55, 20, '手机号', 'verifyMobile', '1', 'default', 1694048864, 1694048864);
+INSERT INTO `xin_dict_item` VALUES (56, 20, '身份证', 'verifyIdCard', '1', 'default', 1694048875, 1694048875);
+INSERT INTO `xin_dict_item` VALUES (57, 20, '字符串', 'verifyString', '1', 'default', 1694048930, 1694048930);
 
 -- ----------------------------
 -- Table structure for xin_file
@@ -433,10 +442,28 @@ CREATE TABLE `xin_online_table`  (
 -- ----------------------------
 -- Records of xin_online_table
 -- ----------------------------
-INSERT INTO `xin_online_table` VALUES (3, '文章列表', '[{\"valueType\":\"digit\",\"title\":\"id\",\"order\":99,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"id\",\"remark\":\"文章ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":false,\"length\":11,\"unsign\":true},{\"valueType\":\"digit\",\"title\":\"用户ID\",\"order\":98,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"user_id\",\"remark\":\"用户ID\",\"defaultValue\":\"\",\"isKey\":false,\"null\":true,\"autoIncrement\":false,\"length\":11,\"unsign\":true},{\"valueType\":\"text\",\"title\":\"文章标题\",\"order\":97,\"sqlType\":\"varchar\",\"dataIndex\":\"title\",\"remark\":\"文章标题\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255},{\"valueType\":\"digit\",\"title\":\"浏览量\",\"order\":95,\"hideInSearch\":true,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"see\",\"remark\":\"浏览量\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":true},{\"valueType\":\"digit\",\"title\":\"喜欢量\",\"order\":90,\"hideInSearch\":true,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"like\",\"remark\":\"喜欢量\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":true},{\"valueType\":\"textarea\",\"title\":\"文章内容\",\"order\":5,\"hideInSearch\":true,\"hideInTable\":true,\"hideInForm\":false,\"sqlType\":\"text\",\"dataIndex\":\"content\",\"remark\":\"文章内容\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"unsign\":false},{\"valueType\":\"date\",\"title\":\"创建时间\",\"order\":1,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"create_time\",\"remark\":\"创建时间\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10},{\"valueType\":\"date\",\"title\":\"修改时间\",\"order\":0,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"update_time\",\"remark\":\"修改时间\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10}]', '{\"sqlTableName\":\"xin_content\",\"sqlTableRemark\":\"文章列表\"}', '{\"name\":\"Content\",\"controllerPath\":\"app/admin/controller/content\",\"modelPath\":\"app/admin/model/content\",\"validatePath\":\"app/admin/validate/content\",\"pagePath\":\"src/pages\"}', '{\"headerTitle\":\"文章列表\",\"search\":true,\"addShow\":false,\"operateShow\":true,\"rowSelectionShow\":false,\"editShow\":true,\"deleteShow\":false}', '文章列表表格', 1692881493, 1692849839);
-INSERT INTO `xin_online_table` VALUES (4, '会员列表', '[{\"valueType\":\"digit\",\"title\":\"id\",\"order\":99,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"user_id\",\"remark\":\"用户ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":false,\"autoIncrement\":true,\"length\":10,\"unsign\":true},{\"valueType\":\"text\",\"title\":\"手机号\",\"order\":98,\"sqlType\":\"varchar\",\"dataIndex\":\"mobile\",\"remark\":\"手机号\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11},{\"valueType\":\"text\",\"title\":\"用户名\",\"order\":97,\"hideInSearch\":false,\"hideInForm\":false,\"sqlType\":\"varchar\",\"dataIndex\":\"username\",\"remark\":\"用户名\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":50},{\"valueType\":\"text\",\"title\":\"用户邮箱\",\"order\":96,\"sqlType\":\"varchar\",\"dataIndex\":\"email\",\"remark\":\"用户邮箱\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":100},{\"valueType\":\"text\",\"title\":\"昵称\",\"order\":95,\"hideInSearch\":false,\"hideInForm\":false,\"sqlType\":\"varchar\",\"dataIndex\":\"nickname\",\"remark\":\"昵称\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":50,\"unsign\":false},{\"valueType\":\"text\",\"title\":\"头像\",\"order\":94,\"sqlType\":\"varchar\",\"dataIndex\":\"avatar\",\"remark\":\"头像\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255},{\"valueType\":\"text\",\"title\":\"性别\",\"order\":93,\"sqlType\":\"char\",\"dataIndex\":\"gender\",\"remark\":\"性别\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1},{\"valueType\":\"date\",\"title\":\"生日\",\"order\":92,\"sqlType\":\"date\",\"dataIndex\":\"birthday\",\"remark\":\"生日\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false},{\"valueType\":\"money\",\"title\":\"余额\",\"order\":91,\"sqlType\":\"double\",\"dataIndex\":\"money\",\"remark\":\"用户余额\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"decimal\":2},{\"valueType\":\"money\",\"title\":\"积分\",\"order\":90,\"sqlType\":\"double\",\"dataIndex\":\"score\",\"remark\":\"积分\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"decimal\":2},{\"valueType\":\"textarea\",\"title\":\"签名\",\"order\":89,\"hideInSearch\":true,\"hideInTable\":true,\"sqlType\":\"varchar\",\"dataIndex\":\"motto\",\"remark\":\"签名\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255},{\"valueType\":\"text\",\"title\":\"密码\",\"order\":88,\"hideInSearch\":true,\"hideInTable\":true,\"hideInForm\":true,\"sqlType\":\"varchar\",\"dataIndex\":\"password\",\"remark\":\"密码\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":32},{\"valueType\":\"digit\",\"title\":\"状态\",\"order\":2,\"hideInForm\":true,\"sqlType\":\"char\",\"dataIndex\":\"status\",\"remark\":\"创建时间\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"unsign\":false},{\"valueType\":\"date\",\"title\":\"创建时间\",\"order\":1,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"create_time\",\"remark\":\"创建时间\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":true},{\"valueType\":\"date\",\"title\":\"修改时间\",\"order\":0,\"hideInTable\":false,\"hideInForm\":true,\"sqlType\":\"int\",\"dataIndex\":\"update_time\",\"remark\":\"修改时间\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":true}]', '{\"sqlTableName\":\"xin_user\",\"sqlTableRemark\":\"用户列表\"}', '{\"name\":\"User\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/common/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"src/pages\"}', '{\"headerTitle\":\"用户列表\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '会员列表表格', 1692884914, 1692881911);
-INSERT INTO `xin_online_table` VALUES (5, '测试页面', '[{\"valueType\":\"id\",\"dataIndex\":\"id\",\"title\":\"主键ID\",\"select\":\"=\",\"order\":99,\"hideInForm\":true,\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"decimal\":0,\"unsign\":true},{\"valueType\":\"text\",\"dataIndex\":\"title\",\"title\":\"测试标题\",\"select\":\"like\",\"order\":98,\"sqlType\":\"varchar\",\"remark\":\"文本框\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false},{\"valueType\":\"digit\",\"dataIndex\":\"number\",\"title\":\"测试数字\",\"select\":\"=\",\"order\":97,\"sqlType\":\"int\",\"remark\":\"数字\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false},{\"valueType\":\"date\",\"dataIndex\":\"date\",\"title\":\"测试日期\",\"select\":\"=\",\"order\":95,\"sqlType\":\"date\",\"remark\":\"日期\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"money\",\"dataIndex\":\"money\",\"title\":\"测试金额\",\"select\":\"=\",\"order\":90,\"sqlType\":\"double\",\"remark\":\"金额\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":2,\"unsign\":false},{\"valueType\":\"textarea\",\"dataIndex\":\"text\",\"title\":\"测试文本域\",\"select\":\"=\",\"order\":90,\"hideInSearch\":true,\"hideInTable\":true,\"sqlType\":\"text\",\"remark\":\"文本域\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"unsign\":false},{\"valueType\":\"select\",\"dataIndex\":\"sex\",\"title\":\"性别\",\"select\":\"=\",\"enum\":\"1:男\\n2:女\\n3:其他\",\"isDict\":false,\"order\":88,\"sqlType\":\"char\",\"remark\":\"性别\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false,\"valueEnum\":{}},{\"valueType\":\"checkbox\",\"dataIndex\":\"check\",\"title\":\"多选框\",\"select\":\"=\",\"enum\":\"1:啊啊啊\\n2:啦啦啦\\n3:哒哒哒\",\"isDict\":false,\"order\":86,\"sqlType\":\"varchar\",\"remark\":\"数据字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"unsign\":false,\"valueEnum\":{}},{\"valueType\":\"select\",\"dataIndex\":\"sex_dict\",\"title\":\"测试性别字典\",\"select\":\"=\",\"dict\":\"sex\",\"isDict\":true,\"order\":85,\"sqlType\":\"varchar\",\"remark\":\"测试性别字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"unsign\":false},{\"valueType\":\"rate\",\"dataIndex\":\"rate\",\"title\":\"评分\",\"order\":80,\"sqlType\":\"char\",\"remark\":\"评分\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false},{\"valueType\":\"radio\",\"dataIndex\":\"op\",\"title\":\"数据字典\",\"enum\":\"1:one\\n2:two\\n3:three\",\"isDict\":false,\"order\":74,\"sqlType\":\"varchar\",\"remark\":\"数据字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"valueEnum\":{}},{\"valueType\":\"switch\",\"dataIndex\":\"switch\",\"title\":\"开关\",\"select\":\"=\",\"order\":70,\"sqlType\":\"char\",\"remark\":\"开关\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false},{\"valueType\":\"dateTime\",\"dataIndex\":\"datetime\",\"title\":\"日期时间\",\"order\":50,\"sqlType\":\"datetime\",\"remark\":\"日期时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"date\",\"dataIndex\":\"create_time\",\"title\":\"创建时间\",\"select\":\"date\",\"order\":1,\"hideInForm\":true,\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false},{\"valueType\":\"date\",\"dataIndex\":\"update_time\",\"title\":\"修改时间\",\"select\":\"date\",\"order\":0,\"hideInForm\":true,\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false}]', '{\"sqlTableName\":\"xin_test_table\",\"sqlTableRemark\":\"CRUD 测试表格\"}', '{\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller/test\",\"modelPath\":\"app/admin/model/test\",\"validatePath\":\"app/admin/validate/test\",\"pagePath\":\"src/pages/Test\"}', '{\"headerTitle\":\"查询表格\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '测试页面', 1693229423, 1692960505);
-INSERT INTO `xin_online_table` VALUES (6, '广告轮播图', NULL, NULL, NULL, NULL, '广告轮播图表格', 1693229951, 1693229951);
+INSERT INTO `xin_online_table` VALUES (5, '测试页面', '[{\"dataIndex\":\"id\",\"title\":\"主键ID\",\"valueType\":\"id\",\"select\":\"=\",\"validation\":[\"verifyNumber\"],\"order\":99,\"hideInForm\":true,\"mock\":\"@increment\",\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"decimal\":0,\"unsign\":true,\"formItemProps\":{\"rules\":[{\"type\":\"number\",\"message\":\"输入必须为纯数字\"}]}},{\"dataIndex\":\"title\",\"title\":\"名字\",\"valueType\":\"text\",\"select\":\"like\",\"validation\":[\"verifyRequired\",\"verifyString\"],\"order\":98,\"mock\":\"@cname\",\"sqlType\":\"varchar\",\"remark\":\"文本框\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"},{\"type\":\"string\",\"message\":\"输入必须为字符串\"}]}},{\"dataIndex\":\"age\",\"title\":\"年龄\",\"valueType\":\"digit\",\"select\":\"=\",\"validation\":[\"verifyNumber\",\"verifyRequired\"],\"order\":97,\"mock\":\"@integer(1, 100)\",\"sqlType\":\"int\",\"remark\":\"数字\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"type\":\"number\",\"message\":\"输入必须为纯数字\"},{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"dataIndex\":\"barthday\",\"title\":\"生日\",\"valueType\":\"date\",\"select\":\"=\",\"order\":95,\"mock\":\"@date\",\"sqlType\":\"date\",\"remark\":\"日期\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"dataIndex\":\"money\",\"title\":\"余额\",\"valueType\":\"money\",\"select\":\"=\",\"validation\":[\"verifyNumber\"],\"order\":90,\"mock\":\"@float(60, 10000, 2, 2)\",\"sqlType\":\"double\",\"remark\":\"金额\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":2,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"type\":\"number\",\"message\":\"输入必须为纯数字\"}]}},{\"dataIndex\":\"text\",\"title\":\"签名\",\"valueType\":\"textarea\",\"select\":\"=\",\"order\":90,\"hideInSearch\":true,\"hideInTable\":true,\"mock\":\"@cparagraph\",\"sqlType\":\"text\",\"remark\":\"文本域\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"unsign\":false},{\"dataIndex\":\"sex\",\"title\":\"性别\",\"valueType\":\"select\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":88,\"isDict\":false,\"enum\":\"1:男\\n2:女\",\"hideInForm\":false,\"mock\":\"@integer(1,2)\",\"sqlType\":\"char\",\"remark\":\"性别\",\"defaultValue\":\"\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false,\"valueEnum\":{},\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"dataIndex\":\"check\",\"title\":\"爱好\",\"valueType\":\"checkbox\",\"select\":\"=\",\"validation\":[],\"order\":86,\"isDict\":false,\"enum\":\"1:足球\\n2:篮球\\n3:游泳\\n4:台球\\n5:乒乓球\",\"hideInSearch\":true,\"hideInTable\":true,\"sqlType\":\"varchar\",\"remark\":\"数据字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"unsign\":false,\"valueEnum\":{}},{\"dataIndex\":\"sex_dict\",\"title\":\"性别字典\",\"valueType\":\"select\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":85,\"isDict\":true,\"dict\":\"sex\",\"mock\":\"@integer(1, 2)\",\"sqlType\":\"varchar\",\"remark\":\"测试性别字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"dataIndex\":\"rate\",\"title\":\"评分\",\"valueType\":\"rate\",\"order\":80,\"mock\":\"@integer(1, 5)\",\"sqlType\":\"char\",\"remark\":\"评分\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false},{\"dataIndex\":\"op\",\"title\":\"学历\",\"valueType\":\"radio\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":74,\"isDict\":false,\"enum\":\"1:小学\\n2:初中\\n3:高中\\n4:本科\\n5:专科\\n6:博士\",\"mock\":\"@integer(1, 6)\",\"sqlType\":\"varchar\",\"remark\":\"数据字典\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"valueEnum\":{},\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"dataIndex\":\"switch\",\"title\":\"禁用账户\",\"valueType\":\"switch\",\"select\":\"=\",\"order\":70,\"mock\":\"@boolean\",\"sqlType\":\"char\",\"remark\":\"开关\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":false},{\"dataIndex\":\"create_time\",\"title\":\"创建时间\",\"valueType\":\"createTime\",\"select\":\"date\",\"order\":1,\"hideInForm\":true,\"mock\":\"@date\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false},{\"dataIndex\":\"update_time\",\"title\":\"更新时间\",\"valueType\":\"updateTime\",\"select\":\"date\",\"order\":0,\"hideInForm\":true,\"mock\":\"@date\",\"sqlType\":\"int\",\"remark\":\"更新时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false}]', '{\"sqlTableName\":\"xin_test_table\",\"sqlTableRemark\":\"CRUD 测试表格\"}', '{\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller/test\",\"modelPath\":\"app/admin/model/test\",\"validatePath\":\"app/admin/validate/test\",\"pagePath\":\"src/pages/Test\"}', '{\"headerTitle\":\"查询表格\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '测试页面', 1694420362, 1692960505);
+INSERT INTO `xin_online_table` VALUES (6, '测试Mock', NULL, NULL, NULL, NULL, '数据模拟测试', 1694415423, 1694415423);
+
+-- ----------------------------
+-- Table structure for xin_setting
+-- ----------------------------
+DROP TABLE IF EXISTS `xin_setting`;
+CREATE TABLE `xin_setting`  (
+  `key` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置项标示',
+  `describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设置项描述',
+  `values` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置内容（json格式）',
+  `store_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '商城ID',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  UNIQUE INDEX `unique_key`(`key`, `store_id`) USING BTREE,
+  INDEX `store_id`(`store_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商家设置记录表' ROW_FORMAT = COMPACT;
+
+-- ----------------------------
+-- Records of xin_setting
+-- ----------------------------
+INSERT INTO `xin_setting` VALUES ('app_setting', 'app设置', '{\"app\":{\"versions\":\"1.1.9\",\"code\":\"119\",\"message\":\"团福纪新商城改版上线啦！\",\"cancel_update\":0}}', 10001, 0, 1690798549);
 
 -- ----------------------------
 -- Table structure for xin_test_table
@@ -445,27 +472,25 @@ DROP TABLE IF EXISTS `xin_test_table`;
 CREATE TABLE `xin_test_table`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '文本框',
-  `number` int(10) NULL DEFAULT NULL COMMENT '数字',
-  `date` date NULL DEFAULT NULL COMMENT '日期',
-  `money` double NULL DEFAULT NULL COMMENT '金额',
+  `age` int(10) NULL DEFAULT NULL COMMENT '数字',
+  `barthday` date NULL DEFAULT NULL COMMENT '日期',
   `text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '文本域',
+  `money` double NULL DEFAULT NULL COMMENT '金额',
   `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '性别',
   `check` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '数据字典',
   `sex_dict` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '测试性别字典',
   `rate` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '评分',
   `op` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '数据字典',
   `switch` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '开关',
-  `datetime` datetime NULL DEFAULT NULL COMMENT '日期时间',
   `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(11) NULL DEFAULT NULL COMMENT '修改时间',
+  `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'CRUD 测试表格' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'CRUD 测试表格' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of xin_test_table
 -- ----------------------------
-INSERT INTO `xin_test_table` VALUES (1, '测试表格', 1, '2023-08-25', 1, '很长的文字', '1', '', '1', '3', '2', '1', '2023-08-25 20:03:05', 1692964986, 1693229067);
-INSERT INTO `xin_test_table` VALUES (2, '测试', 2, '2023-08-25', 1, '213123123', '2', '', '0', '5', '1', '1', '2023-08-25 20:03:45', 1692965028, 1693229072);
+INSERT INTO `xin_test_table` VALUES (1, '小红', 18, '2023-09-08', '很长很长的文本', 1, '1', '', '1', '3', '3', '1', 1694140847, 1694485096);
 
 -- ----------------------------
 -- Table structure for xin_token
@@ -484,8 +509,9 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('386cbd1e169f06cee4afe78303cf18347e09ce2e', 'admin', 1, 1693362564, 1693363164);
-INSERT INTO `xin_token` VALUES ('46b65774a2b8380ec0e3b219f6b97b1e97dc0f1a', 'admin-refresh', 1, 1693362564, 1695954564);
+INSERT INTO `xin_token` VALUES ('1eee222c537142b464df74dd183bb99656f77de8', 'admin', 1, 1694588042, 1697180042);
+INSERT INTO `xin_token` VALUES ('525704cacab352304174bb1c147bb08f018e80d7', 'admin', 1, 1694588041, 1697180041);
+INSERT INTO `xin_token` VALUES ('a761c5d6bf2b73a4d6421cfcb42067abd35d0010', 'admin-refresh', 1, 1694587384, 1697179384);
 
 -- ----------------------------
 -- Table structure for xin_user

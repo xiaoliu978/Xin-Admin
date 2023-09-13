@@ -1,6 +1,6 @@
 import React, {CSSProperties} from 'react';
 import {useDraggable} from '@dnd-kit/core';
-import {Tag, Collapse, CollapseProps, Space} from "antd";
+import {Tag, Collapse, CollapseProps} from "antd";
 import './index.less'
 
 const draggingTag: React.CSSProperties = {

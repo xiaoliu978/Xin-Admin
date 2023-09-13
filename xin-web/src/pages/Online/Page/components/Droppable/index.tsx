@@ -6,7 +6,6 @@ import { CSS } from '@dnd-kit/utilities';
 import {Form, Input} from "antd";
 import './index.less'
 import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
-import {Access} from "@@/exports";
 import XinTable from "@/components/XinTable";
 
 interface RowProps extends React.HTMLAttributes<HTMLTableRowElement> {

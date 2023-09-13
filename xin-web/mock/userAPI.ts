@@ -9,7 +9,7 @@ export default {
       errorCode: 0,
     });
   },
-  'GET /admin.php/online.test/list': (req: any, res: any) => {
+  'GET /admin.php/online.onlineTable/list': (req: any, res: any) => {
     // console.log(req.params.data)
     let data = JSON.parse(req.param('data'))
     let dataIndex = {}

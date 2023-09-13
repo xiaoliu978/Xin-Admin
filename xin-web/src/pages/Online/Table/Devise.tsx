@@ -3,16 +3,16 @@ import {Row, Col, Collapse, Form, Input, CollapseProps, Radio, Button, Space, me
 import XinTable from "@/components/XinTable";
 import React, {useEffect, useState} from "react";
 import './index.less'
-import ColumnsFrom from "@/pages/Online/OnlineTable/components/ColumnsFrom";
+import ColumnsFrom from "./components/ColumnsFrom";
 import XinDict from "@/components/XinDict";
 import {DeleteFilled, KeyOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
 import {crudApi, getData, saveData} from "@/services/online";
 import * as verify from "@/utils/format";
-import {listApi} from "@/services/table";
+import Mock from "mockjs";
 
 
-const api = '/online.test';
+const api = '/online.onlineTable';
 
 const Devise = () => {
 
@@ -374,7 +374,22 @@ const Devise = () => {
             {...tableConfig}
             tableApi={api}
             columns={columns}
-            params={{data: JSON.stringify(columns)}}
+            params={{data: columns}}
+            request={async (params) => {
+              let data = params.data
+              let dataIndex = {}
+              data.forEach((item: OnlineType.ColumnsConfig) => {
+                // @ts-ignore
+                dataIndex[item.dataIndex] = item.mock
+              })
+              return Mock.mock({
+                "data|10": [dataIndex],
+                current_page: 1,
+                last_page: 1,
+                per_page: 20,
+                total: 10,
+              });
+            }}
           />
         </Col>
       </Row>
