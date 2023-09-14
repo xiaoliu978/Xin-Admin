@@ -140,7 +140,24 @@ class Admin extends Controller
             $access[] =  $role->key;
         }
 
-        return $this->success('ok',compact('adminInfo','access'));
+        $group = (new AdminGroup)->with(['roles' => function($query){
+            $query->order('sort');
+        }])->where('id',$adminInfo['group_id'])->find();
+        $rules = $group->roles;
+        $menus = [];
+        foreach ($rules as $role) {
+            if($role->type == 0){
+                $menu = $this->getMenu($role);
+                foreach ($rules as $childRole){
+                    if($childRole->type == 1 && $childRole->pid == $role->id){
+                        $childMenu = $this->getMenu($childRole);
+                        $menu['children'][] = $childMenu;
+                    }
+                }
+                $menus[] =  $menu;
+            }
+        }
+        return $this->success('ok',compact('adminInfo','access','menus'));
     }
 
 
@@ -155,7 +172,7 @@ class Admin extends Controller
         !$role->path ?: $menu['path'] = $role->path;
         !$role->component ?: $menu['component'] = $role->component;
         !$role->key ?: $menu['key'] = $role->key;
-//        !$role->icon ?: $menu['icon'] = $role->icon;
+        !$role->icon ?: $menu['icon'] = $role->icon;
         return $menu;
     }
 

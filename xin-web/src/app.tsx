@@ -2,15 +2,15 @@
 import type {RunTimeLayoutConfig} from '@umijs/max';
 import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
-import {PageLoading, SettingDrawer} from '@ant-design/pro-components';
+import {MenuDataItem, PageLoading, SettingDrawer} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
 import './index.less';
 import React, {lazy} from "react";
-import logo from '@/assets/static/logo.png'
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, GetAdminMenu, Logout} from '@/services/admin';
+import {GetAdminInfo, Logout} from '@/services/admin';
 import {history,Navigate} from '@umijs/max';
 import {RuntimeConfig} from "@umijs/max";
+import fixMenuItemIcon from "@/utils/menuDataRender";
 
 
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -48,6 +48,7 @@ export async function getInitialState(): Promise<initialStateType> {
       data.isLogin = true;
       data.isAccess = true;
       data.currentUser = userInfo.userinfo;
+      data.menus = userInfo.menus;
       data.access = userInfo.access;
     }
     return data;
@@ -58,20 +59,13 @@ export async function getInitialState(): Promise<initialStateType> {
 
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
-    logo,
+    logo: 'https://xinadmin.cn/favicons.ico',
     title: 'Xin Admin',
     footerRender: () => <Footer/>,
     menu: {
-      params: {
-        userId: initialState?.menus,
-      },
-      request: async () => {
-        let res = await GetAdminMenu()
-        if(res.success){
-          return res.data.menus
-        }
-      },
+      request: async () => initialState!.menus,
     },
+    menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
@@ -147,7 +141,6 @@ const defaultRoutes = [
 
 export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({routes}) => {
   console.log('patchClientRoutes')
-  console.log(routes)
   routes.unshift({
     path: '/',
     element: <Navigate to="/home" replace />,

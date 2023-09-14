@@ -24,7 +24,6 @@ const iconStyles: CSSProperties = {
   cursor: 'pointer',
 };
 
-import logo from '@/assets/static/logo.png';
 
 const Login: React.FC =  () => {
 
@@ -58,7 +57,7 @@ const Login: React.FC =  () => {
     >
       <LoginFormPage
         backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
-        logo= { logo }
+        logo= { "https://xinadmin.cn/favicons.ico" }
         title="Xin Admin"
         subTitle="用技术改变世界"
         activityConfig={{

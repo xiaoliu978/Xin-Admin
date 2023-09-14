@@ -37,6 +37,7 @@ export default defineConfig({
    * 运行时配置
    */
   layout: defaultSettings,
+  esbuildMinifyIIFE: true,
   npmClient: 'pnpm',
   /**
    * 第三方统计，百度统计配置

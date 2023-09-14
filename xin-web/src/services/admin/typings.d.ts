@@ -16,6 +16,7 @@ declare namespace USER {
       name: string;
       path: string;
       component: string;
+      icon: string;
       children: any[];
       key: string;
     }[]
@@ -39,7 +40,7 @@ declare namespace USER {
     userinfo: UserInfo,
     access: string[]
     settings?: {[key: string] : any},
-    menus?: {[key: string] : any},
+    menus?: MenuType,
   }>
 
   type LoginResult = API.ResponseStructure<{
