@@ -5,6 +5,7 @@ import {useModel} from "@umijs/max";
 import {getRulePid} from "@/services/admin";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
+import IconsItem from "@/components/XinForm/IconsItem/Index"
 
 const api = '/adminRule';
 interface ResponseAdminList {
@@ -36,7 +37,7 @@ const Table: React.FC = () => {
 
   // 父ID选择框
   const formType = ({ type }: any): any[] => {
-    const pid = {
+    const pid: ProFormColumnsAndProColumns<ResponseAdminList> = {
         title: '父节点',
         dataIndex: 'pid',
         valueType: 'treeSelect',
@@ -49,7 +50,7 @@ const Table: React.FC = () => {
           ],
         },
     }
-    const rule = {
+    const rule: ProFormColumnsAndProColumns<ResponseAdminList> = {
       title: '权限标识',
       dataIndex: 'key',
       valueType: 'text',
@@ -59,19 +60,21 @@ const Table: React.FC = () => {
         ],
       },
     }
-    const path = {
+    const path: ProFormColumnsAndProColumns<ResponseAdminList> = {
       title: '路由地址',
       dataIndex: 'path',
       valueType: 'text',
       tooltip: '文件系统路径，如果组件为文件夹下的index.(ts|tsx) 请省略'
     }
-    // const icon = {
-    //   title: '图标',
-    //   dataIndex: 'icon',
-    //   valueType: 'text',
-    // }
+    const icon: ProFormColumnsAndProColumns<ResponseAdminList> = {
+      title: '图标',
+      dataIndex: 'icon',
+      valueType: 'text',
+      renderFormItem: (form,config,schema) => <IconsItem form={form} schema={schema} config={config}></IconsItem>
+
+    }
     if(type === '0'){
-      return [path]
+      return [path,icon]
     }else if(type === '1'){
       return [pid,path]
     }else if(type === '2'){
@@ -87,7 +90,6 @@ const Table: React.FC = () => {
       valueType: 'radio',
       request: async () => getDictionaryData('ruleType'),
       hideInTable: true,
-      initialValue: '0',
       formItemProps: {
         rules: [
           { required: true, message: '此项为必填项'},

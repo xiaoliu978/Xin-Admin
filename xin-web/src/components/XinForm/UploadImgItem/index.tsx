@@ -41,7 +41,7 @@ const UploadImgItem: React.FC<{config:any,form:any,schema:any}> = (props) => {
 
   return (
     <>
-      <Input placeholder="Basic usage" value={config.value} style={{display:'none'}}/>
+      <Input placeholder="Basic usage" {...config} style={{display:'none'}}/>
       <ImgCrop rotationSlider>
         <Upload
           maxCount={1}
