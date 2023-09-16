@@ -14,7 +14,7 @@ use think\response\Json;
 class Admin extends Controller
 {
 
-    protected string $authName = 'admin:list';
+    protected string $authName = 'admin.list';
 
     protected array $searchField = [
         'id'        => '=',

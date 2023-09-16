@@ -154,7 +154,7 @@ const Table: React.FC = () => {
         columns={columns}
         search={false}
         addBefore={()=> setref.toggle() }
-        accessName={'admin:rule'}
+        accessName={'admin.rule'}
       />
   )
 

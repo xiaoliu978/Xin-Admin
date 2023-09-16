@@ -41,27 +41,32 @@ class Auth
 
         $this->token = $token;
         if($key != ''){
+            // 获取用户 Token
+            $tokenData = (new Token)->get($this->token);
+            // 获取用户所在用户组
+            $admin = new AdminModel;
+            $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
+            // 获取用户所有权限
+            $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
+            $rules = [];
+            foreach ($group->roles as $rule){
+                $rules[] = strtolower($rule->key);
+            }
+            // $rules = array_column($group->roles->toArray(),'key');
+
             // 使用反射机制获取当前控制器的 AuthName
             $class = 'app\\'.app('http')->getName().'\\controller\\'.str_replace(".","\\",request()->controller());
             $reflection = new ReflectionClass($class);
             $properties = $reflection->getProperty('authName')->getDefaultValue();
 
             if($properties){
-                $authKey = $properties . ':' . $key;
+                $authKey = strtolower($properties . '.' . $key);
+            }else {
+                $authKey = strtolower(str_replace("\\",".",request()->controller()). '.' . $key);
+            }
 
-                $tokenData = (new Token)->get($this->token);
-                // 获取用户所在用户组
-                $admin = new AdminModel;
-                $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
-                // 获取用户所有权限
-                $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
-                $rules = [];
-                foreach ($group->roles as $role) {
-                    $rules[] =  $role->key;
-                }
-                if(!in_array($authKey,$rules)){
-                    $this->warn('暂无权限',[],200,'throw');
-                }
+            if(!in_array($authKey,$rules)){
+                $this->warn('暂无权限',[],200,'throw');
             }
         }
     }

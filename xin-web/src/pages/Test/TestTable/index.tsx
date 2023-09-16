@@ -157,14 +157,14 @@ const TestTable: React.FC = () => {
       dataIndex:'switch',
     },
     {
-      valueType:'createTime',
+      valueType:'date',
       title:'创建时间',
       order:1,
       hideInForm: true,
       dataIndex:'create_time',
     },
     {
-      valueType:'updateTime',
+      valueType:'date',
       title:'更新时间',
       hideInForm: true,
       dataIndex:'update_time',
@@ -180,7 +180,7 @@ const TestTable: React.FC = () => {
       rowSelectionShow={true}
       editShow={true}
       deleteShow={true}
-      accessName={'admin:rule'}
+      accessName={'admin.rule'}
     />
   )
 

@@ -77,7 +77,7 @@ const Table : React.FC = () => {
         headerTitle={'表格属性'}
         tableApi = {api}
         columns= {columns}
-        accessName={'admin:list'}
+        accessName={'admin.list'}
       />
   )
 

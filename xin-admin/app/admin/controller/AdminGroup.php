@@ -19,7 +19,7 @@ class AdminGroup extends Controller
         'setGroupRule' => 'POST'
     ];
 
-    protected string $authName = 'admin:group';
+    protected string $authName = 'admin.group';
 
     protected array $searchField = [
         'id'          => '=',

@@ -105,7 +105,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       render: (_, record) => (
         <>
           {editShow === false ? null :
-            <Access accessible={ accessName?access.buttonAccess(accessName+':edit'):true }>
+            <Access accessible={ accessName?access.buttonAccess(accessName+'.edit'):true }>
               <UpdateForm<TableData>
                 values={record}
                 columns={columns}
@@ -117,7 +117,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
             </Access>
           }
           {deleteShow === false ? null :
-            <Access accessible={ accessName?access.buttonAccess(accessName+':delete'):true }>
+            <Access accessible={ accessName?access.buttonAccess(accessName+'.delete'):true }>
               <Divider type="vertical" />
               <Popconfirm
                 title="Delete the task"
@@ -146,7 +146,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    */
   const defaultToolBarRender = () => [
     addShow !== false ? (
-      <Access accessible={ accessName?access.buttonAccess(accessName+':add'):true}>
+      <Access accessible={ accessName?access.buttonAccess(accessName+'.add'):true}>
         <CreateForm<TableData>
           columns = { columns }
           api={tableApi+'/add'}
@@ -180,16 +180,18 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           </div>
         }
       >
-        <Button
-          danger
-          onClick={async () => {
-            await handleRemove(selectedRowsState);
-            setSelectedRows([]);
-            actionRef.current?.reloadAndRest?.();
-          }}
-        >
-          批量删除
-        </Button>
+        <Access accessible={ accessName?access.buttonAccess(accessName+'.delete'):true }>
+          <Button
+            danger
+            onClick={async () => {
+              await handleRemove(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            批量删除
+          </Button>
+        </Access>
       </FooterToolbar>
     )
   }

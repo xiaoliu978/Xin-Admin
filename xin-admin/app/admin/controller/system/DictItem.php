@@ -13,7 +13,7 @@ use app\admin\model\system\Dict as DictModel;
 class DictItem extends Controller
 {
 
-    protected string $authName = 'system:dict:item';
+    protected string $authName = 'system.dict.item';
 
     protected array $searchField = [
         'name'      => 'like'

@@ -115,11 +115,11 @@ const Table : React.FC = () => {
         tableApi = {api}
         columns= {columns}
         search={false}
-        accessName={'admin:group'}
+        accessName={'admin.group'}
         addBefore={()=> setRef.toggle()}
         operateRender = { (data) => {
           return (
-            <Access accessible={access.buttonAccess('admin:group:rule')}>
+            <Access accessible={access.buttonAccess('admin.group.rule')}>
               <a onClick={() => {
                 setRecord(data)
                 setOpen(true)

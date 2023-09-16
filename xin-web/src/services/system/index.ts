@@ -13,8 +13,25 @@ export const gitDict = () => {
   })
 }
 
-export const gitSetting = () => {
-  return request<ResponseStructure>('/system.setting/list', {
+export const getSettingGroup = () => {
+  return request<ResponseStructure>('/system.setting/querySettingGroup', {
     method: 'get',
+  })
+}
+
+export const querySettingPid = () => {
+  return request<ResponseStructure>('/system.setting/querySettingPid', {
+    method: 'get',
+  })
+}
+
+export const addGroup = (data: {
+  key: string,
+  title: string,
+  pid?: number
+}) => {
+  return request<ResponseStructure>('/system.setting/addGroup', {
+    method: 'post',
+    data
   })
 }

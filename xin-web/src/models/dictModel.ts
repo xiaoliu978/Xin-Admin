@@ -1,8 +1,6 @@
 // 全局共享数据示例
-import {useMemo, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {gitDict} from "@/services/system";
-import {useBoolean} from "ahooks";
-import {history} from '@umijs/max';
 
 interface DictItem {
   label:string
@@ -21,7 +19,7 @@ interface DictDate {
 const useUser = () => {
 
   const [dictionaryCache , setDictionaryCache ] = useState<Map<string,DictItem[]>>(new Map())
-  const [cache,refreshCache ] = useBoolean();
+
   /**
    * 格式化字典
    * @param data
@@ -46,22 +44,31 @@ const useUser = () => {
     return dictionaryCache.has(key)?dictionaryCache.get(key)!:[]
   }
 
-  useMemo (()=>{
+  const refreshDict = () => {
+    gitDict().then(res=>{
+      let { success, data } = res
+      if(success){
+        localStorage.setItem('dictMap',JSON.stringify(data))
+        setDictionaryCache(setDictJson(data))
+      }
+    })
+  }
+
+  useEffect(()=>{
     let token = localStorage.getItem('token');
     if (token) {
-      gitDict().then(res=>{
-        let { success, data } = res
-        if(success){
-          localStorage.setItem('dictMap',JSON.stringify(data))
-          setDictionaryCache(setDictJson(data))
-        }
-      })
+      if(localStorage.getItem('dictMap')){
+        console.log('-------获取字典缓存--------')
+        setDictionaryCache(setDictJson(JSON.parse(localStorage.getItem('dictMap')!)))
+      }else {
+        refreshDict()
+      }
     }
-  },[cache])
+  },[])
 
   return {
-    getDictionaryData,
-    refreshCache
+    refreshDict,
+    getDictionaryData
   };
 };
 

@@ -94,7 +94,7 @@ const Content: React.FC = () => {
       rowSelectionShow={false}
       editShow={true}
       deleteShow={false}
-      accessName={'admin:rule'}
+      accessName={'admin.rule'}
     />
   )
 

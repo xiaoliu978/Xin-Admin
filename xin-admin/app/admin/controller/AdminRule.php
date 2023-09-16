@@ -27,7 +27,7 @@ class AdminRule extends Controller
         'update_time' => 'date'
     ];
 
-    protected string $authName = 'admin:rule';
+    protected string $authName = 'admin.rule';
 
     public function initialize(): void
     {

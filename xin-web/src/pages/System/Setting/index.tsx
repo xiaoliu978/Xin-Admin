@@ -1,266 +1,118 @@
-import React, {useEffect, useState} from "react";
-import {Button, Divider, Form, Input, Space, Tree,} from "antd";
-import {gitSetting} from "@/services/system";
-import {ModalForm, ProCard, ProFormText, ProForm, ProFormSelect} from "@ant-design/pro-components";
+import React, {useEffect, useMemo, useState} from "react";
+import {Form, message, Radio, Space, Tree, TreeSelect,} from "antd";
+import {addGroup, getSettingGroup, querySettingPid} from "@/services/system";
+import {ModalForm, ProCard, ProFormText} from "@ant-design/pro-components";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons";
-import type {TreeProps,TabsProps} from "antd";
+import type {TreeProps} from "antd";
 import {DataNode} from "antd/es/tree";
+import {Access,useAccess} from "@umijs/max";
 
-
-const onFinish = () => {
-
-}
-
-const buildTabs = (data: any[]): TabsProps['items'] => {
-  let setting: TabsProps['items'] = [];
-  console.log(data)
-  data.forEach((setTabs)=>{
-    let setData = JSON.parse(setTabs.values)
-    let setGroup = Object.keys(setData)
-    let children: React.ReactNode = (
-      <>
-        {setGroup.map((item)=>{
-          console.log(setData[item])
-          return (
-            <>
-              <Divider orientation="left">{item}</Divider>
-              <Form
-                name="basic"
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 16 }}
-                style={{ maxWidth: 600 }}
-                onFinish={onFinish}
-                autoComplete="off"
-              >
-                {Object.keys(setData[item]).map((setItem,key) => {
-                  console.log(setItem)
-                  return <Form.Item
-                    label={setItem}
-                    name={setItem}
-                    initialValue={setData[item][setItem]}
-                    key={key}
-                    rules={[{ required: true, message: 'Please input your username!' }]}
-                  >
-                    <Input />
-                  </Form.Item>
-                })}
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                </Form.Item>
-              </Form>
-
-            </>
-          )
-        })}
-      </>
-    )
-
-
-    setting!.push({
-      label: setTabs.describe,
-      key: setTabs.key,
-      children
-    })
-  })
-
-
-  return setting
-
-  // let setObject = JSON.parse(data.values)
-  // let setGroup = Object.keys(setObject)
-  // let children: React.ReactNode = (
-  //   <>
-  //     {setGroup.map((item) => {
-  //       let header =  <Divider orientation="left">{}</Divider>
-  //
-  //       return <></>
-  //     })
-  //     }
-  //   </>
-  // )
-  //
-  //
-  // console.log(set)
-  // setting!.push({
-  //   label: item.describe,
-  //   key: item.key,
-  //   children: children
-  // })
-}
-
-const treeData: DataNode[] = [
-  {
-    title: 'parent 1',
-    key: '0-0',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-0-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-1',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-2',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-1',
-        key: '0-0-1',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-1-0',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-2',
-        key: '0-0-2',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-2-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-2-1',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: 'parent 1',
-    key: '0-0',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '0-0-0',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-0-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-1',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-0-2',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-1',
-        key: '0-0-1',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-1-0',
-          },
-        ],
-      },
-      {
-        title: 'parent 1-2',
-        key: '0-0-2',
-        children: [
-          {
-            title: 'leaf',
-            key: '0-0-2-0',
-          },
-          {
-            title: 'leaf',
-            key: '0-0-2-1',
-          },
-        ],
-      },
-    ],
-  },
-];
 
 export default () => {
 
-  const [setting,setSetting] = useState<TabsProps['items']>([]);
+  const [form] = Form.useForm<{key: string, title: string, pid?: number}>();
+  const [settingGroup, setSettingGroup] = useState<DataNode[]>([])
+  const [settingPid, setSettingPid] = useState<DataNode[]>([])
+  const [title,setTitle] = useState('网站设置')
+
   useEffect( ()=> {
-    gitSetting().then((res)=>{
-      if(res.success && res.data instanceof Array){
-        setSetting(buildTabs(res.data))
+    getSettingGroup().then((res)=>{
+      if(res.success){
+        setSettingGroup(res.data)
+      }
+    })
+    querySettingPid().then(res=>{
+      if(res.success){
+        setSettingPid(res.data)
       }
     })
   },[])
 
   const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+    if(typeof info.node.title === 'string'){
+      setTitle(info.node.title)
+    }
   };
 
-  const [form] = Form.useForm<{ name: string; company: string }>();
+  const access = useAccess();
 
-  const groupModel = <ModalForm<{
-    name: string;
-    company: string;
-  }>
-    title="新建分组"
-    trigger={<PlusOutlined />}
-    form={form}
-    autoFocusFirstInput
-    modalProps={{
-      destroyOnClose: true,
-      onCancel: () => console.log('run'),
-      width: 400,
-    }}
-    submitTimeout={2000}
-    onFinish={async (values) => {
-      console.log(values.name);
-      return true;
-    }}
-  >
-    <ProFormText
-      name="title"
-      label="分组标题"
-      tooltip="最长为 24 位"
-      rules={[
-
-      ]}
-      placeholder="请输入标题"
-    />
-    <ProFormText
-      name="key"
-      label="分组 KEY"
-      placeholder="请输入KEY"
-    />
-    <ProFormSelect
-      name="pid"
-      label="上级ID"
-      placeholder="请输入KEY"
-    />
-  </ModalForm>
+  const addSettingGroup = (
+    <ModalForm<{ key: string, title: string, pid?: number }>
+      title="新建分组"
+      trigger={<PlusOutlined />}
+      form={form}
+      autoFocusFirstInput
+      modalProps={{
+        destroyOnClose: true,
+        onCancel: () => console.log('run'),
+        width: 400,
+      }}
+      submitTimeout={2000}
+      onFinish={async (values) => {
+        let res = await addGroup(values)
+        if(res.success){
+          message.success('新建成功')
+          return true
+        }
+        return false;
+      }}
+    >
+      <Form.Item name="type" label="类型" rules={[{required: true, message: '此项为必填项'},]}>
+        <Radio.Group>
+          <Radio value={1}>设置菜单</Radio>
+          <Radio value={2}>设置组</Radio>
+        </Radio.Group>
+      </Form.Item>
+      <ProFormText
+        name="title"
+        label="分组标题"
+        tooltip="最长为 24 位"
+        rules={[
+          {required: true, message: '此项为必填项'},
+        ]}
+        placeholder="请输入标题"
+      />
+      <ProFormText
+        name="key"
+        label="分组 KEY"
+        placeholder="请输入KEY"
+        rules={[
+          {required: true, message: '此项为必填项'},
+        ]}
+      />
+      <Form.Item name="pid" label="上级" tooltip={'不填为最顶级'}>
+        <TreeSelect
+          treeData={settingPid}
+          placeholder="请输入KEY"
+          style={{ width: '100%' }}
+          allowClear
+        />
+      </Form.Item>
+    </ModalForm>
+  )
 
   return (
     <>
       <ProCard split="vertical">
         <ProCard title={(
-          <Space style={{lineHeight: 2}}><div style={{fontSize:20}}>配置分组</div>{groupModel}</Space>
+          <Space style={{lineHeight: 2}}>
+            <div>配置分组</div>
+            <Access accessible={access.buttonAccess('admin.group.rule')}>
+              {addSettingGroup}
+            </Access>
+          </Space>
         )} colSpan="20%">
           <Tree
             showLine
             switcherIcon={<DownOutlined />}
-            defaultExpandedKeys={['0-0-0']}
+            expandedKeys={['system']}
+            defaultSelectedKeys={['web']}
             onSelect={onSelect}
-            treeData={treeData}
+            treeData={settingGroup}
+            blockNode
           />
         </ProCard>
-        <ProCard title="配置列表" headerBordered>
+        <ProCard title={title} headerBordered>
           <div style={{ height: 360 }}>右侧内容</div>
         </ProCard>
       </ProCard>
