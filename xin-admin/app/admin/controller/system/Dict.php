@@ -4,11 +4,11 @@ namespace app\admin\controller\system;
 
 use app\common\controller\AdminController as Controller;
 use app\admin\model\system\Dict as DictModel;
-use app\admin\validate\system\Dict as DictVal;
+use app\admin\validate\system\Setting as DictVal;
 
 class Dict extends Controller
 {
-    protected string $authName = 'system:dict';
+    protected string $authName = 'system.dict';
 
     protected array $searchField = [
         'id'            => '=',

@@ -1,6 +1,8 @@
 import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
 import XinTable from "@/components/XinTable";
 import {Link} from '@umijs/max';
+import {Access,useAccess} from "@umijs/max";
+
 interface Data {
   id: number
   table_name: string
@@ -11,6 +13,8 @@ interface Data {
 const api = '/online.online_table';
 
 const OnlineTable = () => {
+  const access = useAccess();
+
   const columns: ProFormColumnsAndProColumns<Data>[] = [
     {
       title: 'ID',
@@ -48,7 +52,9 @@ const OnlineTable = () => {
         columns={columns}
         operateRender = { (record: Data) => {
           return (
-            <Link to={'/online/table/devise/'+record.id} target="_blank">设计页面</Link>
+            <Access accessible={access.buttonAccess('online.table.devise')}>
+              <Link to={'/online/table/devise/'+record.id} target="_blank">设计页面</Link>
+            </Access>
           )
         }}
       />

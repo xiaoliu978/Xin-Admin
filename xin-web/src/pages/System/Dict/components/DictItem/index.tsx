@@ -3,6 +3,7 @@ import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import {addApi, listApi} from "@/services/table";
 import {ProTableProps} from "@ant-design/pro-components";
+import {useModel} from '@umijs/max';
 
 const api = '/system.dictItem';
 
@@ -69,13 +70,14 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
 ];
 const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: any}}> = (props) => {
   const { open, onClose, dictData } = props;
-
+  const {refreshDict} = useModel('dictModel')
 
   const handleAdd = async (formData: Data) => {
     const hide = message.loading('正在添加');
     return addApi(api+'/add', Object.assign({dict_id:dictData.id},formData)).then(res=>{
       if (res.success) {
         message.success('添加成功');
+        refreshDict();
         return true
       }
       return false
@@ -112,7 +114,7 @@ const App: React.FC<{open : boolean;onClose: ()=>void; dictData: {[key:string]: 
           columns={columns}
           handleAdd={handleAdd}
           rowSelectionShow = {false}
-          accessName={'system:dict:item'}
+          accessName={'system.dict.item'}
           request = {request}
         />
       </Drawer>

@@ -14,7 +14,7 @@ use think\response\Json;
 class Admin extends Controller
 {
 
-    protected string $authName = 'admin:list';
+    protected string $authName = 'admin.list';
 
     protected array $searchField = [
         'id'        => '=',
@@ -157,7 +157,10 @@ class Admin extends Controller
                 $menus[] =  $menu;
             }
         }
-        return $this->success('ok',compact('adminInfo','access','menus'));
+
+        $web_setting = get_setting('web');
+
+        return $this->success('ok',compact('adminInfo','access','menus','web_setting'));
     }
 
 

@@ -3,10 +3,14 @@
 namespace app\admin\controller\online;
 
 use app\common\attribute\Auth;
+use app\common\attribute\Method;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\online\OnlineTable as OnlineTableModel;
 use app\admin\validate\online\OnlineTable as OnlineTableVal;
 use app\common\library\Crud;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\facade\Db;
 use think\facade\Validate;
 use think\facade\View;
@@ -22,6 +26,8 @@ class OnlineTable extends Controller
         'update_time'   => 'date'
     ];
 
+    protected string $authName = 'online.table';
+
     public function initialize(): void
     {
         parent::initialize();
@@ -29,6 +35,14 @@ class OnlineTable extends Controller
         $this->validate = new OnlineTableVal();
     }
 
+    /**
+     * 保存更改
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    #[Auth('saveData'),Method('POST')]
     public function saveData(): Json
     {
         $data = request()->post();
@@ -53,9 +67,16 @@ class OnlineTable extends Controller
             return $this->success('保存成功',$data);
         }
         return $this->error('保存失败');
-
     }
 
+    /**
+     * 获取 CRUD 数据
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    #[Auth('getData'),Method('GET')]
     public function getData(): Json
     {
         $id = request()->param('id');
@@ -70,6 +91,12 @@ class OnlineTable extends Controller
         return $this->success('ok',compact('data'));
 
     }
+
+    /**
+     * CRUD
+     * @return Json
+     */
+    #[Auth('crud'),Method('POST')]
     public function crud(): Json
     {
         $data = request()->post();

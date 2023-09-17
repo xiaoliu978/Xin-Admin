@@ -84,7 +84,7 @@ const Table: React.FC = () => {
         columns={columns}
         operateRender = { (record: Data) => {
           return (
-            <Access accessible={access.buttonAccess('system:dict:item:list')}>
+            <Access accessible={access.buttonAccess('system.dict.item.list')}>
               <a onClick={() => {
                 setRecord(record)
                 setOpen(true)
@@ -92,7 +92,7 @@ const Table: React.FC = () => {
             </Access>
           )
         }}
-        accessName={'system:dict'}
+        accessName={'system.dict'}
       />
     </>
 
