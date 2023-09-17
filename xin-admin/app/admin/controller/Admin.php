@@ -157,7 +157,10 @@ class Admin extends Controller
                 $menus[] =  $menu;
             }
         }
-        return $this->success('ok',compact('adminInfo','access','menus'));
+
+        $web_setting = get_setting('web');
+
+        return $this->success('ok',compact('adminInfo','access','menus','web_setting'));
     }
 
 

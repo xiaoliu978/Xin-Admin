@@ -156,7 +156,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
         />
       </Access>
     ) : <></>,
-    allKeys.length > dataSource.length ? (
+    allKeys.length && allKeys.length > dataSource.length ? (
       <>
         <Button onClick={() => setExpandedRowKeys(allKeys)}>
           展开全部

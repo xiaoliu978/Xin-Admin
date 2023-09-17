@@ -11,11 +11,17 @@ class Setting extends Validate
         'pid'   =>  'max:10|number',
         'title' =>  'require|max:10',
         'key'   =>  'require|max:10',
-        'type'  =>  'require|max:1|number'
+        'type'  =>  'require',
+        'describe'=>'require',
+        'values' => 'require',
+        'group_id'=> 'require',
     ];
 
     protected $scene = [
         'addGroup'    =>  ['pid','title','key','type'],
         'editGroup'      =>  ['id','pid','title','key','type'],
+        'add'          => ['key','describe','values','group_id'],
+        'list'      => ['group_id'],
+        'edit'  => ['id','key','describe','values']
     ];
 }

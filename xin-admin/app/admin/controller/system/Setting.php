@@ -16,29 +16,16 @@ use app\admin\validate\system\Setting as SettingVal;
 
 class Setting extends AdminController
 {
+
+    protected array $searchField = [
+        'group_id' => '='
+    ];
+
     public function initialize(): void
     {
         parent::initialize();
         $this->model = new SettingModel();
         $this->validate = new SettingVal();
-    }
-
-    #[Auth('list'),Method('GET')]
-    public function list(): Json
-    {
-        $params = $this->request->param();
-
-
-        $setting = $this->model->select()->toArray();
-        $intType = 1;
-        $floatType = 1.33;
-        $stringType = '这是一串字符串';
-        $arrayType = [
-          'key' => '值'
-        ];
-        $array = array('a',1,231);
-        $booleanType = false;
-        return $this->success('ok',$setting);
     }
 
 
@@ -93,7 +80,6 @@ class Setting extends AdminController
             ->where('pid',$node['id'])
             ->select()
             ->toArray();
-        $node['selectable'] = false;
         if(!count($childNode)){
             return;
         }
@@ -148,7 +134,5 @@ class Setting extends AdminController
         }
         $node['children'] = $childNode;
     }
-
-
 
 }
