@@ -11,7 +11,7 @@
  Target Server Version : 50740 (5.7.40)
  File Encoding         : 65001
 
- Date: 16/09/2023 15:00:17
+ Date: 18/09/2023 16:54:50
 */
 
 SET NAMES utf8mb4;
@@ -187,6 +187,10 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 57);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 58);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 59);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 60);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 61);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 62);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 63);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 64);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -206,7 +210,7 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 65 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
@@ -268,6 +272,10 @@ INSERT INTO `xin_admin_rule` VALUES (57, 44, '2', 3, '表格设计', NULL, NULL,
 INSERT INTO `xin_admin_rule` VALUES (58, 44, '2', 4, 'CRUD 保存', NULL, NULL, 'online.table.saveData', 'CRUD 保存', 1694845713, 1694845713);
 INSERT INTO `xin_admin_rule` VALUES (59, 44, '2', 5, '获取 CRUD 数据', NULL, NULL, 'online.table.getData', '获取 CRUD 数据', 1694845763, 1694845763);
 INSERT INTO `xin_admin_rule` VALUES (60, 44, '2', 6, 'CRUD 保存并生成', NULL, NULL, 'online.table.crud', 'CRUD 保存并生成', 1694845813, 1694845813);
+INSERT INTO `xin_admin_rule` VALUES (61, 50, '2', 3, '获取设置列表', NULL, NULL, 'system.setting.list', '获取设置列表', 1694916158, 1694916121);
+INSERT INTO `xin_admin_rule` VALUES (62, 50, '2', 4, '新增设置', NULL, NULL, 'system.setting.add', '新增设置', 1694916144, 1694916144);
+INSERT INTO `xin_admin_rule` VALUES (63, 50, '2', 5, '编辑设置', NULL, NULL, 'system.setting.edit', '编辑设置', 1694916193, 1694916193);
+INSERT INTO `xin_admin_rule` VALUES (64, 50, '2', 6, '删除设置', NULL, NULL, 'system.setting.delete', '删除设置', 1694916219, 1694916219);
 
 -- ----------------------------
 -- Table structure for xin_content
@@ -474,19 +482,24 @@ DROP TABLE IF EXISTS `xin_setting`;
 CREATE TABLE `xin_setting`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '设置ID',
   `key` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置项标示',
-  `describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '设置项描述',
+  `describe` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设置项描述',
   `values` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设置值',
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '设置类型',
   `group_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '分组ID',
   `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
   `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_key`(`key`, `group_id`) USING BTREE,
   INDEX `store_id`(`group_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商家设置记录表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商家设置记录表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of xin_setting
 -- ----------------------------
+INSERT INTO `xin_setting` VALUES (1, 'title', '网站标题', 'XinAdmin', 'text', 3, 1694919475, 1694923523);
+INSERT INTO `xin_setting` VALUES (2, 'seaver', 'SMTP 服务器', 'smtp.qq.com', 'text', 2, 1694919969, 1694919969);
+INSERT INTO `xin_setting` VALUES (3, 'port', 'SMTP 端口', '465', 'text', 2, 1694920011, 1694920011);
+INSERT INTO `xin_setting` VALUES (4, 'logo', '网站 LOGO', 'https://xinadmin.cn/f.icon', 'text', 3, 1694922259, 1694922259);
 
 -- ----------------------------
 -- Table structure for xin_setting_group
@@ -500,7 +513,8 @@ CREATE TABLE `xin_setting_group`  (
   `type` enum('1','2') CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '1' COMMENT '分组类型1：设置菜单 2：设置组 ',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `key`(`key`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -555,8 +569,8 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('84be54024b8707186a6a3b3d13962293214ffe3b', 'admin', 1, 1694681434, 1697273434);
-INSERT INTO `xin_token` VALUES ('fb98e85df79b36c96936ac4456e98195c4da640d', 'admin-refresh', 1, 1694680384, 1697272384);
+INSERT INTO `xin_token` VALUES ('7452e55cc92cda5f56c3d491785ee9acd94d3751', 'admin', 1, 1695021349, 1697613349);
+INSERT INTO `xin_token` VALUES ('a0d324e4d4fed2f1251ce4b390506e818cbb4aae', 'admin-refresh', 1, 1694930505, 1697522505);
 
 -- ----------------------------
 -- Table structure for xin_user
