@@ -1,12 +1,12 @@
 <?php
 namespace app\admin\model\test;
 
-use think\Model;
+use app\common\model\BaseModel;
 
 /**
  * Model
  */
-class TestTable extends Model
+class TestTable extends BaseModel
 {
 
 

@@ -2,9 +2,9 @@
 
 namespace app\admin\model;
 
-use think\model\Pivot;
+use app\common\model\BaseModel;
 
-class AdminGroupRule extends Pivot
+class AdminGroupRule extends BaseModel
 {
 
 }
