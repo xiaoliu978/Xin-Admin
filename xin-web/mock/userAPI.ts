@@ -2,13 +2,12 @@ import Mock from 'mockjs';
 import {OnlineType} from "@/pages/Online/typings";
 
 export default {
-  'GET /api/v1/queryUserList': (req: any, res: any) => {
-    res.json({
-      success: true,
-      data: {},
-      errorCode: 0,
-    });
-  },
+  /**
+   * crud 数据模拟
+   * @param req
+   * @param res
+   * @constructor
+   */
   'GET /admin.php/online.onlineTable/list': (req: any, res: any) => {
     // console.log(req.params.data)
     let data = JSON.parse(req.param('data'))

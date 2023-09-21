@@ -26,7 +26,7 @@ declare namespace API {
         status?: number
     }
 
-    type AdminData = ListResponse<ResponseAdminList>
+    type TableData<T> = ResponseStructure<ListResponse<T>>
     
 }
 

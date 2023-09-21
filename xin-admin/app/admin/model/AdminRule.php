@@ -2,9 +2,9 @@
 
 namespace app\admin\model;
 
-use think\Model;
+use app\common\model\BaseModel;
 
-class AdminRule extends Model
+class AdminRule extends BaseModel
 {
 
 }

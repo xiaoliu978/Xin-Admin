@@ -2,8 +2,8 @@
 
 namespace app\admin\model;
 
-use think\model\Pivot;
 
+use think\model\Pivot;
 class AdminGroupRule extends Pivot
 {
 

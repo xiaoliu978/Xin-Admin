@@ -7,10 +7,12 @@ import Footer from '@/components/Footer';
 import './index.less';
 import React, {lazy} from "react";
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, Logout} from '@/services/admin';
+import {GetAdminInfo, Logout, GetWebSet} from '@/services/admin';
 import {history,Navigate} from '@umijs/max';
 import {RuntimeConfig} from "@umijs/max";
 import fixMenuItemIcon from "@/utils/menuDataRender";
+import settingDrawer from "@/components/SettingDrawer";
+import RightRender from "@/components/Layout/RightRender";
 
 
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
@@ -20,9 +22,11 @@ export interface initialStateType {
   isAccess: boolean;
   loading?: boolean;
   currentUser?: USER.UserInfo;
+  drawerShow?: boolean;
   access?: string[];
   fetchUserInfo?:  () => Promise<any>;
   menus?: {[key: string] : any};
+  webSetting: { [key: string] : any }
 }
 
 
@@ -33,6 +37,10 @@ export async function getInitialState(): Promise<initialStateType> {
     const msg = await GetAdminInfo();
     return msg.data;
   };
+  const getWebSetting = async () => {
+    const msg = await GetWebSet();
+    return msg.data.webSetting;
+  }
   // 如果不是登录页面，执行
   const { location } = history;
   const data: initialStateType = {
@@ -40,14 +48,16 @@ export async function getInitialState(): Promise<initialStateType> {
     fetchUserInfo,
     isLogin: false,
     isAccess: false,
+    drawerShow: false,
     settings: defaultSettings as Partial<LayoutSettings>,
+    webSetting: await getWebSetting()
   }
   try {
     if (location.pathname !== '/login') {
       const userInfo = await fetchUserInfo();
       data.isLogin = true;
       data.isAccess = true;
-      data.currentUser = userInfo.userinfo;
+      data.currentUser = userInfo.adminInfo;
       data.menus = userInfo.menus;
       data.access = userInfo.access;
     }
@@ -59,8 +69,8 @@ export async function getInitialState(): Promise<initialStateType> {
 
 export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
   return {
-    logo: 'https://xinadmin.cn/favicons.ico',
-    title: 'Xin Admin',
+    logo: initialState!.webSetting.logo,
+    title: initialState!.webSetting.title,
     footerRender: () => <Footer/>,
     menu: {
       request: async () => initialState!.menus,
@@ -77,32 +87,29 @@ export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => 
       //   history.push(location.pathname);
       // }
     },
-    logout: async () => {
-      const res = await Logout();
-      if (res.success) {
-        localStorage.removeItem('token')
-        localStorage.removeItem('refresh_token')
-        localStorage.removeItem('userinfo')
-        history.push('/login')
-      }
+
+    rightRender: (initialState) => {
+      return <RightRender initialState={initialState}></RightRender>
     },
-    avatarProps: undefined,
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
       return (
         <>
           {children}
-          <SettingDrawer
-            disableUrlParams
-            enableDarkTheme
-            settings={initialState?.settings}
-            onSettingChange={(settings) => {
-              setInitialState((preInitialState: any) => ({
-                ...preInitialState,
-                settings,
-              }));
-            }}
-          />
+          <div style={{display:'none'}}>
+            <SettingDrawer
+              collapse={initialState?.drawerShow}
+              disableUrlParams
+              enableDarkTheme
+              settings={initialState?.settings}
+              onSettingChange={(settings) => {
+                setInitialState((preInitialState: any) => ({
+                  ...preInitialState,
+                  settings,
+                }));
+              }}
+            />
+          </div>
         </>
       );
     },

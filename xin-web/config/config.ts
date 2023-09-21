@@ -22,6 +22,9 @@ export default defineConfig({
    */
   model: {},
   dva: false,
+  /**
+   * 约定式路由配置
+   */
   conventionRoutes: {
     exclude: [/\/components\//, /\/models\//,/\/noLayoutPage\//],
   },
@@ -48,13 +51,12 @@ export default defineConfig({
   publicPath: '/assets/',
   hash: true,
   favicons: [
-    '/favicon.ico'
+    'https://file.xinadmin.cn/file/favicons.ico'
   ],
   metas: [
     { name: 'keywords', content: 'Xin Admin,Umi,Umi js,中后台管理框架,React,ThinkPHP,xinadmin,admin,react admin,think admin' },
     { name: 'description', content: 'Xin Admin是一款基于 Ant Design Pro components 构建一套完善的 Xin Table， 只需一个 Columns 就可以实现增删改查等表单、表格、查询等功能，以及组件的高度自定义' },
   ],
-
 
   /**
    *  代理设置
@@ -64,11 +66,6 @@ export default defineConfig({
       target: 'http://127.0.0.1:8000/admin.php',
       changeOrigin: true,
       pathRewrite: { '^/admin.php': '' },
-    },
-    '/storage': {
-      target: 'http://127.0.0.1:8000/storage',
-      changeOrigin: true,
-      pathRewrite: { '^/storage': '' },
     },
   },
 });

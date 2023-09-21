@@ -25,6 +25,16 @@ export async function GetAdminInfo() {
 }
 
 /**
+ * 获取管理员用户信息
+ * @constructor
+ */
+export async function GetWebSet() {
+  return request<ResponseStructure<{[key: string]: any}>>('/index', {
+    method: 'get'
+  });
+}
+
+/**
  * 获取菜单路由
  * @constructor
  */
@@ -52,7 +62,7 @@ export async function RefreshToken() {
  * @constructor
  */
 export async function Logout() {
-  return request<ResponseStructure>('/admin/logout', {
+  return request<ResponseStructure<any>>('/admin/logout', {
     method: 'post'
   });
 }
@@ -61,7 +71,7 @@ export async function Logout() {
  * 获取权限父节点ID
  */
 export async function getRulePid() {
-  return request<ResponseStructure>('/adminRule/getRulePid', {
+  return request<ResponseStructure<any>>('/adminRule/getRulePid', {
     method: 'get'
   });
 }
@@ -71,7 +81,7 @@ export async function getRulePid() {
  * @param params
  */
 export async function getRuleByGroup(params: {group_id:number}) {
-  return request<ResponseStructure>('/adminRule/getRuleByGroup', {
+  return request<ResponseStructure<any>>('/adminRule/getRuleByGroup', {
     method: 'get',
     params
   });
@@ -81,7 +91,7 @@ export async function getRuleByGroup(params: {group_id:number}) {
  * 获取与管理员分组父id
  */
 export async function getAdminGroupPid() {
-  return request<ResponseStructure>('/adminGroup/getGroupPid', {
+  return request<ResponseStructure<any>>('/adminGroup/getGroupPid', {
     method: 'get'
   });
 }
@@ -91,7 +101,7 @@ export async function getAdminGroupPid() {
  * @param data
  */
 export async function setGroupRule(data: {id:number, rule_ids: React.Key[]}) {
-  return request<ResponseStructure>('/adminGroup/setGroupRule', {
+  return request<ResponseStructure<any>>('/adminGroup/setGroupRule', {
     method: 'post',
     data: data
   });
@@ -102,7 +112,7 @@ export async function setGroupRule(data: {id:number, rule_ids: React.Key[]}) {
  * @param params
  */
 export async function getGroupRule(params: {group_id:number}) {
-  return request<ResponseStructure>('/adminGroup/getGroupRule', {
+  return request<ResponseStructure<any>>('/adminGroup/getGroupRule', {
     method: 'get',
     params
   });

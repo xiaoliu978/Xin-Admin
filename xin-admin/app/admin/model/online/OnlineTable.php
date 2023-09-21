@@ -3,12 +3,9 @@ declare (strict_types = 1);
 
 namespace app\admin\model\online;
 
-use think\Model;
+use app\common\model\BaseModel;
 
-/**
- * @mixin Model
- */
-class OnlineTable extends Model
+class OnlineTable extends BaseModel
 {
     //
     protected $pk = 'id';

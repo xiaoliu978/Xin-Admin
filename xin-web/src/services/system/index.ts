@@ -8,19 +8,19 @@ import { request } from '@umijs/max';
  * 获取系统字典
  */
 export const gitDict = () => {
-  return request<ResponseStructure>('/system.dictItem/dictList', {
+  return request<API.ResponseStructure<any>>('/system.dictItem/dictList', {
     method: 'get',
   })
 }
 
 export const getSettingGroup = () => {
-  return request<ResponseStructure>('/system.setting/querySettingGroup', {
+  return request<API.ResponseStructure<any>>('/system.setting/querySettingGroup', {
     method: 'get',
   })
 }
 
 export const querySettingPid = () => {
-  return request<ResponseStructure>('/system.setting/querySettingPid', {
+  return request<API.ResponseStructure<any>>('/system.setting/querySettingPid', {
     method: 'get',
   })
 }
@@ -30,7 +30,7 @@ export const addGroup = (data: {
   title: string,
   pid?: number
 }) => {
-  return request<ResponseStructure>('/system.setting/addGroup', {
+  return request<API.ResponseStructure<any>>('/system.setting/addGroup', {
     method: 'post',
     data
   })

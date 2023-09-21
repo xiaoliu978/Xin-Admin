@@ -4,10 +4,12 @@ namespace app\admin\controller\system;
 
 use app\admin\model\file\File as FileModel;
 use app\common\controller\AdminController as Controller;
+use app\common\attribute\Auth;
 use SplFileInfo;
 use think\facade\Filesystem;
 use think\response\Json;
 
+#[Auth]
 class File extends Controller
 {
 
@@ -29,7 +31,7 @@ class File extends Controller
 
         $data = [
             'size' => $file->getSize(),
-            'user_id'   => $this->getAdminId(),
+            'user_id'   => (new Auth())->getAdminId(),
             'name'  => $putFile->getFileName(),
             'file_name' => $file->getFilename(),
             'type'  => $file->getExtension(),
@@ -37,7 +39,7 @@ class File extends Controller
         ];
 
 
-        if($this->model->saveFile($data,$this->getAdminId())){
+        if($this->model->saveFile($data,(new Auth())->getAdminId())){
             return $this->success('上传成功！',$data);
         }else {
             return $this->error($this->model->getErrorMsg());

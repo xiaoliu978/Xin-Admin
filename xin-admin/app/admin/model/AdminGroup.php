@@ -2,10 +2,10 @@
 
 namespace app\admin\model;
 
-use think\Model;
+use app\common\model\BaseModel;
 use think\model\relation\BelongsToMany;
 
-class AdminGroup extends Model
+class AdminGroup extends BaseModel
 {
 
     public function roles(): BelongsToMany
