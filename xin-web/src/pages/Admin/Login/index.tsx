@@ -3,32 +3,45 @@ import {
   AlipayOutlined,
   LockOutlined,
   MobileOutlined,
+  QqOutlined,
   TaobaoOutlined,
   UserOutlined,
+  WechatOutlined,
   WeiboOutlined,
 } from '@ant-design/icons';
 import {
-  LoginFormPage,
+  LoginForm,
   ProFormCaptcha,
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
-import { Button, Divider, message, Space, Tabs } from 'antd';
+import { Divider, message, Space, Tabs} from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
-const iconStyles: CSSProperties = {
+
+const iconStyle: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
   fontSize: '18px',
   verticalAlign: 'middle',
   cursor: 'pointer',
 };
+const iconDivStyle: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  height: 40,
+  width: 40,
+  border: '1px solid #D4D8DD',
+  borderRadius: '50%',
+}
 
 
 const Login: React.FC =  () => {
 
-  const { refresh } = useModel('@@initialState');
-  const { refreshCache } = useModel('dictModel');
+  const { refresh,initialState } = useModel('@@initialState');
+  const { refreshDict } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
@@ -43,52 +56,17 @@ const Login: React.FC =  () => {
       history.push(urlParams.get('redirect') || '/');
       // 刷新全局初始化状态
       refresh();
-      refreshCache.toggle();
+      refreshDict();
       return;
     }
   };
 
   return (
-    <div
-      style={{
-        backgroundColor: 'white',
-        height: '100vh',
-      }}
-    >
-      <LoginFormPage
-        backgroundImageUrl="https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png"
-        logo= { "https://xinadmin.cn/favicons.ico" }
-        title="Xin Admin"
-        subTitle="用技术改变世界"
-        activityConfig={{
-          style: {
-            boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
-            color: '#fff',
-            borderRadius: 8,
-            backgroundColor: '#1677FF',
-          },
-          title: 'Xin Admin',
-          subTitle: '这是一个热爱技术并且追求极致的开发者',
-          action: (
-            <>
-              <Button
-                size="large"
-                style={{
-                    borderRadius: 20,
-                    background: '#fff',
-                    color: '#1677FF',
-                    width: 120,
-                }}
-                onClick={() => window.open("https://gitee.com/xineny",'_blank')}
-              >
-                去看看
-              </Button>
-              <Button type="link" color="#fff" danger onClick={() => window.open("https://beian.miit.gov.cn/",'_blank')}>
-                ICP备案
-              </Button>
-            </>
-          ),
-        }}
+    <div style={{paddingTop: 50, height: '100vh',backgroundImage: 'url(https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png)'}}>
+      <LoginForm
+        logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
+        title= { initialState!.webSetting.title || "Xin Admin" }
+        subTitle={ initialState!.webSetting.subtitle || "用技术改变世界"}
         actions={
           <div
             style={{
@@ -106,47 +84,20 @@ const Login: React.FC =  () => {
               </span>
             </Divider>
             <Space align="center" size={24}>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  height: 40,
-                  width: 40,
-                  border: '1px solid #D4D8DD',
-                  borderRadius: '50%',
-                }}
-              >
-                <AlipayOutlined style={{ ...iconStyles, color: '#1677FF' }} />
+              <div style={iconDivStyle}>
+                <QqOutlined style={{ ...iconStyle, color: 'back' }} />
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  height: 40,
-                  width: 40,
-                  border: '1px solid #D4D8DD',
-                  borderRadius: '50%',
-                }}
-              >
-                <TaobaoOutlined style={{ ...iconStyles, color: '#FF6A10' }} />
+              <div style={iconDivStyle}>
+                <WechatOutlined style={{ ...iconStyle, color: 'rgb(0,172,132)' }} />
               </div>
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  flexDirection: 'column',
-                  height: 40,
-                  width: 40,
-                  border: '1px solid #D4D8DD',
-                  borderRadius: '50%',
-                }}
-              >
-                <WeiboOutlined style={{ ...iconStyles, color: '#333333' }} />
+              <div style={iconDivStyle}>
+                <AlipayOutlined style={{ ...iconStyle, color: '#1677FF' }} />
+              </div>
+              <div style={iconDivStyle}>
+                <TaobaoOutlined style={{ ...iconStyle, color: '#FF6A10' }} />
+              </div>
+              <div style={iconDivStyle}>
+                <WeiboOutlined style={{ ...iconStyle, color: '#333333' }} />
               </div>
             </Space>
           </div>
@@ -180,12 +131,7 @@ const Login: React.FC =  () => {
                 prefix: <UserOutlined className={'prefixIcon'} />,
               }}
               placeholder={'用户名: admin'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入用户名!',
-                },
-              ]}
+              rules={[{required: true, message: '请输入用户名!',},]}
             />
             <ProFormText.Password
               name="password"
@@ -194,12 +140,7 @@ const Login: React.FC =  () => {
                 prefix: <LockOutlined className={'prefixIcon'} />,
               }}
               placeholder={'密码: 123456'}
-              rules={[
-                {
-                  required: true,
-                  message: '请输入密码！',
-                },
-              ]}
+              rules={[{required: true, message: '请输入密码！',},]}
             />
           </>
         )}
@@ -251,23 +192,11 @@ const Login: React.FC =  () => {
             />
           </>
         )}
-        <div
-          style={{
-            marginBlockEnd: 24,
-          }}
-        >
-          <ProFormCheckbox noStyle name="autoLogin">
-            自动登录
-          </ProFormCheckbox>
-          <a
-            style={{
-              float: 'right',
-            }}
-          >
-            忘记密码
-          </a>
+        <div style={{marginBlockEnd: 24}}>
+          <ProFormCheckbox noStyle name="autoLogin">自动登录</ProFormCheckbox>
+          <a style={{float: 'right'}}>忘记密码</a>
         </div>
-      </LoginFormPage>
+      </LoginForm>
     </div>
   );
 };

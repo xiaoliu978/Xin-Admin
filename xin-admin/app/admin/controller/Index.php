@@ -22,19 +22,11 @@ class Index extends Controller
 
     public function index(): Json
     {
-        // $token = new Token();
-        // $token->clear('admin',1);
-        // $data = ['token' => $token->set('123456','admin',1,10000)];
-        $data = [
-            'pwd' => password_hash("123456", PASSWORD_BCRYPT)
-        ];
-        $data = [
-            'id',
-            'username' => 'like',
-            'mobile'
-        ];
-        return $this->success('ok',$data);
+        $webSetting = get_setting('web');
+        return $this->success('恭喜你已经成功安装 Xin Admin',compact('webSetting'));
     }
+
+
 
     public function queryUserInfo(): Json
     {

@@ -37,10 +37,16 @@ declare namespace USER {
   }
 
   type UserResult = API.ResponseStructure<{
-    userinfo: UserInfo,
+    adminInfo: UserInfo,
     access: string[]
     settings?: {[key: string] : any},
     menus?: MenuType,
+    web_setting: {
+      logo:string,
+      title: string
+      [key: string] : any
+    }
+
   }>
 
   type LoginResult = API.ResponseStructure<{

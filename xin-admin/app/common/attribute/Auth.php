@@ -58,6 +58,10 @@ class Auth
             $class = 'app\\'.app('http')->getName().'\\controller\\'.str_replace(".","\\",request()->controller());
             $reflection = new ReflectionClass($class);
             $properties = $reflection->getProperty('authName')->getDefaultValue();
+            $allowAction = $reflection->getProperty('allowAction')->getDefaultValue();
+            if(in_array(request()->controller(),$allowAction)){
+                return;
+            }
 
             if($properties){
                 $authKey = strtolower($properties . '.' . $key);

@@ -25,7 +25,7 @@
     </a>
 </p>
 
-<img src="./demo.png"/>
+<img src="https://file.xinadmin.cn/file/demo.png"/>
 
 ### ✨ 介绍
 基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Ant Design Pro components 等流行技术栈的后台管理系统，提供权限验证、用户分组、数据字典、可视化CRUD等便捷开发，
@@ -65,6 +65,7 @@ BPM等，适用于商城、游戏、即时通信、业务管理、博客等领�
 
 ### 鸣谢巨人
 
-1.  [Think PHP](https://www.thinkphp.cn/)
-2.  [Ant Design](https://ant-design.antgroup.com/index-cn)
-3.  等等
+1. [Think PHP](https://www.thinkphp.cn/)
+2. [Ant Design](https://ant-design.antgroup.com/index-cn)
+3. [Umi Js](https://umijs.com)
+4. [buildadmin](https://buildadmin.cn)
