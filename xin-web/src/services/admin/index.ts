@@ -29,7 +29,7 @@ export async function GetAdminInfo() {
  * @constructor
  */
 export async function GetWebSet() {
-  return request<ResponseStructure<{[key: string]: any}>>('/', {
+  return request<ResponseStructure<{[key: string]: any}>>('/index', {
     method: 'get'
   });
 }
