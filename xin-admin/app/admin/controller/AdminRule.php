@@ -5,6 +5,7 @@ namespace app\admin\controller;
 use app\admin\validate\AdminRule as AdminRuleVal;
 use app\admin\model\AdminRule as AdminRuleModel;
 use app\common\attribute\Auth;
+use app\common\attribute\Method;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -52,6 +53,35 @@ class AdminRule extends Controller
         }
         return $this->success('ok',$rootNode);
     }
+
+    #[Auth('add'),Method('POST')]
+    public function add(): Json
+    {
+        $data = $this->request->post();
+        if (!$this->validate->scene('add')->check($data)) {
+            return $this->error($this->validate->getError());
+        }
+        if($data['type'] == '1'){
+            $data['key'] = str_replace('/','.',substr($data['path'],1));
+        }
+        $this->model->save($data);
+        return $this->success('ok');
+    }
+
+    #[Auth('edit'),Method('PUT')]
+    public function edit(): Json
+    {
+        $data = $this->request->param();
+        if (!$this->validate->scene('edit')->check($data)) {
+            return $this->warn($this->validate->getError());
+        }
+        if($data['type'] == '1'){
+            $data['key'] = str_replace('/','.',substr($data['path'],1));
+        }
+        $this->model->update($data);
+        return $this->success('ok',$data);
+    }
+
 
     /**
      * @param $node

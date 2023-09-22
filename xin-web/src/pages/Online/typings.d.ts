@@ -14,6 +14,7 @@ declare namespace OnlineType {
   interface SqlConfig{
     sqlTableName: string
     sqlTableRemark: string
+    autoDeletetime: boolean
   }
 
   type ColumnsConfig = ProFormColumnsAndProColumns<any> & {

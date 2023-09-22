@@ -3,6 +3,7 @@ declare (strict_types=1);
 namespace app\admin\controller;
 
 use app\common\attribute\Auth;
+use app\common\attribute\Method;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
 use app\admin\model\AdminGroupRule as AdminGroupRuleModel;
@@ -14,10 +15,6 @@ use think\response\Json;
 #[Auth]
 class AdminGroup extends Controller
 {
-
-    protected array $methodRules = [
-        'setGroupRule' => 'POST'
-    ];
 
     protected string $authName = 'admin.group';
 
