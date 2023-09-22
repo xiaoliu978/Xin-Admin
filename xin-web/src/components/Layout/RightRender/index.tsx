@@ -1,17 +1,17 @@
 import {initialStateType} from "@/app";
-import {Avatar, Dropdown, MenuProps, Space, Button} from "antd";
+import {Avatar, Dropdown, MenuProps, Space} from "antd";
 import {Logout} from "@/services/admin";
 import {history} from "@@/core/history";
 import {
   FullscreenExitOutlined,
   FullscreenOutlined, GithubFilled,
-  LogoutOutlined, QuestionCircleOutlined, QuestionOutlined, RedoOutlined,
+  LogoutOutlined, QuestionCircleOutlined, RedoOutlined,
   SettingOutlined,
-  SmileOutlined
 } from "@ant-design/icons";
 import './index.less';
 import {useModel} from "@umijs/max";
 import React, {useState} from "react";
+import {SettingDrawer} from "@ant-design/pro-components";
 
 
 const Right = (props: { initialState?: initialStateType}) => {
@@ -96,7 +96,20 @@ const Right = (props: { initialState?: initialStateType}) => {
            </div>
          </Dropdown>
        </Space>
-
+       <div style={{display:'none'}}>
+         <SettingDrawer
+           collapse={initialState?.drawerShow}
+           disableUrlParams
+           enableDarkTheme
+           settings={initialState?.settings}
+           onSettingChange={(settings) => {
+             setInitialState((preInitialState: any) => ({
+               ...preInitialState,
+               settings,
+             }));
+           }}
+         />
+       </div>
      </>
     )
   }else {

@@ -10,6 +10,8 @@ class Content extends Controller
 
     protected array $searchField = [];
 
+    protected string $authName = 'content.article';
+
     public function initialize(): void
     {
         parent::initialize();
