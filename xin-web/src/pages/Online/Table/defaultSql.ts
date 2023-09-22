@@ -1,10 +1,10 @@
 import {OnlineType} from "@/pages/Online/typings";
 
 const dict = {
-  remark: '数据字典',
+  remark: '',
   sqlType: 'varchar',
   defaultValue: 'empty string',
-  title: '数据字典',
+  title: '',
   isKey: false,
   isDict: false,
   enum:
@@ -73,7 +73,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   textarea: {
     remark: '文本域',
     sqlType: 'text',
-    defaultValue: '',
+    defaultValue: 'null',
     isKey: false,
     null: false,
     autoIncrement: false,
@@ -92,12 +92,12 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     length: 10,
     unsign: false,
     select: '=',
-    mock: '@number'
+    mock: '@integer(1,10)'
   },
   money: {
     remark: '金额',
     sqlType: 'double',
-    defaultValue: '',
+    defaultValue: 'null',
     isKey: false,
     null: false,
     decimal: 2,
@@ -133,7 +133,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     decimal: 0,
     unsign: true,
     select: '=',
-    mock: '@@integer(1, 5)'
+    mock: '@integer(1, 5)'
   },
   date: {
     remark: '日期',

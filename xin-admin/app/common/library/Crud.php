@@ -26,14 +26,14 @@ class Crud
                 continue;
             }
             $unsigned      = (isset($field['unsign']) && $field['unsign']) ? ' UNSIGNED' : '';
-            $null          = (isset($field['null']) && $field['null']) ? ' NOT NULL' : ' NULL' ;
+            $null          = (isset($field['null']) && $field['null']) ? ' NOT NULL' : '' ;
             $autoIncrement = (isset($field['autoIncrement']) && $field['autoIncrement']) ? ' AUTO_INCREMENT' : '';
             $length        = (isset($field['length']) && $field['length']) ? "({$field['length']})": '';
             $default       = '';
             if (strtolower((string)$field['defaultValue']) == 'null') {
                 $default = ' DEFAULT NULL';
             } elseif ($field['defaultValue'] == '0') {
-                $default = " DEFAULT '0'";
+                $default = " DEFAULT 0";
             } elseif ($field['defaultValue'] == 'empty string') {
                 $default = " DEFAULT ''";
             } elseif ($field['defaultValue']) {
@@ -45,6 +45,11 @@ class Crud
                 $pk = $field['dataIndex'];
             }
         }
+
+        if($sql_config['autoDeletetime']){
+            $sql .= "`delete_time` INT(10) UNSIGNED DEFAULT NULL COMMENT '删除时间',";
+        }
+
         $sql .= "PRIMARY KEY (`$pk`)" . PHP_EOL . ") ";
         $sql .= "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{$sql_config['sqlTableRemark']}'";
         Db::execute($sql);
@@ -83,11 +88,14 @@ class Crud
      * 构建模型
      * @param array $crud_config
      * @param array $viewData
+     * @param array $sql_config
      * @return void
      */
-    public function buildModel(array $crud_config, array $viewData): void
+    public function buildModel(array $crud_config, array $viewData, array $sql_config): void
     {
         // 模型渲染
+        $viewData['autoDeletetime'] = $sql_config['autoDeletetime'];
+
         $modelView = View::fetch('../crud/model',$viewData);
         $path = root_path().$crud_config['modelPath'].'/';
         if(!is_dir($path)){

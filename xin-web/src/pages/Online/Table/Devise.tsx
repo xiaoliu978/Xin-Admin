@@ -1,5 +1,19 @@
 import {useParams} from "@umijs/max";
-import {Row, Col, Collapse, Form, Input, CollapseProps, Radio, Button, Space, message, FormRule, Spin} from 'antd';
+import {
+  Row,
+  Col,
+  Collapse,
+  Form,
+  Input,
+  CollapseProps,
+  Radio,
+  Button,
+  Space,
+  message,
+  FormRule,
+  Spin,
+  Switch
+} from 'antd';
 import XinTable from "@/components/XinTable";
 import React, {useEffect, useState} from "react";
 import './index.less'
@@ -19,62 +33,9 @@ const Devise = () => {
   const params  = useParams();
   const [loading, setLoading] = useState(false);
   /**
-   * columns 表格行默认字段
+   * columns 表格字段
    */
-  const [columns,setColumns] = useState<OnlineType.ColumnsConfig[]>([
-    {
-      title: 'id',
-      dataIndex: 'id',
-      valueType: 'digit',
-      hideInForm: true,
-      order: 99,
-      remark: 'ID',
-      sqlType: 'int',
-      defaultValue: '',
-      isKey: true,
-      null: true,
-      mock: '@increment',
-      autoIncrement: true,
-      length: 10,
-      decimal: 0,
-      unsign: true,
-      select: '='
-    },
-    {
-      remark: '创建时间',
-      sqlType: 'int',
-      defaultValue: 'null',
-      dataIndex: 'create_time',
-      title: '创建时间',
-      isKey: false,
-      null: false,
-      length: 11,
-      decimal: 0,
-      unsign: false,
-      select: 'date',
-      valueType: 'date',
-      hideInForm: true,
-      order: 1,
-      mock: '@datetime'
-    },
-    {
-      remark: '更新时间',
-      sqlType: 'int',
-      defaultValue: 'null',
-      dataIndex: 'update_time',
-      title: '更新时间',
-      isKey: false,
-      null: false,
-      length: 11,
-      decimal: 0,
-      unsign: false,
-      select: 'date',
-      valueType: 'date',
-      hideInForm: true,
-      order: 0,
-      mock: '@datetime'
-    },
-  ]);
+  const [columns,setColumns] = useState<OnlineType.ColumnsConfig[]>([]);
 
   /**
    * pro table 设置
@@ -171,9 +132,12 @@ const Devise = () => {
           <Form.Item label="数据库备注" name="sqlTableRemark">
             <Input placeholder="请输入数据表备注"/>
           </Form.Item>
-          <Form.Item>
-            <Button onClick={()=>{}}>导入现有数据表</Button>
+          <Form.Item  label="开启软删除" name="autoDeletetime" valuePropName="checked">
+            <Switch />
           </Form.Item>
+          {/*<Form.Item>*/}
+          {/*  <Button onClick={()=>{}}>导入现有数据表</Button>*/}
+          {/*</Form.Item>*/}
         </Form>
       ),
     },
@@ -237,7 +201,7 @@ const Devise = () => {
           <Form.Item label="控制器目录" name="controllerPath">
             <Input/>
           </Form.Item>
-          <Form.Item label="模型目录" name="modelPath">
+          <Form.Item label="模型目录" name="modelPath" >
             <Input/>
           </Form.Item>
           <Form.Item label="验证器目录" name="validatePath">

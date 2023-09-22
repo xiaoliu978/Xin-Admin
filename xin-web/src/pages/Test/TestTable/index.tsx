@@ -2,7 +2,7 @@ import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import * as verify from '@/utils/format';
-import XinDict from '@/components/XinDict';import {useModel} from '@umijs/max';
+
 /**
  *  Api 接口
  */
@@ -20,7 +20,7 @@ interface Data {
  * 表格渲染
  */
 const TestTable: React.FC = () => {
-  const {getDictionaryData} = useModel('dictModel');
+
   const columns: ProFormColumnsAndProColumns<Data>[] =
   [
     {
@@ -28,145 +28,114 @@ const TestTable: React.FC = () => {
       order:99,
       hideInForm: true,
       dataIndex:'id',
-      formItemProps: {
-        rules: [
-          verify.verifyNumber,
-        ]
-      },
     },
     {
       valueType:'text',
-      title:'名字',
-      order:98,
-      dataIndex:'title',
+      title:'文本框',
+      order:1,
+      dataIndex:'string',
       formItemProps: {
         rules: [
           verify.verifyRequired,
-          verify.verifyString,
         ]
       },
     },
     {
       valueType:'digit',
-      title:'年龄',
-      order:97,
-      dataIndex:'age',
-      formItemProps: {
-        rules: [
-          verify.verifyNumber,
-          verify.verifyRequired,
-        ]
-      },
+      title:'数字输入框',
+      order:1,
+      dataIndex:'int',
     },
     {
       valueType:'date',
-      title:'生日',
-      order:95,
-      dataIndex:'barthday',
+      title:'日期',
+      order:1,
+      dataIndex:'date',
     },
     {
       valueType:'money',
-      title:'余额',
-      order:90,
+      title:'金额输入框',
+      order:1,
       dataIndex:'money',
-      formItemProps: {
-        rules: [
-          verify.verifyNumber,
-        ]
-      },
-    },
-    {
-      valueType:'textarea',
-      title:'签名',
-      order:90,
-      hideInSearch: true,
-      hideInTable: true,
-      dataIndex:'text',
     },
     {
       valueType:'select',
       valueEnum: new Map([
-        [1,'男'],
-        [2,'女'],
+        [1,'one'],
+        [2,'two'],
+        [3,'three'],
       ]),
-      title:'性别',
-      order:88,
-      dataIndex:'sex',
-      formItemProps: {
-        rules: [
-          verify.verifyRequired,
-        ]
-      },
+      title:'下拉框',
+      order:1,
+      dataIndex:'one',
     },
     {
       valueType:'checkbox',
       valueEnum: new Map([
-        [1,'足球'],
-        [2,'篮球'],
-        [3,'游泳'],
-        [4,'台球'],
-        [5,'乒乓球'],
+        [1,'one'],
+        [2,'two'],
+        [3,'three'],
       ]),
-      title:'爱好',
-      order:86,
-      hideInSearch: true,
-      hideInTable: true,
+      title:'多选框',
+      order:1,
       dataIndex:'check',
-    },
-    {
-      request: async () => getDictionaryData('sex'),
-      render: (_, data) => <XinDict value={data.sex_dict} dict={'sex'} />,
-      title:'性别字典',
-      order:85,
-      dataIndex:'sex_dict',
-      formItemProps: {
-        rules: [
-          verify.verifyRequired,
-        ]
-      },
-    },
-    {
-      valueType:'rate',
-      title:'评分',
-      order:80,
-      dataIndex:'rate',
     },
     {
       valueType:'radio',
       valueEnum: new Map([
-        [1,'小学'],
-        [2,'初中'],
-        [3,'高中'],
-        [4,'本科'],
-        [5,'专科'],
-        [6,'博士'],
+        [1,'喜欢'],
+        [2,'不喜欢'],
       ]),
-      title:'学历',
-      order:74,
-      dataIndex:'op',
-      formItemProps: {
-        rules: [
-          verify.verifyRequired,
-        ]
-      },
+      title:'单选框',
+      order:1,
+      dataIndex:'like',
+    },
+    {
+      valueType:'radioButton',
+      valueEnum: new Map([
+        [1,'one'],
+        [2,'two'],
+        [3,'three'],
+      ]),
+      title:'单选按钮',
+      order:1,
+      dataIndex:'ccc',
+    },
+    {
+      valueType:'textarea',
+      title:'文本域',
+      order:1,
+      hideInTable: true,
+      dataIndex:'md',
+    },
+    {
+      valueType:'dateTime',
+      title:'日期时间',
+      order:1,
+      dataIndex:'datetime',
     },
     {
       valueType:'switch',
-      title:'禁用账户',
-      order:70,
+      title:'开关',
+      order:1,
       dataIndex:'switch',
     },
     {
-      valueType:'date',
+      valueType:'rate',
+      title:'评分',
+      order:1,
+      dataIndex:'rate',
+    },
+    {
+      valueType:'createTime',
       title:'创建时间',
       order:1,
-      hideInForm: true,
       dataIndex:'create_time',
     },
     {
-      valueType:'date',
+      valueType:'updateTime',
       title:'更新时间',
-      hideInForm: true,
+      order:1,
       dataIndex:'update_time',
     },
   ]
@@ -180,7 +149,7 @@ const TestTable: React.FC = () => {
       rowSelectionShow={true}
       editShow={true}
       deleteShow={true}
-      accessName={'admin.rule'}
+      accessName={'admin:rule'}
     />
   )
 

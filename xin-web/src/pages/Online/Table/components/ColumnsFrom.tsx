@@ -65,27 +65,6 @@ function CreateForm(props: {
 
   const columns:  ProFormColumnsType<OnlineType.ColumnsConfig, "text">[] = [
     {
-      title: '字段名',
-      dataIndex: 'dataIndex',
-      tooltip: '作为数据库字段名和列索引',
-      valueType: 'text',
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
-      },
-    },
-    {
-      title: '列标题',
-      dataIndex: 'title',
-      valueType: 'text',
-      formItemProps: {
-        rules: [
-          {required: true, message: '此项为必填项'},
-        ],
-      },
-    },
-    {
       title: '表单类型',
       dataIndex: 'valueType',
       valueType: 'select',
@@ -105,7 +84,27 @@ function CreateForm(props: {
           {required: true, message: '此项为必填项'},
         ],
       },
-      colProps: {span: 6}
+    },
+    {
+      title: '字段名',
+      dataIndex: 'dataIndex',
+      tooltip: '作为数据库字段名和列索引',
+      valueType: 'text',
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
+    },
+    {
+      title: '列标题',
+      dataIndex: 'title',
+      valueType: 'text',
+      formItemProps: {
+        rules: [
+          {required: true, message: '此项为必填项'},
+        ],
+      },
     },
     {
       title: '查询方式',
@@ -133,6 +132,7 @@ function CreateForm(props: {
       dataIndex: 'order',
       valueType: 'digit',
       tooltip: '越大排行越靠前',
+      initialValue: 1,
       colProps: {span: 6},
       renderFormItem: (schema, config) => {
         return <InputNumber<string>
