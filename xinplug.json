@@ -1,0 +1,9 @@
+{
+  "name": "Xin Admin",
+  "description": "the new xin admin",
+  "version": "0.1-beta",
+  "require": {
+    "nodejs": "^16.8.0",
+    "composer": "2.5.8"
+  }
+}

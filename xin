@@ -1,0 +1,257 @@
+#!/usr/bin/env php
+<?php
+namespace xin;
+
+
+class Xin
+{
+
+    protected array $require = [];
+
+    protected array $argv = [];
+
+    public function __construct(array $argv)
+    {
+        echo PHP_EOL;
+        $this->format('Welcome to Xin Admin', true);
+        $this->format();
+
+        $this->argv = $argv;
+        $jsonString = file_get_contents('./xinplug.json');
+        $data = json_decode($jsonString,true);
+        if ($data === null) {
+            echo "\033[31m无法解析 JSON 文件  \033[0m";
+            die;
+        } else {
+            $this->require = $data['require'];
+        }
+        $this->format('Xin Admin '.$data['version']);
+        $this->format();
+        $this->verifyNode();
+        $this->verifyComposer();
+        $this->format('',true);
+
+        echo "环境检测完成".PHP_EOL;
+
+        if($argv[1] == 'install'){
+            $this->install();
+        }
+
+    }
+
+    public function install(): void
+    {
+        $command = "cd ./xin-admin && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && composer install";
+        $descriptors = array(
+            0 => array('pipe', 'r'),  // 标准输入，设为 "r" 表示只读
+            1 => array('pipe', 'w'),  // 标准输出，设为 "w" 表示只写
+            2 => array('pipe', 'w')   // 错误输出，设为 "w" 表示只写
+        );
+
+        $process = proc_open($command, $descriptors, $pipes);
+
+        if (is_resource($process)) {
+            // 将输出流设置为非阻塞模式
+            stream_set_blocking($pipes[1], 0);
+
+            // 初始化进度条参数
+            $progress = 0.00001;
+            while (true) {
+                // 检查输出流是否有数据可读
+                $read = array($pipes[1]);
+                $write = null;
+                $except = null;
+                $numStreams = stream_select($read, $write, $except, 0, 1000);
+
+
+                if ($numStreams === false) {
+                    break;
+                } elseif ($numStreams > 0) {
+                    // 更新进度条
+                    if($progress < 1){
+                        $progress = $progress + 0.00001;
+                    }else {
+                        $progress = 0.00001;
+                    }
+                    $this->updateProgressBar('Composer 正在安装' ,$progress);
+
+                    // 在这里可以进行其他处理，如输出日志、保存命令输出等
+
+                    // 清空当前行输出
+                    echo "\r";
+                }
+
+                // 检查命令是否执行完毕
+                $status = proc_get_status($process);
+                if (!$status['running']) {
+                    $this->updateProgressBar('Composer 安装成功',1);
+                    break;
+                }
+            }
+            echo PHP_EOL;
+
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+
+            // 检查命令是否执行成功
+            $returnValue = proc_close($process);
+            if ($returnValue === 0) {
+                echo '命令执行成功';
+            } else {
+                echo '命令执行失败，错误代码: ' . $returnValue;
+            }
+        }
+
+        $command = "cd ./xin-web && npm install -g pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm install";
+
+        $process = proc_open($command, $descriptors, $pipes);
+
+        if (is_resource($process)) {
+            // 将输出流设置为非阻塞模式
+            stream_set_blocking($pipes[1], 0);
+
+            // 初始化进度条参数
+            $progress = 0.00001;
+            while (true) {
+                // 检查输出流是否有数据可读
+                $read = array($pipes[1]);
+                $write = null;
+                $except = null;
+                $numStreams = stream_select($read, $write, $except, 0, 1000);
+
+
+                if ($numStreams === false) {
+                    break;
+                } elseif ($numStreams > 0) {
+                    // 更新进度条
+                    if($progress < 1){
+                        $progress = $progress + 0.00001;
+                    }else {
+                        $progress = 0.00001;
+                    }
+                    $this->updateProgressBar('PNPM 正在安装' ,$progress);
+
+                    // 在这里可以进行其他处理，如输出日志、保存命令输出等
+
+                    // 清空当前行输出
+                    echo "\r";
+                }
+
+                // 检查命令是否执行完毕
+                $status = proc_get_status($process);
+                if (!$status['running']) {
+                    $this->updateProgressBar('PNPM 安装成功',1);
+                    break;
+                }
+            }
+            echo PHP_EOL;
+
+            fclose($pipes[0]);
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+
+            // 检查命令是否执行成功
+            $returnValue = proc_close($process);
+            if ($returnValue === 0) {
+                echo '命令执行成功';
+            } else {
+                echo '命令执行失败，错误代码: ' . $returnValue;
+            }
+        }
+    }
+
+    public function verifyComposer(): void
+    {
+
+        $pattern = '/(\d+\.\d+\.\d+)/';
+        exec('composer -v',$output);
+        if(!empty($output)){
+            preg_match($pattern,implode([$output[5],$output[6],$output[7],$output[8]]) , $haveComposerV);
+            $haveComposerV = $haveComposerV[1] ?? $haveComposerV[0];
+            $this->format('Composer ' . $haveComposerV);
+            $this->format();
+
+            preg_match($pattern, $this->require['composer'], $needComposerV);
+            $needComposerV = $needComposerV[1] ?? $needComposerV[0];
+
+            if(version_compare($haveComposerV,$needComposerV) == -1){
+                echo "\033[31m composer 版本过低,请安装 {$this->require['composer']} 或以上的Node js 之后重试！ \033[0m";
+                die;
+            }
+
+        }else {
+            echo "\033[31m composer 未安装,请安装 {$this->require['composer']} 或以上的Node js 之后重试！ \033[0m";
+            die;
+        }
+
+    }
+
+    public function verifyNode(): void
+    {
+        $output = array();
+        exec('node -v', $output);
+        $pattern = '/(\d+\.\d+\.\d+)/';
+
+        if (!empty($output)) {
+            preg_match($pattern, $output[0], $haveNodeV);
+            $haveNodeV = $haveNodeV[1] ?? $haveNodeV[0];
+            $this->format('Node.js ' . $haveNodeV);
+            $this->format();
+
+            preg_match($pattern, $this->require['nodejs'], $needNodeV);
+            $needNodeV = $needNodeV[1] ?? $needNodeV[0];
+            if(version_compare($haveNodeV,$needNodeV) == -1){
+                echo "\033[31mNode.js 版本过低,请安装 {$this->require['nodejs']} 或以上的Node js 之后重试！ \033[0m";
+                die;
+            }
+        } else {
+            echo "\033[31mNode.js 未安装,请安装 {$this->require['nodejs']} 或以上的Node js 之后重试！ \033[0m";
+            die;
+        }
+    }
+
+    public function format(string $text = '', bool $group = false): void
+    {
+        if($text != ''){
+            $text = ' '.$text.' ';
+        }
+        $totalWidth = 80; // 总宽度
+        if($group){
+            $textLength = mb_strwidth($text);
+            $leftPadding = (int)(($totalWidth - $textLength) / 2);
+            $rightPadding = $totalWidth - $textLength - $leftPadding;
+
+            $centeredText = str_pad($text, $textLength + $leftPadding, '-', STR_PAD_LEFT);
+            $centeredText = str_pad($centeredText, $textLength + $leftPadding + $rightPadding, '-');
+
+            echo $centeredText . PHP_EOL;
+        }else {
+            $text = "\033[32m$text\033[0m";
+            $textLength = mb_strwidth($text) ;
+            $leftPadding = (int)(($totalWidth - $textLength) / 2) + 4;
+            $rightPadding = $totalWidth - $textLength - $leftPadding + 7;
+
+            $centeredText = str_pad($text, $textLength + $leftPadding, ' ', STR_PAD_LEFT);
+            $centeredText = str_pad($centeredText, $textLength + $leftPadding + $rightPadding, ' ');
+            $centeredText = str_pad($centeredText, $textLength + $leftPadding + $rightPadding + 1, '-',STR_PAD_LEFT);
+            $centeredText = str_pad($centeredText, $textLength + $leftPadding + $rightPadding + 2, '-');
+            echo $centeredText . PHP_EOL;
+        }
+
+    }
+
+    public function updateProgressBar($title,$progress): void
+    {
+        $barWidth = 50;
+        $completedWidth = round($progress * $barWidth);
+        $remainingWidth = $barWidth - $completedWidth;
+
+        $bar = str_repeat('=', $completedWidth) . str_repeat(' ', $remainingWidth);
+
+        echo sprintf("$title [%s]", $bar);
+    }
+
+}
+
+new Xin($argv);
