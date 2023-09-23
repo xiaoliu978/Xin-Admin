@@ -33,15 +33,24 @@ class Xin
 
         echo "环境检测完成".PHP_EOL;
 
-        if($argv[1] == 'install'){
-            $this->install();
-        }
+        $this->install();
 
     }
 
     public function install(): void
     {
+
         $command = "cd ./xin-admin && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && composer install";
+        $this->runCommand($command);
+
+        $command = "cd ./xin-web && npm install -g pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm install";
+        $this->runCommand($command);
+
+    }
+
+
+    public function runCommand(string $command): void
+    {
         $descriptors = array(
             0 => array('pipe', 'r'),  // 标准输入，设为 "r" 表示只读
             1 => array('pipe', 'w'),  // 标准输出，设为 "w" 表示只写
@@ -53,64 +62,6 @@ class Xin
         if (is_resource($process)) {
             // 将输出流设置为非阻塞模式
             stream_set_blocking($pipes[1], 0);
-
-            // 初始化进度条参数
-            $progress = 0.00001;
-            while (true) {
-                // 检查输出流是否有数据可读
-                $read = array($pipes[1]);
-                $write = null;
-                $except = null;
-                $numStreams = stream_select($read, $write, $except, 0, 1000);
-
-
-                if ($numStreams === false) {
-                    break;
-                } elseif ($numStreams > 0) {
-                    // 更新进度条
-                    if($progress < 1){
-                        $progress = $progress + 0.00001;
-                    }else {
-                        $progress = 0.00001;
-                    }
-                    $this->updateProgressBar('Composer 正在安装' ,$progress);
-
-                    // 在这里可以进行其他处理，如输出日志、保存命令输出等
-
-                    // 清空当前行输出
-                    echo "\r";
-                }
-
-                // 检查命令是否执行完毕
-                $status = proc_get_status($process);
-                if (!$status['running']) {
-                    $this->updateProgressBar('Composer 安装成功',1);
-                    break;
-                }
-            }
-            echo PHP_EOL;
-
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            fclose($pipes[2]);
-
-            // 检查命令是否执行成功
-            $returnValue = proc_close($process);
-            if ($returnValue === 0) {
-                echo '命令执行成功';
-            } else {
-                echo '命令执行失败，错误代码: ' . $returnValue;
-            }
-        }
-
-        $command = "cd ./xin-web && npm install -g pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm install";
-
-        $process = proc_open($command, $descriptors, $pipes);
-
-        if (is_resource($process)) {
-            // 将输出流设置为非阻塞模式
-            stream_set_blocking($pipes[1], 0);
-
             while (true) {
                 // 读取输出流的数据
                 $output = fgets($pipes[1]);
@@ -134,13 +85,16 @@ class Xin
 
             // 检查命令是否执行成功
             $returnValue = proc_close($process);
-            if ($returnValue === 0) {
-                echo '命令执行成功';
-            } else {
+            if ($returnValue !== 0) {
                 echo '命令执行失败，错误代码: ' . $returnValue;
+                die;
             }
+        }else {
+            echo '命令执行失败';
+            die;
         }
     }
+
 
     public function verifyComposer(): void
     {
