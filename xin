@@ -17,7 +17,7 @@ class Xin
         $this->format();
 
         $this->argv = $argv;
-        $jsonString = file_get_contents('./xinplug.json');
+        $jsonString = file_get_contents('./project.json');
         $data = json_decode($jsonString,true);
         if ($data === null) {
             echo "\033[31m无法解析 JSON 文件  \033[0m";
@@ -111,38 +111,19 @@ class Xin
             // 将输出流设置为非阻塞模式
             stream_set_blocking($pipes[1], 0);
 
-            // 初始化进度条参数
-            $progress = 0.00001;
             while (true) {
-                // 检查输出流是否有数据可读
-                $read = array($pipes[1]);
-                $write = null;
-                $except = null;
-                $numStreams = stream_select($read, $write, $except, 0, 1000);
+                // 读取输出流的数据
+                $output = fgets($pipes[1]);
 
-
-                if ($numStreams === false) {
-                    break;
-                } elseif ($numStreams > 0) {
-                    // 更新进度条
-                    if($progress < 1){
-                        $progress = $progress + 0.00001;
-                    }else {
-                        $progress = 0.00001;
+                if ($output !== false) {
+                    // 输出命令行内容
+                    echo $output;
+                } else {
+                    // 检查命令是否执行完毕
+                    $status = proc_get_status($process);
+                    if (!$status['running']) {
+                        break;
                     }
-                    $this->updateProgressBar('PNPM 正在安装' ,$progress);
-
-                    // 在这里可以进行其他处理，如输出日志、保存命令输出等
-
-                    // 清空当前行输出
-                    echo "\r";
-                }
-
-                // 检查命令是否执行完毕
-                $status = proc_get_status($process);
-                if (!$status['running']) {
-                    $this->updateProgressBar('PNPM 安装成功',1);
-                    break;
                 }
             }
             echo PHP_EOL;

@@ -5,5 +5,8 @@
   "require": {
     "nodejs": "^16.8.0",
     "composer": "2.5.8"
+  },
+  "package": {
+
   }
 }
