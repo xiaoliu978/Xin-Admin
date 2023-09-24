@@ -10,8 +10,35 @@ class Xin
 
     protected array $argv = [];
 
+
+    /**
+     * @var resource|bool proc_open 返回的 resource
+     */
+    protected $process = false;
+    private int $procStatus;
+    private string $outputFile;
+    private array $descriptorsPec;
+
     public function __construct(array $argv)
     {
+        // 记录运行日志
+        $outputDir = '.'. DIRECTORY_SEPARATOR . 'log' ;
+
+        $runDate = time();
+
+        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'run' . $runDate . '.log';
+        if (!is_dir($outputDir)) {
+            mkdir($outputDir, 0755, true);
+        }
+        file_put_contents($this->outputFile, date('Y-m-d H:i:s',$runDate));
+
+        /**
+         * 命令执行结果输出到文件而不是管道 build admin
+         * 因为输出到管道时有延迟，而文件虽然需要频繁读取和对比内容，但是输出实时的
+         */
+        $this->descriptorsPec = [0 => ['pipe', 'r'], 1 => ['file', $this->outputFile, 'w'], 2 => ['file', $this->outputFile, 'w']];
+        
+        
         echo PHP_EOL;
         $this->format('Welcome to Xin Admin', true);
         $this->format();
@@ -51,48 +78,28 @@ class Xin
 
     public function runCommand(string $command): void
     {
-        $descriptors = array(
-            0 => array('pipe', 'r'),  // 标准输入，设为 "r" 表示只读
-            1 => array('pipe', 'w'),  // 标准输出，设为 "w" 表示只写
-            2 => array('pipe', 'w')   // 错误输出，设为 "w" 表示只写
-        );
 
-        $process = proc_open($command, $descriptors, $pipes);
+        $this->process = proc_open($command, $this->descriptorsPec, $pipes);
 
-        if (is_resource($process)) {
-            // 将输出流设置为非阻塞模式
-            stream_set_blocking($pipes[1], 0);
-            while (true) {
-                // 读取输出流的数据
-                $output = fgets($pipes[1]);
+        if (!is_resource($this->process)) {
+            echo 'Failed to execute';
+        }
 
-                if ($output !== false) {
-                    // 输出命令行内容
-                    echo $output;
-                } else {
-                    // 检查命令是否执行完毕
-                    $status = proc_get_status($process);
-                    if (!$status['running']) {
-                        break;
-                    }
-                }
-            }
-            echo PHP_EOL;
 
-            fclose($pipes[0]);
-            fclose($pipes[1]);
-            fclose($pipes[2]);
+        while ($this->getProcStatus()) {
+            // 读取输出流的数据
+            $contents = file_get_contents($this->outputFile);
+            echo sprintf("%s",$contents);
+            usleep(500000);
+        }
+        echo PHP_EOL;
 
-            // 检查命令是否执行成功
-            $returnValue = proc_close($process);
-            if ($returnValue !== 0) {
-                echo '命令执行失败，错误代码: ' . $returnValue;
-                die;
-            }
-        }else {
-            echo '命令执行失败';
+        $returnValue = proc_close($this->process);
+        if ($returnValue !== 0) {
+            echo '命令执行失败，错误代码: ' . $returnValue;
             die;
         }
+
     }
 
 
@@ -174,6 +181,28 @@ class Xin
             echo $centeredText . PHP_EOL;
         }
 
+    }
+
+    /**
+     * 获取执行状态
+     */
+    public function getProcStatus(): bool
+    {
+        $status = proc_get_status($this->process);
+        if ($status['running']) {
+            $this->procStatus = 1;
+            return true;
+        } elseif ($this->procStatus === 1) {
+            $this->procStatus = 0;
+            if ($status['exitcode'] === 0) {
+                echo 'success';
+            } else {
+                echo 'error';
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function updateProgressBar($title,$progress): void
