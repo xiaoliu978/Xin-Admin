@@ -243,7 +243,7 @@ class Xin
                 $envCount .= "DB_USER = {$this->devEnv['db_user']}". PHP_EOL;
                 $envCount .= "DB_PASS = {$this->devEnv['db_pass']}". PHP_EOL;
                 $envCount .= "DB_PORT = {$this->devEnv['db_port']}". PHP_EOL;
-                $envCount .= "DB_CHARSET = {$this->devEnv['db_charset']}. PHP_EOL";
+                $envCount .= "DB_CHARSET = {$this->devEnv['db_charset']}" . PHP_EOL;
                 $envCount .= "DEFAULT_LANG = zh-cn". PHP_EOL;
                 $envCount .= "# 用于 Crud 代码生成目录 相对于 应用根目录位置". PHP_EOL;
                 $envCount .= "WEB_PATH = ../xin-web". PHP_EOL;

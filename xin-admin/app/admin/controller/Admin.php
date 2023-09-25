@@ -158,9 +158,7 @@ class Admin extends Controller
             }
         }
 
-        $web_setting = get_setting('web');
-
-        return $this->success('ok',compact('adminInfo','access','menus','web_setting'));
+        return $this->success('ok',compact('adminInfo','access','menus'));
     }
 
 
