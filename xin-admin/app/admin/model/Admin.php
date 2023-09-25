@@ -42,6 +42,7 @@ class Admin extends BaseModel
             $data = [];
             $data['refresh_token'] =  md5(random_bytes(10));
             $data['token'] =  md5(random_bytes(10));
+            $data['id'] = $user['id'];
             if(
                 $token->set($data['token'],'admin',$user['id'],600) &&
                 $token->set($data['refresh_token'],'admin-refresh',$user['id'],2592000)

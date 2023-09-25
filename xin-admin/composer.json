@@ -26,7 +26,8 @@
         "topthink/think-filesystem": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-view": "^2.0",
-        "ext-curl": "*"
+        "ext-curl": "*",
+        "ext-pdo": "*"
     },
     "require-dev": {
         "symfony/var-dumper": ">=4.2",

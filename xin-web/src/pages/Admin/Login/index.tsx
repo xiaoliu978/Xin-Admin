@@ -40,25 +40,34 @@ const iconDivStyle: CSSProperties = {
 
 const Login: React.FC =  () => {
 
-  const { refresh,initialState } = useModel('@@initialState');
+  const { refresh,initialState,setInitialState } = useModel('@@initialState');
   const { refreshDict } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
     const msg = await UserLogin({ ...values, loginType });
-    if (msg.success) {
-      // 登录成功
-      message.success('登录成功！');
-      // 记录令牌
-      localStorage.setItem('token',msg.data.token);
-      localStorage.setItem('refresh_token',msg.data.refresh_token);
-      const urlParams = new URL(window.location.href).searchParams;
-      history.push(urlParams.get('redirect') || '/');
-      // 刷新全局初始化状态
-      refresh();
-      refreshDict();
-      return;
-    }
+
+    message.success('登录成功！');
+    // 记录令牌
+    localStorage.setItem('token',msg.data.token);
+    localStorage.setItem('refresh_token',msg.data.refresh_token);
+
+    const userInfo = await initialState!.fetchUserInfo?.();
+    setInitialState((init: any) => {
+      return {
+        ...init,
+        isLogin: true,
+        isAccess: true,
+        currentUser: userInfo.adminInfo,
+        menus: userInfo.menus,
+        access: userInfo.access,
+      }
+    })
+    const urlParams = new URL(window.location.href).searchParams;
+    history.push(urlParams.get('redirect') || '/');
+    refreshDict();
+    return;
+
   };
 
   return (

@@ -37,10 +37,6 @@ export async function getInitialState(): Promise<initialStateType> {
     const msg = await GetAdminInfo();
     return msg.data;
   };
-  const getWebSetting = async () => {
-    const msg = await GetWebSet();
-    return msg.data.webSetting;
-  }
   // 如果不是登录页面，执行
   const { location } = history;
   const data: initialStateType = {
@@ -50,18 +46,26 @@ export async function getInitialState(): Promise<initialStateType> {
     isAccess: false,
     drawerShow: false,
     settings: defaultSettings as Partial<LayoutSettings>,
-    webSetting: await getWebSetting()
+    webSetting: {
+      logo: 'https://file.xinadmin.cn/file/favicons.ico',
+      title: 'Xin Admin'
+    }
   }
-  if (location.pathname !== '/login') {
-    const userInfo = await fetchUserInfo();
-    data.isLogin = true;
-    data.isAccess = true;
-    data.currentUser = userInfo.adminInfo;
-    data.menus = userInfo.menus;
-    data.access = userInfo.access;
+  try{
+    const msg = await GetWebSet();
+    data.webSetting = msg.data.webSetting;
+    if (location.pathname !== '/login') {
+      const userInfo = await fetchUserInfo();
+      data.isLogin = true;
+      data.isAccess = true;
+      data.currentUser = userInfo.adminInfo;
+      data.menus = userInfo.menus;
+      data.access = userInfo.access;
+    }
+    return data;
+  }catch (e){
+    return data;
   }
-  return data;
-
 }
 
 export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
