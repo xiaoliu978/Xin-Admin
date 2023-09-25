@@ -1,0 +1,7 @@
+#!/usr/bin/env php
+<?php
+namespace install;
+require './modules/extend/Xin.php';
+
+use Xin\Xin;
+new Xin($argv);
