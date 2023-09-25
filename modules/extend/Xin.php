@@ -75,6 +75,14 @@ class Xin
             return;
         }
 
+        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'run-' . time() . '.log';
+        file_put_contents($this->outputFile, '');
+        /**
+         * 命令执行结果输出到文件而不是管道 build admin
+         * 因为输出到管道时有延迟，而文件虽然需要频繁读取和对比内容，但是输出实时的
+         */
+        $this->descriptorsPec = [0 => ['pipe', 'r'], 1 => ['file', $this->outputFile, 'w'], 2 => ['file', $this->outputFile, 'w']];
+
         $argv[1] == 'install' && $this->install();
         $argv[1] == 'dev' && $this->dev();
         $argv[1] == 'produce' && $this->produce();
@@ -89,22 +97,18 @@ class Xin
     public function install(): void
     {
         $this->getEnv();
-        $outputDir = '.'. DIRECTORY_SEPARATOR . 'log' ;
-        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'run-' . time() . '.log';
-        file_put_contents($this->outputFile, '');
-        /**
-         * 命令执行结果输出到文件而不是管道 build admin
-         * 因为输出到管道时有延迟，而文件虽然需要频繁读取和对比内容，但是输出实时的
-         */
-        $this->descriptorsPec = [0 => ['pipe', 'r'], 1 => ['file', $this->outputFile, 'w'], 2 => ['file', $this->outputFile, 'w']];
+
 
         // 安装PHP 依赖
+        echo '开始安装 PHP 依赖' .PHP_EOL;
         $command = "cd ./xin-admin && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ && composer install";
         $this->runCommand($command);
         // 安装 PNPM 依赖
-        $command = "cd ./xin-web && npm install -g pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm install";
+        echo '开始安装 前端 依赖' .PHP_EOL;
+        $command = "cd ./xin-web && npm config set registry https://registry.npmmirror.com && npm install -g pnpm && pnpm config set registry https://registry.npmmirror.com && pnpm install";
         $this->runCommand($command);
         // 导入数据库
+        echo '开始导入数据库' .PHP_EOL;
         if($this->connection) {
             try {
                 $filePath = '.'. DIRECTORY_SEPARATOR . 'database' . DIRECTORY_SEPARATOR . 'install.sql';
@@ -112,12 +116,12 @@ class Xin
                     $sql = file_get_contents($filePath);
                     $this->connection->exec($sql);
                     $this->connection = null;
-                    echo "SQL file executed successfully";
+                    echo "successfully";
                 } else {
-                    echo "File doesn't exist";
+                    echo "\033[31m Error: File doesn't exist  \033[0m";
                 }
             } catch(PDOException $e) {
-                echo "SQL execution failed: " . $e->getMessage();
+                echo "\033[31m SQL execution failed: {$e->getMessage()} \033[0m";
             }
         }
     }
@@ -128,6 +132,25 @@ class Xin
      */
     public function dev():void
     {
+        $this->process = proc_open('cd ./xin-admin && php think run', $this->descriptorsPec, $pipes);
+
+        if (!is_resource($this->process)) {
+            echo 'Failed to execute';
+            die;
+        }
+
+        while ($this->getProcStatus()) {
+            // 读取输出流的数据
+            $contents = file_get_contents($this->outputFile);
+            echo $contents;
+            usleep(500000);
+        }
+        echo PHP_EOL;
+        $returnValue = proc_close($this->process);
+        if ($returnValue !== 0) {
+            echo '命令执行失败，错误代码: ' . $returnValue;
+            die;
+        }
 
     }
 
@@ -188,9 +211,11 @@ class Xin
         while ($this->getProcStatus()) {
             // 读取输出流的数据
             $contents = file_get_contents($this->outputFile);
-            echo sprintf("%s",$contents);
+            $lines = explode("\n", $contents);
+            echo end($lines);
             usleep(500000);
         }
+        echo PHP_EOL;
         $returnValue = proc_close($this->process);
         if ($returnValue !== 0) {
             echo '命令执行失败，错误代码: ' . $returnValue;
@@ -206,9 +231,24 @@ class Xin
         if ($phpPdo) {
             try {
                 $servername = $this->devEnv['db_host'];
-                $username = $this->devEnv['db_username'];
-                $password = $this->devEnv['db_password'];
+                $username = $this->devEnv['db_user'];
+                $password = $this->devEnv['db_pass'];
                 $dbname = $this->devEnv['db_name'];
+
+                $envCount = "APP_DEBUG = true" . PHP_EOL;
+                $envCount .= "DB_TYPE = {$this->devEnv['db_type']}". PHP_EOL;
+                $envCount .= "DB_HOST = {$this->devEnv['db_host']}". PHP_EOL;
+                $envCount .= "DB_NAME = {$this->devEnv['db_name']}". PHP_EOL;
+                $envCount .= "DB_PREFIX = xin_". PHP_EOL;
+                $envCount .= "DB_USER = {$this->devEnv['db_user']}". PHP_EOL;
+                $envCount .= "DB_PASS = {$this->devEnv['db_pass']}". PHP_EOL;
+                $envCount .= "DB_PORT = {$this->devEnv['db_port']}". PHP_EOL;
+                $envCount .= "DB_CHARSET = {$this->devEnv['db_charset']}. PHP_EOL";
+                $envCount .= "DEFAULT_LANG = zh-cn". PHP_EOL;
+                $envCount .= "# 用于 Crud 代码生成目录 相对于 应用根目录位置". PHP_EOL;
+                $envCount .= "WEB_PATH = ../xin-web". PHP_EOL;
+
+                file_put_contents('./xin-admin/.env', $envCount );
 
                 $this->connection = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
                 $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
