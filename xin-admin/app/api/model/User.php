@@ -1,18 +1,18 @@
 <?php
 
-namespace app\admin\model;
+namespace app\api\model;
 
-use app\common\model\BaseModel;
 use app\common\library\Token;
+use app\common\model\BaseModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
-class Admin extends BaseModel
+class User extends BaseModel
 {
 
     protected $hidden = [
-        'password', 'create_time', 'update_time', 'status', 'create_ip'
+        'password', 'create_time', 'update_time', 'status'
     ];
 
     /**
@@ -44,17 +44,62 @@ class Admin extends BaseModel
             $data['token'] =  md5(random_bytes(10));
             $data['id'] = $user['id'];
             if(
-                $token->set($data['token'],'admin',$user['id'],600) &&
-                $token->set($data['refresh_token'],'admin-refresh',$user['id'],2592000)
+                $token->set($data['token'],'user',$user['id'],600) &&
+                $token->set($data['refresh_token'],'user-refresh',$user['id'],2592000)
             ) {
                 return $data;
             } else {
                 $this->setErrorMsg('token 生成失败');
                 return false;
             }
-            
+
         }catch(\Exception $e){
             $this->setErrorMsg($e->getMessage());
+            return false;
+        }
+
+    }
+
+    public function register($data): bool|array
+    {
+        try {
+            $user = $this->where('username',$data['username'])->find();
+            if($user) {
+                $this->setErrorMsg('用户名被占用');
+                return false;
+            }
+            $user = $this->where('email',$data['email'])->find();
+            if($user) {
+                $this->setErrorMsg('注册邮箱被占用');
+                return false;
+            }
+            $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+
+            $user = self::create($data,['username','nickname','password','mobile','email']);
+            if($user){
+                $token = new Token();
+                $token->clear('user',$user['id']);
+                $token->clear('user-refresh',$user['id']);
+                $data = [];
+                $data['refresh_token'] =  md5(random_bytes(10));
+                $data['token'] =  md5(random_bytes(10));
+                $data['id'] = $user['id'];
+                if(
+                    $token->set($data['token'],'user',$user['id'],600) &&
+                    $token->set($data['refresh_token'],'user-refresh',$user['id'],2592000)
+                ) {
+                    return $data;
+                } else {
+                    $this->setErrorMsg('token 生成失败');
+                    return false;
+                }
+            }else {
+                $this->setErrorMsg('注册失败');
+                return false;
+            }
+
+        }catch(\Exception $e){
+            $this->setErrorMsg('系统错误'.$e->getMessage());
             return false;
         }
 
@@ -77,14 +122,12 @@ class Admin extends BaseModel
         }
         try {
             $token = new Token;
-            $token->clear('admin',$user['id']);
-            $token->clear('admin-refresh',$user['id']);
+            $token->clear('user',$user['id']);
+            $token->clear('user-refresh',$user['id']);
             return true;
         }catch(\Exception $e){
             $this->setErrorMsg($e->getMessage());
             return false;
         }
     }
-
-
 }

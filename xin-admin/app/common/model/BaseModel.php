@@ -38,7 +38,7 @@ class BaseModel extends Model
         }
     }
 
-    public function onBeforeDelete(Model $model): void
+    public static function onBeforeDelete(Model $model): void
     {
         if(env('WEB_NAME') && env('WEB_NAME') == 'xin_test'){
             $response = Response::create([
@@ -56,7 +56,7 @@ class BaseModel extends Model
      * @param Model $model
      * @return void
      */
-    public function onBeforeInsert(Model $model): void
+    public static function onBeforeInsert(Model $model): void
     {
 
     }
@@ -66,7 +66,7 @@ class BaseModel extends Model
      * @param Model $model
      * @return void
      */
-    public function onAfterInsert(Model $model): void
+    public static function onAfterInsert(Model $model): void
     {
 
     }

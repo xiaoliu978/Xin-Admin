@@ -1,20 +1,20 @@
 // 运行时配置
 import type {RunTimeLayoutConfig} from '@umijs/max';
-import type {Settings as LayoutSettings} from '@ant-design/pro-components';
 import defaultConfig from './utils/request';
 import {MenuDataItem, PageLoading} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
 import './index.less';
-import React, {lazy} from "react";
+import React, { lazy } from 'react';
 import defaultSettings from "../config/defaultSettings";
-import {GetAdminInfo, GetWebSet} from '@/services/admin';
-import {Access, history, Navigate} from '@umijs/max';
+import {GetAdminInfo} from '@/services/admin';
+import {Access, history} from '@umijs/max';
 import {RuntimeConfig} from "@umijs/max";
 import fixMenuItemIcon from "@/utils/menuDataRender";
 import RightRender from "@/components/Layout/RightRender";
 import {Button, Result} from "antd";
 import access from './access';
 import { index } from '@/services/api'
+import { getUserInfo } from '@/services/api/user';
 
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
 export interface initialStateType {
@@ -26,55 +26,70 @@ export interface initialStateType {
   drawerShow?: boolean;
   access: string[];
   fetchUserInfo?:  () => Promise<any>;
+  fetchAdminInfo?:  () => Promise<any>;
   menus?: {[key: string] : any};
-  webSetting: { [key: string] : any }
+  webSetting: { [key: string] : any };
+  app: string;
 }
-
 
 export async function getInitialState(): Promise<initialStateType> {
   // 获取用户信息
-  console.log('getInitialState')
-  const fetchUserInfo = async () => {
+  console.log('getInitialState');
+  // 记录当前应用
+  if(!localStorage.getItem('app')){
+    localStorage.setItem('app','api');
+  }
+  const fetchAdminInfo = async () => {
     const msg = await GetAdminInfo();
     return msg.data;
   };
-  // 如果不是登录页面，执行
+  const fetchUserInfo = async () => {
+    const msg = await getUserInfo();
+    return msg.data;
+  };
+
   const { location } = history;
   const data: initialStateType = {
     access: [],
     fetchUserInfo,
+    fetchAdminInfo,
     isLogin: false,
     isAccess: false,
     drawerShow: false,
     settings: defaultSettings,
+    app: localStorage.getItem('app')!,
     webSetting: {
       logo: 'https://file.xinadmin.cn/file/favicons.ico',
       title: 'Xin Admin'
     },
     menus: []
   }
+
   try{
     let indexDate = await index();
     data.webSetting = indexDate.data.web_setting
     data.settings = indexDate.data.layout
     data.menus = indexDate.data.menus
-    console.log(data.menus)
-
-    // const msg = await GetWebSet();
-    // data.webSetting = msg.data.webSetting;
-    // if (location.pathname !== 'admin/login') {
-    //   const userInfo = await fetchUserInfo();
-    //   data.isLogin = true;
-    //   data.isAccess = true;
-    //   data.currentUser = userInfo.adminInfo;
-    //   data.menus = userInfo.menus;
-    //   data.access = userInfo.access;
-    // }
+    if (location.pathname !== 'admin/login' && localStorage.getItem('token')) {
+      let userInfo;
+      if(data.app === 'api'){
+        userInfo = await fetchUserInfo();
+      }else {
+        userInfo = await fetchAdminInfo();
+      }
+      data.settings = userInfo.layout
+      data.isLogin = true;
+      data.isAccess = true;
+      data.currentUser = userInfo.info;
+      data.menus = userInfo.menus;
+      data.access = userInfo.access;
+    }
     return data;
   }catch (e){
     return data;
   }
 }
+
 
 export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
   return {
@@ -82,7 +97,10 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     title: initialState!.webSetting.title,
     footerRender: () => <Footer/>,
     menu: {
-      request: async () => initialState!.menus,
+      request: async () => {
+        console.log('刷新菜单啦：',initialState!.menus)
+        return initialState!.menus;
+      },
     },
     appList: [
       {
@@ -139,6 +157,9 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
+      if (location.pathname === 'admin/login') {
+        return
+      }
       // 如果没有登录，重定向到 login
       if (!initialState!.isLogin && location.pathname !== '/') {
         history.push('/');
@@ -161,9 +182,7 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      if (location.pathname === 'admin/login') {
-        return children
-      }
+
       return (
         <Access accessible={initialState!.isAccess} fallback={(
           <Result
@@ -198,7 +217,7 @@ const defaultRoutes = [
     name: '登录',
     path: 'admin/login',
     id: 'adminLogin',
-    element: lazyLoad('Admin/Login'),
+    element: lazyLoad('Public/Login'),
     layout: false,
   },
 ]

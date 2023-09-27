@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useModel } from '@umijs/max';
 import './index.less';
 import { Button, Carousel, Col, ConfigProvider, Divider, Row, Statistic, Typography } from 'antd';
 import { ProCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 
+
 const { Text } = Typography;
 const Index: React.FC = () => {
-  const {initialState} = useModel('@@initialState');
   const videoElement = useRef<HTMLVideoElement>(null);
-
   const logos = [
     'https://main.qcloudimg.com/raw/2044066d0a02578e788df97b6e5d1ced.png',
     'https://main.qcloudimg.com/raw/820db8ee8476add3083b49eeed19c972.png',
@@ -94,7 +92,11 @@ const Index: React.FC = () => {
               setResponsive(offset.width < 596);
             }}
           >
-            <ProCard.Group title="我们的优势" direction={responsive ? 'column' : 'row'}>
+            <ProCard.Group title={
+              <>
+                <Button type={'primary'} onClick={()=>location.href='/admin/login'}>登录管理后台</Button>
+              </>
+            } direction={responsive ? 'column' : 'row'}>
               <ProCard>
                 <Statistic title="强大的前端组件驱动。便捷的权限验证，crud表格，动态菜单，约定式路由等，只需一个 Columns 就可以实现增删改查等表单、表格、查询等功能，以及组件的高度自定义，搭配完善的数据字典系统，轻松的构建你的业务系统。" value={'前沿技术栈驱动🌺'} precision={2} />
               </ProCard>

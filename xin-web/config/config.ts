@@ -26,7 +26,7 @@ export default defineConfig({
    * 约定式路由配置
    */
   conventionRoutes: {
-    exclude: [/\/components\//, /\/models\//,/\/noLayoutPage\//],
+    exclude: [/\/components\//, /\/models\//,/\/noLayoutPage\//,/\/Public\//],
   },
   /**
    * 初始化状态

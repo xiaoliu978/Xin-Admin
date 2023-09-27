@@ -2,7 +2,7 @@ import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import XinDict from "@/components/XinDict";
 import {useModel} from "@umijs/max";
-import {getRulePid} from "@/services/admin";
+import {GetRulePid} from "@/services/admin";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
 import IconsItem from "@/components/XinForm/IconsItem/Index"
@@ -27,7 +27,7 @@ const Table: React.FC = () => {
 
   // 获取父节点ID
   useEffect(() => {
-    getRulePid().then(res=>{
+    GetRulePid().then(res=>{
       if(res.success){
         setParentNode(res.data.data)
       }

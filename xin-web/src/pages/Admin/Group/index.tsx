@@ -1,7 +1,7 @@
 import XinTable from '@/components/XinTable'
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import React, {useEffect, useState} from "react";
-import {getAdminGroupPid} from "@/services/admin";
+import {GetAdminGroupPid} from "@/services/admin";
 import {useBoolean} from "ahooks";
 import GroupRule from "./components/GroupRule";
 import {Access, useAccess} from "@umijs/max";
@@ -24,7 +24,7 @@ const Table : React.FC = () => {
 
   // 获取父节点ID
   useEffect(() => {
-    getAdminGroupPid().then(res=>{
+    GetAdminGroupPid().then(res=>{
       if(res.success){
         setParentNode(res.data.data)
       }

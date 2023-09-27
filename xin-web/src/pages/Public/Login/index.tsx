@@ -51,8 +51,9 @@ const Login: React.FC =  () => {
     // 记录令牌
     localStorage.setItem('token',msg.data.token);
     localStorage.setItem('refresh_token',msg.data.refresh_token);
+    localStorage.setItem('app','admin');
 
-    const userInfo = await initialState!.fetchUserInfo?.();
+    const userInfo = await initialState!.fetchAdminInfo?.();
     setInitialState((init: any) => {
       return {
         ...init,
@@ -61,10 +62,11 @@ const Login: React.FC =  () => {
         currentUser: userInfo.adminInfo,
         menus: userInfo.menus,
         access: userInfo.access,
+        settings: userInfo.layout
       }
     })
     const urlParams = new URL(window.location.href).searchParams;
-    history.push(urlParams.get('redirect') || '/');
+    history.push(urlParams.get('redirect') || '/home');
     refreshDict();
     return;
 
