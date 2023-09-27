@@ -13,8 +13,6 @@ enum ErrorShowType {
 }
 
 const requestConfig: RuntimeConfig['request'] = {
-  // 统一的请求设定
-  baseURL: '/admin.php',
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
 

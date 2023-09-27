@@ -67,6 +67,11 @@ export default defineConfig({
       changeOrigin: true,
       pathRewrite: { '^/admin.php': '' },
     },
+    '/api.php': {
+      target: 'http://127.0.0.1:8000/api.php',
+      changeOrigin: true,
+      pathRewrite: { '^/api.php': '' },
+    },
   },
 });
 

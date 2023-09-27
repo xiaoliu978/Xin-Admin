@@ -3,65 +3,67 @@ namespace app\common\controller;
 
 use app\BaseController;
 use app\common\library\RequestJson;
+use Exception;
 use think\facade\Db;
 use think\db\exception\PDOException;
+use think\Model;
+use think\Validate;
 
 class ApiController extends BaseController
 {
 
     use RequestJson;
 
-    // 登录验证白名单
-    protected $allowAllAction = [];
-
-    // 当前路由：分组名称
-    protected $group = '';
-
     /**
-     * 强制验证当前访问的控制器方法method
-     * 例: [ 'login' => 'POST' ]
+     * 登录验证白名单
      * @var array
      */
-    protected $methodRules = [];
+    protected array $allowAction = [];
 
-    public function initialize()
+    /**
+     * 查询字段
+     * @var array
+     */
+    protected array $searchField = [];
+
+    /**
+     * 当前控制器模型
+     * @var Model
+     */
+    protected Model $model;
+
+    /**
+     * 验证器
+     * @var Validate|null
+     */
+    protected null | Validate  $validate = null;
+
+    /**
+     * 当前类权限标识
+     * @var string
+     */
+    protected string $authName;
+
+    /**
+     * 可直接使用的数据库术语
+     * @var array|string[]
+     */
+    protected array $sqlTerm = ['=', '>', '<>', '<', '>=', '<='];
+
+    /**
+     * 初始化
+     * @return void
+     * @throws Exception
+     */
+    public function initialize(): void
     {
         parent::initialize();
 
-        // 检测数据库连接
-        try {
-            Db::execute("SELECT 1");
-        } catch (PDOException $e) {
-            $this->error($e->getMessage(),[],200,'throw');
-        }
-        $this->getRouteinfo();
-        $this->checkLogin();
-    }
-
-    /**
-     * 获取当前登录用户信息
-     * @return {*}
-     */
-    public function getAdminInfo()
-    {
-
-    }
-
-
-    /**
-     * 验证登录状态
-     * @return void
-     * @throws BaseException
-     */
-    private function checkLogin(): void
-    {
-        // 验证当前请求是否在白名单
-        if (in_array($this->routeUri, $this->allowAllAction)) {
-            return;
-        }
-        // 验证登录状态
-        if (true) {
-
+        // 运行注解
+        $ref = new \ReflectionObject($this);
+        $attrs = $ref->getMethod($this->action)->getAttributes();
+        foreach ($attrs as $attr){
+            $attr->newInstance();
         }
     }
 

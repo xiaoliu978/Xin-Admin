@@ -13,7 +13,8 @@ import {RuntimeConfig} from "@umijs/max";
 import fixMenuItemIcon from "@/utils/menuDataRender";
 import RightRender from "@/components/Layout/RightRender";
 import {Button, Result} from "antd";
-
+import access from './access';
+import { index } from '@/services/api'
 
 // 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
 export interface initialStateType {
@@ -45,23 +46,30 @@ export async function getInitialState(): Promise<initialStateType> {
     isLogin: false,
     isAccess: false,
     drawerShow: false,
-    settings: defaultSettings as Partial<LayoutSettings>,
+    settings: defaultSettings,
     webSetting: {
       logo: 'https://file.xinadmin.cn/file/favicons.ico',
       title: 'Xin Admin'
-    }
+    },
+    menus: []
   }
   try{
-    const msg = await GetWebSet();
-    data.webSetting = msg.data.webSetting;
-    if (location.pathname !== '/login') {
-      const userInfo = await fetchUserInfo();
-      data.isLogin = true;
-      data.isAccess = true;
-      data.currentUser = userInfo.adminInfo;
-      data.menus = userInfo.menus;
-      data.access = userInfo.access;
-    }
+    let indexDate = await index();
+    data.webSetting = indexDate.data.web_setting
+    data.settings = indexDate.data.layout
+    data.menus = indexDate.data.menus
+    console.log(data.menus)
+
+    // const msg = await GetWebSet();
+    // data.webSetting = msg.data.webSetting;
+    // if (location.pathname !== 'admin/login') {
+    //   const userInfo = await fetchUserInfo();
+    //   data.isLogin = true;
+    //   data.isAccess = true;
+    //   data.currentUser = userInfo.adminInfo;
+    //   data.menus = userInfo.menus;
+    //   data.access = userInfo.access;
+    // }
     return data;
   }catch (e){
     return data;
@@ -76,15 +84,67 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     menu: {
       request: async () => initialState!.menus,
     },
+    appList: [
+      {
+        icon: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+        title: 'Ant Design',
+        desc: '杭州市较知名的 UI 设计语言',
+        url: 'https://ant.design',
+      },
+      {
+        icon: 'https://gw.alipayobjects.com/zos/antfincdn/FLrTNDvlna/antv.png',
+        title: 'AntV',
+        desc: '蚂蚁集团全新一代数据可视化解决方案',
+        url: 'https://antv.vision/',
+        target: '_blank',
+      },
+      {
+        icon: 'https://gw.alipayobjects.com/zos/antfincdn/upvrAjAPQX/Logo_Tech%252520UI.svg',
+        title: 'Pro Components',
+        desc: '专业级 UI 组件库',
+        url: 'https://procomponents.ant.design/',
+      },
+      {
+        icon: 'https://img.alicdn.com/tfs/TB1zomHwxv1gK0jSZFFXXb0sXXa-200-200.png',
+        title: 'umi',
+        desc: '插件化的企业级前端应用框架。',
+        url: 'https://umijs.org/zh-CN/docs',
+      },
+
+      {
+        icon: 'https://gw.alipayobjects.com/zos/bmw-prod/8a74c1d3-16f3-4719-be63-15e467a68a24/km0cv8vn_w500_h500.png',
+        title: 'qiankun',
+        desc: '可能是你见过最完善的微前端解决方案🧐',
+        url: 'https://qiankun.umijs.org/',
+      },
+      {
+        icon: 'https://gw.alipayobjects.com/zos/rmsportal/XuVpGqBFxXplzvLjJBZB.svg',
+        title: '语雀',
+        desc: '知识创作与分享工具',
+        url: 'https://www.yuque.com/',
+      },
+      {
+        icon: 'https://gw.alipayobjects.com/zos/rmsportal/LFooOLwmxGLsltmUjTAP.svg',
+        title: 'Kitchen ',
+        desc: 'Sketch 工具集',
+        url: 'https://kitchen.alipay.com/',
+      },
+      {
+        icon: 'https://gw.alipayobjects.com/zos/bmw-prod/d3e3eb39-1cd7-4aa5-827c-877deced6b7e/lalxt4g3_w256_h256.png',
+        title: 'dumi',
+        desc: '为组件开发场景而生的文档工具',
+        url: 'https://d.umijs.org/zh-CN',
+      },
+    ],
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState!.isLogin && location.pathname !== '/login') {
-        history.push('/login');
+      if (!initialState!.isLogin && location.pathname !== '/') {
+        history.push('/');
       }
       const accessName = location.pathname.slice(1).replace('/','.');
-      if(initialState!.access.includes(accessName)){
+      if(initialState!.access.includes(accessName) || access(initialState!).noAuth.includes(location.pathname)){
         setInitialState((preInitialState: any) => ({
           ...preInitialState,
           isAccess: true,
@@ -101,6 +161,9 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
+      if (location.pathname === 'admin/login') {
+        return children
+      }
       return (
         <Access accessible={initialState!.isAccess} fallback={(
           <Result
@@ -132,16 +195,9 @@ const defaultRoutes = [
     layout: false,
   },
   {
-    name: '首页',
-    path: '/index',
-    id: 'index',
-    element: lazyLoad('Client/Index'),
-    layout: false
-  },
-  {
     name: '登录',
-    path: '/login',
-    id: 'login',
+    path: 'admin/login',
+    id: 'adminLogin',
     element: lazyLoad('Admin/Login'),
     layout: false,
   },
@@ -149,10 +205,10 @@ const defaultRoutes = [
 
 export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({routes}) => {
   console.log('patchClientRoutes')
-  routes.unshift({
-    path: '/',
-    element: <Navigate to="/home" replace />,
-  });
+  // routes.unshift({
+  //   path: '/',
+  //   element: <Navigate to="/home" replace />,
+  // });
   routes.push(...defaultRoutes)
 };
 

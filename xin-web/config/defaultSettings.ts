@@ -5,15 +5,18 @@ const Settings: ProLayoutProps  = {
   // 拂晓蓝
   colorPrimary: '#1890ff',
   // colorPrimary: '#2F54EB',
-  layout: 'mix',
+  layout: 'top',
   contentWidth: 'Fluid',
   fixedHeader: true,
   token: {
     pageContainer: {
-      paddingBlockPageContainerContent: 20,
-      paddingInlinePageContainerContent: 20,
+      paddingBlockPageContainerContent: 0,
+      paddingInlinePageContainerContent: 0,
     }
   },
+  fixSiderbar: true,
+  splitMenus: false,
+  siderMenuType: "sub"
 };
 
 

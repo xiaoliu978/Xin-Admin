@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-namespace install;
+namespace run;
 require './modules/extend/Xin.php';
 
 use Xin\Xin;
