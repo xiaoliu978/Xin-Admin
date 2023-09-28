@@ -1,10 +1,10 @@
 <?php
 declare (strict_types=1);
-namespace app\api\controller\user;
+namespace app\admin\controller\user;
 
 use app\api\validate\user\UserGroup as UserGroupVal;
 use app\common\attribute\Auth;
-use app\common\controller\ApiController as Controller;
+use app\common\controller\AdminController as Controller;
 use app\common\model\user\UserGroup as UserGroupModel;
 use app\common\model\user\UserGroupRule as UserGroupRuleModel;
 use Exception;

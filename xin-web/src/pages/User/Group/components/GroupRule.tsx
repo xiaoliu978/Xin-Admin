@@ -1,6 +1,6 @@
 import {Button, Drawer, message, Space, Tree, TreeProps} from 'antd';
 import React, {useEffect, useState} from "react";
-import {GetGroupRule, GetRuleByGroup, SetGroupRule} from "@/services/admin/auth";
+import {GetGroupRule, GetRuleByGroup, SetGroupRule} from "@/services/admin/userAuth";
 import type { DataNode } from 'antd/es/tree';
 
 const App: React.FC<{open : boolean;onClose: ()=>void; record: {

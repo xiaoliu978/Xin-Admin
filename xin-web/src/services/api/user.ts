@@ -4,6 +4,10 @@ const api = {
   getUserInfo: 'api.php/user/getUserInfo',
   login: 'api.php/index/login',
   logoutApi: 'api.php/user/logout',
+  setGroupRuleApi: '/admin.php/user.userGroup/setGroupRule', // 设置分组权限
+  getGroupRuleApi: '/admin.php/user.userGroup/getGroupRule', /// 获取分组权限
+  getRuleByGroupApi: '/admin.php/user.userRule/getRuleByGroup', // 通过分组获取权限
+  getGroupPidApi: '/admin.php/user.userGroup/getGroupPid', // 获取分组 父ID
 }
 
 /**
@@ -39,3 +43,4 @@ export async function Logout() {
     method: 'post'
   });
 }
+

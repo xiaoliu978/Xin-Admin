@@ -2,15 +2,15 @@
 
 namespace app\common\attribute;
 use app\admin\model\Admin as AdminModel;
-use app\api\model\User as UserModel;
 use app\admin\model\AdminGroup;
-use app\api\model\user\UserGroup;
+use app\api\model\User as UserModel;
+use app\common\library\RequestJson;
 use app\common\library\Token;
+use app\common\model\user\UserGroup;
 use Attribute;
 use Exception;
 use ReflectionClass;
 use think\db\exception\DbException;
-use app\common\library\RequestJson;
 use think\Model;
 use think\response\Json;
 

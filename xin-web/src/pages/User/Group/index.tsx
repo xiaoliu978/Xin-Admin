@@ -1,12 +1,12 @@
 import XinTable from '@/components/XinTable'
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import React, {useEffect, useState} from "react";
-import {GetAdminGroupPid} from "@/services/admin/auth";
+import {GetUserGroupPid} from "@/services/admin/userAuth";
 import {useBoolean} from "ahooks";
 import GroupRule from "./components/GroupRule";
 import {Access, useAccess} from "@umijs/max";
 
-const api = '/adminGroup';
+const api = '/user.userGroup';
 
 interface ResponseAdminList {
   id?: number
@@ -24,7 +24,7 @@ const Table : React.FC = () => {
 
   // 获取父节点ID
   useEffect(() => {
-    GetAdminGroupPid().then(res=>{
+    GetUserGroupPid().then(res=>{
       if(res.success){
         setParentNode(res.data.data)
       }

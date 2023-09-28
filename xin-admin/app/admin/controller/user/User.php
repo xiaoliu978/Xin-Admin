@@ -1,12 +1,14 @@
 <?php
-namespace app\admin\controller;
+namespace app\admin\controller\user;
 
+use app\admin\validate\User as UserVal;
 use app\common\controller\AdminController as Controller;
 use app\common\model\User as UserModel;
-use app\admin\validate\User as UserVal;
 
 class User extends Controller
 {
+
+    protected string $authName = 'user';
 
     protected array $searchField = [];
 

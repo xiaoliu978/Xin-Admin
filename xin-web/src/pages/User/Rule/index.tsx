@@ -2,12 +2,12 @@ import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import XinDict from "@/components/XinDict";
 import {useModel} from "@umijs/max";
-import {GetRulePid} from "@/services/admin/auth";
+import {GetRulePid} from "@/services/admin/userAuth";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
 import IconsItem from "@/components/XinForm/IconsItem/Index"
 
-const api = '/adminRule';
+const api = '/user.userRule';
 interface ResponseAdminList {
   id?: number
   title?: string

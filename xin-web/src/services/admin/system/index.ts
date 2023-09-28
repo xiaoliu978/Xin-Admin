@@ -3,25 +3,23 @@
  */
 import { request } from '@umijs/max';
 
-
-
 /**
  * 获取系统字典
  */
 export const gitDict = () => {
-  return request<API.ResponseStructure<any>>('admin.php/system.dictItem/dictList', {
+  return request<API.ResponseStructure<any>>('/admin.php/system.dictItem/dictList', {
     method: 'get',
   })
 }
 
 export const getSettingGroup = () => {
-  return request<API.ResponseStructure<any>>('admin.php/system.setting/querySettingGroup', {
+  return request<API.ResponseStructure<any>>('/admin.php/system.setting/querySettingGroup', {
     method: 'get',
   })
 }
 
 export const querySettingPid = () => {
-  return request<API.ResponseStructure<any>>('admin.php/system.setting/querySettingPid', {
+  return request<API.ResponseStructure<any>>('/admin.php/system.setting/querySettingPid', {
     method: 'get',
   })
 }
@@ -31,7 +29,7 @@ export const addGroup = (data: {
   title: string,
   pid?: number
 }) => {
-  return request<API.ResponseStructure<any>>('admin.php/system.setting/addGroup', {
+  return request<API.ResponseStructure<any>>('/admin.php/system.setting/addGroup', {
     method: 'post',
     data
   })

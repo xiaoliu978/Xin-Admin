@@ -40,7 +40,7 @@ const iconDivStyle: CSSProperties = {
 
 const Login: React.FC =  () => {
 
-  const { refresh,initialState,setInitialState } = useModel('@@initialState');
+  const { initialState,setInitialState } = useModel('@@initialState');
   const { refreshDict } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {

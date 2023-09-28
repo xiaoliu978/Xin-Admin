@@ -1,7 +1,7 @@
 import {Drawer, message} from 'antd';
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
-import {addApi, listApi} from "@/services/table";
+import {addApi, listApi} from "@/services/admin/table";
 import {ProTableProps} from "@ant-design/pro-components";
 import {useModel} from '@umijs/max';
 

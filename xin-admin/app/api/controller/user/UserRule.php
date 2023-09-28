@@ -2,12 +2,11 @@
 declare (strict_types=1);
 namespace app\api\controller\user;
 
-use app\common\attribute\Auth;
-use app\common\attribute\Method;
-use app\common\controller\ApiController as Controller;
-use app\api\model\user\UserGroup as UserGroupModel;
-use app\api\model\user\UserGroupRule as UserGroupRuleModel;
 use app\api\validate\user\UserGroup as UserGroupVal;
+use app\common\attribute\Auth;
+use app\common\controller\ApiController as Controller;
+use app\common\model\user\UserGroup as UserGroupModel;
+use app\common\model\user\UserGroupRule as UserGroupRuleModel;
 use Exception;
 use think\Model;
 use think\response\Json;

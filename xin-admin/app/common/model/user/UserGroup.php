@@ -1,6 +1,6 @@
 <?php
 
-namespace app\api\model\user;
+namespace app\common\model\user;
 
 
 use app\common\model\BaseModel;

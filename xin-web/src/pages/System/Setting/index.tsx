@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Form, message, Radio, Space, Tree, TreeSelect,Typography} from "antd";
-import {addGroup, getSettingGroup, querySettingPid} from "@/services/system";
+import {addGroup, getSettingGroup, querySettingPid} from "@/services/admin/system";
 import {ModalForm, ProCard, ProFormText} from "@ant-design/pro-components";
 import {DownOutlined, PlusOutlined} from "@ant-design/icons";
 import type {TreeProps} from "antd";
@@ -8,7 +8,7 @@ import {DataNode} from "antd/es/tree";
 import {Access,useAccess} from "@umijs/max";
 import XinTable from "@/components/XinTable";
 import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
-import {addApi} from "@/services/table";
+import {addApi} from "@/services/admin/table";
 import {useModel} from "@@/exports";
 const { Text } = Typography;
 

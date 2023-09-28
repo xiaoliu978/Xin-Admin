@@ -1,6 +1,6 @@
 // 全局共享数据示例
 import {useEffect, useState} from 'react';
-import {gitDict} from "@/services/system";
+import {gitDict} from "@/services/admin/system";
 
 interface DictItem {
   label:string

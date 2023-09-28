@@ -5,6 +5,7 @@ use app\common\attribute\Method;
 use app\common\controller\ApiController as Controller;
 use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
+use app\common\model\user\UserGroup;
 use think\response\Json;
 
 class Index extends Controller
@@ -42,49 +43,45 @@ class Index extends Controller
             "splitMenus" => false,
             "siderMenuType" => "sub"
         ];
-        $menus = [
-            [
-                'name' => '首页',
-                'path' => '/',
-                'key' =>  'index',
-                'icon' => 'HomeOutlined'
-            ],
-            [
-                'name' => '文章中心',
-                'key' => 'app',
-                'path' => '/',
-                'icon' => 'AppstoreOutlined'
-            ],
-            [
-                'name' => '下载中心',
-                'key' => 'SubMenu',
-                'path' => '/',
-                'icon'=> 'SettingOutlined',
-                'children' => [
-                    [
-                        'name' => '电脑软件',
-                        'path' => '/',
-                        'key' => 'Item 1',
-                    ],
-                    [
-                        'name' => 'windows 系统',
-                        'path' => '/',
-                        'key' => 'Item 2',
-                    ],
-                    [
-                        'name' => 'app 应用',
-                        'path' => '/',
-                        'key' => 'Item 3',
-                    ],
-                ]
-            ]
-        ];
 
+        $group = (new UserGroup())->with(['roles' => function($query){
+            $query->order('sort');
+        }])->where('id',2)->find();
+        $rules = $group->roles;
+        $menus = [];
+        foreach ($rules as $role) {
+            if($role->type == 0){
+                $menu = $this->getMenu($role);
+                foreach ($rules as $childRole){
+                    if($childRole->type == 1 && $childRole->pid == $role->id){
+                        $childMenu = $this->getMenu($childRole);
+                        $menu['children'][] = $childMenu;
+                    }
+                }
+                $menus[] =  $menu;
+            }
+        }
 
 
         $web_setting = get_setting('web');
         return $this->success('ok',compact('layout','web_setting', 'menus'));
     }
+
+    /**
+     * @param mixed $role
+     * @return array
+     */
+    private function getMenu (mixed $role): array
+    {
+        $menu = [];
+        !$role->name ?: $menu['name'] = $role->name;
+        !$role->path ?: $menu['path'] = $role->path;
+        !$role->component ?: $menu['component'] = $role->component;
+        !$role->key ?: $menu['key'] = $role->key;
+        !$role->icon ?: $menu['icon'] = $role->icon;
+        return $menu;
+    }
+
 
     /**
      * 用户登录

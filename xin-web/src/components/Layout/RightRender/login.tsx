@@ -41,7 +41,6 @@ const iconDivStyle: CSSProperties = {
 const Login: React.FC =  () => {
 
   const { initialState,setInitialState } = useModel('@@initialState');
-  const { refreshDict } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
@@ -137,7 +136,7 @@ const Login: React.FC =  () => {
                 size: 'large',
                 prefix: <UserOutlined className={'prefixIcon'} />,
               }}
-              placeholder={'用户名: admin'}
+              placeholder={'用户名: user'}
               rules={[{required: true, message: '请输入用户名!',},]}
             />
             <ProFormText.Password

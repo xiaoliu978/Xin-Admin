@@ -3,12 +3,12 @@
 namespace app\api\controller;
 
 use app\api\model\User as UserModel;
-use app\api\model\user\UserGroup;
 use app\api\validate\User as UserVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
 use app\common\controller\ApiController;
 use app\common\library\Token;
+use app\common\model\user\UserGroup;
 use think\response\Json;
 
 class User extends ApiController
@@ -50,7 +50,24 @@ class User extends ApiController
             }
         }
 
-        return $this->success('ok',compact('info','access','menus'));
+        $layout = [
+            'navTheme' => 'light',
+            'colorPrimary' => '#1890ff',
+            'layout' => 'top',
+            'contentWidth' => 'Fluid',
+            'fixedHeader' => true,
+            'token' => [
+                'pageContainer' => [
+                    'paddingBlockPageContainerContent' => 0,
+                    'paddingInlinePageContainerContent' => 0
+                ]
+            ],
+            "fixSiderbar" => true,
+            "splitMenus" => false,
+            "siderMenuType" => "sub"
+        ];
+
+        return $this->success('ok',compact('info','access','menus','layout'));
     }
 
     /**
