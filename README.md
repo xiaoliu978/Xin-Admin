@@ -1,6 +1,6 @@
 
 <h1 align="center">Xin Admin</h1>
-<h4 align="center">站在巨人的肩膀，优雅的构建你的网站</h4>
+<h4 align="center">带你探索技术的革新，享受开发的乐趣</h4>
 <p align="center">
     <a href="https://www.thinkphp.cn/" target="_blank">
         <img src="https://img.shields.io/badge/ThinkPHP-%3E8.0-brightgreen" alt="thinkphp">
@@ -25,28 +25,44 @@
     </a>
 </p>
 
-<img src="https://file.xinadmin.cn/file/demo.png"/>
 
-### ✨ 介绍
+
+
+## ✨ 介绍
 基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Ant Design Pro components 等流行技术栈的后台管理系统，提供权限验证、用户分组、数据字典、可视化CRUD等便捷开发，
 遵循Apache License 无需授权即可免费商用.
 
-### 主要特征
+<img src="https://file.xinadmin.cn/file/demo.png"/>
 
-#### 🎈 Ant Design 技术栈
-基于 Ant Design、 UmiJs 最新技术栈， 强大的前端组件驱动。强大且便捷的权限验证，crud表格，动态菜单，约定式路由等，只需一个 Columns 就可以实现增删改查等表单、表格、查询等功能，以及组件的高度自定义，搭配完善的数据字典系统，轻松的构建你的业务系统。
+## 主要特征
 
-#### 🎉 PHP 8.1 强力驱动
-采用最新的Think PHP 8 + PHP8.1 开发，优先使用 PHP 新特性， 对接口的控制、权限验证和接口验证，只需一个注解即可实现。采用ThinkPHP框架，在保持出色的性能和至简代码的同时，更注重易用性 ，前端新手即可无门槛上手部署系统
+### 🚀 Online 在线开发
+在线开发页面，支持一键生成CRUD代码，新增或编辑字段实时更新效果，预览效果，提供多种表单组件，支持 Mock 模拟数据，详细查看具体介绍。
 
-#### ✈️ 可视化 CRUD
-Pro components 赋予我们极其强大、便捷且易用的 CRUD 开发，编辑字段立即看到表格效果，支持多种组件演示，支持下拉框、单选、多选等。编辑即可看到表单表格以及查询等效果。支持前后端双重数据验证，支持自定义验证。使用MockJs库即可实时查看模拟数据，增强你的CRUD体验，让你把重心放到业务逻辑上，极大的方便了开发者。
+### ✨命令行脚本
+项目自带一套PHP命令行脚本，支持一键依赖安装，自动执行 Composer 依赖安装 和 NPM 依赖安装，让你不在为复杂的准备工作头疼，支持命令行安装和更新模块和插件
 
-#### 📟 权限管理
-完善的权限管理体系，页面、菜单、按钮三级权限控制，动态菜单，支持无限父子级权限分组，支持部门权限分派控制，支持数据权限（精细化数据权限控制，控制到行级，列表级，表单字段级，实现不同人看不同数据，不同人对同一个页面操作不同字段
+### 🎨 React 技术栈
+我们使用了 阿里 Umi Js 以及 AntdPro 组件库，不仅简单易用，并且可以是你的技术更上一层楼，带你体验技术的革新，站在巨人肩膀上享受开发的便捷和乐趣。
 
-#### ♻️ 数据字典
-结合 Antd Pro 建立的 XinDict 组件 ，支持 value、label 映射，支持标签、文字、徽标三种类型，多种显示状态。结合Ant Design Pro 组件，帮助开发者轻松管理和使用数据字典。
+### 📟 权限控制系统
+我们提供了完善的权限验证系统，支持客户端、管理端，双动态菜单，页面按钮级权限控制，使用PHP8注解验证精确控制接口请求，支持分组权限禁用继承。
+
+### ♻️ 数据字典和全局设置
+强大的数据字典，支持CRUD生成，value、label 映射，支持标签、文字、徽标三种表格展示类型，多种显示状态，还有方便的系统配置。
+
+### 🎟️ 插件化开发
+你可以将你的应用或者插件，通过安装包的的形式进行发布提供安装，也可以在我们的插件市场中选择需要的插件安装，具体请看 插件开发指引，你也可以申请加入开发者，与我们共建生态
+
+## 项目截图
+#### 在线开发 CRUD 代码一键生成 和 预览
+<img src="https://file.xinadmin.cn/file/crud.png"/>
+
+#### 多模板门户页面，可直接当作公司官网或者项目首页，还有更多插件模板
+<img src="https://file.xinadmin.cn/file/index.png"/>
+
+#### 字典配置，支持多中种状态
+<img src="https://file.xinadmin.cn/file/dict.png"/>
 
 
 ### 即将上线
@@ -64,8 +80,8 @@ BPM等，适用于商城、游戏、即时通信、业务管理、博客等领�
 
 
 ### 鸣谢巨人
-
-1. [Think PHP](https://www.thinkphp.cn/)
-2. [Ant Design](https://ant-design.antgroup.com/index-cn)
-3. [Umi Js](https://umijs.com)
-4. [buildadmin](https://buildadmin.cn)
+1. [Think PHP](https://www.thinkphp.cn/) 后端框架
+2. [Ant Design](https://ant-design.antgroup.com/index-cn) 前端UI框架
+3. [Umi Js](https://umijs.com) 前端项目框架
+4. [Build Admin](https://buildadmin.com) 灵感来源以及代码参考
+5. ... 

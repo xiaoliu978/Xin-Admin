@@ -1,6 +1,11 @@
 import { request } from '@umijs/max';
-import React from "react";
 
+const api = {
+  loginApi: '/admin.php/admin/login', // 用户登录
+  logoutApi: '/admin.php/admin/logout', // 退出登录
+  getAdminInfoApi: '/admin.php/admin/getAdminInfo', // 获取用户信息
+  refreshAdminTokenApi: '/admin.php/admin/refreshToken', // 刷新 Token
+}
 
 /**
  * 管理端用户登录
@@ -8,7 +13,7 @@ import React from "react";
  * @constructor
  */
 export async function UserLogin(data: USER.UserLoginFrom) {
-  return request<USER.LoginResult>('/admin/login', {
+  return request<USER.LoginResult>(api.loginApi, {
     method: 'post',
     data
   });
@@ -19,27 +24,7 @@ export async function UserLogin(data: USER.UserLoginFrom) {
  * @constructor
  */
 export async function GetAdminInfo() {
-  return request<USER.UserResult>('/admin/getAdminInfo', {
-    method: 'get'
-  });
-}
-
-/**
- * 获取管理员用户信息
- * @constructor
- */
-export async function GetWebSet() {
-  return request<ResponseStructure<{[key: string]: any}>>('/index', {
-    method: 'get'
-  });
-}
-
-/**
- * 获取菜单路由
- * @constructor
- */
-export async function GetAdminMenu() {
-  return request<USER.MenuType>('/admin/getAdminMenu', {
+  return request<USER.UserResult>(api.getAdminInfoApi, {
     method: 'get'
   });
 }
@@ -48,8 +33,8 @@ export async function GetAdminMenu() {
  * 刷新 Token
  * @constructor
  */
-export async function RefreshToken() {
-  return request<USER.ReToken>('/admin/refreshToken', {
+export async function refreshAdminToken() {
+  return request<USER.ReToken>(api.refreshAdminTokenApi, {
     method: 'post',
     headers: {
       'RefreshToken': localStorage.getItem('refresh_token') || ''
@@ -62,60 +47,11 @@ export async function RefreshToken() {
  * @constructor
  */
 export async function Logout() {
-  return request<ResponseStructure<any>>('/admin/logout', {
+  return request<ResponseStructure<any>>(api.logoutApi, {
     method: 'post'
   });
 }
 
-/**
- * 获取权限父节点ID
- */
-export async function getRulePid() {
-  return request<ResponseStructure<any>>('/adminRule/getRulePid', {
-    method: 'get'
-  });
-}
 
-/**
- * 根据管理员分组获取权限
- * @param params
- */
-export async function getRuleByGroup(params: {group_id:number}) {
-  return request<ResponseStructure<any>>('/adminRule/getRuleByGroup', {
-    method: 'get',
-    params
-  });
-}
-
-/**
- * 获取与管理员分组父id
- */
-export async function getAdminGroupPid() {
-  return request<ResponseStructure<any>>('/adminGroup/getGroupPid', {
-    method: 'get'
-  });
-}
-
-/**
- * 设置管理员分组权限
- * @param data
- */
-export async function setGroupRule(data: {id:number, rule_ids: React.Key[]}) {
-  return request<ResponseStructure<any>>('/adminGroup/setGroupRule', {
-    method: 'post',
-    data: data
-  });
-}
-
-/**
- * 通过管理员分组获取权限
- * @param params
- */
-export async function getGroupRule(params: {group_id:number}) {
-  return request<ResponseStructure<any>>('/adminGroup/getGroupRule', {
-    method: 'get',
-    params
-  });
-}
 
 

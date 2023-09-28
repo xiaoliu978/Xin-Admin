@@ -1,6 +1,6 @@
 import {Button, Drawer, message, Space, Tree, TreeProps} from 'antd';
 import React, {useEffect, useState} from "react";
-import {getGroupRule, getRuleByGroup, setGroupRule} from "@/services/admin";
+import {GetGroupRule, GetRuleByGroup, SetGroupRule} from "@/services/admin/auth";
 import type { DataNode } from 'antd/es/tree';
 
 const App: React.FC<{open : boolean;onClose: ()=>void; record: {
@@ -18,12 +18,12 @@ const App: React.FC<{open : boolean;onClose: ()=>void; record: {
 
   useEffect(()=>{
     if(record.id){
-      getRuleByGroup({group_id: record.id!}).then(res=>{
+      GetRuleByGroup({group_id: record.id!}).then(res=>{
         if(res.success){
           setTreeData(res.data.data)
         }
       })
-      getGroupRule({group_id: record.id!}).then(res=>{
+      GetGroupRule({group_id: record.id!}).then(res=>{
         if(res.success){
           setCheckedKeys(res.data)
         }
@@ -57,7 +57,7 @@ const App: React.FC<{open : boolean;onClose: ()=>void; record: {
         'id': record.id,
         'rule_ids': checkedKeys
       }
-      setGroupRule(data).then(res=>{
+      SetGroupRule(data).then(res=>{
         if(res.success){
           message.success('保存成功')
         }

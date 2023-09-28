@@ -21,7 +21,7 @@ import ColumnsFrom from "./components/ColumnsFrom";
 import XinDict from "@/components/XinDict";
 import {DeleteFilled, KeyOutlined} from "@ant-design/icons";
 import {OnlineType} from "@/pages/Online/typings";
-import {crudApi, getData, saveData} from "@/services/online";
+import {crudApi, getData, saveData} from "@/services/admin/online";
 import * as verify from "@/utils/format";
 import Mock from "mockjs";
 

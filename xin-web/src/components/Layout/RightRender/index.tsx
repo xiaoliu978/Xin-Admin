@@ -1,7 +1,7 @@
-import {initialStateType} from "@/app";
-import {Avatar, Dropdown, MenuProps, Space} from "antd";
-import {Logout} from "@/services/admin";
-import {history} from "@@/core/history";
+import { initialStateType } from '@/app';
+import { Avatar, Dropdown, MenuProps, Space, Button, Modal } from 'antd';
+import {Logout as AdminLogout} from "@/services/admin";
+import {Logout as UserLogout} from "@/services/api/user";
 import {
   FullscreenExitOutlined,
   FullscreenOutlined, GithubFilled,
@@ -10,23 +10,39 @@ import {
 } from "@ant-design/icons";
 import './index.less';
 import {useModel} from "@umijs/max";
-import React, {useState} from "react";
+import React, { useState } from 'react';
 import {SettingDrawer} from "@ant-design/pro-components";
-
+import LoginModel from './login';
+import { index } from '@/services/api';
 
 const Right = (props: { initialState?: initialStateType}) => {
   const {initialState} = props;
-
+  const [loginModel,setLoginModel ] = useState(false);
   const {setInitialState} = useModel('@@initialState');
 
   const logout =  async () => {
-    const res = await Logout();
-    if (res.success) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('refresh_token')
-      localStorage.removeItem('userinfo')
-      history.push('/login')
+
+    if(localStorage.getItem('app') === null || localStorage.getItem('app') === 'api') {
+      await UserLogout();
+    }else {
+      await AdminLogout()
     }
+    let indexDate = await index();
+
+    setInitialState({
+      ...initialState!,
+      webSetting: indexDate.data.web_setting,
+      settings: indexDate.data.layout,
+      menus: indexDate.data.menus,
+    })
+
+    localStorage.removeItem('token')
+    localStorage.removeItem('refresh_token')
+    localStorage.removeItem('userinfo')
+    localStorage.removeItem('api')
+    location.href = '/'
+
+
   }
 
   const items: MenuProps['items'] = [
@@ -113,7 +129,12 @@ const Right = (props: { initialState?: initialStateType}) => {
      </>
     )
   }else {
-    return <></>
+    return <>
+      <Button type={"link"} onClick={()=>setLoginModel(true)} >立即登录</Button>
+      <Modal open={loginModel} footer={null} onCancel={()=>setLoginModel(false)}>
+        <LoginModel></LoginModel>
+      </Modal>
+    </>
   }
 }
 

@@ -63,9 +63,12 @@ class Admin extends BaseModel
     /**
      * @description: 退出登录
      * @param {*} $user_id
-     * @return {*}
-     */    
-    public function logout($user_id)
+     * @return bool {*}
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    public function logout($user_id): bool
     {
         $user = $this->where('id',$user_id)->find();
         if(!$user) {

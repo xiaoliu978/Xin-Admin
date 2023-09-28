@@ -3,12 +3,14 @@
 namespace app\common\attribute;
 use app\admin\model\Admin as AdminModel;
 use app\admin\model\AdminGroup;
+use app\api\model\User as UserModel;
+use app\common\library\RequestJson;
 use app\common\library\Token;
+use app\common\model\user\UserGroup;
 use Attribute;
 use Exception;
 use ReflectionClass;
 use think\db\exception\DbException;
-use app\common\library\RequestJson;
 use think\Model;
 use think\response\Json;
 
@@ -43,15 +45,30 @@ class Auth
         if($key != ''){
             // 获取用户 Token
             $tokenData = (new Token)->get($this->token);
-            // 获取用户所在用户组
-            $admin = new AdminModel;
-            $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
-            // 获取用户所有权限
-            $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
-            $rules = [];
-            foreach ($group->roles as $rule){
-                $rules[] = strtolower($rule->key);
+            if($tokenData['type'] == 'admin'){
+                // 获取用户所在用户组
+                $admin = new AdminModel;
+                $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
+                // 获取用户所有权限
+                $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
+                $rules = [];
+                foreach ($group->roles as $rule){
+                    $rules[] = strtolower($rule->key);
+                }
+            }elseif ($tokenData['type'] == 'user' ) {
+                // 获取用户所在用户组
+                $user = new UserModel;
+                $userInfo = $user->where('id',$tokenData['user_id'])->find();
+                // 获取用户所有权限
+                $group = (new UserGroup())->where('id',$userInfo['group_id'])->find();
+                $rules = [];
+                foreach ($group->roles as $rule){
+                    $rules[] = strtolower($rule->key);
+                }
+            }else {
+                $this->error('为啥会出现这种情况！', [], 403,'throw');
             }
+
             // $rules = array_column($group->roles->toArray(),'key');
 
             // 使用反射机制获取当前控制器的 AuthName
@@ -77,12 +94,42 @@ class Auth
 
     /**
      * 获取管理员ID
-     * @return int
+     * @return Json|int
      */
-    public function getAdminId(): int
+    public function getUserId(): Json | int
     {
         $tokenData = (new Token)->get($this->token);
-        return $tokenData['user_id'];
+        if($tokenData['type'] == 'user'){
+            return $tokenData['user_id'];
+        }else {
+            return $this->error('请先登录！', ['type' => 'user'], 403,'throw');
+        }
+    }
+
+    /**
+     * 获取用户信息
+     * @return Model
+     * @throws DbException
+     */
+    public function getUserInfo(): Model
+    {
+        $user_id = $this->getUserId();
+        $user = new UserModel;
+        return $user->where('id',$user_id)->find();
+    }
+
+    /**
+     * 获取管理员ID
+     * @return Json|int
+     */
+    public function getAdminId(): Json | int
+    {
+        $tokenData = (new Token)->get($this->token);
+        if($tokenData['type'] == 'admin'){
+            return $tokenData['user_id'];
+        }else {
+            return $this->error('请先登录！', ['type' => 'user'], 403,'throw');
+        }
     }
 
     /**

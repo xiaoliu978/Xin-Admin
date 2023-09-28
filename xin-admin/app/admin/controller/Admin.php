@@ -132,9 +132,22 @@ class Admin extends Controller
     #[Auth]
     public function getAdminInfo(): Json
     {
-        $adminInfo = (new Auth)->getAdminInfo();
+        $layout = [
+            'navTheme' => 'light',
+            'colorPrimary' => '#1890ff',
+            'layout' => 'mix',
+            'contentWidth' => 'Fluid',
+            'fixedHeader' => true,
+            'token' => [
+                'pageContainer' => [
+                    'paddingBlockPageContainerContent' => 20,
+                    'paddingInlinePageContainerContent' => 20
+                ]
+            ],
+        ];
+        $info = (new Auth)->getAdminInfo();
         // 获取权限
-        $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
+        $group = (new AdminGroup())->where('id',$info['group_id'])->find();
         $access = [];
         foreach ($group->roles as $role) {
             $access[] =  $role->key;
@@ -142,7 +155,7 @@ class Admin extends Controller
 
         $group = (new AdminGroup)->with(['roles' => function($query){
             $query->order('sort');
-        }])->where('id',$adminInfo['group_id'])->find();
+        }])->where('id',$info['group_id'])->find();
         $rules = $group->roles;
         $menus = [];
         foreach ($rules as $role) {
@@ -158,7 +171,7 @@ class Admin extends Controller
             }
         }
 
-        return $this->success('ok',compact('adminInfo','access','menus'));
+        return $this->success('ok',compact('info','access','menus','layout'));
     }
 
 

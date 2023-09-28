@@ -1,4 +1,3 @@
-import { UserLogin } from '@/services/admin';
 import {
   AlipayOutlined,
   LockOutlined,
@@ -19,6 +18,7 @@ import { history, useModel } from '@umijs/max';
 import { Divider, message, Space, Tabs} from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
+import { login } from '@/services/api';
 
 const iconStyle: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
@@ -40,17 +40,17 @@ const iconDivStyle: CSSProperties = {
 
 const Login: React.FC =  () => {
 
-  const { refresh,initialState,setInitialState } = useModel('@@initialState');
-  const { refreshDict } = useModel('dictModel');
+  const { initialState,setInitialState } = useModel('@@initialState');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
-    const msg = await UserLogin({ ...values, loginType });
+    const msg = await login({ ...values, loginType });
 
     message.success('登录成功！');
     // 记录令牌
     localStorage.setItem('token',msg.data.token);
     localStorage.setItem('refresh_token',msg.data.refresh_token);
+    localStorage.setItem('app','api');
 
     const userInfo = await initialState!.fetchUserInfo?.();
     setInitialState((init: any) => {
@@ -65,13 +65,10 @@ const Login: React.FC =  () => {
     })
     const urlParams = new URL(window.location.href).searchParams;
     history.push(urlParams.get('redirect') || '/');
-    refreshDict();
     return;
-
   };
 
   return (
-    <div style={{paddingTop: 50, height: '100vh',backgroundImage: 'url(https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png)'}}>
       <LoginForm
         logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
         title= { initialState!.webSetting.title || "Xin Admin" }
@@ -123,7 +120,7 @@ const Login: React.FC =  () => {
             {
               key: 'account',
               label: '账号密码登录'
-            }, 
+            },
             {
               key: 'phone',
               label: '手机号登录'
@@ -139,7 +136,7 @@ const Login: React.FC =  () => {
                 size: 'large',
                 prefix: <UserOutlined className={'prefixIcon'} />,
               }}
-              placeholder={'用户名: admin'}
+              placeholder={'用户名: user'}
               rules={[{required: true, message: '请输入用户名!',},]}
             />
             <ProFormText.Password
@@ -206,7 +203,6 @@ const Login: React.FC =  () => {
           <a style={{float: 'right'}}>忘记密码</a>
         </div>
       </LoginForm>
-    </div>
   );
 };
 

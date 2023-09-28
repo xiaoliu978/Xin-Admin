@@ -2,6 +2,7 @@
   "name": "Xin Admin",
   "description": "the new xin admin",
   "version": "0.1-beta",
+  "author": "小刘同学",
   "require": {
     "php": "8.1.0",
     "nodejs": "^16.8.0",
@@ -13,7 +14,7 @@
   "dev": {
     "db_type": "mysql",
     "db_host": "127.0.0.1",
-    "db_name": "xin_admin",
+    "db_name": "xinadmin",
     "db_user": "root",
     "db_pass": "root",
     "db_port": "3306",

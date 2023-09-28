@@ -1,4 +1,5 @@
-import { RefreshToken } from '@/services/admin';
+import { refreshAdminToken } from '@/services/admin';
+import { refreshUserToken } from '@/services/api/user';
 import { history, request } from '@umijs/max';
 import { message,notification } from 'antd';
 import type { AxiosResponse, RuntimeConfig } from '@umijs/max';
@@ -13,8 +14,6 @@ enum ErrorShowType {
 }
 
 const requestConfig: RuntimeConfig['request'] = {
-  // 统一的请求设定
-  baseURL: '/admin.php',
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
 
@@ -93,12 +92,18 @@ const requestConfig: RuntimeConfig['request'] = {
       // 没有登录拒绝访问
       if (response.data.status === 403) {
         localStorage.removeItem('token')
-        history.push('/login');
+        history.push('/');
         return Promise.resolve(response);
       }
       // 登录状态过期，刷新令牌并重新发起请求
       if (response.data.status === 409) {
-        let res = await RefreshToken()
+        let app = localStorage.getItem('app');
+        let res;
+        if(app === null || app === 'api'){
+          res = await refreshUserToken()
+        }else {
+          res = await refreshAdminToken()
+        }
         if (res.success) {
           localStorage.setItem('token', res.data.token);
           response.headers!.Authorization = res.data.token;

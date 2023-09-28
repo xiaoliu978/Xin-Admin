@@ -1,4 +1,4 @@
-import { listApi, deleteApi } from '@/services/table';
+import { listApi, deleteApi } from '@/services/admin/table';
 import {
   ActionType,
   FooterToolbar,

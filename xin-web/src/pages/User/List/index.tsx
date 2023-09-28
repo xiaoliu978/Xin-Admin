@@ -7,7 +7,7 @@ import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 /**
  *  Api 接口
  */
-const api = '/user'
+const api = '/user.user'
 
 /**
  *  数据类型
@@ -31,7 +31,7 @@ const User: React.FC = () => {
       title:'id',
       order:99,
       hideInForm: true,
-      dataIndex:'user_id',
+      dataIndex:'id',
     },
     {
       valueType:'text',
