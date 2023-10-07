@@ -19,6 +19,7 @@ import { history, useModel } from '@umijs/max';
 import { Divider, message, Space, Tabs} from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
+import { adminSettings } from '../../../../config/defaultSettings';
 
 const iconStyle: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
@@ -62,7 +63,7 @@ const Login: React.FC =  () => {
         currentUser: userInfo.adminInfo,
         menus: userInfo.menus,
         access: userInfo.access,
-        settings: userInfo.layout
+        settings: adminSettings
       }
     })
     const urlParams = new URL(window.location.href).searchParams;

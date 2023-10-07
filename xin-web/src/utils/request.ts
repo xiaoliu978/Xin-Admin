@@ -18,7 +18,7 @@ const requestConfig: RuntimeConfig['request'] = {
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
 
   errorConfig: {
-    errorThrower: (res: ResponseStructure) => {
+    errorThrower: (res: ResponseStructure<any>) => {
       const { success, data, errorCode, msg, showType } = res;
       if (!success) {
         const error: any = new Error(msg);
@@ -32,7 +32,7 @@ const requestConfig: RuntimeConfig['request'] = {
       if (opts?.skipErrorHandler) throw error;
       // 我们的 errorThrower 抛出的错误。
       if (error.name === 'BizError') {
-        const errorInfo: ResponseStructure | undefined = error.info;
+        const errorInfo: ResponseStructure<any> | undefined = error.info;
         if (errorInfo) {
           const { msg, errorCode } = errorInfo;
           switch (errorInfo.showType) {

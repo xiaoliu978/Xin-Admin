@@ -5,7 +5,7 @@ import {MenuDataItem, PageLoading} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
 import './index.less';
 import React, { lazy } from 'react';
-import defaultSettings from "../config/defaultSettings";
+import { appSettings,adminSettings } from "../config/defaultSettings";
 import {GetAdminInfo} from '@/services/admin';
 import {Access, history} from '@umijs/max';
 import {RuntimeConfig} from "@umijs/max";
@@ -16,28 +16,10 @@ import access from './access';
 import { index } from '@/services/api'
 import { getUserInfo } from '@/services/api/user';
 
-// 更多信息见文档：https://umijs.org/docs/api/runtime-config#getinitialstate
-export interface initialStateType {
-  settings?: any;
-  isLogin: boolean;
-  isAccess: boolean;
-  loading?: boolean;
-  currentUser?: USER.UserInfo;
-  drawerShow?: boolean;
-  access: string[];
-  fetchUserInfo?:  () => Promise<any>;
-  fetchAdminInfo?:  () => Promise<any>;
-  menus?: {[key: string] : any};
-  webSetting: { [key: string] : any };
-  app: string;
-}
-
 export async function getInitialState(): Promise<initialStateType> {
-  // 获取用户信息
-  console.log('getInitialState');
   // 记录当前应用
   if(!localStorage.getItem('app')){
-    localStorage.setItem('app','api');
+    localStorage.setItem('app','app');
   }
   const fetchAdminInfo = async () => {
     const msg = await GetAdminInfo();
@@ -56,7 +38,7 @@ export async function getInitialState(): Promise<initialStateType> {
     isLogin: false,
     isAccess: false,
     drawerShow: false,
-    settings: defaultSettings,
+    settings: appSettings,
     app: localStorage.getItem('app')!,
     webSetting: {
       logo: 'https://file.xinadmin.cn/file/favicons.ico',
@@ -64,7 +46,6 @@ export async function getInitialState(): Promise<initialStateType> {
     },
     menus: []
   }
-
   try{
     let indexDate = await index();
     data.webSetting = indexDate.data.web_setting
@@ -72,12 +53,13 @@ export async function getInitialState(): Promise<initialStateType> {
     data.menus = indexDate.data.menus
     if (location.pathname !== 'admin/login' && localStorage.getItem('token')) {
       let userInfo;
-      if(data.app === 'api'){
+      if(data.app === 'app'){
         userInfo = await fetchUserInfo();
+        data.settings = appSettings;
       }else {
         userInfo = await fetchAdminInfo();
+        data.settings = adminSettings;
       }
-      data.settings = userInfo.layout
       data.isLogin = true;
       data.isAccess = true;
       data.currentUser = userInfo.info;
@@ -140,11 +122,14 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
       if (location.pathname === 'admin/login') {
         return
       }
-      // 如果没有登录，重定向到 login
+      // 如果没有登录，重定向到 首页
       if (!initialState!.isLogin && location.pathname !== '/') {
         history.push('/');
       }
       const accessName = location.pathname.slice(1).replace('/','.');
+      if (location.pathname === '/' && initialState!.app === 'admin') {
+        history.push('/home');
+      }
       if(initialState!.access.includes(accessName) || access(initialState!).noAuth.includes(location.pathname)){
         setInitialState((preInitialState: any) => ({
           ...preInitialState,
@@ -162,7 +147,6 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-
       return (
         <Access accessible={initialState!.isAccess} fallback={(
           <Result
