@@ -132,19 +132,6 @@ class Admin extends Controller
     #[Auth]
     public function getAdminInfo(): Json
     {
-        $layout = [
-            'navTheme' => 'light',
-            'colorPrimary' => '#1890ff',
-            'layout' => 'mix',
-            'contentWidth' => 'Fluid',
-            'fixedHeader' => true,
-            'token' => [
-                'pageContainer' => [
-                    'paddingBlockPageContainerContent' => 20,
-                    'paddingInlinePageContainerContent' => 20
-                ]
-            ],
-        ];
         $info = (new Auth)->getAdminInfo();
         // 获取权限
         $group = (new AdminGroup())->where('id',$info['group_id'])->find();
@@ -171,7 +158,7 @@ class Admin extends Controller
             }
         }
 
-        return $this->success('ok',compact('info','access','menus','layout'));
+        return $this->success('ok',compact('info','access','menus'));
     }
 
 

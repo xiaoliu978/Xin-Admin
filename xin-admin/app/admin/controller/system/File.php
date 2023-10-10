@@ -2,9 +2,9 @@
 
 namespace app\admin\controller\system;
 
-use app\admin\model\file\File as FileModel;
-use app\common\controller\AdminController as Controller;
 use app\common\attribute\Auth;
+use app\common\controller\AdminController as Controller;
+use app\common\model\file\File as FileModel;
 use SplFileInfo;
 use think\facade\Filesystem;
 use think\response\Json;

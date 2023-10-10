@@ -99,7 +99,7 @@ const requestConfig: RuntimeConfig['request'] = {
       if (response.data.status === 409) {
         let app = localStorage.getItem('app');
         let res;
-        if(app === null || app === 'api'){
+        if(app === null || app === 'app'){
           res = await refreshUserToken()
         }else {
           res = await refreshAdminToken()

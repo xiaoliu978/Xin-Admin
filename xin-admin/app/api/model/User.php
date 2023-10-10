@@ -36,8 +36,8 @@ class User extends BaseModel
             }
 
             $token = new Token();
-            $token->clear('admin',$user['id']);
-            $token->clear('admin-refresh',$user['id']);
+            $token->clear('user',$user['id']);
+            $token->clear('user-refresh',$user['id']);
 
             $data = [];
             $data['refresh_token'] =  md5(random_bytes(10));

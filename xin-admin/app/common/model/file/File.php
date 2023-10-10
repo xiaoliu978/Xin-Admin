@@ -1,9 +1,8 @@
 <?php
 
-namespace app\admin\model\file;
+namespace app\common\model\file;
 
 use app\common\model\BaseModel;
-use think\Model;
 
 class File extends BaseModel
 {

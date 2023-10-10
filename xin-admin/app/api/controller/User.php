@@ -8,8 +8,14 @@ use app\common\attribute\Auth;
 use app\common\attribute\Method;
 use app\common\controller\ApiController;
 use app\common\library\Token;
+use app\common\model\file\File as FileModel;
 use app\common\model\user\UserGroup;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
+use think\facade\Filesystem;
 use think\response\Json;
+use SplFileInfo;
 
 class User extends ApiController
 {
@@ -50,24 +56,7 @@ class User extends ApiController
             }
         }
 
-        $layout = [
-            'navTheme' => 'light',
-            'colorPrimary' => '#1890ff',
-            'layout' => 'top',
-            'contentWidth' => 'Fluid',
-            'fixedHeader' => true,
-            'token' => [
-                'pageContainer' => [
-                    'paddingBlockPageContainerContent' => 0,
-                    'paddingInlinePageContainerContent' => 0
-                ]
-            ],
-            "fixSiderbar" => true,
-            "splitMenus" => false,
-            "siderMenuType" => "sub"
-        ];
-
-        return $this->success('ok',compact('info','access','menus','layout'));
+        return $this->success('ok',compact('info','access','menus'));
     }
 
     /**
@@ -110,6 +99,86 @@ class User extends ApiController
         } else {
             return $this->error($this->model->getErrorMsg());
         }
+    }
+
+
+    /**
+     * 上传头像
+     * @return Json
+     */
+    #[Auth]
+    public function upAvatar(): Json
+    {
+        $putFile = request()->file('file');
+        // 上传到本地服务器
+        $filename = Filesystem::putFile('file', $putFile, 'md5');
+        $file = new SplFileInfo(public_path().'storage/'.$filename);
+
+        $data = [
+            'size' => $file->getSize(),
+            'user_id'   => (new Auth())->getUserId(),
+            'name'  => $putFile->getFileName(),
+            'file_name' => $file->getFilename(),
+            'type'  => $file->getExtension(),
+            'url'   => request()->domain().'/storage/'.$filename
+        ];
+
+        $fileModel = new FileModel();
+
+        if($fileModel->saveFile($data,(new Auth())->getUserId())){
+            return $this->success('上传成功！',$data);
+        }else {
+            return $this->error($this->model->getErrorMsg());
+        }
+    }
+
+
+    /**
+     * 设置用户信息
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    #[Auth]
+    public function setUserInfo(): Json
+    {
+        $data = $this->request->post();
+        $result = $this->validate->scene('set')->check($data);
+        if(!$result){
+            return $this->warn($this->validate->getError());
+        }
+        $user = $this->model->where('id',(new Auth())->getUserId())->find();
+        $save = $user->allowField(['username', 'nickname', 'gender', 'avatar', 'mobile', 'email'])->save($data);
+        if($save){
+            return $this->success('更新成功');
+        }
+        return $this->error('更新失败');
+    }
+
+
+    /**
+     * 设置密码
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
+    public function setPassword(): Json
+    {
+        $data = $this->request->post();
+        $result = $this->validate->scene('set_pwd')->check($data);
+        if(!$result){
+            return $this->warn($this->validate->getError());
+        }
+        $user_id = (new Auth())->getUserId();
+        $user = $this->model->where('id',$user_id)->find();
+        if($user->save([
+            'password' => password_hash($data['newPassword'],PASSWORD_DEFAULT)
+        ])){
+            return $this->success('更新成功');
+        }
+        return $this->error('更新失败');
     }
 
 }

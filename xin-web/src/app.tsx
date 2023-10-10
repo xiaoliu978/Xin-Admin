@@ -18,7 +18,7 @@ import { getUserInfo } from '@/services/api/user';
 
 export async function getInitialState(): Promise<initialStateType> {
   // 记录当前应用
-  if(!localStorage.getItem('app')){
+  if(!localStorage.getItem('app') || !localStorage.getItem('token')){
     localStorage.setItem('app','app');
   }
   const fetchAdminInfo = async () => {
@@ -49,7 +49,6 @@ export async function getInitialState(): Promise<initialStateType> {
   try{
     let indexDate = await index();
     data.webSetting = indexDate.data.web_setting
-    data.settings = indexDate.data.layout
     data.menus = indexDate.data.menus
     if (location.pathname !== 'admin/login' && localStorage.getItem('token')) {
       let userInfo;
@@ -182,6 +181,13 @@ const defaultRoutes = [
     path: 'admin/login',
     id: 'adminLogin',
     element: lazyLoad('Public/Login'),
+    layout: false,
+  },
+  {
+    name: '注册',
+    path: 'reg',
+    id: 'reg',
+    element: lazyLoad('Public/Reg'),
     layout: false,
   },
 ]

@@ -5,20 +5,20 @@ import {
   DownOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined, GithubFilled,
-  LogoutOutlined, QuestionCircleOutlined, RedoOutlined,
-  SettingOutlined,
+  LogoutOutlined, QuestionCircleOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
 import './index.less';
 import {useModel} from "@umijs/max";
 import React, { useState } from 'react';
 import LoginModel from './login';
 import { index } from '@/services/api';
+import {history } from '@umijs/max';
 
 const Right = (props: { initialState?: initialStateType}) => {
   const {initialState} = props;
   const [loginModel,setLoginModel ] = useState(false);
   const {setInitialState} = useModel('@@initialState');
-  const [avatar , setAvatar] = useState(true);
   const logout =  async () => {
 
     if(localStorage.getItem('app') === null || localStorage.getItem('app') === 'app') {
@@ -41,19 +41,18 @@ const Right = (props: { initialState?: initialStateType}) => {
     localStorage.removeItem('userinfo')
     localStorage.removeItem('api')
     location.href = '/'
-
-
   }
 
   const items: MenuProps['items'] = [
     {
-      key: 'redo',
+      key: 'user',
       label: (
         <Space>
-          <RedoOutlined />
-          刷新缓存
+          <UserOutlined />
+          个人中心
         </Space>
       ),
+      onClick: () => {history.push('/s/user')}
     },
     {type: 'divider',},
     {
@@ -100,10 +99,9 @@ const Right = (props: { initialState?: initialStateType}) => {
          </div>
          <Dropdown menu={{ items }}>
            <Space className={'right-group'}>
-             <Avatar src={<img src={initialState!.currentUser?.avatar} alt="avatar"/>}>
-               <Avatar style={{ backgroundColor: '#fde3cf', color: '#f56a00' }}>U</Avatar>
+             <Avatar icon={<UserOutlined />} src={initialState!.currentUser?.avatar}>
              </Avatar>
-             {initialState!.currentUser?.name}
+             {initialState!.currentUser?.nickname || initialState!.currentUser?.name || initialState!.currentUser?.username}
              <DownOutlined />
            </Space>
          </Dropdown>

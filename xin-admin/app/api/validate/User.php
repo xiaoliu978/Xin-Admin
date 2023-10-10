@@ -2,6 +2,7 @@
 
 namespace app\api\validate;
 
+use app\common\attribute\Auth;
 use think\Validate;
 
 class User extends Validate
@@ -15,7 +16,12 @@ class User extends Validate
         'captcha'   =>  'require|max:4',
         'nickname'  =>  'require',
         'sex'       =>  'max:1|string',
-        'email'     =>  'require|email'
+        'email'     =>  'require|email',
+        'gender'    =>  'max:1|string',
+        'avatar'    =>  'url',
+        'rePassword'=>  'require|graph|rePassword',
+        'oldPassword'=> 'require|graph|oldPassword',
+        'newPassword'=> 'require|graph'
     ];
 
     protected $message  =   [
@@ -35,6 +41,8 @@ class User extends Validate
 
     ];
 
+
+
     protected $scene = [
         // 账号密码登录
         'account'  =>  ['username','password'],
@@ -43,7 +51,27 @@ class User extends Validate
         // 新增管理员
         'add'      =>  ['username','nickname','password'],
         // 注册会员
-        'reg'      =>  ['username','nickname','password','mobile','email']
+        'reg'      =>  ['username','nickname','password','mobile','email'],
+
+        'set'      =>  ['username','nickname','gender','email','avatar','mobile'],
+
+        'set_pwd'  =>  ['oldPassword', 'newPassword', 'rePassword']
     ];
+
+    // 自定义验证规则
+    protected function rePassword($value,$rule, $data=[]): bool|string
+    {
+        return $value == $data['newPassword'] ? true : '两次密码不同';
+    }
+
+    protected function oldPassword($value): bool|string
+    {
+        $user = (new Auth())->getUserInfo();
+        if(!password_verify($value,$user['password'])){
+            return '旧密码不正确';
+        }
+        return true;
+
+    }
 
 }

@@ -50,7 +50,7 @@ const Login: React.FC =  () => {
     // 记录令牌
     localStorage.setItem('token',msg.data.token);
     localStorage.setItem('refresh_token',msg.data.refresh_token);
-    localStorage.setItem('app','api');
+    localStorage.setItem('app','app');
 
     const userInfo = await initialState!.fetchUserInfo?.();
     setInitialState((init: any) => {
@@ -63,51 +63,61 @@ const Login: React.FC =  () => {
         access: userInfo.access,
       }
     })
-    const urlParams = new URL(window.location.href).searchParams;
-    history.push(urlParams.get('redirect') || '/');
+    location.pathname = '/';
     return;
   };
+
+  const loginTypeItems = [
+    {
+      key: 'account',
+      label: '账号密码登录'
+    },
+    {
+      key: 'phone',
+      label: '手机号登录'
+    }
+  ]
 
   return (
       <LoginForm
         logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
         title= { initialState!.webSetting.title || "Xin Admin" }
         subTitle={ initialState!.webSetting.subtitle || "用技术改变世界"}
-        actions={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-            }}
-          >
-            <Divider plain>
-              <span
-                style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
-              >
-                其他登录方式
-              </span>
-            </Divider>
-            <Space align="center" size={24}>
-              <div style={iconDivStyle}>
-                <QqOutlined style={{ ...iconStyle, color: 'back' }} />
-              </div>
-              <div style={iconDivStyle}>
-                <WechatOutlined style={{ ...iconStyle, color: 'rgb(0,172,132)' }} />
-              </div>
-              <div style={iconDivStyle}>
-                <AlipayOutlined style={{ ...iconStyle, color: '#1677FF' }} />
-              </div>
-              <div style={iconDivStyle}>
-                <TaobaoOutlined style={{ ...iconStyle, color: '#FF6A10' }} />
-              </div>
-              <div style={iconDivStyle}>
-                <WeiboOutlined style={{ ...iconStyle, color: '#333333' }} />
-              </div>
-            </Space>
-          </div>
-        }
+        // actions={
+        //   <div
+        //     style={{
+        //       display: 'flex',
+        //       justifyContent: 'center',
+        //       alignItems: 'center',
+        //       flexDirection: 'column',
+        //     }}
+        //   >
+        //     <Divider plain>
+        //       <span
+        //         style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
+        //       >
+        //         其他登录方式
+        //       </span>
+        //     </Divider>
+        //     <Space align="center" size={24}>
+        //       <div style={iconDivStyle}>
+        //         <QqOutlined style={{ ...iconStyle, color: 'back' }} />
+        //       </div>
+        //       <div style={iconDivStyle}>
+        //         <WechatOutlined style={{ ...iconStyle, color: 'rgb(0,172,132)' }} />
+        //       </div>
+        //       <div style={iconDivStyle}>
+        //         <AlipayOutlined style={{ ...iconStyle, color: '#1677FF' }} />
+        //       </div>
+        //       <div style={iconDivStyle}>
+        //         <TaobaoOutlined style={{ ...iconStyle, color: '#FF6A10' }} />
+        //       </div>
+        //       <div style={iconDivStyle}>
+        //         <WeiboOutlined style={{ ...iconStyle, color: '#333333' }} />
+        //       </div>
+        //     </Space>
+        //   </div>
+        // }
         onFinish={async (values) => {
           await handleSubmit(values as USER.UserLoginFrom);
         }}
@@ -116,16 +126,7 @@ const Login: React.FC =  () => {
           centered
           activeKey={loginType}
           onChange={(activeKey) => setLoginType(activeKey as USER.LoginType)}
-          items = {[
-            {
-              key: 'account',
-              label: '账号密码登录'
-            },
-            {
-              key: 'phone',
-              label: '手机号登录'
-            }
-          ]}
+          items = {loginTypeItems}
         >
         </Tabs>
         {loginType === 'account' && (
@@ -175,6 +176,7 @@ const Login: React.FC =  () => {
                 size: 'large',
                 prefix: <LockOutlined className={'prefixIcon'} />,
               }}
+              phoneName={'mobile'}
               captchaProps={{
                 size: 'large',
               }}
@@ -200,7 +202,9 @@ const Login: React.FC =  () => {
         )}
         <div style={{marginBlockEnd: 24}}>
           <ProFormCheckbox noStyle name="autoLogin">自动登录</ProFormCheckbox>
-          <a style={{float: 'right'}}>忘记密码</a>
+          <Space style={{float: 'right'}}>
+            <a>忘记密码</a>
+          </Space>
         </div>
       </LoginForm>
   );

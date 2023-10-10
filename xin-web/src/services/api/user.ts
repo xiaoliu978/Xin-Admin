@@ -1,13 +1,11 @@
 import { request } from '@umijs/max';
 
 const api = {
-  getUserInfo: 'api.php/user/getUserInfo',
-  login: 'api.php/index/login',
-  logoutApi: 'api.php/user/logout',
-  setGroupRuleApi: '/admin.php/user.userGroup/setGroupRule', // 设置分组权限
-  getGroupRuleApi: '/admin.php/user.userGroup/getGroupRule', /// 获取分组权限
-  getRuleByGroupApi: '/admin.php/user.userRule/getRuleByGroup', // 通过分组获取权限
-  getGroupPidApi: '/admin.php/user.userGroup/getGroupPid', // 获取分组 父ID
+  getUserInfoApi: '/api.php/user/getUserInfo',
+  loginApi: '/api.php/index/login',
+  logoutApi: '/api.php/user/logout',
+  setUserApi: '/api.php/user/setUserInfo',
+  setPwdApi: '/api.php/user/setPassword',
 }
 
 /**
@@ -15,7 +13,7 @@ const api = {
  * @constructor
  */
 export async function getUserInfo() {
-  return request<API.ResponseStructure<any>>(api.getUserInfo, {
+  return request<API.ResponseStructure<any>>(api.getUserInfoApi, {
     method: 'get'
   });
 }
@@ -44,3 +42,25 @@ export async function Logout() {
   });
 }
 
+
+/**
+ * 设置用户信息
+ * @constructor
+ */
+export async function setUserInfo(data: USER.UserInfo) {
+  return request<ResponseStructure<any>>(api.setUserApi, {
+    method: 'post',
+    data
+  });
+}
+
+/**
+ * 设置密码
+ * @constructor
+ */
+export async function setPassWord(data: USER.UpdatePassword) {
+  return request<ResponseStructure<any>>(api.setPwdApi, {
+    method: 'post',
+    data
+  });
+}

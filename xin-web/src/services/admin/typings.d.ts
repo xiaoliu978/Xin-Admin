@@ -24,15 +24,23 @@ declare namespace USER {
 
   type LoginType = 'phone' | 'account';
 
+  interface UpdatePassword {
+    oldPassword: string
+    newPassword: string
+    rePassword: string
+  }
+
   interface UserInfo {
     id?: string
     name?: string
-    nickName?: string
+    nickname?: string
+    username?: string
     email?: string
     avatar?: string
     mobile?: string
     motto?: string
     token?: string
+    gender?: number
     refresh_token?:string
   }
 
