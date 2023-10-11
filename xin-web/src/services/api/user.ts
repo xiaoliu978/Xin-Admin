@@ -6,6 +6,7 @@ const api = {
   logoutApi: '/api.php/user/logout',
   setUserApi: '/api.php/user/setUserInfo',
   setPwdApi: '/api.php/user/setPassword',
+  reTokenApi: '/api.php/user/refreshToken'
 }
 
 /**
@@ -24,7 +25,7 @@ export async function getUserInfo() {
  * @constructor
  */
 export async function refreshUserToken() {
-  return request<USER.ReToken>('api.php/user/refreshToken', {
+  return request<USER.ReToken>(api.reTokenApi, {
     method: 'post',
     headers: {
       'RefreshToken': localStorage.getItem('refresh_token') || ''
