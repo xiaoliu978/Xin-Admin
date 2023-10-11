@@ -1,27 +1,36 @@
 import ImgCrop from 'antd-img-crop';
 import React, { useState } from 'react';
-import {Input, Upload} from 'antd';
+import {Upload} from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
+import { FormInstance } from 'antd/lib/form';
 
-const UploadImgItem: React.FC<{config:any,form:any,schema:any}> = (props) => {
-  const {config,form} = props
+interface PropsType {
+  dataIndex: string;
+  api: string;
+  form: FormInstance;
+}
+
+
+const UploadImgItem: React.FC<PropsType> = (props) => {
+  const {form,dataIndex, api} = props
 
   const [fileList, setFileList] = useState<UploadFile[]>([
     {
       uid: '-1',
       name: '',
       status: 'done',
-      url: config.value,
+      url: form.getFieldValue(dataIndex),
     },
   ]);
 
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    console.log(newFileList)
+    if(newFileList.length === 0){
+      return
+    }
     if(newFileList[0].status === 'done'){
       console.log(newFileList[0].response.data.url)
-      form.setFieldValue('avatar',newFileList[0].response.data.url)
-      config.value = newFileList[0].response.data.url
+      form.setFieldValue(dataIndex ,newFileList[0].response.data.url)
     }
   };
 
@@ -42,11 +51,10 @@ const UploadImgItem: React.FC<{config:any,form:any,schema:any}> = (props) => {
 
   return (
     <>
-      <Input placeholder="Basic usage" {...config} style={{display:'none'}}/>
       <ImgCrop rotationSlider>
         <Upload
           maxCount={1}
-          action="/admin.php/system.file/upload"
+          action={api}
           listType="picture-card"
           fileList={fileList}
           onChange={onChange}

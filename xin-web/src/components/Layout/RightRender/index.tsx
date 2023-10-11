@@ -1,39 +1,39 @@
-import { initialStateType } from '@/app';
 import { Avatar, Dropdown, MenuProps, Space, Button, Modal } from 'antd';
 import {Logout as AdminLogout} from "@/services/admin";
 import {Logout as UserLogout} from "@/services/api/user";
 import {
+  DownOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined, GithubFilled,
-  LogoutOutlined, QuestionCircleOutlined, RedoOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+  LogoutOutlined, QuestionCircleOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import './index.less';
 import {useModel} from "@umijs/max";
 import React, { useState } from 'react';
-import {SettingDrawer} from "@ant-design/pro-components";
 import LoginModel from './login';
 import { index } from '@/services/api';
+import {history } from '@umijs/max';
 
 const Right = (props: { initialState?: initialStateType}) => {
   const {initialState} = props;
   const [loginModel,setLoginModel ] = useState(false);
   const {setInitialState} = useModel('@@initialState');
-
   const logout =  async () => {
 
-    if(localStorage.getItem('app') === null || localStorage.getItem('app') === 'api') {
+    if(localStorage.getItem('app') === null || localStorage.getItem('app') === 'app') {
       await UserLogout();
     }else {
       await AdminLogout()
     }
     let indexDate = await index();
-
+    localStorage.setItem('app','app')
     setInitialState({
       ...initialState!,
       webSetting: indexDate.data.web_setting,
       settings: indexDate.data.layout,
       menus: indexDate.data.menus,
+      app: 'app'
     })
 
     localStorage.removeItem('token')
@@ -41,19 +41,18 @@ const Right = (props: { initialState?: initialStateType}) => {
     localStorage.removeItem('userinfo')
     localStorage.removeItem('api')
     location.href = '/'
-
-
   }
 
   const items: MenuProps['items'] = [
     {
-      key: 'redo',
+      key: 'user',
       label: (
         <Space>
-          <RedoOutlined />
-          刷新缓存
+          <UserOutlined />
+          个人中心
         </Space>
       ),
+      onClick: () => {history.push('/s/user')}
     },
     {type: 'divider',},
     {
@@ -98,34 +97,15 @@ const Right = (props: { initialState?: initialStateType}) => {
          }}>
            { fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined /> }
          </div>
-         <div className={'right-group'} title={'布局设置'} onClick={() => {
-           setInitialState((preInitialState) => ({
-             ...preInitialState!,
-             drawerShow: true
-           }));
-         }}>
-           <SettingOutlined/>
-         </div>
          <Dropdown menu={{ items }}>
-           <div className={'right-group'}>
-             <Avatar src={<img src={initialState!.currentUser?.avatar} alt="avatar"/>} />
-           </div>
+           <Space className={'right-group'}>
+             <Avatar icon={<UserOutlined />} src={initialState!.currentUser?.avatar}>
+             </Avatar>
+             {initialState!.currentUser?.nickname || initialState!.currentUser?.name || initialState!.currentUser?.username}
+             <DownOutlined />
+           </Space>
          </Dropdown>
        </Space>
-       <div style={{display:'none'}}>
-         <SettingDrawer
-           collapse={initialState?.drawerShow}
-           disableUrlParams
-           enableDarkTheme
-           settings={initialState?.settings}
-           onSettingChange={(settings) => {
-             setInitialState((preInitialState: any) => ({
-               ...preInitialState,
-               settings,
-             }));
-           }}
-         />
-       </div>
      </>
     )
   }else {

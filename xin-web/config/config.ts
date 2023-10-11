@@ -1,5 +1,5 @@
 import { defineConfig } from '@umijs/max';
-import defaultSettings from "./defaultSettings";
+import {appSettings} from "./defaultSettings";
 export default defineConfig({
   /**
    * Ant Design 配置
@@ -39,7 +39,7 @@ export default defineConfig({
   /**
    * 运行时配置
    */
-  layout: defaultSettings,
+  layout: appSettings,
   esbuildMinifyIIFE: true,
   npmClient: 'pnpm',
   /**

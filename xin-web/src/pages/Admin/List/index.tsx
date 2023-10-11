@@ -61,7 +61,7 @@ const Table : React.FC = () => {
       dataIndex: 'avatar',
       hideInSearch: true,
       valueType: 'text',
-      renderFormItem: (schema,config, form) => <UploadImgItem config={config} schema={schema} form={form} ></UploadImgItem>,
+      renderFormItem: (schema,config, form) => <UploadImgItem form={form} dataIndex={'avatar'} api={'/admin.php/system.file/upload'} ></UploadImgItem>,
       render: (_,date) => <Avatar src={<img src={date.avatar} alt="avatar" />} />
     },
     {
