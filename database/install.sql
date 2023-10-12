@@ -571,11 +571,9 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('4efe2862b8034a7d219b8b9f32aa6dc767054770', 'admin', 1, 1695873535, 1698465535);
-INSERT INTO `xin_token` VALUES ('55c56646db3dc3618e19bb18d4ad6dd893bc0ee0', 'user', 2, 1695872472, 1695873072);
-INSERT INTO `xin_token` VALUES ('8e912d76a4f4bad408a5ae13e763fb79ac7d4881', 'user-refresh', 2, 1695872472, 1698464472);
+INSERT INTO `xin_token` VALUES ('4bd77286623134fe6c012f1aaf4b8a40f19c5456', 'user', 2, 1697085620, 1697086220);
 INSERT INTO `xin_token` VALUES ('940c75d5a34469b399d971c78724f77785c38872', 'user-refresh', 1, 1695789838, 1698381838);
-INSERT INTO `xin_token` VALUES ('dd642ef9ec4b40e909f6dbabc073d7ee0a6c7406', 'admin-refresh', 1, 1695872705, 1698464705);
+INSERT INTO `xin_token` VALUES ('960243d88616d91c7b7412101406ab4d3ab16fb8', 'user-refresh', 2, 1697085620, 1699677620);
 
 -- ----------------------------
 -- Table structure for xin_user
@@ -639,17 +637,6 @@ CREATE TABLE `xin_user_group_rule`  (
 -- ----------------------------
 -- Records of xin_user_group_rule
 -- ----------------------------
-INSERT INTO `xin_user_group_rule` VALUES (1, 1);
-INSERT INTO `xin_user_group_rule` VALUES (1, 2);
-INSERT INTO `xin_user_group_rule` VALUES (1, 4);
-INSERT INTO `xin_user_group_rule` VALUES (1, 5);
-INSERT INTO `xin_user_group_rule` VALUES (1, 6);
-INSERT INTO `xin_user_group_rule` VALUES (1, 7);
-INSERT INTO `xin_user_group_rule` VALUES (1, 8);
-INSERT INTO `xin_user_group_rule` VALUES (1, 9);
-INSERT INTO `xin_user_group_rule` VALUES (1, 10);
-INSERT INTO `xin_user_group_rule` VALUES (1, 11);
-INSERT INTO `xin_user_group_rule` VALUES (1, 12);
 INSERT INTO `xin_user_group_rule` VALUES (2, 1);
 INSERT INTO `xin_user_group_rule` VALUES (2, 2);
 INSERT INTO `xin_user_group_rule` VALUES (2, 4);
@@ -661,6 +648,21 @@ INSERT INTO `xin_user_group_rule` VALUES (2, 9);
 INSERT INTO `xin_user_group_rule` VALUES (2, 10);
 INSERT INTO `xin_user_group_rule` VALUES (2, 11);
 INSERT INTO `xin_user_group_rule` VALUES (2, 12);
+INSERT INTO `xin_user_group_rule` VALUES (1, 1);
+INSERT INTO `xin_user_group_rule` VALUES (1, 2);
+INSERT INTO `xin_user_group_rule` VALUES (1, 4);
+INSERT INTO `xin_user_group_rule` VALUES (1, 5);
+INSERT INTO `xin_user_group_rule` VALUES (1, 6);
+INSERT INTO `xin_user_group_rule` VALUES (1, 7);
+INSERT INTO `xin_user_group_rule` VALUES (1, 8);
+INSERT INTO `xin_user_group_rule` VALUES (1, 9);
+INSERT INTO `xin_user_group_rule` VALUES (1, 10);
+INSERT INTO `xin_user_group_rule` VALUES (1, 11);
+INSERT INTO `xin_user_group_rule` VALUES (1, 12);
+INSERT INTO `xin_user_group_rule` VALUES (1, 13);
+INSERT INTO `xin_user_group_rule` VALUES (1, 14);
+INSERT INTO `xin_user_group_rule` VALUES (1, 15);
+INSERT INTO `xin_user_group_rule` VALUES (1, 16);
 
 -- ----------------------------
 -- Table structure for xin_user_rule
@@ -680,12 +682,12 @@ CREATE TABLE `xin_user_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user_rule
 -- ----------------------------
-INSERT INTO `xin_user_rule` VALUES (1, 0, '0', 0, '首页', '/index', 'HomeOutlined', 'index', '首页', 1695864022, 1695864022);
+INSERT INTO `xin_user_rule` VALUES (1, 0, '0', 0, '首页', '/', 'HomeOutlined', 'index', '首页', 1695864022, 1695864022);
 INSERT INTO `xin_user_rule` VALUES (2, 0, '0', 1, '文章中心', '/content', 'AppstoreOutlined', 'content', '文章中心', 1695865712, 1695864082);
 INSERT INTO `xin_user_rule` VALUES (4, 0, '0', 2, '下载中心', '/down', 'DownloadOutlined', 'down', '下载中心', 1695865728, 1695864124);
 INSERT INTO `xin_user_rule` VALUES (5, 4, '1', 0, '电脑软件', '/down/component', NULL, 'down.component', '电脑软件', 1695864856, 1695864856);
@@ -696,5 +698,9 @@ INSERT INTO `xin_user_rule` VALUES (9, 0, '0', 4, '代码仓库', '/git', 'StarO
 INSERT INTO `xin_user_rule` VALUES (10, 9, '1', 0, 'Github', 'https://github.com/Xineny-liu/xinadmin', NULL, 'ttps:..github.com.Xineny-liu.xinadmin', 'github', 1695870807, 1695870807);
 INSERT INTO `xin_user_rule` VALUES (11, 9, '1', 1, 'Gitee', 'https://gitee.com/xineny/xin-admin', NULL, 'ttps:..gitee.com.xineny.xin-admin', 'Gitee', 1695870845, 1695870845);
 INSERT INTO `xin_user_rule` VALUES (12, 0, '0', 4, '官方文档', 'https://xinadmin.cn', 'FileSearchOutlined', 'ttps:..xinadmin.cn', '官方文档', 1695870959, 1695870959);
+INSERT INTO `xin_user_rule` VALUES (13, 0, '0', 7, '会员中心', '', 'UserOutlined', '', '会员中心', 1696749281, 1696749281);
+INSERT INTO `xin_user_rule` VALUES (14, 13, '1', 0, '会员中心', '/s/user', NULL, 's.user', '会员中心', 1696752786, 1696752786);
+INSERT INTO `xin_user_rule` VALUES (15, 13, '1', 1, '个人资料', '/s/profile', NULL, 's.profile', '个人资料', 1696752829, 1696752829);
+INSERT INTO `xin_user_rule` VALUES (16, 14, '1', 0, '会员中心首页', '/s/user', NULL, 's.user', '会员中心首页', 1696756073, 1696756073);
 
 SET FOREIGN_KEY_CHECKS = 1;

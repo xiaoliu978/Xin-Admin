@@ -118,16 +118,19 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
-      if (location.pathname === 'admin/login') {
-        return
-      }
-      // 如果没有登录，重定向到 首页
-      if (!initialState!.isLogin && location.pathname !== '/') {
-        history.push('/');
-      }
+      // 获取当前路由的权限
       const accessName = location.pathname.slice(1).replace('/','.');
-      if (location.pathname === '/' && initialState!.app === 'admin') {
-        history.push('/home');
+      if(initialState!.app === 'admin'){
+        // 如果没有登录，重定向到 首页
+        if (!initialState!.isLogin) {
+          history.push('/');
+          return;
+        }
+        // 首页重定向
+        if (location.pathname === '/') {
+          history.push('/home');
+          return;
+        }
       }
       if(initialState!.access.includes(accessName) || access(initialState!).noAuth.includes(location.pathname)){
         setInitialState((preInitialState: any) => ({
