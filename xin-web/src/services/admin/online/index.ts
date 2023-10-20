@@ -14,7 +14,7 @@ export async function saveData(data: {
   sql_config: string;
   table_config: string;
 }) {
-  return request<API.ResponseStructure<any>>('online.online_table/saveData', {
+  return request<API.ResponseStructure<any>>('/admin.php/online.online_table/saveData', {
     method: 'post',
     data
   });
@@ -25,7 +25,7 @@ export async function saveData(data: {
  * @param params
  */
 export async function getData(params: {id:string}) {
-  return request<API.ResponseStructure<any>>('online.online_table/getData', {
+  return request<API.ResponseStructure<any>>('/admin.php/online.online_table/getData', {
     method: 'get',
     params
   });
@@ -41,7 +41,7 @@ export async function crudApi(data: {
   sql_config: any;
   table_config: any;
 }) {
-  return request<API.ResponseStructure<any>>('online.online_table/crud', {
+  return request<API.ResponseStructure<any>>('/admin.php/online.online_table/crud', {
     method: 'post',
     data
   });

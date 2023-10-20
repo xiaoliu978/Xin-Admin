@@ -6,7 +6,6 @@ import headerImg from '@/assets/static/header.png';
 import Index from './components';
 import UserSetting from './components/UserSetting';
 import SetPassword from './components/SetPassword';
-import Message from './components/Message';
 import { useModel } from '@umijs/max';
 
 
@@ -33,7 +32,6 @@ const items: MenuProps['items'] = [
   getItem('个人中心','index'),
   getItem('账户设置','user_setting'),
   getItem('修改密码','set_password'),
-  getItem('我的消息','message'),
   // getItem('Navigation One', 'sub1', <MailOutlined />, [
   //   getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
   //   getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
@@ -99,7 +97,6 @@ export default () => {
           { selectedKey === 'index' ? <Index></Index> : null }
           { selectedKey === 'user_setting' ? <UserSetting></UserSetting> : null }
           { selectedKey === 'set_password' ? <SetPassword></SetPassword> : null }
-          { selectedKey === 'message' ? <Message></Message> : null }
         </Content>
       </Layout>
     </Content>

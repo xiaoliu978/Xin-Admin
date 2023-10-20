@@ -11,9 +11,7 @@ use think\db\exception\ModelNotFoundException;
 class Admin extends BaseModel
 {
 
-    protected $hidden = [
-        'password', 'create_time', 'update_time', 'status', 'create_ip'
-    ];
+    protected $hidden = ['password'];
 
     /**
      * @description: 模型登录
@@ -27,6 +25,10 @@ class Admin extends BaseModel
             $user = $this->where('username',$username)->find();
             if(!$user) {
                 $this->setErrorMsg('用户不存在');
+                return false;
+            }
+            if(!$user['status']){
+                $this->setErrorMsg('账户已被禁用');
                 return false;
             }
             // 验证密码
@@ -61,16 +63,18 @@ class Admin extends BaseModel
     }
 
     /**
-     * @description: 退出登录
-     * @param {*} $user_id
-     * @return bool {*}
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
+     * 退出登录
+     * @param $user_id
+     * @return bool
      */
     public function logout($user_id): bool
     {
-        $user = $this->where('id',$user_id)->find();
+        try {
+            $user = $this->where('id', $user_id)->find();
+        } catch (DbException $e) {
+            $this->setErrorMsg('用户不存在');
+            return false;
+        }
         if(!$user) {
             $this->setErrorMsg('用户不存在');
             return false;

@@ -2,12 +2,11 @@ import { listApi, deleteApi } from '@/services/admin/table';
 import {
   ActionType,
   FooterToolbar,
-  ProTable,
-  ProDescriptionsItemProps
+  ProTable
 } from '@ant-design/pro-components';
-import {Button, message, Divider, Watermark, Popconfirm} from 'antd';
-import React, {useRef,useState} from 'react';
-import { TableProps } from './typings';
+import { Button, message, Divider, Watermark, Popconfirm, Space } from 'antd';
+import React, { ReactNode, useRef, useState } from 'react';
+import { ProFormColumnsAndProColumns, TableProps } from './typings';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
 import { ProTableProps } from "@ant-design/pro-components";
@@ -24,7 +23,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     searchConfig,
     rowSelectionShow,
     operateRender,
-    toolBarRender,
     operateShow,
     handleUpdate,
     handleAdd,
@@ -52,7 +50,9 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    * 表格所有节点的Key
    */
   const [allKeys, setAllKeys] = useState([]);
-
+  /**
+   * 权限
+   */
   const access = useAccess();
 
   /**
@@ -91,61 +91,50 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     }).finally(() => hide())
   }
 
+  /**
+   * 删除按钮
+   * @param record
+   */
+  const deleteButton = (record: TableData) => {
+    return (
+      <Access accessible={ accessName?access.buttonAccess(accessName+'.delete'):true }>
+        <Popconfirm
+          title="Delete the task"
+          description="你确定要删除这条数据吗？"
+          onConfirm={() => { handleRemove([record]) }}
+          okText="确认"
+          cancelText="取消"
+        >
+          <a>删除</a>
+        </Popconfirm>
+      </Access>
+    )
+  }
 
   /**
-   * 操作栏按钮，自定义按钮：operateRender
+   * 编辑按钮
+   * @param record
    */
-  const defaultButton: ProDescriptionsItemProps<TableData>[] = operateShow !== false ? [
-    {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      // @ts-ignore
-      align: 'center',
-      render: (_, record) => (
-        <>
-          {editShow === false ? null :
-            <Access accessible={ accessName?access.buttonAccess(accessName+'.edit'):true }>
-              <UpdateForm<TableData>
-                values={record}
-                columns={columns}
-                id={record.id}
-                api={tableApi+'/edit'}
-                tableRef={actionRef}
-                handleUpdate={handleUpdate}
-              />
-            </Access>
-          }
-          {deleteShow === false ? null :
-            <Access accessible={ accessName?access.buttonAccess(accessName+'.delete'):true }>
-              <Divider type="vertical" />
-              <Popconfirm
-                title="Delete the task"
-                description="你确定要删除这条数据吗？"
-                onConfirm={() => { handleRemove([record]) }}
-                okText="确认"
-                cancelText="取消"
-              >
-                <a>删除</a>
-              </Popconfirm>
-            </Access>
-          }
-          {operateRender === undefined ? null :
-            <>
-              <Divider type="vertical" />
-              {operateRender(record)}
-            </>
-          }
-        </>
-      ),
-    }
-  ] : []
+  const editButton = (record: TableData) => {
+    return (
+      <Access accessible={ accessName?access.buttonAccess(accessName+'.edit'):true }>
+        <UpdateForm<TableData>
+          values={record}
+          columns={columns}
+          id={record.id}
+          api={tableApi+'/edit'}
+          tableRef={actionRef}
+          handleUpdate={handleUpdate}
+        />
+      </Access>
+    )
+  }
 
   /**
-   * 工具栏默认渲染
+   * 新增按钮
    */
-  const defaultToolBarRender = () => [
-    addShow !== false ? (
+  const addButton = () => {
+    return (
       <Access accessible={ accessName?access.buttonAccess(accessName+'.add'):true}>
         <CreateForm<TableData>
           columns = { columns }
@@ -155,20 +144,55 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           addBefore={addBefore}
         />
       </Access>
-    ) : <></>,
-    allKeys.length && allKeys.length > dataSource.length ? (
-      <>
-        <Button onClick={() => setExpandedRowKeys(allKeys)}>
-          展开全部
-        </Button>
-        <Button onClick={() => setExpandedRowKeys([])}>
-          折叠全部
-        </Button>
-      </>
-    ): <></>,
-    toolBarRender
-  ]
+    )
+  }
 
+  /**
+   * 默认操作栏按钮
+   */
+  const defaultButton = () => {
+    let operate: ProFormColumnsAndProColumns<TableData> =  {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      align: 'center',
+      render: (_, record) => (
+        <Space split={<Divider type="vertical" />} size={0}>
+          {editShow !== false ? editButton(record) : null}
+          {deleteShow !== false ? deleteButton(record) : null}
+          {operateRender !== undefined ? operateRender(record) : null}
+        </Space>
+      ),
+    }
+    return operate
+  }
+
+  /**
+   * 工具栏默认渲染
+   */
+  const defaultToolBar: ProTableProps<TableData, any>['toolBarRender'] = (action,rows) => {
+    let bar: ReactNode[] = [addShow !== false ? addButton() : '',];
+    if(allKeys.length && allKeys.length > dataSource.length) {
+      bar.push((
+        <>
+          <Button onClick={() => setExpandedRowKeys(allKeys)}>
+            展开全部
+          </Button>
+          <Button onClick={() => setExpandedRowKeys([])}>
+            折叠全部
+          </Button>
+        </>
+      ))
+    }
+    if(props.toolBarRender) {
+      bar.push(props.toolBarRender(action,rows))
+    }
+    return bar
+  }
+
+  /**
+   * 多选底部操作栏
+   */
   const footerBar = () => {
     return selectedRowsState?.length > 0 && (
       <FooterToolbar
@@ -204,7 +228,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     actionRef: actionRef,
     rowKey: "id",
     search: searchConfig,
-    toolBarRender: defaultToolBarRender,
     expandable: {
       expandedRowKeys: expandedRowKeys,
       onExpandedRowsChange: (expandedKeys) => { setExpandedRowKeys([...expandedKeys]) }
@@ -230,7 +253,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     <Watermark>
       <ProTable<TableData>
         { ...Object.assign(defaultProTableConfig, props) }
-        columns={[...columns, ...defaultButton]}
+        columns={[...columns, operateShow !== false ? defaultButton() : {}]}
+        toolBarRender={defaultToolBar}
       />
       {footerBar()}
     </Watermark>

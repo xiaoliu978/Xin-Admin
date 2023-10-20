@@ -48,10 +48,6 @@ export type TableProps<TableData> = {
     filterType?: 'query' | 'light';
   };
   /**
-   * 工具栏节点配置
-   */
-  toolBarRender?: JSX.Element[];
-  /**
    * 自定义更新提交事件
    */
   handleUpdate?: (formData:TableData) => Promise<boolean>

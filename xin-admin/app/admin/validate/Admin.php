@@ -7,31 +7,17 @@ use think\Validate;
 class Admin extends Validate
 {
     protected $rule = [
-        'id'        =>  'require|max:10|int',
+        'id'        =>  'require|max:10|number',
         'username'  =>  'require|max:10|alphaDash',
         'password'  =>  'require|max:10|graph',
         'autoLogin' =>  'boolean',
         'mobile'    =>  'require|mobile',
         'captcha'   =>  'require|max:4',
         'nickname'  =>  'require',
-        'sex'       =>  'max:1|string'
-    ];
-
-    protected $message  =   [
-        'username.require'  => '用户名不能为空',
-        'username.max'      => '用户名最多不能超过10个字符',
-        'username.alphaDash'=> '用户名只能为字母和数字、下划线_及破折号-',
-
-        'password.require'  => '密码不能为空',
-        'password.max'      => '密码最多不能超过10个字符',
-        'password.graph'    => '密码不能包含非法字符',
-
-        'mobile.require'    => '手机号不能为空',
-        'mobile.mobile'     => '手机号格式错误',
-
-        'captcha.require'   => '验证码不能为空',
-        'captcha.max'       => '验证码最多不能超过4个字符',
-        
+        'sex'       =>  'max:1|string',
+        'rePassword'=>'require|confirm:password',
+        'group_id'  =>  'require|number',
+        'status'    =>  'require|number'
     ];
 
     protected $scene = [
@@ -40,17 +26,19 @@ class Admin extends Validate
         // 手机号登录
         'phone'    =>  ['mobile','captcha'],
         // 新增管理员
-        'add'      =>  ['username','nickname','password']
+        'add'      =>  ['username','nickname','password','email','mobile','rePassword','group_id','status'],
+        // 修改密码
+        'updatePassword' => ['id','password','rePassword']
     ]; 
 
     // edit 验证场景定义
-    public function sceneEdit()
+    public function sceneEdit(): Admin
     {
-    	return $this->only(['username','password','mobile','nickname','sex'])
-            ->remove('username', 'require')
+    	return $this->only(['id','mobile','nickname','sex','group_id','status'])
             ->remove('nickname', 'require')
-            ->remove('mobile', 'require')
-            ->remove('password', 'require');
+            ->remove('group_id', 'require')
+            ->remove('status', 'require')
+            ->remove('mobile', 'require');
     }    
 
 
