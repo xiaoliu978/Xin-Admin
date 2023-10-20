@@ -49,6 +49,7 @@ class Auth
                 // 获取用户所在用户组
                 $admin = new AdminModel;
                 $adminInfo = $admin->where('id',$tokenData['user_id'])->find();
+                if(!$adminInfo['status']) $this->error('账户已被禁用！', [], 403,'throw');
                 // 获取用户所有权限
                 $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
                 $rules = [];

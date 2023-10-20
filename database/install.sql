@@ -1,3 +1,7 @@
+/*
+ Date: 20/10/2023 09:29:11
+*/
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -7,27 +11,29 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `xin_admin`;
 CREATE TABLE `xin_admin`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '用户名',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '头像',
-  `sex` enum('0','1') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '性别:0=男,1=女',
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '邮箱',
-  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '手机',
+  `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
+  `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '头像',
+  `sex` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '性别',
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邮箱',
+  `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '手机',
   `status` enum('1','0') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '1' COMMENT '状态:0=禁用,1=启用',
-  `group_id` int(11) NULL DEFAULT NULL COMMENT '用户组',
-  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '密码',
-  `motto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '签名',
+  `group_id` int(11) NOT NULL DEFAULT 1 COMMENT '用户组',
+  `password` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '密码',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE,
   UNIQUE INDEX `mobile`(`mobile`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/f5\\33cdbfba42849c00e9af4f7e6c72aa.png', '0', '2302563948@qq.com', '18888888888', '1', 1, '$2y$10$y0Pjisa4CbJkXKXyyqE3tevPaKWA8Zp0.ugDFXDYJF63F1RvKdEkq', '', 1645876529, 1695284149);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/c4\\0a68035ffb3ec01b9c3d94ffcdc8f8.png', '0', '111@qq.com', '15966666666', '1', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1645876529, 1697697240);
+INSERT INTO `xin_admin` VALUES (2, 'test1', '测试账号1', 'http://127.0.0.1:8000/storage/file/4c\\53e0fec4facbcb9416fc9da3f9ad32.png', '0', '230@qq.com', '15866666666', '0', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697305, 1697699375);
+INSERT INTO `xin_admin` VALUES (3, 'test2', '测试账号2', 'http://127.0.0.1:8000/storage/file/62\\87527b4016e4e3c812e46900fd1087.png', '1', '230@qq.com', '16695635422', '0', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697586, 1697699361);
+INSERT INTO `xin_admin` VALUES (4, 'test3', '测试账号3', 'http://127.0.0.1:8000/storage/file/73\\77aef6d9fed083b664119cccb2e351.jpg', '1', '230@qw.com', '15699999999', '0', 4, '$2y$10$E/QEZf7SyPwhiKy9zKNvc.lzOAO5nJp.KtIdhMJ3AqIdmaGCnrg3m', 1697699079, 1697700252);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -40,7 +46,7 @@ CREATE TABLE `xin_admin_group`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理分组表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_group
@@ -49,8 +55,6 @@ INSERT INTO `xin_admin_group` VALUES (1, 0, '系统管理员', 1692163328, 16921
 INSERT INTO `xin_admin_group` VALUES (2, 1, '二级管理员', 1692163920, 1692163920);
 INSERT INTO `xin_admin_group` VALUES (3, 2, '三级管理员', 1692164762, 1692164762);
 INSERT INTO `xin_admin_group` VALUES (4, 0, '访客', 1692183930, 1692183930);
-INSERT INTO `xin_admin_group` VALUES (5, 4, '管理员设置访客', 1692183966, 1692183966);
-INSERT INTO `xin_admin_group` VALUES (6, 4, '系统管理访客', 1692183987, 1692183987);
 
 -- ----------------------------
 -- Table structure for xin_admin_group_rule
@@ -83,19 +87,6 @@ INSERT INTO `xin_admin_group_rule` VALUES (2, 11);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 8);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 9);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 6);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 9);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 11);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 10);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 1);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 2);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 5);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 15);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 26);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 20);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 16);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
@@ -175,6 +166,31 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 77);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 78);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 79);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 80);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 81);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 82);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 83);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 84);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 85);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 86);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 87);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 88);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 89);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 1);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 5);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 15);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 26);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 20);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 16);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 2);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 3);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 35);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 36);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 86);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 48);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -194,13 +210,13 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
 -- ----------------------------
 INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', 1, '首页', '/home', 'HomeOutlined', 'home', '首页', 1694679617, 1691653415);
-INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '数据展示', '/data', 'PieChartOutlined', 'data', '数据展示', 1695346815, 1691653452);
+INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '组件&功能', '/data', 'PieChartOutlined', 'data', '数据展示', 1697616715, 1691653452);
 INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', 'UnorderedListOutlined', 'data.descriptions', '定义列表', 1695347092, 1692102396);
 INSERT INTO `xin_admin_rule` VALUES (6, 0, '0', 5, '管理员设置', '/admin', 'IdcardOutlined', 'admin', '管理员设置', 1694679571, 1692126728);
 INSERT INTO `xin_admin_rule` VALUES (7, 6, '1', 0, '管理员列表', '/admin/list', NULL, 'admin.list', '管理员列表', 1694507007, 1692126786);
@@ -232,17 +248,10 @@ INSERT INTO `xin_admin_rule` VALUES (32, 11, '2', 0, '字典配置编辑', NULL,
 INSERT INTO `xin_admin_rule` VALUES (33, 11, '2', 0, '字典配置删除', NULL, NULL, 'system.dict.item.delete', '字典配置删除', 1692263984, 1692263984);
 INSERT INTO `xin_admin_rule` VALUES (35, 2, '1', 0, '高级列表', '/data/list', NULL, 'data.list', '高级列表', 1695347129, 1692323263);
 INSERT INTO `xin_admin_rule` VALUES (36, 2, '1', 0, '单选卡片', '/data/checkcard', NULL, 'data.checkcard', '单选卡片', 1695347132, 1692323398);
-INSERT INTO `xin_admin_rule` VALUES (37, 0, '0', 3, '在线开发示例', '/test', 'BarChartOutlined', 'example', '在线开发示例', 1694679586, 1693226160);
-INSERT INTO `xin_admin_rule` VALUES (38, 37, '1', 0, '表格示例', '/test/testtable', NULL, 'test.testtable', '表格示例', 1695346282, 1693226204);
 INSERT INTO `xin_admin_rule` VALUES (39, 0, '0', 4, '会员管理', '/user', 'TeamOutlined', 'user', '会员管理', 1694679551, 1693226272);
 INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user/list', NULL, 'user.list', '会员列表', 1695807077, 1693226294);
-INSERT INTO `xin_admin_rule` VALUES (41, 0, '0', 7, '内容管理', '/content', 'TableOutlined', 'content', '内容管理', 1693313303, 1693226346);
-INSERT INTO `xin_admin_rule` VALUES (42, 41, '1', 0, '文章列表', '/content/article', NULL, 'content.article', '文章列表', 1695347177, 1693226378);
 INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', 'RocketOutlined', 'online', '在线开发', 1693313330, 1693226432);
 INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', NULL, 'online.table', '表格设计', 1694507047, 1693226460);
-INSERT INTO `xin_admin_rule` VALUES (45, 43, '1', 1, '页面设计', '/online/page', NULL, 'online.pages', '页面设计', 1694507053, 1693226489);
-INSERT INTO `xin_admin_rule` VALUES (46, 43, '1', 2, 'App页面设计', '/online/apppage', NULL, 'online.app', 'App页面设计', 1694584915, 1693226518);
-INSERT INTO `xin_admin_rule` VALUES (47, 43, '1', 3, 'Charts 设计', '/online/charts', NULL, 'online.charts', 'Charts 图表设计', 1693313405, 1693226569);
 INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', 'https://xinadmin.cn/', NULL, 'xinadmin', 'Xin Admin 官网', 1694488334, 1693226618);
 INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 0, '系统信息', '/system/info', NULL, 'system.info', '系统设置', 1694652227, 1693313283);
 INSERT INTO `xin_admin_rule` VALUES (50, 10, '1', 3, '系统设置', '/system/setting', NULL, 'system.setting', '系统设置', 1694652770, 1694652598);
@@ -276,25 +285,13 @@ INSERT INTO `xin_admin_rule` VALUES (77, 69, '2', 3, '会员分组编辑', NULL,
 INSERT INTO `xin_admin_rule` VALUES (78, 69, '2', 4, '会员分组删除', NULL, NULL, 'user.group.delete', '会员分组删除', 1695806669, 1695806669);
 INSERT INTO `xin_admin_rule` VALUES (79, 69, '2', 5, '分组权限查看', NULL, NULL, 'user.group.rule', '分组权限查看', 1695807154, 1695807154);
 INSERT INTO `xin_admin_rule` VALUES (80, 69, '2', 6, '分组权限修改', NULL, NULL, 'user.group.ruleEdit', '分组权限修改', 1695807222, 1695807201);
-
--- ----------------------------
--- Table structure for xin_content
--- ----------------------------
-DROP TABLE IF EXISTS `xin_content`;
-CREATE TABLE `xin_content`  (
-  `id` int(11) UNSIGNED NOT NULL COMMENT '文章ID',
-  `user_id` int(11) UNSIGNED NOT NULL COMMENT '用户ID',
-  `see` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '浏览量',
-  `like` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '喜欢量',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '文章内容',
-  `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(10) NULL DEFAULT NULL COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '文章列表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of xin_content
--- ----------------------------
+INSERT INTO `xin_admin_rule` VALUES (81, 39, '1', 4, '会员余额记录', '/user/moneyLog', NULL, 'user.moneyLog', '会员余额记录', 1697533629, 1697533629);
+INSERT INTO `xin_admin_rule` VALUES (82, 81, '2', 0, '会员余额记录查询', NULL, NULL, 'user.moneyLog.list', '会员余额记录查询', 1697533746, 1697533746);
+INSERT INTO `xin_admin_rule` VALUES (83, 81, '2', 2, '修改用户余额', NULL, NULL, 'user.moneyLog.add', '修改用户余额', 1697603805, 1697603805);
+INSERT INTO `xin_admin_rule` VALUES (84, 44, '2', 0, '表格设计新增', NULL, NULL, 'online.table.add', '表格设计新增', 1697605467, 1697605467);
+INSERT INTO `xin_admin_rule` VALUES (85, 81, '2', 3, '会员余额记录删除', NULL, NULL, 'user.moneyLog.delete', '会员余额记录删除', 1697605938, 1697605938);
+INSERT INTO `xin_admin_rule` VALUES (86, 2, '1', 0, '表单示例', '/data/form', NULL, 'data.form', '表单示例', 1697617422, 1697616790);
+INSERT INTO `xin_admin_rule` VALUES (87, 7, '2', 1, '修改管理员密码', NULL, NULL, 'admin.list.updatePwd', '修改管理员密码', 1697763578, 1697763567);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -310,7 +307,7 @@ CREATE TABLE `xin_dict`  (
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `code`(`code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict
@@ -323,6 +320,7 @@ INSERT INTO `xin_dict` VALUES (17, '字段类型', 'default', '前端表单类�
 INSERT INTO `xin_dict` VALUES (18, '数据类型', 'default', '数据库字段类型字典，请不要修改', 'sqlType', 1692703434, 1692880948);
 INSERT INTO `xin_dict` VALUES (19, '查询操作符', 'default', '系统查询操作符，请不要修改', 'select', 1693227615, 1693227615);
 INSERT INTO `xin_dict` VALUES (20, '验证规则', 'default', 'CRUD 验证规则，请不要修改', 'validation', 1693895586, 1693895586);
+INSERT INTO `xin_dict` VALUES (21, '余额变动记录类型', 'tag', '余额变动记录类型', 'moneyLog', 1697534871, 1697534871);
 
 -- ----------------------------
 -- Table structure for xin_dict_item
@@ -339,7 +337,7 @@ CREATE TABLE `xin_dict_item`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`dict_id`, `value`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict_item
@@ -399,6 +397,9 @@ INSERT INTO `xin_dict_item` VALUES (57, 20, '字符串', 'verifyString', '1', 'd
 INSERT INTO `xin_dict_item` VALUES (58, 17, '自增主键', 'id', '1', 'default', 1695367692, 1695367692);
 INSERT INTO `xin_dict_item` VALUES (59, 17, '创建时间', 'createTime', '1', 'default', 1695370490, 1695370490);
 INSERT INTO `xin_dict_item` VALUES (60, 17, '更新时间', 'updateTime', '1', 'default', 1695370504, 1695370504);
+INSERT INTO `xin_dict_item` VALUES (61, 21, '管理员操作', '0', '1', 'processing', 1697534904, 1697534904);
+INSERT INTO `xin_dict_item` VALUES (62, 21, '消费', '1', '1', 'error', 1697534922, 1697534948);
+INSERT INTO `xin_dict_item` VALUES (63, 21, '签到奖励', '2', '1', 'success', 1697534941, 1697534941);
 
 -- ----------------------------
 -- Table structure for xin_file
@@ -416,7 +417,7 @@ CREATE TABLE `xin_file`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`file_id`) USING BTREE,
   UNIQUE INDEX `file_name`(`file_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_file
@@ -432,6 +433,11 @@ INSERT INTO `xin_file` VALUES (19, '6784aff49221e6f735a792391c075f.png', 1, 1, '
 INSERT INTO `xin_file` VALUES (20, 'ef324135a0a3a2351b9b08080c885a.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/0b\\ef324135a0a3a2351b9b08080c885a.png', 1387, 1692113924, 1692113924);
 INSERT INTO `xin_file` VALUES (21, '6ec9464deb3ec2e830d3dc8280c142.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', 1556451, 1692128954, 1692128954);
 INSERT INTO `xin_file` VALUES (22, '33cdbfba42849c00e9af4f7e6c72aa.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/f5\\33cdbfba42849c00e9af4f7e6c72aa.png', 10714, 1695284148, 1695284148);
+INSERT INTO `xin_file` VALUES (23, '0a68035ffb3ec01b9c3d94ffcdc8f8.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/c4\\0a68035ffb3ec01b9c3d94ffcdc8f8.png', 8707, 1697518542, 1697518542);
+INSERT INTO `xin_file` VALUES (24, '87f8d38ac1324cd13dddc282500b35.ico', 2, 2, 'ico', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', 20161, 1697525568, 1697525568);
+INSERT INTO `xin_file` VALUES (25, '53e0fec4facbcb9416fc9da3f9ad32.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/4c\\53e0fec4facbcb9416fc9da3f9ad32.png', 20617, 1697697293, 1697697293);
+INSERT INTO `xin_file` VALUES (26, '87527b4016e4e3c812e46900fd1087.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/62\\87527b4016e4e3c812e46900fd1087.png', 37222, 1697697535, 1697697535);
+INSERT INTO `xin_file` VALUES (27, '77aef6d9fed083b664119cccb2e351.jpg', 3, 3, 'jpg', 'http://127.0.0.1:8000/storage/file/73\\77aef6d9fed083b664119cccb2e351.jpg', 10185, 1697698950, 1697698950);
 
 -- ----------------------------
 -- Table structure for xin_file_group
@@ -446,12 +452,14 @@ CREATE TABLE `xin_file_group`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `file`(`pid`, `user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件分组表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_file_group
 -- ----------------------------
 INSERT INTO `xin_file_group` VALUES (1, 0, 1, 'root', 1692092722, 1692092722);
+INSERT INTO `xin_file_group` VALUES (2, 0, 2, 'root', 1697525567, 1697525567);
+INSERT INTO `xin_file_group` VALUES (3, 0, 3, 'root', 1697698950, 1697698950);
 
 -- ----------------------------
 -- Table structure for xin_online_table
@@ -468,12 +476,12 @@ CREATE TABLE `xin_online_table`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_online_table
 -- ----------------------------
-INSERT INTO `xin_online_table` VALUES (5, '测试页面', '[{\"valueType\":\"id\",\"dataIndex\":\"id\",\"title\":\"主键ID\",\"select\":\"=\",\"order\":99,\"hideInForm\":true,\"mock\":\"@increment\",\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"decimal\":0,\"unsign\":true},{\"valueType\":\"text\",\"dataIndex\":\"string\",\"title\":\"文本框\",\"select\":\"like\",\"validation\":[\"verifyRequired\"],\"order\":1,\"mock\":\"@string(10,15)\",\"sqlType\":\"varchar\",\"remark\":\"文本框\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"digit\",\"dataIndex\":\"int\",\"title\":\"数字输入框\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1,10)\",\"sqlType\":\"int\",\"remark\":\"数字\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false},{\"valueType\":\"date\",\"dataIndex\":\"date\",\"title\":\"日期\",\"select\":\"date\",\"order\":1,\"mock\":\"@date\",\"sqlType\":\"date\",\"remark\":\"日期\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"money\",\"dataIndex\":\"money\",\"title\":\"金额输入框\",\"select\":\"=\",\"order\":1,\"mock\":\"@float(100,999,2,2)\",\"sqlType\":\"double\",\"remark\":\"金额\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":2,\"unsign\":false},{\"valueType\":\"select\",\"dataIndex\":\"one\",\"title\":\"下拉框\",\"select\":\"=\",\"order\":1,\"isDict\":false,\"enum\":\"1:one\\n2:two\\n3:three\",\"mock\":\"@integer(1, 3)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"valueEnum\":{}},{\"valueType\":\"checkbox\",\"dataIndex\":\"check\",\"title\":\"多选框\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 3)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"isDict\":false,\"enum\":\"1:one\\n2:two\\n3:three\",\"valueEnum\":{}},{\"valueType\":\"radio\",\"dataIndex\":\"like\",\"title\":\"单选框\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 2)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"isDict\":false,\"enum\":\"1:喜欢\\n2:不喜欢\",\"valueEnum\":{}},{\"valueType\":\"radioButton\",\"dataIndex\":\"ccc\",\"title\":\"单选按钮\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 3)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"isDict\":false,\"enum\":\"1:one\\n2:two\\n3:three\",\"valueEnum\":{}},{\"valueType\":\"textarea\",\"dataIndex\":\"md\",\"title\":\"文本域\",\"select\":\"like\",\"order\":1,\"hideInTable\":true,\"mock\":\"@cparagraph\",\"sqlType\":\"text\",\"remark\":\"文本域\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"unsign\":false},{\"valueType\":\"dateTime\",\"dataIndex\":\"datetime\",\"title\":\"日期时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"datetime\",\"remark\":\"日期时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"switch\",\"dataIndex\":\"switch\",\"title\":\"开关\",\"select\":\"=\",\"order\":1,\"mock\":\"@boolean\",\"sqlType\":\"int\",\"remark\":\"开关\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"rate\",\"dataIndex\":\"rate\",\"title\":\"评分\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 5)\",\"sqlType\":\"int\",\"remark\":\"评分\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"createTime\",\"dataIndex\":\"create_time\",\"title\":\"创建时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false},{\"valueType\":\"updateTime\",\"dataIndex\":\"update_time\",\"title\":\"更新时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"更新时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false}]', '{\"sqlTableName\":\"xin_test_table\",\"sqlTableRemark\":\"CRUD 测试表格\",\"autoDeletetime\":true}', '{\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller/test\",\"modelPath\":\"app/admin/model/test\",\"validatePath\":\"app/admin/validate/test\",\"pagePath\":\"src/pages/Test\"}', '{\"headerTitle\":\"查询表格\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '测试页面', 1695370527, 1692960505);
+INSERT INTO `xin_online_table` VALUES (1, '测试表格', '[{\"valueType\":\"id\",\"dataIndex\":\"id\",\"title\":\"主键ID\",\"select\":\"=\",\"order\":100,\"hideInForm\":true,\"mock\":\"@increment\",\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"decimal\":0,\"unsign\":true},{\"valueType\":\"text\",\"dataIndex\":\"title\",\"title\":\"标题\",\"select\":\"like\",\"validation\":[\"verifyRequired\"],\"order\":98,\"mock\":\"@string(10,15)\",\"sqlType\":\"varchar\",\"remark\":\"文本框\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"money\",\"dataIndex\":\"money\",\"title\":\"金额\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":95,\"mock\":\"@float(100,999,2,2)\",\"sqlType\":\"double\",\"remark\":\"金额\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":2,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"date\",\"dataIndex\":\"date\",\"title\":\"生日\",\"select\":\"date\",\"validation\":[\"verifyRequired\"],\"order\":95,\"mock\":\"@date\",\"sqlType\":\"date\",\"remark\":\"日期\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"radioButton\",\"dataIndex\":\"school\",\"title\":\"学校\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":1,\"mock\":\"@integer(1, 3)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"isDict\":false,\"enum\":\"1:清华大学\\n2:北京大学\\n3:武汉大学\",\"valueEnum\":{},\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"switch\",\"dataIndex\":\"switch\",\"title\":\"开关\",\"select\":\"=\",\"order\":1,\"mock\":\"@boolean\",\"sqlType\":\"char\",\"remark\":\"开关\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"dateTime\",\"dataIndex\":\"datetime\",\"title\":\"日期时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"datetime\",\"remark\":\"日期时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"rate\",\"dataIndex\":\"rate\",\"title\":\"评分\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 5)\",\"sqlType\":\"char\",\"remark\":\"评分\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"createTime\",\"dataIndex\":\"create_time\",\"title\":\"创建时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false},{\"valueType\":\"updateTime\",\"dataIndex\":\"update_time\",\"title\":\"更新时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"更新时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false}]', '{}', '{\"name\":\"TableName\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/admin/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"src/pages\"}', '{\"headerTitle\":\"查询表格\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '测试', 1697765314, 1697764941);
 
 -- ----------------------------
 -- Table structure for xin_setting
@@ -571,9 +579,12 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('4bd77286623134fe6c012f1aaf4b8a40f19c5456', 'user', 2, 1697085620, 1697086220);
+INSERT INTO `xin_token` VALUES ('00f3a1ab68208d2fd6531ae946787a59718396cf', 'admin-refresh', 3, 1697697840, 1700289840);
+INSERT INTO `xin_token` VALUES ('165dee32d61f9721b0efb86f4083dc902c85dafe', 'admin-refresh', 2, 1697762481, 1700354481);
+INSERT INTO `xin_token` VALUES ('1cc86d222ff0cc05febe41d407a08000c72f0bac', 'admin', 2, 1697762481, 1697763081);
+INSERT INTO `xin_token` VALUES ('706ee0b4baef068fd15048e29766fe150d8c9057', 'user-refresh', 2, 1697605617, 1700197617);
 INSERT INTO `xin_token` VALUES ('940c75d5a34469b399d971c78724f77785c38872', 'user-refresh', 1, 1695789838, 1698381838);
-INSERT INTO `xin_token` VALUES ('960243d88616d91c7b7412101406ab4d3ab16fb8', 'user-refresh', 2, 1697085620, 1699677620);
+INSERT INTO `xin_token` VALUES ('d616eb66eb908d9d66e979cd349ab22c5574affe', 'admin', 3, 1697698626, 1700290626);
 
 -- ----------------------------
 -- Table structure for xin_user
@@ -602,7 +613,7 @@ CREATE TABLE `xin_user`  (
 -- ----------------------------
 -- Records of xin_user
 -- ----------------------------
-INSERT INTO `xin_user` VALUES (2, '15837548085', 'user', '2302563948@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', 'user', NULL, '0', NULL, 1, 0, 0, '', '1', 1695790550, 1695790550);
+INSERT INTO `xin_user` VALUES (2, '15837548085', 'user', '2302563948@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', 'user', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', '0', NULL, 1, 190, 0, '', '1', 1695790550, 1697525569);
 
 -- ----------------------------
 -- Table structure for xin_user_group
@@ -615,7 +626,7 @@ CREATE TABLE `xin_user_group`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理分组表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '会员分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user_group
@@ -632,7 +643,7 @@ CREATE TABLE `xin_user_group_rule`  (
   `rule_id` int(10) UNSIGNED NOT NULL COMMENT '权限ID',
   INDEX `group`(`group_id`) USING BTREE,
   INDEX `rule`(`rule_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '管理员分组权限表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '会员分组权限表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user_group_rule
@@ -665,6 +676,28 @@ INSERT INTO `xin_user_group_rule` VALUES (1, 15);
 INSERT INTO `xin_user_group_rule` VALUES (1, 16);
 
 -- ----------------------------
+-- Table structure for xin_user_money_log
+-- ----------------------------
+DROP TABLE IF EXISTS `xin_user_money_log`;
+CREATE TABLE `xin_user_money_log`  (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `user_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户ID',
+  `scene` varchar(3) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '余额变动场景',
+  `money` decimal(10, 2) NOT NULL DEFAULT 0.00 COMMENT '变动金额',
+  `describe` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '描述/说明',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户余额变动明细表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Records of xin_user_money_log
+-- ----------------------------
+INSERT INTO `xin_user_money_log` VALUES (1, 2, '0', 10.00, '测试余额变更', 1697604369);
+INSERT INTO `xin_user_money_log` VALUES (2, 2, '0', -10.00, '测试余额变更', 1697604382);
+INSERT INTO `xin_user_money_log` VALUES (3, 2, '0', 100.00, '测试修改余额', 1697615118);
+
+-- ----------------------------
 -- Table structure for xin_user_rule
 -- ----------------------------
 DROP TABLE IF EXISTS `xin_user_rule`;
@@ -682,25 +715,17 @@ CREATE TABLE `xin_user_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '会员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user_rule
 -- ----------------------------
 INSERT INTO `xin_user_rule` VALUES (1, 0, '0', 0, '首页', '/', 'HomeOutlined', 'index', '首页', 1695864022, 1695864022);
-INSERT INTO `xin_user_rule` VALUES (2, 0, '0', 1, '文章中心', '/content', 'AppstoreOutlined', 'content', '文章中心', 1695865712, 1695864082);
-INSERT INTO `xin_user_rule` VALUES (4, 0, '0', 2, '下载中心', '/down', 'DownloadOutlined', 'down', '下载中心', 1695865728, 1695864124);
-INSERT INTO `xin_user_rule` VALUES (5, 4, '1', 0, '电脑软件', '/down/component', NULL, 'down.component', '电脑软件', 1695864856, 1695864856);
-INSERT INTO `xin_user_rule` VALUES (6, 4, '1', 0, 'window 系统', '/down/window', NULL, 'down.windwo', 'window 系统', 1695864884, 1695864884);
-INSERT INTO `xin_user_rule` VALUES (7, 4, '1', 2, 'app 应用', '/down/app', NULL, 'down.app', 'app 应用', 1695864904, 1695864904);
-INSERT INTO `xin_user_rule` VALUES (8, 0, '0', 100, 'BuildAdmin', 'https://www.buildadmin.com', NULL, 'ttps:..www.buildadmin.com', 'BuildAdmin', 1695865879, 1695865879);
 INSERT INTO `xin_user_rule` VALUES (9, 0, '0', 4, '代码仓库', '/git', 'StarOutlined', 'git', '代码仓库', 1695870697, 1695870697);
 INSERT INTO `xin_user_rule` VALUES (10, 9, '1', 0, 'Github', 'https://github.com/Xineny-liu/xinadmin', NULL, 'ttps:..github.com.Xineny-liu.xinadmin', 'github', 1695870807, 1695870807);
 INSERT INTO `xin_user_rule` VALUES (11, 9, '1', 1, 'Gitee', 'https://gitee.com/xineny/xin-admin', NULL, 'ttps:..gitee.com.xineny.xin-admin', 'Gitee', 1695870845, 1695870845);
 INSERT INTO `xin_user_rule` VALUES (12, 0, '0', 4, '官方文档', 'https://xinadmin.cn', 'FileSearchOutlined', 'ttps:..xinadmin.cn', '官方文档', 1695870959, 1695870959);
-INSERT INTO `xin_user_rule` VALUES (13, 0, '0', 7, '会员中心', '', 'UserOutlined', '', '会员中心', 1696749281, 1696749281);
-INSERT INTO `xin_user_rule` VALUES (14, 13, '1', 0, '会员中心', '/s/user', NULL, 's.user', '会员中心', 1696752786, 1696752786);
-INSERT INTO `xin_user_rule` VALUES (15, 13, '1', 1, '个人资料', '/s/profile', NULL, 's.profile', '个人资料', 1696752829, 1696752829);
+INSERT INTO `xin_user_rule` VALUES (13, 0, '0', 1, '会员中心', '/s/user', 'UserOutlined', '', '会员中心', 1697615849, 1696749281);
 INSERT INTO `xin_user_rule` VALUES (16, 14, '1', 0, '会员中心首页', '/s/user', NULL, 's.user', '会员中心首页', 1696756073, 1696756073);
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -1,8 +1,9 @@
+// CRUD 一键生成
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
-// 数据字典
-// import XinDict from "@/components/XinDict";
-// import {useModel} from "@umijs/max";
+import React from 'react';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar } from 'antd';
 
 /**
  *  Api 接口
@@ -13,22 +14,31 @@ const api = '/user.user'
  *  数据类型
  */
 interface Data {
-  [key: string] : any
+  id: number;
+  mobile: string;
+  username: string;
+  email: string;
+  nickname: string;
+  avatar: string;
+  gender: string;
+  birthday: string;
+  money: string;
+  score: string;
+  motto: string;
+  create_time: string;
+  update_time: string;
 }
-
 
 /**
  * 表格渲染
  */
 const User: React.FC = () => {
-  // 字典 Model
-  // const {getDictionaryData} = useModel('dictModel')
 
   const columns: ProFormColumnsAndProColumns<Data>[] =
   [
     {
       valueType:'digit',
-      title:'id',
+      title:'ID',
       order:99,
       hideInForm: true,
       dataIndex:'id',
@@ -62,6 +72,7 @@ const User: React.FC = () => {
       title:'头像',
       order:94,
       dataIndex:'avatar',
+      render: (_,data) => <Avatar src={data.avatar} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined/>} />
     },
     {
       valueType:'text',
@@ -130,10 +141,10 @@ const User: React.FC = () => {
       tableApi={api}
       columns={columns}
       headerTitle={'用户列表'}
-      addShow={true}
+      addShow={false}
       operateShow={true}
       rowSelectionShow={true}
-      editShow={true}
+      editShow={false}
       deleteShow={true}
       accessName={'admin.rule'}
     />

@@ -4,8 +4,8 @@ import {Logout as UserLogout} from "@/services/api/user";
 import {
   DownOutlined,
   FullscreenExitOutlined,
-  FullscreenOutlined, GithubFilled,
-  LogoutOutlined, QuestionCircleOutlined,
+  FullscreenOutlined,
+  LogoutOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import './index.less';
@@ -13,7 +13,6 @@ import {useModel} from "@umijs/max";
 import React, { useState } from 'react';
 import LoginModel from './login';
 import { index } from '@/services/api';
-import {history } from '@umijs/max';
 
 const Right = (props: { initialState?: initialStateType}) => {
   const {initialState} = props;
@@ -52,7 +51,7 @@ const Right = (props: { initialState?: initialStateType}) => {
           个人中心
         </Space>
       ),
-      onClick: () => {history.push('/s/user')}
+      // onClick: () => {history.push('/s/user')}
     },
     {type: 'divider',},
     {
@@ -73,16 +72,6 @@ const Right = (props: { initialState?: initialStateType}) => {
     return (
      <>
        <Space>
-         <div className={'right-group'} title={'Gitee'} onClick={() => {
-           window.open('https://gitee.com/xineny/xin-admin','_back')
-         }}>
-           <GithubFilled />
-         </div>
-         <div className={'right-group'} title={'帮助文档'} onClick={() => {
-           window.open('https://xinadmin.cn/doc/start','_back')
-         }}>
-           <QuestionCircleOutlined />
-         </div>
          <div className={'right-group'} title={fullscreen? '退出全屏': '全屏显示'} onClick={() => {
            /* 获取 documentElement (<html>) 以全屏显示页面 */
            let elem = document.documentElement;

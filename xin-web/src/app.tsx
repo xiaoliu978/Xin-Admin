@@ -15,6 +15,7 @@ import {Button, Result} from "antd";
 import access from './access';
 import { index } from '@/services/api'
 import { getUserInfo } from '@/services/api/user';
+import { Navigate } from '@umijs/max';
 
 export async function getInitialState(): Promise<initialStateType> {
   // 记录当前应用
@@ -83,38 +84,6 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
         return initialState!.menus;
       },
     },
-    appList: [
-      {
-        icon: 'https://file.xinadmin.cn/file/favicons.ico',
-        title: 'Xin Admin',
-        desc: '带你探索技术的革新，享受开发的乐趣',
-        url: 'https://xinadmin.cn'
-      },
-      {
-        icon: 'https://uni.buildadmin.com/_nuxt/logo.8000aeec.png',
-        title: 'Build Admin',
-        desc: '使用流行技术栈快速创建商业级后台管理系统',
-        url: 'https://www.buildadmin.com'
-      },
-      {
-        icon: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
-        title: 'Ant Design',
-        desc: '杭州市较知名的 UI 设计语言',
-        url: 'https://ant.design',
-      },
-      {
-        icon: 'https://img.alicdn.com/tfs/TB1zomHwxv1gK0jSZFFXXb0sXXa-200-200.png',
-        title: 'umi',
-        desc: '插件化的企业级前端应用框架。',
-        url: 'https://umijs.org/zh-CN/docs',
-      },
-      {
-        icon: 'https://gw.alipayobjects.com/zos/bmw-prod/d3e3eb39-1cd7-4aa5-827c-877deced6b7e/lalxt4g3_w256_h256.png',
-        title: 'dumi',
-        desc: '为组件开发场景而生的文档工具',
-        url: 'https://d.umijs.org/zh-CN',
-      },
-    ],
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
@@ -197,10 +166,12 @@ const defaultRoutes = [
 
 export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({routes}) => {
   console.log('patchClientRoutes')
-  // routes.unshift({
-  //   path: '/',
-  //   element: <Navigate to="/home" replace />,
-  // });
+  if(localStorage.getItem('app') === 'admin'){
+    routes.unshift({
+      path: '/',
+      element: <Navigate  to="/home" replace />,
+    });
+  }
   routes.push(...defaultRoutes)
 };
 

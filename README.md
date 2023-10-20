@@ -29,7 +29,7 @@
 
 
 ## ✨ 介绍
-基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Ant Design Pro components 等流行技术栈的后台管理系统，提供权限验证、用户分组、数据字典、可视化CRUD等便捷开发，
+基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design 等技术栈开发的后台管理系统，提供权限验证、用户分组、数据字典、可视化CRUD等便捷开发，
 遵循Apache License 无需授权即可免费商用.
 
 <img src="https://file.xinadmin.cn/file/demo.png"/>
@@ -80,8 +80,8 @@ BPM等，适用于商城、游戏、即时通信、业务管理、博客等领�
 
 
 ### 鸣谢巨人
-1. [Think PHP](https://www.thinkphp.cn/) 后端框架
-2. [Ant Design](https://ant-design.antgroup.com/index-cn) 前端UI框架
-3. [Umi Js](https://umijs.com) 前端项目框架
+1. [Ant Design](https://ant-design.antgroup.com/index-cn) 前端UI框架
+2. [Umi Js](https://umijs.com) 前端项目框架
+3. [Think PHP](https://www.thinkphp.cn/) 后端框架
 4. [Build Admin](https://buildadmin.com) 灵感来源以及代码参考
 5. ... 

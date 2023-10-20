@@ -4,6 +4,7 @@ namespace app\admin\controller;
 
 use app\admin\model\AdminGroup;
 use app\common\attribute\Auth;
+use app\common\attribute\Method;
 use app\common\controller\AdminController as Controller;
 use app\admin\model\Admin as AdminModel;
 use app\admin\validate\Admin as AdminVal;
@@ -32,177 +33,52 @@ class Admin extends Controller
         $this->validate = new AdminVal();
     }
 
-    public function refreshToken(): Json
+
+    /**
+     * 基础控制器编辑方法
+     * @return Json
+     */
+    #[Auth('add'),Method('POST')]
+    public function add(): Json
     {
-        $token =  $this->request->header('Authorization');
-        $reToken = $this->request->header('Refreshtoken');
-        if($this->request->isPost() && $reToken){
-            $Token = new Token;
-            $Token->delete($token);
-            $user_id = $Token->get($reToken)['user_id'];
-            $token =  md5(random_bytes(10));
-            $Token->set($token,'admin',$user_id);
-            return $this->success('ok',compact('token'));
-        }else {
-            return $this->error('请先登录！',[],403);
+        $data = $this->request->param();
+        if (!$this->validate->scene('add')->check($data)) {
+            return $this->warn($this->validate->getError());
         }
-    }
-
-    public function login(): Json
-    {
-        if(!$this->request->isPost()){
-            return $this->warn('请求方法错误！');
-        }
-        
-        $loginType = $this->request->post('loginType');
-        
-        // 账号密码登录
-        if(isset($loginType) && $loginType === 'account') {
-            $username = $this->request->post('username');
-            $password = $this->request->post('password');
-            // 规则验证
-            $result = $this->validate->scene('account')->check([
-                'username' => $username,
-                'password' => $password
-            ]);
-            if(!$result){
-                return $this->warn($this->validate->getError());
-            }
-            
-            $model = new AdminModel();
-            $data = $model->login($username,$password);
-            if($data) {
-                return $this->success('ok',$data);
-            }
-            return $this->error($model->getErrorMsg());
-        }
-
-        // 手机号登录
-        if(isset($loginType) && $loginType === 'phone') {
-            $mobile = $this->request->post('mobile');
-            $captcha = $this->request->post('captcha');
-
-            $result = $this->validate->scene('phone')->check([
-                'mobile' => $mobile,
-                'captcha' => $captcha
-            ]);
-
-            if(!$result){
-                return $this->warn($this->validate->getError());
-            }
-            return $this->success('phone ok');
-        }
-
-        return $this->warn('请选择登录方式！');
-        
-    }
-
-    #[Auth]
-    public function logout(): Json
-    {
-        $user_id = (new Auth())->getAdminId();
-        $admin = new AdminModel;
-        if($admin->logout($user_id)){
-            return $this->success('退出登录成功');
-        } else {
-            return $this->error($admin->getErrorMsg());
-        }
+        $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+        $this->model->save($data);
+        return $this->success('ok');
     }
 
     /**
      * 基础控制器编辑方法
      * @return Json
      */
-    #[Auth('edit')]
+    #[Auth('edit'),Method('PUT')]
     public function edit(): Json
     {
         $data = $this->request->param();
         if (!$this->validate->scene('edit')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        $data['id'] = (new Auth())->getAdminId();
-        $this->model->update($data);
+        $this->model->allowField(['nickname', 'email', 'sex', 'group_id','avatar','status'])->update($data);
         return $this->success('ok');
     }
 
     /**
+     * 修改密码
      * @return Json
-     * @throws Exception
      */
-    #[Auth]
-    public function getAdminInfo(): Json
+    #[Auth('updatePwd'),Method('PUT')]
+    public function updatePassword() : Json
     {
-        $info = (new Auth)->getAdminInfo();
-        // 获取权限
-        $group = (new AdminGroup())->where('id',$info['group_id'])->find();
-        $access = [];
-        foreach ($group->roles as $role) {
-            $access[] =  $role->key;
+        $data = $this->request->param();
+        if (!$this->validate->scene('updatePassword')->check($data)) {
+            return $this->warn($this->validate->getError());
         }
-
-        $group = (new AdminGroup)->with(['roles' => function($query){
-            $query->order('sort');
-        }])->where('id',$info['group_id'])->find();
-        $rules = $group->roles;
-        $menus = [];
-        foreach ($rules as $role) {
-            if($role->type == 0){
-                $menu = $this->getMenu($role);
-                foreach ($rules as $childRole){
-                    if($childRole->type == 1 && $childRole->pid == $role->id){
-                        $childMenu = $this->getMenu($childRole);
-                        $menu['children'][] = $childMenu;
-                    }
-                }
-                $menus[] =  $menu;
-            }
-        }
-
-        return $this->success('ok',compact('info','access','menus'));
-    }
-
-
-    /**
-     * @param mixed $role
-     * @return array
-     */
-    private function getMenu (mixed $role): array
-    {
-        $menu = [];
-        !$role->name ?: $menu['name'] = $role->name;
-        !$role->path ?: $menu['path'] = $role->path;
-        !$role->component ?: $menu['component'] = $role->component;
-        !$role->key ?: $menu['key'] = $role->key;
-        !$role->icon ?: $menu['icon'] = $role->icon;
-        return $menu;
-    }
-
-    /**
-     * 获取菜单路由
-     * @return Json
-     * @throws Exception
-     */
-    public function getAdminMenu(): Json
-    {
-        $adminInfo = (new Auth)->getAdminInfo();
-        $group = (new AdminGroup)->with(['roles' => function($query){
-            $query->order('sort');
-        }])->where('id',$adminInfo['group_id'])->find();
-        $rules = $group->roles;
-        $menus = [];
-        foreach ($rules as $role) {
-            if($role->type == 0){
-                $menu = $this->getMenu($role);
-                foreach ($rules as $childRole){
-                    if($childRole->type == 1 && $childRole->pid == $role->id){
-                        $childMenu = $this->getMenu($childRole);
-                        $menu['children'][] = $childMenu;
-                    }
-                }
-                $menus[] =  $menu;
-            }
-        }
-        return $this->success('ok',compact('menus'));
+        $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+        $this->model->allowField(['password'])->update($data);
+        return $this->success('ok');
     }
 
 }

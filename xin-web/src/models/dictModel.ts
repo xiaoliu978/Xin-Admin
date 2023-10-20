@@ -16,7 +16,7 @@ interface DictDate {
   dictItems: DictItem[]
 }
 
-const useUser = () => {
+const useDict = () => {
 
   const [dictionaryCache , setDictionaryCache ] = useState<Map<string,DictItem[]>>(new Map())
 
@@ -72,4 +72,4 @@ const useUser = () => {
   };
 };
 
-export default useUser;
+export default useDict;

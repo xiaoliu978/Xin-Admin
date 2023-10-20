@@ -71,5 +71,35 @@ class BaseModel extends Model
 
     }
 
+    /**
+     * 字段值增长
+     * @param int|bool|array $where
+     * @param string $field
+     * @param float $step
+     * @return mixed
+     */
+    protected function setInc(int|bool|array $where, string $field, float $step = 1): mixed
+    {
+        if (is_numeric($where)) {
+            $where = [$this->getPk() => (int)$where];
+        }
+        return $this->where($where)->inc($field, $step)->update();
+    }
+
+    /**
+     * 字段值消减
+     * @param int|bool|array $where
+     * @param string $field
+     * @param float $step
+     * @return mixed
+     */
+    protected function setDec(int|bool|array $where, string $field, float $step = 1): mixed
+    {
+        if (is_numeric($where)) {
+            $where = [$this->getPk() => (int)$where];
+        }
+        return $this->where($where)->dec($field, $step)->update();
+    }
+
 
 }

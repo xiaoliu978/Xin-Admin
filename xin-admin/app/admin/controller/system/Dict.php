@@ -4,7 +4,7 @@ namespace app\admin\controller\system;
 
 use app\common\controller\AdminController as Controller;
 use app\admin\model\system\Dict as DictModel;
-use app\admin\validate\system\Setting as DictVal;
+use app\admin\validate\system\Dict as DictVal;
 
 class Dict extends Controller
 {
