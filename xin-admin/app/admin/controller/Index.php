@@ -10,6 +10,9 @@ use app\common\attribute\Auth;
 use app\common\library\Token;
 use app\common\controller\AdminController as Controller;
 use Exception;
+use think\db\exception\DataNotFoundException;
+use think\db\exception\DbException;
+use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 
 
@@ -141,22 +144,18 @@ class Index extends Controller
             $access[] =  $role->key;
         }
 
-        $group = (new AdminGroup)->with(['roles' => function($query){
-            $query->order('sort');
-        }])->where('id',$info['group_id'])->find();
-        $rules = $group->roles;
-        $menus = [];
-        foreach ($rules as $role) {
-            if($role->type == 0){
-                $menu = $this->getMenu($role);
-                foreach ($rules as $childRole){
-                    if($childRole->type == 1 && $childRole->pid == $role->id){
-                        $childMenu = $this->getMenu($childRole);
-                        $menu['children'][] = $childMenu;
-                    }
-                }
-                $menus[] =  $menu;
-            }
+        // 获取一级菜单
+        $menus = (new AdminGroup)->with(['roles' => function($query){
+            $query->where('type',0);
+        }])->where('id',$info['group_id'])->find()->roles->toArray();
+
+        // 获取子菜单
+        $childrenMenus = (new AdminGroup)->with(['roles' => function($query){
+            $query->where('type',1);
+        }])->where('id',$info['group_id'])->find()->roles->toArray();
+
+        foreach ($menus as &$role) {
+            $this->childrenNode($role, $childrenMenus);
         }
 
         return $this->success('ok',compact('info','access','menus'));
@@ -164,20 +163,28 @@ class Index extends Controller
 
 
     /**
-     * @param mixed $role
-     * @return array
+     * @param $role
+     * @param $menus
+     * @return void
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
-    private function getMenu (mixed $role): array
+    public function childrenNode(&$role, $menus): void
     {
-        $menu = [];
-        !$role->name ?: $menu['name'] = $role->name;
-        !$role->path ?: $menu['path'] = $role->path;
-        !$role->component ?: $menu['component'] = $role->component;
-        !$role->key ?: $menu['key'] = $role->key;
-        !$role->icon ?: $menu['icon'] = $role->icon;
-        return $menu;
+        $childNode = [];
+
+        foreach($menus as &$item){
+            if($item['pid'] == $role['id']){
+                $this->childrenNode($item,$menus);
+                $childNode[] = $item;
+            }
+        }
+        if(!count($childNode)) return;
+
+        $role['children'] = $childNode;
     }
-    
-    
+
+
 
 }
