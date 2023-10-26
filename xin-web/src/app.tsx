@@ -1,5 +1,5 @@
 // 运行时配置
-import type {RunTimeLayoutConfig} from '@umijs/max';
+import type {RunTimeLayoutConfig, RuntimeConfig} from '@umijs/max';
 import defaultConfig from './utils/request';
 import {MenuDataItem, PageLoading} from '@ant-design/pro-components';
 import Footer from '@/components/Footer';
@@ -7,15 +7,12 @@ import './index.less';
 import React, { lazy } from 'react';
 import { appSettings,adminSettings } from "../config/defaultSettings";
 import {GetAdminInfo} from '@/services/admin';
-import {Access, history} from '@umijs/max';
-import {RuntimeConfig} from "@umijs/max";
+import {history, Navigate} from '@umijs/max';
 import fixMenuItemIcon from "@/utils/menuDataRender";
 import RightRender from "@/components/Layout/RightRender";
-import {Button, Result} from "antd";
-import access from './access';
 import { index } from '@/services/api'
 import { getUserInfo } from '@/services/api/user';
-import { Navigate } from '@umijs/max';
+import Access from '@/components/Access';
 
 export async function getInitialState(): Promise<initialStateType> {
   // 记录当前应用
@@ -87,8 +84,6 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
     onPageChange: () => {
       const { location } = history;
-      // 获取当前路由的权限
-      const accessName = location.pathname.slice(1).replace('/','.');
       if(initialState!.app === 'admin'){
         // 如果没有登录，重定向到 首页
         if (!initialState!.isLogin) {
@@ -101,35 +96,13 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
           return;
         }
       }
-      if(initialState!.access.includes(accessName) || access(initialState!).noAuth.includes(location.pathname)){
-        setInitialState((preInitialState: any) => ({
-          ...preInitialState,
-          isAccess: true,
-        }));
-      }else {
-        setInitialState((preInitialState: any) => ({
-          ...preInitialState,
-          isAccess: false,
-        }));
-      }
     },
     rightRender: (initialState) => {
       return <RightRender initialState={initialState}></RightRender>
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      return (
-        <Access accessible={initialState!.isAccess} fallback={(
-          <Result
-            status="403"
-            title="403"
-            subTitle="抱歉, 你暂时没有此页面的权限."
-            extra={<Button type="primary">去首页</Button>}
-          />
-        )}>
-          {children}
-        </Access>
-      );
+      return <Access>{children}</Access>
     },
     ...initialState?.settings,
   };
