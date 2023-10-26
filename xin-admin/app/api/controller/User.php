@@ -10,12 +10,14 @@ use app\common\controller\ApiController;
 use app\common\library\Token;
 use app\common\model\file\File as FileModel;
 use app\common\model\user\UserGroup;
+use Exception;
+use SplFileInfo;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\facade\Filesystem;
+use think\Model;
 use think\response\Json;
-use SplFileInfo;
 
 class User extends ApiController
 {
@@ -27,52 +29,63 @@ class User extends ApiController
         $this->validate = new UserVal();
     }
 
+    /**
+     * @return Json
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
+     */
     #[Auth,Method('GET')]
     public function getUserInfo(): Json
     {
         $info = (new Auth)->getUserInfo();
         // 获取权限
-        $group = (new UserGroup())->where('id',$info['group_id'])->find();
+        $group = (new UserGroup)->where('id',$info['group_id'])->find();
         $access = [];
         foreach ($group->roles as $role) {
             $access[] =  $role->key;
         }
 
-        $group = (new UserGroup)->with(['roles' => function($query){
-            $query->order('sort');
-        }])->where('id',$info['group_id'])->find();
-        $rules = $group->roles;
-        $menus = [];
-        foreach ($rules as $role) {
-            if($role->type == 0){
-                $menu = $this->getMenu($role);
-                foreach ($rules as $childRole){
-                    if($childRole->type == 1 && $childRole->pid == $role->id){
-                        $childMenu = $this->getMenu($childRole);
-                        $menu['children'][] = $childMenu;
-                    }
-                }
-                $menus[] =  $menu;
-            }
+        // 获取一级菜单
+        $menus = (new UserGroup)->with(['roles' => function($query){
+            $query->where('type',0);
+        }])->where('id',$info['group_id'])->find()->roles->toArray();
+
+        // 获取子菜单
+        $childrenMenus = (new UserGroup)->with(['roles' => function($query){
+            $query->where('type',1);
+        }])->where('id',$info['group_id'])->find()->roles->toArray();
+
+        foreach ($menus as &$role) {
+            $this->childrenNode($role, $childrenMenus);
         }
 
         return $this->success('ok',compact('info','access','menus'));
     }
 
     /**
-     * @param mixed $role
-     * @return array
+     * @param $role
+     * @param $menus
+     * @return void
+     * @throws DataNotFoundException
+     * @throws DbException
+     * @throws ModelNotFoundException
      */
-    private function getMenu (mixed $role): array
+    public function childrenNode(&$role, $menus): void
     {
-        $menu = [];
-        !$role->name ?: $menu['name'] = $role->name;
-        !$role->path ?: $menu['path'] = $role->path;
-        !$role->component ?: $menu['component'] = $role->component;
-        !$role->key ?: $menu['key'] = $role->key;
-        !$role->icon ?: $menu['icon'] = $role->icon;
-        return $menu;
+        $childNode = [];
+
+        foreach($menus as &$item){
+            if($item['pid'] == $role['id']){
+                $this->childrenNode($item,$menus);
+                $childNode[] = $item;
+            }
+        }
+        if(!count($childNode)) return;
+
+        $role['children'] = $childNode;
     }
+
 
     public function refreshToken(): Json
     {

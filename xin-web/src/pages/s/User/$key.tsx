@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { UserOutlined } from '@ant-design/icons';
+import {
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu, Layout, theme, Space, Avatar } from 'antd';
 import headerImg from '@/assets/static/header.png';
 import Index from './components';
 import UserSetting from './components/UserSetting';
 import SetPassword from './components/SetPassword';
-import { useModel } from '@umijs/max';
+import { useModel, useNavigate, useParams } from '@umijs/max';
 
 
 
@@ -29,13 +32,9 @@ function getItem(
 
 const { Content, Sider } = Layout;
 const items: MenuProps['items'] = [
-  getItem('个人中心','index'),
-  getItem('账户设置','user_setting'),
-  getItem('修改密码','set_password'),
-  // getItem('Navigation One', 'sub1', <MailOutlined />, [
-  //   getItem('Item 1', 'g1', null, [getItem('Option 1', '1'), getItem('Option 2', '2')], 'group'),
-  //   getItem('Item 2', 'g2', null, [getItem('Option 3', '3'), getItem('Option 4', '4')], 'group'),
-  // ]),
+  getItem('个人中心','index',<UserOutlined />),
+  getItem('账户设置','user_setting',<SettingOutlined />),
+  getItem('修改密码','set_password',<SettingOutlined />),
 ];
 
 const layoutContentCss: React.CSSProperties = {
@@ -51,8 +50,23 @@ const layoutContentCss: React.CSSProperties = {
   letterSpacing: 2
 }
 
+const pageContent = (key: string) => {
+  if(key === 'index') return <Index></Index>;
+  if(key === 'user_setting') return <UserSetting></UserSetting>;
+  if(key === 'set_password') return <SetPassword></SetPassword>;
+  return <></>;
+}
+
 export default () => {
-  const [selectedKey,setSelectedKey] = useState('index');
+
+  const {key} = useParams();
+  let navigate = useNavigate();
+
+  if(!key){
+    navigate("/s/user/index");
+    return;
+  }
+
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -87,16 +101,14 @@ export default () => {
             mode="inline"
             defaultSelectedKeys={['index']}
             items={items}
-            selectedKeys={[selectedKey]}
+            selectedKeys={[key]}
             onSelect={({ key }) => {
-              setSelectedKey(key)
+              navigate(`/s/user/${key}`);
             }}
           />
         </Sider>
         <Content style={{ padding: '0 24px', minHeight: 280 }}>
-          { selectedKey === 'index' ? <Index></Index> : null }
-          { selectedKey === 'user_setting' ? <UserSetting></UserSetting> : null }
-          { selectedKey === 'set_password' ? <SetPassword></SetPassword> : null }
+          {pageContent(key)}
         </Content>
       </Layout>
     </Content>

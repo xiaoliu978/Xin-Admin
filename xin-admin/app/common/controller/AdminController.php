@@ -163,7 +163,7 @@ class AdminController extends BaseController
         }
         $delArr = explode(',', $data['ids']);
 
-        $delNum = $this->model->where('id', 'in', $delArr)->delete();
+        $delNum = $this->model->destroy($delArr);
         if ($delNum != 0 ) {
             return $this->success('删除成功，删除了' . $delNum . '条数据');
         } else {
