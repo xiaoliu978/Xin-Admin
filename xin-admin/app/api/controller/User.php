@@ -48,12 +48,12 @@ class User extends ApiController
 
         // 获取一级菜单
         $menus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',0);
+            $query->where('type',0)->order('sort');
         }])->where('id',$info['group_id'])->find()->roles->toArray();
 
         // 获取子菜单
         $childrenMenus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',1);
+            $query->where('type',1)->order('sort');
         }])->where('id',$info['group_id'])->find()->roles->toArray();
 
         foreach ($menus as &$role) {
