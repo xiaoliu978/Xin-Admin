@@ -18,6 +18,7 @@ class Xin
      * @var array
      */
     protected array $devEnv = [];
+    protected array $produce = [];
 
     /**
      * 命令参数
@@ -160,8 +161,105 @@ class Xin
      */
     public function produce ():void
     {
+        $this->getEnv();
+
+        $targetDir = '.'. DIRECTORY_SEPARATOR . 'build' ;
+        $sourceDir = '.'. DIRECTORY_SEPARATOR . 'xin-admin'; // 要复制的文件夹
+
+        // 删除目标文件夹
+        if (is_dir($targetDir)) {
+            $this->removeDirectory($targetDir);
+        }
+
+        // 安装 PNPM 依赖
+        echo '开始打包 前端 代码' .PHP_EOL;
+        $command = "cd ./xin-web && pnpm run build";
+        $this->runCommand($command);
+
+        // 复制后端项目文件
+        echo "开始复制后端项目文件" .PHP_EOL;
+
+        // 创建新的目标文件夹
+        if (!mkdir($targetDir, 0777, true)) {
+            die('无法创建新的目标文件夹');
+        }
+
+        // 复制文件夹中的文件
+        $this->copyDirectory($sourceDir, $targetDir, ['.env','composer.lock','runtime']);
+
+        // 开始复制前端文件
+        echo "开始复制前端项目文件" .PHP_EOL;
+        $targetDir = '.'. DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'assets';
+        $sourceDir = '.'. DIRECTORY_SEPARATOR . 'xin-web' . DIRECTORY_SEPARATOR . 'dist' ; // 要复制的文件夹
+
+        // 创建新的目标文件夹
+        if (!mkdir($targetDir, 0777, true)) {
+            die('无法创建新的目标文件夹');
+        }
+        // 复制文件夹中的文件
+        $this->copyDirectory($sourceDir, $targetDir, ['index.html']);
+
+        $targetDir = '.'. DIRECTORY_SEPARATOR . 'build' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'index.html';
+        $sourceDir = '.'. DIRECTORY_SEPARATOR . 'xin-web' . DIRECTORY_SEPARATOR . 'dist' . DIRECTORY_SEPARATOR .'index.html' ; // 要复制的文件夹
+        copy($sourceDir, $targetDir);
+
+        $envCount = "APP_DEBUG = true" . PHP_EOL;
+        $envCount .= "DB_TYPE = {$this->produce['db_type']}". PHP_EOL;
+        $envCount .= "DB_HOST = {$this->produce['db_host']}". PHP_EOL;
+        $envCount .= "DB_NAME = {$this->produce['db_name']}". PHP_EOL;
+        $envCount .= "DB_PREFIX = xin_". PHP_EOL;
+        $envCount .= "DB_USER = {$this->produce['db_user']}". PHP_EOL;
+        $envCount .= "DB_PASS = {$this->produce['db_pass']}". PHP_EOL;
+        $envCount .= "DB_PORT = {$this->produce['db_port']}". PHP_EOL;
+        $envCount .= "DB_CHARSET = {$this->produce['db_charset']}" . PHP_EOL;
+        $envCount .= "DEFAULT_LANG = zh-cn". PHP_EOL;
+        $envCount .= "# 用于 Crud 代码生成目录 相对于 应用根目录位置". PHP_EOL;
+        $envCount .= "WEB_PATH = ../xin-web". PHP_EOL;
+
+        file_put_contents('./build/.env', $envCount );
+
 
     }
+
+    public function removeDirectory($dir): void
+    {
+        $files = glob($dir . '/{,.}*', GLOB_MARK | GLOB_NOSORT | GLOB_BRACE);
+        foreach ($files as $file) {
+            if (basename($file) == '.' || basename($file) == '..') {
+                continue;
+            }
+            if (is_dir($file)) {
+                $this->removeDirectory($file); // 递归删除子文件夹
+            } else {
+                unlink($file); // 删除文件
+            }
+        }
+        if(is_dir($dir)){
+            rmdir($dir); // 删除文件夹
+        }
+    }
+
+    public function copyDirectory($source, $dest, $ignore_files = array()): void
+    {
+        $dir = opendir($source);
+
+        if (is_dir($dest)) {
+            $this->removeDirectory($dest);
+        }
+        mkdir($dest);
+        while(false !== ( $file = readdir($dir)) ) {
+            if (($file != '.' ) && ( $file != '..' ) && !in_array($file, $ignore_files)) {
+                if ( is_dir($source . '/' . $file) ) {
+                    $this->copyDirectory($source . '/' . $file, $dest . '/' . $file);
+                }
+                else {
+                    copy($source . '/' . $file, $dest . '/' . $file);
+                }
+            }
+        }
+        closedir($dir);
+    }
+
 
 
     /**
@@ -183,6 +281,7 @@ class Xin
         } else {
             $this->require = $data['require'];
             $this->devEnv = $data['dev'];
+            $this->produce = $data['produce'];
         }
         $color_green = "\033[0;32m";
         $color_reset = "\033[0m";

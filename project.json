@@ -23,10 +23,9 @@
   "produce": {
     "db_type": "mysql",
     "db_host": "127.0.0.1",
-    "db_name": "xin_admin",
-    "db_prefix": "xin_",
-    "db_username": "root",
-    "db_password": "root",
+    "db_name": "test_xinadmin_cn",
+    "db_user": "test_xinadmin_cn",
+    "db_pass": "kTYakNeDAxAJXeZL",
     "db_port": "3306",
     "db_charset": "utf8"
   }
