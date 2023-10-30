@@ -334,6 +334,11 @@ class Xin
                 $password = $this->devEnv['db_pass'];
                 $dbname = $this->devEnv['db_name'];
 
+                if(!$username || !$servername || !$password || !$dbname){
+                    echo "$color_red 请在 `project.json` 中完善数据库信息$color_reset";
+                    die;
+                }
+
                 $envCount = "APP_DEBUG = true" . PHP_EOL;
                 $envCount .= "DB_TYPE = {$this->devEnv['db_type']}". PHP_EOL;
                 $envCount .= "DB_HOST = {$this->devEnv['db_host']}". PHP_EOL;
