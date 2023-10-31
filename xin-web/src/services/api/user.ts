@@ -6,7 +6,8 @@ const api = {
   logoutApi: '/api.php/user/logout',
   setUserApi: '/api.php/user/setUserInfo',
   setPwdApi: '/api.php/user/setPassword',
-  reTokenApi: '/api.php/user/refreshToken'
+  reTokenApi: '/api.php/user/refreshToken',
+  getMoneyLogApi: '/api.php/user/getMoneyLog',
 }
 
 /**
@@ -63,5 +64,16 @@ export async function setPassWord(data: USER.UpdatePassword) {
   return request<ResponseStructure<any>>(api.setPwdApi, {
     method: 'post',
     data
+  });
+}
+
+/**
+ * 获取积分记录
+ * @constructor
+ */
+export async function getMoneyLog(params: any) {
+  return request<ResponseStructure<any>>(api.getMoneyLogApi, {
+    method: 'get',
+    params
   });
 }

@@ -10,6 +10,7 @@ use app\common\controller\ApiController;
 use app\common\library\Token;
 use app\common\model\file\File as FileModel;
 use app\common\model\user\UserGroup;
+use app\common\model\user\UserMoneyLog;
 use Exception;
 use SplFileInfo;
 use think\db\exception\DataNotFoundException;
@@ -192,6 +193,26 @@ class User extends ApiController
             return $this->success('更新成功');
         }
         return $this->error('更新失败');
+    }
+
+    /**
+     * 获取用户余额记录
+     * @return Json
+     * @throws DbException
+     */
+    public function getMoneyLog(): Json
+    {
+        $user_id = (new Auth)->getUserId();
+        $params = $this->request->get();
+        $paginate = [
+            'list_rows' => $params['pageSize'] ?? 10,
+            'page' => $params['current'] ?? 1,
+        ];
+        $list = (new UserMoneyLog)
+            ->where('user_id',$user_id)
+            ->paginate($paginate)
+            ->toArray();
+        return $this->success('ok', $list);
     }
 
 }

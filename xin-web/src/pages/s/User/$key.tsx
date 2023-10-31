@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SettingOutlined,
   UserOutlined,
+  DotChartOutlined,
+  LineChartOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Menu, Layout, theme, Space, Avatar } from 'antd';
@@ -10,6 +12,7 @@ import Index from './components';
 import UserSetting from './components/UserSetting';
 import SetPassword from './components/SetPassword';
 import { useModel, useNavigate, useParams } from '@umijs/max';
+import MoneyLog from './components/MoneyLog';
 
 
 
@@ -35,12 +38,16 @@ const items: MenuProps['items'] = [
   getItem('个人中心','index',<UserOutlined />),
   getItem('账户设置','user_setting',<SettingOutlined />),
   getItem('修改密码','set_password',<SettingOutlined />),
+  getItem('资产记录','log',<DotChartOutlined />,[
+    getItem('余额记录', 'money_log', <LineChartOutlined />,),
+    // getItem('积分记录', 'score_log', <LineChartOutlined />, ),
+  ],'group'),
 ];
 
 const layoutContentCss: React.CSSProperties = {
   minHeight: 200,
   backgroundImage: 'url(' + headerImg + ')',
-  backgroundSize: 'auto 100%',
+  backgroundSize: '100% 100%',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
   display: 'flex',
@@ -54,6 +61,7 @@ const pageContent = (key: string) => {
   if(key === 'index') return <Index></Index>;
   if(key === 'user_setting') return <UserSetting></UserSetting>;
   if(key === 'set_password') return <SetPassword></SetPassword>;
+  if(key === 'money_log') return <MoneyLog></MoneyLog>;
   return <></>;
 }
 
