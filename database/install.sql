@@ -1,5 +1,5 @@
 /*
- Date: 26/10/2023 16:48:46
+ Date: 31/10/2023 17:35:23
 */
 
 SET NAMES utf8mb4;
@@ -581,9 +581,9 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 INSERT INTO `xin_token` VALUES ('00f3a1ab68208d2fd6531ae946787a59718396cf', 'admin-refresh', 3, 1697697840, 1700289840);
 INSERT INTO `xin_token` VALUES ('165dee32d61f9721b0efb86f4083dc902c85dafe', 'admin-refresh', 2, 1697762481, 1700354481);
-INSERT INTO `xin_token` VALUES ('291b0d17f598a80c1579f4fe8e16fbefc0a007f3', 'user', 2, 1698309990, 1698310590);
-INSERT INTO `xin_token` VALUES ('64cdb18a4665c64bfb07847b3b14e9bb90c13060', 'user-refresh', 2, 1698309991, 1700901991);
+INSERT INTO `xin_token` VALUES ('8d91c4804ed27c4a37500f3cce09333b782eea94', 'user', 2, 1698744899, 1698745499);
 INSERT INTO `xin_token` VALUES ('940c75d5a34469b399d971c78724f77785c38872', 'user-refresh', 1, 1695789838, 1698381838);
+INSERT INTO `xin_token` VALUES ('b808ed46e71483882809f1f098b5f9531dee346f', 'user-refresh', 2, 1698744899, 1701336899);
 INSERT INTO `xin_token` VALUES ('d616eb66eb908d9d66e979cd349ab22c5574affe', 'admin', 3, 1697698626, 1700290626);
 
 -- ----------------------------
@@ -613,7 +613,7 @@ CREATE TABLE `xin_user`  (
 -- ----------------------------
 -- Records of xin_user
 -- ----------------------------
-INSERT INTO `xin_user` VALUES (2, '1999999999', 'user', '23@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', 'user', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', '0', NULL, 1, 190, 0, '', '1', 1695790550, 1697525569);
+INSERT INTO `xin_user` VALUES (2, '19999999999', 'user', '23@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', '小刘同学', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', '0', NULL, 1, 190, 0, '', '1', 1695790550, 1698744816);
 
 -- ----------------------------
 -- Table structure for xin_user_group
@@ -677,6 +677,8 @@ INSERT INTO `xin_user_group_rule` VALUES (1, 16);
 INSERT INTO `xin_user_group_rule` VALUES (1, 18);
 INSERT INTO `xin_user_group_rule` VALUES (1, 17);
 INSERT INTO `xin_user_group_rule` VALUES (1, 19);
+INSERT INTO `xin_user_group_rule` VALUES (1, 20);
+INSERT INTO `xin_user_group_rule` VALUES (1, 21);
 
 -- ----------------------------
 -- Table structure for xin_user_money_log
@@ -718,7 +720,7 @@ CREATE TABLE `xin_user_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '会员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '会员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user_rule
@@ -733,5 +735,7 @@ INSERT INTO `xin_user_rule` VALUES (16, 14, '1', 0, '会员中心首页', '/s/us
 INSERT INTO `xin_user_rule` VALUES (17, 13, '1', 0, '个人中心', '/s/user/index', NULL, 's.user.index', '个人中心', 1698309915, 1698309915);
 INSERT INTO `xin_user_rule` VALUES (18, 13, '1', 1, '账户设置', '/s/user/user_setting', NULL, 's.user.user_setting', '账户设置', 1698309945, 1698309945);
 INSERT INTO `xin_user_rule` VALUES (19, 13, '1', 2, '修改密码', '/s/user/set_password', NULL, 's.user.set_password', '修改密码', 1698309967, 1698309967);
+INSERT INTO `xin_user_rule` VALUES (20, 13, '1', 3, '资产记录', '/s/user/log', NULL, 's.user.log', '资产记录', 1698744852, 1698744852);
+INSERT INTO `xin_user_rule` VALUES (21, 20, '1', 0, '余额记录', '/s/user/money_log', NULL, 's.user.money_log', '余额记录', 1698744884, 1698744884);
 
 SET FOREIGN_KEY_CHECKS = 1;
