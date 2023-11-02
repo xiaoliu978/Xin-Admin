@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
-import { Button, Carousel, Col, ConfigProvider, Divider, Row, Statistic, Typography } from 'antd';
-import { ProCard } from '@ant-design/pro-components';
+import { Button, Carousel, Col, ConfigProvider, Divider, Row, Space, Statistic, Typography } from 'antd';
+import { GridContent, ProCard } from '@ant-design/pro-components';
 import RcResizeObserver from 'rc-resize-observer';
 
 
@@ -38,6 +38,12 @@ const Index: React.FC = () => {
     'https://sponsors.vuejs.org/images/volta.svg',
   ]
 
+  const carouselData = [
+    { name: 'Xin Admin', tip: '全栈开发框架' },
+    { name: 'And Design', tip: '全球几十万开发者都在用的 UI 框架' },
+    { name: 'Think PHP', tip: '国内优秀的 PHP 框架' }
+  ]
+
 
   const [responsive, setResponsive] = useState(false);
   useEffect( ()=>{
@@ -55,48 +61,25 @@ const Index: React.FC = () => {
         },
       }}
     >
-      <Row className={'banner'}>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-        <Col xs={24} sm={24} md={12} lg={12} xl={8} >
-          <Carousel className={'banner-carousel'} autoplay>
-            <div className={'banner-list'}>
-              <h1>Xin Admin</h1>
-              <h2>一款汇聚前端顶尖技术的管理框架</h2>
-              <div style={{width: '60%'}}>
+      <GridContent>
+        <Space direction="vertical" size="large" style={{ display: 'flex' }}>
+          <Carousel className={'banner'} autoplay>
+            {carouselData.map(( item ) => (
+              <div className={'banner-list'} key={item.name}>
+                <h1>{item.name}</h1>
+                <h2>{item.tip}</h2>
                 <Button block type="primary">立即使用</Button>
               </div>
-            </div>
-            <div className={'banner-list'}>
-              <h1>And Design</h1>
-              <h2>全球几十万开发者都在用的 React UI 框架</h2>
-              <div style={{width: '60%'}}>
-                <Button block type="primary">立即使用</Button>
-              </div>
-            </div>
-            <div className={'banner-list'}>
-              <h1>Think PHP</h1>
-              <h2>国内优秀的 PHP 框架</h2>
-              <div style={{width: '60%'}}>
-                <Button block type="primary">立即使用</Button>
-              </div>
-            </div>
+            ))}
           </Carousel>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-        <Col style={{padding: responsive? '10px': '0px', transform: 'translate(0,-60px)'}} xs={24} sm={22} md={22} lg={20} xl={20}>
+
           <RcResizeObserver
             key="resize-observer"
             onResize={(offset) => {
               setResponsive(offset.width < 596);
             }}
           >
-            <ProCard.Group title={
-              <>
-                <Button type={'primary'} onClick={()=>location.href='/admin/login'}>登录管理后台</Button>
-              </>
-            } direction={responsive ? 'column' : 'row'}>
+            <ProCard.Group direction={responsive ? 'column' : 'row'}>
               <ProCard>
                 <Statistic title="强大的前端组件驱动。便捷的权限验证，crud表格，动态菜单，约定式路由等，只需一个 Columns 就可以实现增删改查等表单、表格、查询等功能，以及组件的高度自定义，搭配完善的数据字典系统，轻松的构建你的业务系统。" value={'前沿技术栈驱动🌺'} precision={2} />
               </ProCard>
@@ -114,17 +97,11 @@ const Index: React.FC = () => {
               </ProCard>
             </ProCard.Group>
           </RcResizeObserver>
-        </Col>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-      </Row>
 
-      <h1 style={{textAlign: 'center',marginBottom: 80, marginTop: 60}}>
-        全方位的解决方案
-      </h1>
+          <h1 style={{textAlign: 'center',marginTop: 20}}>
+            全方位的解决方案
+          </h1>
 
-      <Row style={{marginBottom: 100}}>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-        <Col xs={24} sm={22} md={22} lg={20} xl={20}>
           <Row justify="space-around">
             <Col>
               <img src={'https://file.xinadmin.cn/png/%E6%9D%A5%E7%94%B5%E5%90%8D%E7%89%87.png'} width={100} alt={'文件处理'}></img>
@@ -147,13 +124,7 @@ const Index: React.FC = () => {
               <div style={{width: '100%',textAlign: 'center',marginTop: 10}}>大数据精准</div>
             </Col>
           </Row>
-        </Col>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-      </Row>
 
-      <Row>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-        <Col xs={24} sm={22} md={22} lg={20} xl={20}>
           <Row style={{width: '100%',background: '#fff',borderRadius: 10, padding: 20, paddingBottom: 40}}>
             <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{paddingTop: '50px',paddingLeft: '50px'}}>
               <h1 style={{marginBottom: 30}}>致力于打造满足严苛要求的云产品</h1>
@@ -171,19 +142,12 @@ const Index: React.FC = () => {
               <img src='https://file.xinadmin.cn/png/%E9%97%AE%E5%8D%B7%E8%B0%83%E6%9F%A5.svg' alt='' style={{height: '100%',minHeight: 300}}/>
             </Col>
           </Row>
-        </Col>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-      </Row>
 
-
-      <Row>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-        <Col xs={24} sm={22} md={22} lg={20} xl={20}>
-          <Row style={{width: '100%', background: '#fff',marginTop: 120,paddingBottom: 40 ,borderRadius: 10,paddingLeft: 40,paddingRight: 40}}>
-            <Col span={24} style={{textAlign: 'center',marginBottom: 40}}>
-              <h1 style={{marginTop: '40px', marginBottom: '20px'}}>服务全球海量客户的行业案例</h1>
-              <p> 腾讯云完善的服务体系为企业数字化上云保驾护航 <Button type={'link'}>查看更多客户案例</Button></p>
-            </Col>
+          <div style={{textAlign: 'center',marginTop: 20}}>
+            <h1>服务全球海量客户的行业案例</h1>
+            <p> 腾讯云完善的服务体系为企业数字化上云保驾护航 <Button type={'link'}>查看更多客户案例</Button></p>
+          </div>
+          <Row style={{width: '100%', background: '#fff',padding: 40 ,borderRadius: 10}}>
             <Col span={24}>
               <Row justify="space-evenly" className={'logo-group'}>
                 {logos.map((src,index)=>{
@@ -197,9 +161,8 @@ const Index: React.FC = () => {
               </Row>
             </Col>
           </Row>
-        </Col>
-        <Col xs={0} sm={1} md={1} lg={2} xl={2}></Col>
-      </Row>
+        </Space>
+      </GridContent>
 
     </ConfigProvider>
   );
