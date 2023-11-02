@@ -1,7 +1,8 @@
 #!/usr/bin/env php
 <?php
 namespace run;
-require './modules/extend/Xin.php';
+require './extend/xin/Xin.php';
+require './extend/xin/Modules.php';
 
-use Xin\Xin;
+use xin\Xin;
 new Xin($argv);

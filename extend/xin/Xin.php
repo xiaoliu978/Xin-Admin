@@ -1,5 +1,5 @@
 <?php
-namespace Xin;
+namespace xin;
 
 use PDO;
 use PDOException;
@@ -261,14 +261,14 @@ class Xin
     }
 
 
-
     /**
      * 安装模块
+     * @param string $moduleName
      * @return void
      */
-    public function installModules():void
+    public function installModules(string $moduleName):void
     {
-
+        $module = new Modules($moduleName);
     }
 
     public function getEnv(): void
