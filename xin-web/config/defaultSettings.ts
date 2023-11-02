@@ -6,7 +6,7 @@ export const appSettings: ProLayoutProps  = {
   colorPrimary: '#1890ff',
   // colorPrimary: '#2F54EB',
   layout: 'top',
-  contentWidth: 'Fluid',
+  contentWidth: 'Fixed',
   fixedHeader: true,
   token: {
     pageContainer: {
