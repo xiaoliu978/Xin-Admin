@@ -70,7 +70,7 @@ export async function getInitialState(): Promise<initialStateType> {
 }
 
 
-export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
+export const layout: RunTimeLayoutConfig = ({initialState}) => {
   return {
     logo: initialState!.webSetting.logo,
     title: initialState!.webSetting.title,
@@ -85,9 +85,10 @@ export const layout: RunTimeLayoutConfig = ({initialState,setInitialState}) => {
     onPageChange: () => {
       const { location } = history;
       if(initialState!.app === 'admin'){
-        // 如果没有登录，重定向到 首页
+        // 如果没有登录，重定向到 登录页面
         if (!initialState!.isLogin) {
-          history.push('/');
+          localStorage.removeItem('app')
+          history.push('/admin/login');
           return;
         }
         // 首页重定向
