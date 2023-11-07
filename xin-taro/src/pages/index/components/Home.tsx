@@ -45,6 +45,7 @@ const data:DataItem[] = [
     userInfo: {
       username: '可爱物理超级大坏蛋',
       avatar: 'https://pic1.zhimg.com/v2-ccb1e26d316ff8a7d1f5b58da724e412_xs.jpg?source=32738c0c'
+
     },
     content: '时间过得是真快，不知不觉已经在这个行业摸爬滚打近十年了。看到有很多人被网上的一些言论误导，基础不扎实的情况下就直接上手框架，最终只能成为框架使用者、代码搬运工，得不到好的发展，于是趁着周末写下这篇回答，给各位初学者提供一些学习建议。',
     like: 0,
