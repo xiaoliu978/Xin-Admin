@@ -57,19 +57,19 @@ const requestConfig: RequestConfig = {
               // do nothing
               break;
             case ErrorShowType.WARN_MESSAGE:
-              toast('warn',msg);
+              toast('error',msg);
               break;
             case ErrorShowType.ERROR_MESSAGE:
-              toast('fail',msg);
+              toast('error',msg);
               break;
             case ErrorShowType.NOTIFICATION:
-              toast('text',msg);
+              toast('error',msg);
               break;
             case ErrorShowType.REDIRECT:
               // TODO: redirect
               break;
             default:
-              toast('fail',msg);
+              toast('error',msg);
           }
         }
       } else if (error.response) {
@@ -77,10 +77,10 @@ const requestConfig: RequestConfig = {
         // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
       } else if (error.request) {
         // 请求已经成功发起，但没有收到响应
-        toast('fail','请求超时');
+        toast('error','请求超时');
       } else {
         // 发送请求时出了点问题！
-        toast('fail','发送请求时出了点问题！');
+        toast('error','发送请求时出了点问题！');
       }
     },
   },

@@ -6,7 +6,6 @@ import Home from "./components/Home";
 import { index } from '../../api';
 
 
-
 function Index() {
   const [tab4value, setTab4value] = useState<string| number>('0');
 
