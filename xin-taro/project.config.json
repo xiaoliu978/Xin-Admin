@@ -1,6 +1,6 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "xin-taro",
+  "projectname": "taro",
   "description": "Xin Admin Taro 项目",
   "appid": "touristappid",
   "setting": {

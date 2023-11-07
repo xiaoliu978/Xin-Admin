@@ -1,9 +1,13 @@
 {
   "miniprogramRoot": "./",
-  "projectname": "xin-taro",
-  "appid": "testAppId",
+  "projectname": "taro",
+  "description": "Xin Admin Taro 项目",
+  "appid": "touristappid",
   "setting": {
+    "urlCheck": true,
     "es6": false,
+    "postcss": false,
     "minified": false
-  }
+  },
+  "compileType": "miniprogram"
 }

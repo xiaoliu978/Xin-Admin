@@ -1,15 +1,19 @@
-import { PropsWithChildren } from 'react'
-import { useLaunch } from '@tarojs/taro'
+import { useEffect } from 'react'
+import { useDidShow, useDidHide } from '@tarojs/taro'
+// 全局样式
 import './app.less'
 
-function App({ children }: PropsWithChildren<any>) {
+function App(props) {
+  // 可以使用所有的 React Hooks
+  useEffect(() => {})
 
-  useLaunch(() => {
-    console.log('App launched.')
-  })
+  // 对应 onShow
+  useDidShow(() => {})
 
-  // children 是将要会渲染的页面
-  return children
+  // 对应 onHide
+  useDidHide(() => {})
+
+  return props.children
 }
 
 export default App
