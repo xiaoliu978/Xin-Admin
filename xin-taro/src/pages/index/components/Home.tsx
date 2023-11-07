@@ -1,5 +1,5 @@
 import {Cell, Grid, NoticeBar, Swiper, Image, Avatar, Space} from "@nutui/nutui-react-taro";
-import {Dongdong, Fabulous} from "@nutui/icons-react-taro";
+import {Fabulous} from "@nutui/icons-react-taro";
 import {View} from "@tarojs/components";
 
 const list = [
@@ -9,7 +9,7 @@ const list = [
   'https://storage.360buyimg.com/jdc-article/fristfabu.jpg'
 ]
 
-const text = 'NutUI 是京东风格的移动端组件库，使用 Vue 语言来编写可以在 H5，小程序平台上的应用，帮助研发人员提升开发效率，改善开发体验。'
+const text = 'Xin Admin 移动端项目上新，与 Web 端完全统一的 Api 接口，让开发成为乐趣~'
 
 
 interface DataItem {
@@ -76,6 +76,49 @@ const data:DataItem[] = [
   },
 ]
 
+const navList = [
+  {
+    id: 1,
+    src: 'https://file.xinadmin.cn/nav/%E6%9B%B4%E5%A4%9A%E6%A8%A1%E5%9D%97.png',
+    title: '模块市场'
+  },
+  {
+    id: 2,
+    src: 'https://file.xinadmin.cn/nav/%E5%91%98%E5%B7%A5%E7%AE%A1%E7%90%86.png',
+    title: '员工管理'
+  },
+  {
+    id: 3,
+    src: 'https://file.xinadmin.cn/nav/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86.png',
+    title: '后台管理'
+  },
+  {
+    id: 4,
+    src: 'https://file.xinadmin.cn/nav/%E5%94%AE%E5%90%8E%E6%9C%8D%E5%8A%A1.png',
+    title: '售后服务'
+  },
+  {
+    id: 5,
+    src: 'https://file.xinadmin.cn/nav/%E6%8B%9B%E5%95%86%E9%94%80%E5%94%AE.png',
+    title: '招商销售'
+  },
+  {
+    id: 6,
+    src: 'https://file.xinadmin.cn/nav/%E8%AE%A2%E5%8D%95%E7%AE%A1%E7%90%86.png',
+    title: '订单管理'
+  },
+  {
+    id: 7,
+    src: 'https://file.xinadmin.cn/nav/%E8%BF%9B%E9%A1%B9%E7%B3%BB%E7%BB%9F.png',
+    title: '进项系统'
+  },
+  {
+    id: 8,
+    src: 'https://file.xinadmin.cn/nav/%E9%94%80%E9%A1%B9%E7%B3%BB%E7%BB%9F.png',
+    title: '销项系统'
+  }
+]
+
 const Home = () => {
   return (
     <View>
@@ -97,19 +140,22 @@ const Home = () => {
       <NoticeBar content={text} />
 
       <Grid>
-        <Grid.Item text="模块市场"><Dongdong /></Grid.Item>
-        <Grid.Item text="演示站"><Dongdong /></Grid.Item>
-        <Grid.Item text="GitHub"><Dongdong /></Grid.Item>
-        <Grid.Item text="Gitee"><Dongdong /></Grid.Item>
-        <Grid.Item text="开发文档"><Dongdong /></Grid.Item>
-        <Grid.Item text="我的消息"><Dongdong /></Grid.Item>
-        <Grid.Item text="消费记录"><Dongdong /></Grid.Item>
-        <Grid.Item text="个人中心"><Dongdong /></Grid.Item>
+        {navList.map((item) => (
+          <Grid.Item text={item.title}>
+            <Image
+              src={item.src}
+              mode="scaleToFill"
+              width="36"
+              height="36"
+              radius="10px"
+            />
+          </Grid.Item>
+        ))}
       </Grid>
 
       {data.map((item) => {
         return (
-          <Cell>
+          <Cell radius={0}>
             <View>
               <View className={'card-title'}>{item.title}</View>
               {item.userInfo ?
