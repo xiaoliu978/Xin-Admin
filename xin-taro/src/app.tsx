@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useDidShow, useDidHide } from '@tarojs/taro'
 // 全局样式
 import './app.less'
-import {Toast} from "@nutui/nutui-react-taro";
 import { View } from '@tarojs/components'
 
 function App(props) {
@@ -17,10 +16,8 @@ function App(props) {
 
   return (
     <View>
-      <Toast id="xin-toast" />
       { props.children }
     </View>
-
   )
 }
 
