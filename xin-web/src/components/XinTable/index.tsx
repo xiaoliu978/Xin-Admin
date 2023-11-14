@@ -27,7 +27,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     handleUpdate,
     handleAdd,
     addBefore,
-    accessName
+    accessName,
+    footerBarButton
   } = props;
 
   /**
@@ -215,6 +216,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
           >
             批量删除
           </Button>
+          {footerBarButton}
         </Access>
       </FooterToolbar>
     )

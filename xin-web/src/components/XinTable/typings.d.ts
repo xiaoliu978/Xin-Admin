@@ -63,6 +63,11 @@ export type TableProps<TableData> = {
    * access 权限前缀
    */
   accessName?: string
+
+  /**
+   * 底部按钮
+   */
+  footerBarButton?: React.ReactNode
 } & ProTableProps<TableData, any>;
 
 /**
