@@ -61,7 +61,7 @@ class AdminRule extends Controller
         if (!$this->validate->scene('add')->check($data)) {
             return $this->error($this->validate->getError());
         }
-        if($data['type'] == '1'){
+        if($data['type'] == '1' || $data['type'] == '0'){
             $data['key'] = str_replace('/','.',substr($data['path'],1));
         }
         $this->model->save($data);
