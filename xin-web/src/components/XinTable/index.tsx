@@ -248,7 +248,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
         total: data?.total
       };
     },
-    rowSelection: rowSelectionShow !== false ? { onChange: (_, selectedRows) => setSelectedRows(selectedRows) } : undefined
+    rowSelection: rowSelectionShow !== false ? { onChange: (_, selectedRows) => setSelectedRows(selectedRows) } : undefined,
+    tableStyle: {minHeight: 500}
   }
 
   return (

@@ -1,0 +1,109 @@
+.user-page {
+  padding: 10px;
+  position: relative;
+  top: -140px;
+  .user {
+    margin-bottom: 20px;
+  }
+
+  .order {
+    background: #fff;
+    border-radius: 5px;
+    padding: 0 20px 0 10px;
+    margin-bottom: 10px;
+
+    .title {
+      line-height: 40px;
+      border-bottom: 1px dotted #e1e1e1;
+
+      .title-text {
+        font-size: 14px;
+        font-weight: 400;
+        margin-left: 6px;
+      }
+
+      .right-text {
+        font-size: 12px;
+        float: right;
+        color: #757575;
+        display: inline-flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.user-background {
+  height: 200px;
+  background-image: linear-gradient(to top,#f5f5f5 0%, #88c2fc 60%, #d1ecff 100%);
+}
+
+.login {
+  height: 100vh;
+  width: 100vw;
+  background-image: url("/src/assets/img/login.jpg");
+  background-size: auto 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  .login-b {
+    display: flex;
+    padding-top: 100px;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    background: linear-gradient(to top, rgba(245, 245, 245, 0.2) 0%, rgba(136, 194, 252, 0.6) 60%, #001497 100%)
+  }
+
+  .login-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+    width: 86%;
+    height: 360px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .login-title {
+    color: #fff;
+    width: 86%;
+    margin-bottom: 20px;
+    padding: 10px;
+    .title {
+      font-size: 30px;
+      letter-spacing: 10px;
+    }
+    .remark {
+      font-size: 14px;
+
+    }
+  }
+
+  .input {
+    height: 46px;
+    border-radius: 30px;
+    background: #F5F7FB;
+  }
+  .input.user::before {
+    content: "\e621";
+    font-size: 16px;
+    margin-right: 5px;
+    color: #999999;
+  }
+
+  .input.suo::before {
+    content: "\e636";
+    font-size: 16px;
+    margin-right: 5px;
+    color: #999999;
+  }
+
+  .login-setting {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: #999999;
+  }
+}

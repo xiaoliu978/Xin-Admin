@@ -1,6 +1,7 @@
 // UmiJs 的请求配置
 import type { AxiosResponse , RequestConfig} from './request';
 import toast from './toast';
+import Taro from "@tarojs/taro";
 enum ErrorShowType {
   SILENT = 0,
   WARN_MESSAGE = 1,
@@ -89,7 +90,7 @@ const requestConfig: RequestConfig = {
   requestInterceptors: [
     (config: any) => {
       // 拦截请求配置，进行个性化处理。
-      let token = localStorage.getItem('token');
+      let token = Taro.getStorageSync('token');
       if (token) {
         config.headers['Authorization'] = token;
       }

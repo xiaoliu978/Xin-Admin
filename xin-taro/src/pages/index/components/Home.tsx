@@ -53,7 +53,7 @@ const data:DataItem[] = [
   },
   {
     id: 3,
-    title: '伟伟道来 | 美国媒体释疑伤亡数字 加沙地带人道危机在加剧',
+    title: '伟伟道来 | 美国媒体释疑伤亡数字 加沙地带人道危机在加剧伟伟道来 | 美国媒体释疑伤亡数字 加沙地带人道危机在加剧伟伟道来 | 美国媒体释疑伤亡数字 加沙地带人道危机在加剧',
     userInfo: {
       username: '小刘同学',
       avatar: 'https://img12.360buyimg.com/imagetools/jfs/t1/143702/31/16654/116794/5fc6f541Edebf8a57/4138097748889987.png'
@@ -131,7 +131,7 @@ const Home = () => {
         {list.map((item) => {
           return (
             <Swiper.Item key={item}>
-              <img src={item} style={{}} alt="" />
+              <Image src={item} width="100%" />
             </Swiper.Item>
           )
         })}
