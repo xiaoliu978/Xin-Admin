@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useDidShow, useDidHide } from '@tarojs/taro'
 // 全局样式
 import './app.less'
+import './assets/font/iconfont.css';
 import { View } from '@tarojs/components'
 
 function App(props) {

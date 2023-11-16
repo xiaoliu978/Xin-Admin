@@ -3,6 +3,7 @@ export default defineAppConfig({
     'pages/index/index',
     'pages/user/index',
     'pages/message/index',
+    'pages/user/login'
   ],
   tabBar: {
     list: [
