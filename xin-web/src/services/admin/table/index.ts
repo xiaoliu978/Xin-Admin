@@ -16,6 +16,8 @@ interface XinApi {
     ): Promise<API.ResponseStructure<any>>
 }
 
+let app = localStorage.getItem('app') == 'app' ? '/api.php':'/adi'
+
 /**
  * 公共查询接口
  * @param url
@@ -23,7 +25,7 @@ interface XinApi {
  * @param options
  */
 export const listApi: XinApi = (url,params,options) =>  {
-  return request<API.ResponseStructure<any>>('/admin.php'+ url, {
+  return request<API.ResponseStructure<any>>(app+ url, {
     method: 'GET',
     params: {
       ...params,
@@ -39,7 +41,7 @@ export const listApi: XinApi = (url,params,options) =>  {
  * @param options
  */
 export const addApi: XinApi = (url,data,options) => {
-  return request<API.ResponseStructure<any>>('/admin.php'+ url, {
+  return request<API.ResponseStructure<any>>(app+ url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -56,7 +58,7 @@ export const addApi: XinApi = (url,data,options) => {
  * @param options
  */
 export const editApi: XinApi = (url,data,options) =>  {
-  return request<API.ResponseStructure<any>>('/admin.php'+ url, {
+  return request<API.ResponseStructure<any>>(app+ url, {
     method: 'PUT',
     data: { ...data },
     ...(options || {}),
@@ -70,7 +72,7 @@ export const editApi: XinApi = (url,data,options) =>  {
  * @param options
  */
 export const deleteApi: XinApi = (url,params,options) => {
-  return request<API.ResponseStructure<any>>('/admin.php'+ url, {
+  return request<API.ResponseStructure<any>>(app+ url, {
     method: 'DELETE',
     params: { ...params },
     ...(options || {}),
