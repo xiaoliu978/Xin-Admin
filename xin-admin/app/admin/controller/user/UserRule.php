@@ -76,6 +76,9 @@ class UserRule extends Controller
         if($data['type'] == '1'){
             $data['key'] = str_replace('/','.',substr($data['path'],1));
         }
+        if($data['type'] == '0'){
+            $data['pid'] = 0;
+        }
         $this->model->update($data);
         return $this->success('ok',$data);
     }
