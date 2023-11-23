@@ -75,8 +75,11 @@ class AdminRule extends Controller
         if (!$this->validate->scene('edit')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        if($data['type'] == '1'){
+        if($data['type'] == ''){
             $data['key'] = str_replace('/','.',substr($data['path'],1));
+        }
+        if($data['type'] == '0'){
+            $data['pid'] = 0;
         }
         $this->model->update($data);
         return $this->success('ok',$data);

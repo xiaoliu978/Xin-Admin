@@ -256,7 +256,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     <Watermark>
       <ProTable<TableData>
         { ...Object.assign(defaultProTableConfig, props) }
-        columns={[...columns, operateShow !== false ? defaultButton() : {}]}
+        columns={operateShow!==false?[...columns,defaultButton()]:columns}
         toolBarRender={defaultToolBar}
       />
       {footerBar()}
