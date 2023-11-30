@@ -1,43 +1,27 @@
 import React, {useEffect, useState} from "react";
-import {Form, message, Radio, Space, Tree, TreeSelect,Typography} from "antd";
-import {addGroup, getSettingGroup, querySettingPid} from "@/services/admin/system";
-import {ModalForm, ProCard, ProFormText} from "@ant-design/pro-components";
-import {DownOutlined, PlusOutlined} from "@ant-design/icons";
-import type {TreeProps} from "antd";
-import {DataNode} from "antd/es/tree";
+import {Menu, message, Space, Typography } from 'antd';
+import {getSettingGroup} from "@/services/admin/system";
+import {ProCard} from "@ant-design/pro-components";
 import {Access,useAccess} from "@umijs/max";
 import XinTable from "@/components/XinTable";
 import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
 import {addApi} from "@/services/admin/table";
-import {useModel} from "@@/exports";
+import AddSettingGroup from '@/pages/System/Setting/components/AddSettingGroup';
+
 const { Text } = Typography;
 
 
 export default () => {
-  /**
-   * 新增分组表单
-   */
-  const [form] = Form.useForm<{key: string, title: string, pid?: number}>();
+
   /**
    * 设置分组
    */
-  const [settingGroup, setSettingGroup] = useState<DataNode[]>([])
-  /**
-   * 设置Pid
-   */
-  const [settingPid, setSettingPid] = useState<DataNode[]>([])
+  const [settingGroup, setSettingGroup] = useState([])
   /**
    * 查询 Params
    */
-  const [params,setParams] = useState<{key: string | number,group_id:number} >({key:'web',group_id: 3})
-  /**
-   * 设置标题
-   */
-  const [title,setTitle] = useState('网站设置')
-  /**
-   * 字典模型
-   */
-  const {getDictionaryData} = useModel('dictModel')
+  const [params,setParams] = useState<{ key: string | number, group_id: number }>({key:'web',group_id: 3})
+
 
   /**
    * 设置行
@@ -95,108 +79,43 @@ export default () => {
 
   useEffect( ()=> {
     getSettingGroup().then((res)=>{
-      if(res.success){
-        setSettingGroup(res.data)
-      }
-    })
-    querySettingPid().then(res=>{
-      if(res.success){
-        setSettingPid(res.data)
-      }
+      setSettingGroup(res.data)
     })
   },[])
 
-  const onSelect: TreeProps['onSelect'] = (selectedKeys, info) => {
-    if(typeof info.node.title === 'string'){
-      // @ts-ignore
-      setParams({key: info.node.key, group_id: info.node.id})
-      setTitle(info.node.title)
-    }
-  };
-
   const access = useAccess();
-
-  const addSettingGroup = (
-    <ModalForm<{ key: string, title: string, pid?: number }>
-      title="新建分组"
-      trigger={<PlusOutlined />}
-      form={form}
-      autoFocusFirstInput
-      modalProps={{ destroyOnClose: true, width: 400}}
-      submitTimeout={2000}
-      onFinish={async (values) => {
-        let res = await addGroup(values)
-        if(res.success){
-          message.success('新建成功')
-          return true
-        }
-        return false;
-      }}
-    >
-      <Form.Item name="type" label="类型" rules={[{required: true, message: '此项为必填项'},]}>
-        <Radio.Group>
-          <Radio value={1}>设置菜单</Radio>
-          <Radio value={2}>设置组</Radio>
-        </Radio.Group>
-      </Form.Item>
-      <ProFormText
-        name="title"
-        label="分组标题"
-        tooltip="最长为 24 位"
-        rules={[
-          {required: true, message: '此项为必填项'},
-        ]}
-        placeholder="请输入标题"
-      />
-      <ProFormText
-        name="key"
-        label="分组 KEY"
-        placeholder="请输入KEY"
-        rules={[
-          {required: true, message: '此项为必填项'},
-        ]}
-      />
-      <Form.Item name="pid" label="上级" tooltip={'不填为最顶级'}>
-        <TreeSelect
-          treeData={settingPid}
-          placeholder="请输入KEY"
-          style={{ width: '100%' }}
-          allowClear
-        />
-      </Form.Item>
-    </ModalForm>
-  )
 
   return (
     <>
       <ProCard split="vertical">
         <ProCard title={(
           <Space style={{lineHeight: 2}}>
-            <div>配置分组</div>
             <Access accessible={access.buttonAccess('admin.group.rule')}>
-              {addSettingGroup}
+              <AddSettingGroup/>
             </Access>
           </Space>
         )} colSpan="20%">
-          <Tree
-            showLine
-            switcherIcon={<DownOutlined />}
-            expandedKeys={['system']}
+          <Menu
+            onClick={(menu) => {
+              let data: {key: string, id: number}[] = settingGroup?.filter((item: {key: string}) => {
+                return item.key === menu.key
+              })
+              setParams({key: data[0].key,group_id: data[0].id})
+            }}
             defaultSelectedKeys={['web']}
-            onSelect={onSelect}
-            treeData={settingGroup}
-            blockNode
+            mode="inline"
+            items={settingGroup}
           />
         </ProCard>
         <ProCard>
           <XinTable
-            headerTitle={title}
+            headerTitle={'设置项'}
             search={false}
             columns={columns}
             tableApi={'system.setting'}
             params={params}
             handleAdd={(formData) => {
-              return addApi('system.setting/add', Object.assign({group_id: params.group_id},formData)).then(res=>{
+              return addApi('/system.setting/add', Object.assign({group_id: params.group_id},formData)).then(res=>{
                 if (res.success) {
                   message.success('添加成功');
                   return true

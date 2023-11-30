@@ -18,12 +18,6 @@ export const getSettingGroup = () => {
   })
 }
 
-export const querySettingPid = () => {
-  return request<API.ResponseStructure<any>>('/admin.php/system.setting/querySettingPid', {
-    method: 'get',
-  })
-}
-
 export const addGroup = (data: {
   key: string,
   title: string,
