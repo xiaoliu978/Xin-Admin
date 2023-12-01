@@ -316,9 +316,6 @@ class Xin
         }
         echo PHP_EOL;
         // 关闭进程和管道
-        fclose($pipes[0]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
         $returnValue = proc_close($this->process);
         if ($returnValue !== 0) {
             echo '命令执行失败，错误代码: ' . $returnValue;
