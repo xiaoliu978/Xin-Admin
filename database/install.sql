@@ -1,5 +1,5 @@
 /*
- Date: 31/10/2023 17:35:23
+ Date: 01/12/2023 11:19:37
 */
 
 SET NAMES utf8mb4;
@@ -216,14 +216,13 @@ CREATE TABLE `xin_admin_rule`  (
 -- Records of xin_admin_rule
 -- ----------------------------
 INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', 1, '首页', '/home', 'HomeOutlined', 'home', '首页', 1694679617, 1691653415);
-INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '组件&功能', '/data', 'PieChartOutlined', 'data', '数据展示', 1697616715, 1691653452);
+INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '组件功能', '/data', 'PieChartOutlined', 'data', '数据展示', 1699248472, 1691653452);
 INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', 'UnorderedListOutlined', 'data.descriptions', '定义列表', 1695347092, 1692102396);
-INSERT INTO `xin_admin_rule` VALUES (6, 0, '0', 5, '管理员设置', '/admin', 'IdcardOutlined', 'admin', '管理员设置', 1694679571, 1692126728);
-INSERT INTO `xin_admin_rule` VALUES (7, 6, '1', 0, '管理员列表', '/admin/list', NULL, 'admin.list', '管理员列表', 1694507007, 1692126786);
-INSERT INTO `xin_admin_rule` VALUES (8, 6, '1', 1, '管理员分组', '/admin/group', NULL, 'admin.group', '管理员分组', 1694679754, 1692126825);
-INSERT INTO `xin_admin_rule` VALUES (9, 6, '1', 2, '权限管理', '/admin/rule', NULL, 'admin.rule', '权限管理', 1694679761, 1692126876);
+INSERT INTO `xin_admin_rule` VALUES (7, 10, '1', 0, '管理员列表', '/admin/list', NULL, 'admin.list', '管理员列表', 1699248330, 1692126786);
+INSERT INTO `xin_admin_rule` VALUES (8, 10, '1', 1, '管理员分组', '/admin/group', NULL, 'admin.group', '管理员分组', 1699248339, 1692126825);
+INSERT INTO `xin_admin_rule` VALUES (9, 10, '1', 2, '权限菜单管理', '/admin/rule', NULL, 'admin.rule', '权限管理', 1699248352, 1692126876);
 INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', 6, '系统管理', '/system', 'SettingOutlined', 'system', '系统管理', 1693313221, 1692127577);
-INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 0, '字典管理', '/system/dict', NULL, 'system.dict', '字典管理', 1694507026, 1692127607);
+INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 3, '字典管理', '/system/dict', NULL, 'system.dict', '字典管理', 1699248418, 1692127607);
 INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', 0, '字典新建', NULL, NULL, 'system.dict.add', '字典新建', 1692127688, 1692127688);
 INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', 0, '字典删除', NULL, NULL, 'system.dict.delete', '字典删除', 1692127723, 1692127723);
 INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', 0, '字典编辑', NULL, NULL, 'system.dict.edit', '字典编辑', 1692127804, 1692127804);
@@ -253,8 +252,8 @@ INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user/list
 INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', 'RocketOutlined', 'online', '在线开发', 1693313330, 1693226432);
 INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', NULL, 'online.table', '表格设计', 1694507047, 1693226460);
 INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', 'https://xinadmin.cn/', NULL, 'xinadmin', 'Xin Admin 官网', 1694488334, 1693226618);
-INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 0, '系统信息', '/system/info', NULL, 'system.info', '系统设置', 1694652227, 1693313283);
-INSERT INTO `xin_admin_rule` VALUES (50, 10, '1', 3, '系统设置', '/system/setting', NULL, 'system.setting', '系统设置', 1694652770, 1694652598);
+INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 5, '系统信息', '/system/info', NULL, 'system.info', '系统设置', 1699248448, 1693313283);
+INSERT INTO `xin_admin_rule` VALUES (50, 10, '1', 4, '系统设置', '/system/setting', NULL, 'system.setting', '系统设置', 1699248442, 1694652598);
 INSERT INTO `xin_admin_rule` VALUES (51, 50, '2', 0, '设置分组查看', NULL, NULL, 'system.setting.querySettingGroup', '设置分组查看', 1694839716, 1694839716);
 INSERT INTO `xin_admin_rule` VALUES (52, 50, '2', 1, '设置分组新增', NULL, NULL, 'system.setting.addGroup', '设置分组新增', 1694839949, 1694839949);
 INSERT INTO `xin_admin_rule` VALUES (53, 50, '2', 3, '查询设置父 ID', NULL, NULL, 'system.setting.querySettingPid', '查询设置父 ID', 1694841003, 1694841003);
@@ -505,8 +504,6 @@ CREATE TABLE `xin_setting`  (
 -- Records of xin_setting
 -- ----------------------------
 INSERT INTO `xin_setting` VALUES (1, 'title', '网站标题', 'Xin Admin', 'text', 3, 1694919475, 1695277913);
-INSERT INTO `xin_setting` VALUES (2, 'seaver', 'SMTP 服务器', 'smtp.qq.com', 'text', 2, 1694919969, 1694919969);
-INSERT INTO `xin_setting` VALUES (3, 'port', 'SMTP 端口', '465', 'text', 2, 1694920011, 1694920011);
 INSERT INTO `xin_setting` VALUES (4, 'logo', '网站 LOGO', 'https://file.xinadmin.cn/file/favicons.ico', 'text', 3, 1694922259, 1695262489);
 INSERT INTO `xin_setting` VALUES (5, 'subtitle', '网站副标题', 'Xin Admin 快速开发框架', '', 3, 1695277988, 1695277988);
 
@@ -529,10 +526,7 @@ CREATE TABLE `xin_setting_group`  (
 -- ----------------------------
 -- Records of xin_setting_group
 -- ----------------------------
-INSERT INTO `xin_setting_group` VALUES (1, 0, '系统配置', 'system', '1', 1694830416, 1694830416);
-INSERT INTO `xin_setting_group` VALUES (2, 0, '邮件配置', 'email', '2', 1694830540, 1694830540);
-INSERT INTO `xin_setting_group` VALUES (3, 1, '网站设置', 'web', '2', 1694832330, 1694832330);
-INSERT INTO `xin_setting_group` VALUES (4, 0, '其它配置', 'other', '1', 1694844161, 1694844161);
+INSERT INTO `xin_setting_group` VALUES (3, 0, '网站设置', 'web', '2', 1694832330, 1694832330);
 
 -- ----------------------------
 -- Table structure for xin_test_table
@@ -579,12 +573,8 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('00f3a1ab68208d2fd6531ae946787a59718396cf', 'admin-refresh', 3, 1697697840, 1700289840);
-INSERT INTO `xin_token` VALUES ('165dee32d61f9721b0efb86f4083dc902c85dafe', 'admin-refresh', 2, 1697762481, 1700354481);
-INSERT INTO `xin_token` VALUES ('8d91c4804ed27c4a37500f3cce09333b782eea94', 'user', 2, 1698744899, 1698745499);
-INSERT INTO `xin_token` VALUES ('940c75d5a34469b399d971c78724f77785c38872', 'user-refresh', 1, 1695789838, 1698381838);
-INSERT INTO `xin_token` VALUES ('b808ed46e71483882809f1f098b5f9531dee346f', 'user-refresh', 2, 1698744899, 1701336899);
-INSERT INTO `xin_token` VALUES ('d616eb66eb908d9d66e979cd349ab22c5574affe', 'admin', 3, 1697698626, 1700290626);
+INSERT INTO `xin_token` VALUES ('43c353b6320753f59b33c4a49c88be2fb9baaea1', 'admin-refresh', 1, 1701400041, 1703992041);
+INSERT INTO `xin_token` VALUES ('9bf7fa7a41083e54c4e1862e8b70b53c6b3978b8', 'admin', 1, 1701400041, 1701400641);
 
 -- ----------------------------
 -- Table structure for xin_user
