@@ -3,7 +3,7 @@ import {
 } from '@ant-design/pro-components';
 import { UpdateFromProps } from '../typings';
 import {message} from "antd";
-import {editApi} from "@/services/admin/table";
+import {editApi} from "@/services/common/table";
 
 
 function UpdateForm<TableData>(props: UpdateFromProps<TableData>){

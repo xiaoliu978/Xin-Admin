@@ -2,7 +2,7 @@ import {Button, message} from 'antd';
 import React from 'react';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { CreateFormProps } from '../typings';
-import {addApi} from "@/services/admin/table";
+import {addApi} from "@/services/common/table";
 
 function CreateForm<TableData>(props: CreateFormProps<TableData>){
   const { columns, api, tableRef, handleAdd, addBefore } = props;

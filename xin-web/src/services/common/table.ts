@@ -16,7 +16,7 @@ interface XinApi {
     ): Promise<API.ResponseStructure<any>>
 }
 
-let app = localStorage.getItem('app') == 'app' ? '/api.php':'/adi'
+let app = localStorage.getItem('app') === 'app' ? '/api.php':'/admin.php'
 
 /**
  * 公共查询接口

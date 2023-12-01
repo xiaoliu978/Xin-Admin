@@ -2,7 +2,7 @@ import {
   BetaSchemaForm
 } from '@ant-design/pro-components';
 import { Avatar, message, Tag } from 'antd';
-import { editApi, listApi } from '@/services/admin/table';
+import { editApi, listApi } from '@/services/common/table';
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import UploadImgItem from '@/components/XinForm/UploadImgItem';
 import React from 'react';

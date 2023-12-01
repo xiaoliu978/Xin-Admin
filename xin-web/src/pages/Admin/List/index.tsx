@@ -8,7 +8,7 @@ import { UserOutlined } from '@ant-design/icons';
 import React from 'react';
 import UpdateModel from '@/pages/Admin/List/components/UpdateModel';
 import UpdatePassword from '@/pages/Admin/List/components/UpdatePassword';
-import { listApi } from '@/services/admin/table';
+import { listApi } from '@/services/common/table';
 import { Access } from '@umijs/max';
 
 const api = '/admin';

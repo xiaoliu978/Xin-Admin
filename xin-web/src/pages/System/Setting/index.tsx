@@ -5,7 +5,7 @@ import {ProCard} from "@ant-design/pro-components";
 import {Access,useAccess} from "@umijs/max";
 import XinTable from "@/components/XinTable";
 import {ProFormColumnsAndProColumns} from "@/components/XinTable/typings";
-import {addApi} from "@/services/admin/table";
+import {addApi} from "@/services/common/table";
 import AddSettingGroup from '@/pages/System/Setting/components/AddSettingGroup';
 
 const { Text } = Typography;
