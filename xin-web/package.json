@@ -9,16 +9,16 @@
     "start": "npm run dev"
   },
   "dependencies": {
-    "@ant-design/charts": "^1.4.2",
+    "@ant-design/charts": "^1.4.3",
     "@ant-design/icons": "^5.2.6",
-    "@ant-design/pro-components": "^2.6.30",
-    "@umijs/max": "^4.0.86",
+    "@ant-design/pro-components": "^2.6.43",
+    "@umijs/max": "^4.0.89",
     "ahooks": "^3.7.8",
-    "antd": "^5.10.1",
-    "antd-img-crop": "^4.13.0",
+    "antd": "^5.11.5",
+    "antd-img-crop": "^4.18.0",
     "dayjs": "^1.11.10",
     "mockjs": "^1.1.0",
-    "rc-resize-observer": "^1.3.1"
+    "rc-resize-observer": "^1.4.0"
   },
   "devDependencies": {
     "@types/mockjs": "^1.0.7",
