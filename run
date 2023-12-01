@@ -1,8 +1,12 @@
 #!/usr/bin/env php
 <?php
 namespace run;
+if (version_compare(PHP_VERSION, '8.1.0', '<')) die('require PHP > 8.1.0 !');
+if (!extension_loaded("pdo")) die('require pdo extension');
+if (!extension_loaded("zip")) die('require zip extension');
+if (!extension_loaded("curl")) die('require curl extension');
 require './extend/xin/Xin.php';
 require './extend/xin/Modules.php';
-
+// 检测PHP环境
 use xin\Xin;
 new Xin($argv);
