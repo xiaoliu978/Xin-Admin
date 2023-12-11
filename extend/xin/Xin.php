@@ -46,48 +46,52 @@ class Xin
 
     public function __construct(array $argv)
     {
-        // 记录运行日志
-        $outputDir = '.'. DIRECTORY_SEPARATOR . 'log' ;
-        $runDate = time();
+        try {
+            // 记录运行日志
+            $outputDir = '.'. DIRECTORY_SEPARATOR . 'log' ;
+            $runDate = time();
 
-        if (!is_dir($outputDir)) {
-            mkdir($outputDir, 0755, true);
+            if (!is_dir($outputDir)) {
+                mkdir($outputDir, 0755, true);
+            }
+
+            $this->runFile = $outputDir . DIRECTORY_SEPARATOR . 'run.log';
+
+            $log = file_get_contents($this->runFile);
+            file_put_contents($this->runFile, $log . date('Y-m-d H:i:s',$runDate) . ' ' . implode(' ', $argv) . PHP_EOL );
+
+            $this->argv = $argv;
+
+            $color_yellow = "\033[0;33m";
+            $color_reset = "\033[0m";
+            $this->echoLogo();
+            if(!isset($argv[1])){
+                echo str_pad('Welcome to Xin Admin', 20 , ' ') . PHP_EOL . PHP_EOL;
+                $this->help();
+                return;
+            }
+
+            if($argv[1] != 'install' && $argv[1] != 'dev' && $argv[1] != 'produce' && $argv[1] != 'i'){
+                echo $color_yellow . '未识别的命令，请执行以下操作：' . $color_reset . PHP_EOL . PHP_EOL;
+                $this->help();
+                return;
+            }
+
+            $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'run-' . time() . '.log';
+            file_put_contents($this->outputFile, '');
+            /**
+             * 命令执行结果输出到文件而不是管道 build admin
+             * 因为输出到管道时有延迟，而文件虽然需要频繁读取和对比内容，但是输出实时的
+             */
+            $this->descriptorsPec = [0 => ['pipe', 'r'], 1 => ['file', $this->outputFile, 'w'], 2 => ['file', $this->outputFile, 'w']];
+
+            $argv[1] == 'install' && $this->install();
+            $argv[1] == 'dev' && $this->dev();
+            $argv[1] == 'produce' && $this->produce();
+            $argv[1] == 'i' && $this->installModules($argv[2]);
+        }catch (XinException $exception) {
+            echo $color_yellow . "$exception" . $color_reset . PHP_EOL . PHP_EOL;
         }
-
-        $this->runFile = $outputDir . DIRECTORY_SEPARATOR . 'run.log';
-
-        $log = file_get_contents($this->runFile);
-        file_put_contents($this->runFile, $log . date('Y-m-d H:i:s',$runDate) . ' ' . implode(' ', $argv) . PHP_EOL );
-
-        $this->argv = $argv;
-
-        $color_yellow = "\033[0;33m";
-        $color_reset = "\033[0m";
-        $this->echoLogo();
-        if(!isset($argv[1])){
-            echo str_pad('Welcome to Xin Admin', 20 , ' ') . PHP_EOL . PHP_EOL;
-            $this->help();
-            return;
-        }
-
-        if($argv[1] != 'install' && $argv[1] != 'dev' && $argv[1] != 'produce' && $argv[1] != 'i'){
-            echo $color_yellow . '未识别的命令，请执行以下操作：' . $color_reset . PHP_EOL . PHP_EOL;
-            $this->help();
-            return;
-        }
-
-        $this->outputFile = $outputDir . DIRECTORY_SEPARATOR . 'run-' . time() . '.log';
-        file_put_contents($this->outputFile, '');
-        /**
-         * 命令执行结果输出到文件而不是管道 build admin
-         * 因为输出到管道时有延迟，而文件虽然需要频繁读取和对比内容，但是输出实时的
-         */
-        $this->descriptorsPec = [0 => ['pipe', 'r'], 1 => ['file', $this->outputFile, 'w'], 2 => ['file', $this->outputFile, 'w']];
-
-        $argv[1] == 'install' && $this->install();
-        $argv[1] == 'dev' && $this->dev();
-        $argv[1] == 'produce' && $this->produce();
-        $argv[1] == 'i' && $this->installModules($argv[2]);
     }
 
 

@@ -4,6 +4,7 @@ namespace xin;
 
 use PDO;
 use PDOException;
+use think\Exception;
 use ZipArchive;
 
 class Modules
@@ -73,7 +74,7 @@ class Modules
     public function install(): void
     {
 
-        $url = 'https://xin-modules.oss-cn-zhangjiakou.aliyuncs.com/modules/' . $this->uid . 'zip'; // 替换为要下载的文件的URL
+        $url = 'https://xin-modules.oss-cn-zhangjiakou.aliyuncs.com/modules/' . $this->uid . '.zip'; // 替换为要下载的文件的URL
         $destination = $this->installDir . $this->uid . '.zip'; // 替换为要保存文件的本地路径
         // 发送HTTP请求并获取文件内容
         $fileContent = file_get_contents($url);
@@ -108,6 +109,7 @@ class Modules
         if(is_dir($this->modulesDir . 'xin-taro' . DIRECTORY_SEPARATOR)) {
             $this->copyFolder($this->modulesDir . 'xin-taro' . DIRECTORY_SEPARATOR,$this->taroDir);
         }
+
         $color_red = "\033[0;31m";      // 红色
         $color_reset = "\033[0m";       // 重置颜色
         if(is_file($this->modulesDir . 'install.sql')) {
