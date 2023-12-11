@@ -13,6 +13,7 @@ import RightRender from "@/components/Layout/RightRender";
 import { index } from '@/services/api'
 import { getUserInfo } from '@/services/api/user';
 import Access from '@/components/Access';
+import XinTabs from '@/components/XinTabs';
 
 export async function getInitialState(): Promise<initialStateType> {
   // 记录当前应用
@@ -135,7 +136,7 @@ export const layout: RunTimeLayoutConfig = ({initialState}) => {
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      return <Access>{children}</Access>
+      return <Access><XinTabs>{children}</XinTabs></Access>
     },
     ...initialState?.settings,
   };
