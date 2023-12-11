@@ -49,7 +49,9 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   const tabProps: TabsProps = {
-    id: 'tabs',
+    tabBarStyle: {
+      marginBottom: 0,
+    },
     size: 'small',
     activeKey: activeKey,
     type: "editable-card",
@@ -62,9 +64,12 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   return (
-    <PageContainer header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
+
+    <PageContainer
+      header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
       {props.children}
     </PageContainer>
+
   )
 }
 
