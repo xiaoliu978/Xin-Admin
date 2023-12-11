@@ -60,6 +60,7 @@ const Login: React.FC =  () => {
         ...init,
         isLogin: true,
         isAccess: true,
+        app: 'admin',
         currentUser: userInfo.adminInfo,
         menus: userInfo.menus,
         access: userInfo.access,
@@ -126,7 +127,7 @@ const Login: React.FC =  () => {
             {
               key: 'account',
               label: '账号密码登录'
-            }, 
+            },
             {
               key: 'phone',
               label: '手机号登录'

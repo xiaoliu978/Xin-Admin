@@ -136,7 +136,8 @@ export const layout: RunTimeLayoutConfig = ({initialState}) => {
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      return <Access><XinTabs>{children}</XinTabs></Access>
+      if (initialState?.app === 'admin') return <Access><XinTabs>{children}</XinTabs></Access>
+      return <Access>{children}</Access>
     },
     ...initialState?.settings,
   };
