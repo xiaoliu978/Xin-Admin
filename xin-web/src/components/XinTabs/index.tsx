@@ -1,9 +1,9 @@
 import {useLocation, useNavigate} from '@umijs/max'
 import {useEffect, useState} from "react";
 import {getMenuData, getPageTitle, PageContainer} from "@ant-design/pro-components";
-import type { MenuProps, TabsProps } from 'antd';
-import routes from "../../../config/routes";
-
+import type { TabsProps } from 'antd';
+import './index.less';
+import { useModel } from '@umijs/max';
 const XinTabs = (props: {children: never[]}) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -11,7 +11,11 @@ const XinTabs = (props: {children: never[]}) => {
   const [tabsItem, setTabsItem] = useState<Exclude<TabsProps['items'], undefined>>([
     {key: '/home', label: '首页', closeIcon: null}
   ]);
-  const {breadcrumb} = getMenuData(routes);
+
+  const {initialState} = useModel('@@initialState');
+
+  // @ts-ignore
+  const {breadcrumb } = getMenuData(initialState?.menus);
 
   useEffect(() => {
     const title = getPageTitle({
@@ -42,19 +46,6 @@ const XinTabs = (props: {children: never[]}) => {
   const onClick: TabsProps['onTabClick'] = (key) => {
     navigate(key, {replace: true})
   }
-  const items: MenuProps['items'] = [
-    {
-      key: '1',
-      label: (
-        <a onClick={ ()=> {
-          setTabsItem([{key: '/home', label: '首页', closeIcon: null}])
-          navigate('/home')
-        }}>
-          关闭所有
-        </a>
-      ),
-    },
-  ]
 
 
   const tabProps: TabsProps = {
@@ -71,10 +62,9 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   return (
-    <PageContainer fixedHeader tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
+    <PageContainer header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
       {props.children}
     </PageContainer>
-
   )
 }
 
