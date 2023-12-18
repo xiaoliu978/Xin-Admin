@@ -1,13 +1,13 @@
 import { Access, useModel, useLocation, Link } from '@umijs/max';
 import { Result } from 'antd';
 import React, { useEffect, useState } from 'react';
-import noAuthRouter from '@/noAuthRouter';
+import noAuthRouter from '@/default/noAuthRouter';
 
 
 export  default  (
   props: {children: React.ReactNode}
 ) => {
-  const {initialState, setInitialState} = useModel('@@initialState');
+  const {initialState} = useModel('@@initialState');
 
   const { pathname} = useLocation();
 
