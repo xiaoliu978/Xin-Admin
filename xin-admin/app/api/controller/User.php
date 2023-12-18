@@ -88,6 +88,11 @@ class User extends ApiController
     }
 
 
+    /**
+     * 刷新 Token
+     * @return Json
+     * @throws Exception
+     */
     public function refreshToken(): Json
     {
         $token =  $this->request->header('Authorization');
@@ -104,6 +109,10 @@ class User extends ApiController
         }
     }
 
+    /**
+     * 退出登录
+     * @return Json
+     */
     #[Auth]
     public function logout(): Json
     {

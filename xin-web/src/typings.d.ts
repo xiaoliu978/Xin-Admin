@@ -14,12 +14,12 @@ interface initialStateType {
   // 权限
   access: string[];
   // 异步状态
-  fetchUserInfo?:  () => Promise<any>;
-  fetchAdminInfo?:  () => Promise<any>;
+  fetchUserInfo:  () => Promise<any>;
+  fetchAdminInfo:  () => Promise<any>;
   // 菜单
   menus?: {[key: string] : any};
   // 当前app
-  app: string;
+  app: string | null;
   // 其它
   webSetting: { [key: string] : any };
 }
