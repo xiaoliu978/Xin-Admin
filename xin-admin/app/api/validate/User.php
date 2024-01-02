@@ -51,7 +51,7 @@ class User extends Validate
         // 新增管理员
         'add'      =>  ['username','nickname','password'],
         // 注册会员
-        'reg'      =>  ['username','nickname','password','mobile','email'],
+        'reg'      =>  ['username','nickname','password','repeatPassword','mobile','email'],
 
         'set'      =>  ['username','nickname','gender','email','avatar','mobile'],
 
@@ -62,6 +62,12 @@ class User extends Validate
     protected function rePassword($value,$rule, $data=[]): bool|string
     {
         return $value == $data['newPassword'] ? true : '两次密码不同';
+    }
+
+    // 自定义验证规则
+    protected function repeatPassword($value,$rule, $data=[]): bool|string
+    {
+        return $value == $data['password'] ? true : '两次密码不同';
     }
 
     protected function oldPassword($value): bool|string
