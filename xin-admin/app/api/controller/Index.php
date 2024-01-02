@@ -27,23 +27,6 @@ class Index extends Controller
      */
     public function index()
     {
-        $layout = [
-            'navTheme' => 'light',
-            'colorPrimary' => '#1890ff',
-            'layout' => 'top',
-            'contentWidth' => 'Fluid',
-            'fixedHeader' => true,
-            'token' => [
-                'pageContainer' => [
-                    'paddingBlockPageContainerContent' => 0,
-                    'paddingInlinePageContainerContent' => 0
-                ]
-            ],
-            "fixSiderbar" => true,
-            "splitMenus" => false,
-            "siderMenuType" => "sub"
-        ];
-
         $group = (new UserGroup())->with(['roles' => function($query){
             $query->order('sort');
         }])->where('id',2)->find();
@@ -61,10 +44,8 @@ class Index extends Controller
                 $menus[] =  $menu;
             }
         }
-
-
         $web_setting = get_setting('web');
-        return $this->success('ok',compact('layout','web_setting', 'menus'));
+        return $this->success('ok',compact('web_setting', 'menus'));
     }
 
     /**
@@ -124,19 +105,15 @@ class Index extends Controller
     public function register(): Json
     {
         $data = $this->request->post();
-        // 账号密码登录
-
         // 规则验证
         $result = $this->validate->scene('reg')->check($data);
         if(!$result){
             return $this->warn($this->validate->getError());
         }
-
         $data = $this->model->register($data);
         if($data) {
             return $this->success('ok',$data);
         }
         return $this->error($this->model->getErrorMsg());
-
     }
 }
