@@ -1,15 +1,16 @@
-import {useLocation, useNavigate} from '@umijs/max'
+import {useLocation, useNavigate, FormattedMessage} from '@umijs/max'
 import {useEffect, useState} from "react";
-import {getMenuData, getPageTitle, PageContainer} from "@ant-design/pro-components";
+import {getMenuData, PageContainer} from "@ant-design/pro-components";
 import type { TabsProps } from 'antd';
 import './index.less';
 import { useModel } from '@umijs/max';
+import {ConfigProvider} from "antd";
 const XinTabs = (props: {children: never[]}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState<string>('');
   const [tabsItem, setTabsItem] = useState<Exclude<TabsProps['items'], undefined>>([
-    {key: '/home', label: '首页', closeIcon: null}
+    {key: '/dashboard/analysis', label: <FormattedMessage id="menu.dashboard.analysis" />, closeIcon: null}
   ]);
 
   const {initialState} = useModel('@@initialState');
@@ -18,18 +19,15 @@ const XinTabs = (props: {children: never[]}) => {
   const {breadcrumb } = getMenuData(initialState?.menus);
 
   useEffect(() => {
-    const title = getPageTitle({
-      pathname: location.pathname,
-      breadcrumb: breadcrumb
-    });
-    if(!title) return
+    const menuDataItem = breadcrumb[location.pathname];
+    if(!menuDataItem) return
     const inTabs = tabsItem.some((item) => {
       return item.key === location.pathname
     })
     if (!inTabs) {
       setTabsItem([...tabsItem, {
         key: location.pathname,
-        label: title
+        label: menuDataItem.locale?<FormattedMessage id={menuDataItem.locale} />: menuDataItem.name
       }]);
     }
     setActiveKey(location.pathname)
@@ -49,10 +47,7 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   const tabProps: TabsProps = {
-    tabBarStyle: {
-      marginBottom: 0,
-    },
-    size: 'small',
+    size: 'large',
     activeKey: activeKey,
     type: "editable-card",
     tabBarGutter: 5,
@@ -64,12 +59,23 @@ const XinTabs = (props: {children: never[]}) => {
 
 
   return (
-
-    <PageContainer
-      header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
-      {props.children}
-    </PageContainer>
-
+    <ConfigProvider
+      theme={{
+        components: {
+          Tabs: {
+            cardGutter: 100
+          },
+        },
+        token: {
+          /* here is your global tokens */
+        },
+      }}
+    >
+      <PageContainer
+        header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
+        {props.children}
+      </PageContainer>
+    </ConfigProvider>
   )
 }
 

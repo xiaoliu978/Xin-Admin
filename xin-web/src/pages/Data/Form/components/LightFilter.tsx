@@ -61,7 +61,6 @@ export default () => {
   const [size, setSize] = React.useState<SizeType>('middle');
   return (
     <div>
-      <h1>筛选表单</h1>
       <Radio.Group
         value={size}
         onChange={(e) => {

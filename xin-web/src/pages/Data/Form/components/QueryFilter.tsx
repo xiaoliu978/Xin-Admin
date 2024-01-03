@@ -27,7 +27,6 @@ const AdvancedSearch: React.FC<AdvancedSearchProps> = (props) => {
   const quickSearch = ['小程序开发', '入驻', 'ISV 权限'];
   return (
     <div>
-      <h1>搜索表单</h1>
       <div
         style={{
           display: 'flex',

@@ -73,10 +73,15 @@ const Table: React.FC = () => {
       renderFormItem: (form,config,schema) => <IconsItem form={form} schema={schema} config={config}></IconsItem>
 
     }
+    const locale: ProFormColumnsAndProColumns<ResponseAdminList> = {
+      title: '多语言标识',
+      dataIndex: 'locale',
+      valueType: 'text'
+    }
     if(type === '0'){
-      return [path,icon]
+      return [path,icon,locale]
     }else if(type === '1'){
-      return [pid,path]
+      return [pid,path,locale]
     }else if(type === '2'){
       return [rule,pid]
     }
@@ -128,9 +133,16 @@ const Table: React.FC = () => {
       tooltip: '数字越大排序越靠后'
     },
     {
-      title: '备注',
-      dataIndex: 'remark',
+      title: '权限标识',
+      dataIndex: 'key',
       valueType: 'text',
+      hideInForm: true,
+    },
+    {
+      title: '路由地址',
+      dataIndex: 'path',
+      valueType: 'text',
+      hideInForm: true,
     },
     {
       title: '创建时间',

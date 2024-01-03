@@ -73,10 +73,16 @@ const Table: React.FC = () => {
       renderFormItem: (form,config,schema) => <IconsItem form={form} schema={schema} config={config}></IconsItem>
 
     }
+    const locale: ProFormColumnsAndProColumns<ResponseAdminList> = {
+      title: '多语言标识',
+      dataIndex: 'locale',
+      valueType: 'text'
+    }
+
     if(type === '0'){
-      return [path,icon]
+      return [path,icon,locale]
     }else if(type === '1'){
-      return [pid,path]
+      return [pid,path,locale]
     }else if(type === '2'){
       return [rule,pid]
     }
@@ -106,7 +112,6 @@ const Table: React.FC = () => {
         ],
       },
     },
-
     {
       valueType: 'dependency',
       name: ['type'],
@@ -120,42 +125,53 @@ const Table: React.FC = () => {
       request: async () => getDictionaryData('ruleType'),
       render: (_, date) => <XinDict value={date.type} dict={'ruleType'} />,
       hideInForm: true,
+      align: 'center'
     },
     {
       title: '排序',
       dataIndex: 'sort',
       valueType: 'text',
-      tooltip: '数字越大排序越靠后'
+      tooltip: '数字越大排序越靠后',
+      align: 'center'
     },
     {
-      title: '备注',
-      dataIndex: 'remark',
+      title: '权限标识',
+      dataIndex: 'key',
       valueType: 'text',
+      hideInForm: true,
+    },
+    {
+      title: '路由地址',
+      dataIndex: 'path',
+      valueType: 'text',
+      hideInForm: true,
     },
     {
       title: '创建时间',
       dataIndex: 'create_time',
       valueType: 'date',
       hideInForm: true,
-      width: 150
+      width: 150,
+      align: 'center'
     },
     {
       title: '修改时间',
       dataIndex: 'update_time',
       valueType: 'date',
       hideInForm: true,
-      width: 150
+      width: 150,
+      align: 'center'
     },
   ];
 
   return (
-      <XinTable<ResponseAdminList>
-        tableApi={api}
-        columns={columns}
-        search={false}
-        addBefore={()=> setref.toggle() }
-        accessName={'admin.rule'}
-      />
+    <XinTable<ResponseAdminList>
+      tableApi={api}
+      columns={columns}
+      search={false}
+      addBefore={()=> setref.toggle() }
+      accessName={'admin.rule'}
+    />
   )
 
 }

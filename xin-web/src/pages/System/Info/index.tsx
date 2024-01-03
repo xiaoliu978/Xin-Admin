@@ -1,4 +1,4 @@
-import {Button, Descriptions, ConfigProvider, Space} from 'antd';
+import {Button, Descriptions, ConfigProvider, Space, Card, Row, Col} from 'antd';
 import type {DescriptionsProps} from  'antd';
 import {PageContainer, ProCard} from "@ant-design/pro-components";
 
@@ -179,17 +179,11 @@ export default () => {
 
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          borderRadiusLG: 0,
-        },
-      }}
-    >
+    <Card title={'系统信息'} bordered={false}>
       <PageContainer
         ghost
         header={{
-          title: '系统信息',
+          title: null,
           breadcrumb: {},
         }}
         token={{
@@ -197,22 +191,21 @@ export default () => {
           paddingInlinePageContainerContent: 40,
         }}
         content={
-          <Descriptions items={items} column={3} style={{ marginBlockEnd: -16 }} />
+          <Descriptions items={items} column={3} />
         }
       >
-        <ProCard ghost gutter={[16, 16]}>
-          <ProCard colSpan="50%">
+        <Row gutter={[16, 16]}>
+          <Col span="12">
             <Space direction="vertical" size="middle" style={{ display: 'flex' }}>
               <Descriptions title="前端生产依赖" column={1} size={'small'} bordered items={itemWeb} />
               <Descriptions title="前端开发依赖" column={1} size={'small'} bordered items={itemWebDev} />
             </Space>
-          </ProCard>
-          <ProCard colSpan="50%">
+          </Col>
+          <Col span="12">
             <Descriptions title="后端依赖" column={1} size={'small'} bordered items={itemPHP} />
-          </ProCard>
-        </ProCard>
+          </Col>
+        </Row>
       </PageContainer>
-
-    </ConfigProvider>
+    </Card>
   )
 }

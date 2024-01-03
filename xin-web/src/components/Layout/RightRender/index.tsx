@@ -5,7 +5,7 @@ import {
   DownOutlined,
   FullscreenExitOutlined,
   FullscreenOutlined,
-  LogoutOutlined,
+  LogoutOutlined, QuestionCircleOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import './index.less';
@@ -13,7 +13,7 @@ import {useModel} from "@umijs/max";
 import React, { useState } from 'react';
 import LoginModel from './login';
 import { index } from '@/services/api';
-
+import {SelectLang} from "@umijs/max";
 const Right = (props: { initialState?: initialStateType}) => {
   const {initialState} = props;
   const [loginModel,setLoginModel ] = useState(false);
@@ -72,7 +72,9 @@ const Right = (props: { initialState?: initialStateType}) => {
     return (
      <>
        <Space>
-         <div className={'right-group'} title={fullscreen? '退出全屏': '全屏显示'} onClick={() => {
+         <Button onClick={() => { window.open('https://doc.xinadmin.cn'); }} type="text"><QuestionCircleOutlined /></Button>
+         <Button type="text"><SelectLang className={'right-group'} reload={false}/></Button>
+         <Button type="text" title={fullscreen? '退出全屏': '全屏显示'} onClick={() => {
            /* 获取 documentElement (<html>) 以全屏显示页面 */
            let elem = document.documentElement;
            /* 全屏查看 */
@@ -85,14 +87,14 @@ const Right = (props: { initialState?: initialStateType}) => {
            }
          }}>
            { fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined /> }
-         </div>
+         </Button>
          <Dropdown menu={{ items }}>
-           <Space className={'right-group'}>
-             <Avatar icon={<UserOutlined />} src={initialState!.currentUser?.avatar}>
+           <Button type="text">
+             <Avatar icon={<UserOutlined />} size={'small'} src={initialState!.currentUser?.avatar}>
              </Avatar>
              {initialState!.currentUser?.nickname || initialState!.currentUser?.name || initialState!.currentUser?.username}
              <DownOutlined />
-           </Space>
+           </Button>
          </Dropdown>
        </Space>
      </>

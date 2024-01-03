@@ -1,3 +1,6 @@
+/**
+ * @see https://umijs.org/zh-CN/plugins/plugin-access
+ * */
 export default (initialState:initialStateType) => {
   const access: string[] = []
   if(initialState && initialState.access){

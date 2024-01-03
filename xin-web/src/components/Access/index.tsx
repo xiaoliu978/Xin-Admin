@@ -19,7 +19,7 @@ export  default  (
 
     let accessName = pathname.slice(1).replace(/\//g,'.');
 
-    console.log(accessName);
+    console.log('当前页面权限标识: ' + accessName);
 
     if(initialState!.access.includes(accessName) || noAuthRouter.includes(pathname)){
       setIsAccess(true);

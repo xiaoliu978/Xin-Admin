@@ -1,27 +1,28 @@
-// 运行时配置
-import React, { lazy } from 'react';
-import { history, Navigate } from '@umijs/max';
-import type { RunTimeLayoutConfig, RuntimeConfig } from '@umijs/max';
-import { MenuDataItem, PageLoading } from '@ant-design/pro-components';
-import { appSettings,adminSettings } from "../config/defaultSettings";
-import defaultConfig from './utils/request';
-import fixMenuItemIcon from "@/utils/menuDataRender";
 import Footer from '@/components/Footer';
+import type { MenuDataItem } from '@ant-design/pro-components';
+import { PageLoading } from '@ant-design/pro-components';
+import type {RuntimeConfig, RunTimeLayoutConfig} from '@umijs/max';
+import { history, Navigate } from '@umijs/max';
+import {adminSettings, appSettings} from '../config/defaultSettings';
+import defaultConfig from './utils/request';
+import React, {lazy} from 'react';
+import defaultRoutes from '@/default/routes';
+import defaultInitialState from "@/default/initialState";
+import {index} from "@/services/api";
+import appList from "@/default/appList";
+import fixMenuItemIcon from "@/utils/menuDataRender";
 import Access from '@/components/Access';
 import XinTabs from '@/components/XinTabs';
 import RightRender from "@/components/Layout/RightRender";
-import { index } from '@/services/api';
-import defaultRoutes from '@/default/routes';
-import appList from '@/default/appList';
-import defaultInitialState from '@/default/initialState';
-import './index.less';
+import SettingLayout from "@/components/SettingDrawer";
+import './app.less';
 
 /**
- * Document： https://umijs.org/docs/max/data-flow#%E5%85%A8%E5%B1%80%E5%88%9D%E5%A7%8B%E7%8A%B6%E6%80%81
+ * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
  * 全局初始状态管理插件，允许您快速构建并在组件内获取 Umi 项目全局的初始状态
  */
 export async function getInitialState(): Promise<initialStateType> {
-  // 记录当前应用
+// 记录当前应用
   if(!localStorage.getItem('app') || !localStorage.getItem('token')){
     localStorage.setItem('app','app');
   }
@@ -52,19 +53,15 @@ export async function getInitialState(): Promise<initialStateType> {
   }
 }
 
-/**
- * Document： https://umijs.org/docs/api/runtime-config#layout
- * Umi Js 运行时配置 修改内置布局的配置，比如配置退出登陆、自定义导航暴露的渲染区域等。
- * @param initialState
- */
-export const layout: RunTimeLayoutConfig = ({initialState}) => {
+// ProLayout 支持的api https://procomponents.ant.design/components/layout
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     logo: initialState!.webSetting.logo,
     title: initialState!.webSetting.title,
-    footerRender: () => <Footer/>,
     menu: { request: async () => initialState!.menus },
     appList,
     menuDataRender: (menusData: MenuDataItem[]) => fixMenuItemIcon(menusData),
+    footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
       if(initialState!.app !== 'admin') return;
@@ -77,21 +74,24 @@ export const layout: RunTimeLayoutConfig = ({initialState}) => {
         history.push('/admin/login');
       }
     },
+    links: [],
+    menuHeaderRender: undefined,
+    // 自定义 403 页面
+    // unAccessible: <div>unAccessible</div>,
     rightRender: (initialState) => {
       return <RightRender initialState={initialState}></RightRender>
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      if (initialState?.app === 'admin') return <Access><XinTabs>{children}</XinTabs></Access>;
-      return <Access>{children}</Access>;
+      if (initialState?.app === 'admin') return <Access><SettingLayout/><XinTabs>{children}</XinTabs></Access>;
+      return <Access><SettingLayout/>{children}</Access>;
     },
     ...initialState?.settings,
   };
 };
 
-
 /**
- * Document： https://umijs.org/docs/api/runtime-config#patchclientroutes-routes-
+ * @doc： https://umijs.org/docs/api/runtime-config#patchclientroutes-routes-
  * 修改被 react-router 渲染前的树状路由表，接收内容同 useRoutes。
  * @param routes
  */
@@ -104,14 +104,15 @@ export const patchClientRoutes: RuntimeConfig['patchClientRoutes'] = ({routes}) 
   if(localStorage.getItem('app') === 'admin'){
     routes.unshift({
       path: '/',
-      element: <Navigate  to="/home" replace />,
+      element: <Navigate  to="/dashboard/analysis" replace />,
     });
   }
   routes.push(...defaultRoutes(lazyLoad));
 };
 
-
 /**
- * 封装网络请求以及错误处理
+ * @name request 配置，可以配置错误处理
+ * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
+ * @doc https://umijs.org/docs/max/request#配置
  */
 export const request = { ...defaultConfig };

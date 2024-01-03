@@ -10,13 +10,13 @@ import {
   WeiboOutlined,
 } from '@ant-design/icons';
 import {
-  LoginForm,
+  LoginFormPage,
   ProFormCaptcha,
   ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
 import { history, useModel } from '@umijs/max';
-import { Divider, message, Space, Tabs} from 'antd';
+import {Button, Divider, message, Space, Tabs, theme} from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
 import { adminSettings } from '../../../../config/defaultSettings';
@@ -67,32 +67,61 @@ const Login: React.FC =  () => {
         settings: adminSettings
       }
     })
-    const urlParams = new URL(window.location.href).searchParams;
-    history.push(urlParams.get('redirect') || '/home');
+    setTimeout(() => {
+      const urlParams = new URL(window.location.href).searchParams;
+      history.push(urlParams.get('redirect') || '/dashboard/analysis');
+    },1000)
     refreshDict();
     return;
-
   };
 
+  const { token } = theme.useToken();
+
   return (
-    <div style={{paddingTop: 50, height: '100vh',backgroundImage: 'url(https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png)'}}>
-      <LoginForm
+    <div
+      style={{
+        backgroundColor: 'white',
+        height: '100vh',
+      }}
+    >
+      <LoginFormPage
+        backgroundImageUrl="https://mdn.alipayobjects.com/huamei_gcee1x/afts/img/A*y0ZTS6WLwvgAAAAAAAAAAAAADml6AQ/fmt.webp"
+        backgroundVideoUrl="https://gw.alipayobjects.com/v/huamei_gcee1x/afts/video/jXRBRK_VAwoAAAAAAAAAAAAAK4eUAQBr"
         logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
         title= { initialState!.webSetting.title || "Xin Admin" }
         subTitle={ initialState!.webSetting.subtitle || "用技术改变世界"}
+        activityConfig={{
+          style: {
+            boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
+            color: token.colorTextHeading,
+            borderRadius: 8,
+            backgroundColor: 'rgba(255,255,255,0.30)',
+            backdropFilter: 'blur(4px)',
+          },
+          title: '欢迎使用 Xin Admin',
+          subTitle: '活动介绍说明文字',
+          action: (
+            <Button
+              size="large"
+              style={{
+                borderRadius: 20,
+                background: token.colorBgElevated,
+                color: token.colorPrimary,
+                width: 120,
+              }}
+            >
+              去看看
+            </Button>
+          ),
+        }}
+        containerStyle={{
+          backgroundColor: 'rgba(255, 255, 255,0.75)',
+          backdropFilter: 'blur(4px)',
+        }}
         actions={
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-            }}
-          >
+          <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column',}}>
             <Divider plain>
-              <span
-                style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
-              >
+              <span style={{ fontWeight: 'normal', fontSize: 14 }}>
                 其他登录方式
               </span>
             </Divider>
@@ -209,7 +238,7 @@ const Login: React.FC =  () => {
           <ProFormCheckbox noStyle name="autoLogin">自动登录</ProFormCheckbox>
           <a style={{float: 'right'}}>忘记密码</a>
         </div>
-      </LoginForm>
+      </LoginFormPage>
     </div>
   );
 };

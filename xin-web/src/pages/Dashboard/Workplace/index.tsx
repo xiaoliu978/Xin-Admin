@@ -1,4 +1,4 @@
-import {Col, ConfigProvider, Row} from 'antd';
+import {Col, Row} from 'antd';
 import BCard from './components/BCard';
 import ACard from "./components/ACard";
 import CCard from "./components/CCard";
@@ -6,7 +6,7 @@ import RcResizeObserver from "rc-resize-observer";
 import {useState} from "react";
 // import MiniCard from "./components/MiniCard";
 
-const HomePage: React.FC = () => {
+const HomePage = () => {
   // const theme = {
   //   token: {
   //     paddingSM: 0
@@ -22,6 +22,7 @@ const HomePage: React.FC = () => {
         setResponsive(offset.width < 949);
       }}
     >
+      <h2 style={{marginLeft: 20, marginBottom: 30}}>欢迎你，管理员</h2>
       <Row gutter={[16,16]}>
         <Col span={responsive?24:18}>
           <Row gutter={[16,16]}>

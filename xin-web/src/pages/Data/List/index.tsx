@@ -1,5 +1,5 @@
 import { ProList } from '@ant-design/pro-components';
-import { Button, Space, Tag } from 'antd';
+import { Button, Space, Tag, Card } from 'antd';
 
 const dataSource = [
   {
@@ -29,7 +29,7 @@ const dataSource = [
 ];
 
 export default () => (
-
+  <Card title={'基础列表'}>
     <ProList<any>
       toolBarRender={() => {
         return [
@@ -104,4 +104,5 @@ export default () => (
         },
       }}
     />
+  </Card>
 );

@@ -21,7 +21,6 @@ export default () => {
   const [form] = Form.useForm<{ name: string; company: string }>();
   return (
     <>
-      <h1>浮层表单</h1>
       <ModalForm<{
         name: string;
         company: string;

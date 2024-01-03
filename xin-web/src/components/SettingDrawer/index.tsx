@@ -13,14 +13,15 @@ const SettingLayout: React.FC = () => {
         if (typeof window === 'undefined') return e;
         return document.getElementById('test-pro-layout');
       }}
+      disableUrlParams
+      enableDarkTheme
       settings={initialState?.settings}
       onSettingChange={(changeSetting) => {
         setInitialState((preInitialState: any) => ({
           ...preInitialState,
-          changeSetting,
+          settings: {...initialState?.settings ,...changeSetting},
         }));
       }}
-      disableUrlParams={false}
     />
   )
 }
