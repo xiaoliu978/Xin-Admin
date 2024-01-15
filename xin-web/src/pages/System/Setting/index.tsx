@@ -112,7 +112,7 @@ export default () => {
             headerTitle={'设置项'}
             search={false}
             columns={columns}
-            tableApi={'system.setting'}
+            tableApi={'/system.setting'}
             params={params}
             handleAdd={(formData) => {
               return addApi('/system.setting/add', Object.assign({group_id: params.group_id},formData)).then(res=>{
