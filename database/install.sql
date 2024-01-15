@@ -1,5 +1,5 @@
 /*
- Date: 01/12/2023 11:19:37
+ Date: 15/01/2024 12:03:05
 */
 
 SET NAMES utf8mb4;
@@ -87,6 +87,22 @@ INSERT INTO `xin_admin_group_rule` VALUES (2, 11);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 8);
 INSERT INTO `xin_admin_group_rule` VALUES (2, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 9);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 11);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 1);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 5);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 15);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 26);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 20);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 16);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 2);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 3);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 35);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 36);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 86);
+INSERT INTO `xin_admin_group_rule` VALUES (4, 48);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
@@ -175,22 +191,9 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 86);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 87);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 88);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 89);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 7);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 8);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 9);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 11);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 1);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 5);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 15);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 26);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 20);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 16);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 2);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 3);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 35);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 36);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 86);
-INSERT INTO `xin_admin_group_rule` VALUES (4, 48);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 90);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 91);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 92);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -205,92 +208,97 @@ CREATE TABLE `xin_admin_rule`  (
   `path` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路由地址',
   `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限标识',
+  `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '国际化标识',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 93 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
 -- ----------------------------
-INSERT INTO `xin_admin_rule` VALUES (1, 0, '0', 1, '首页', '/home', 'HomeOutlined', 'home', '首页', 1694679617, 1691653415);
-INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '组件功能', '/data', 'PieChartOutlined', 'data', '数据展示', 1699248472, 1691653452);
-INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', 'UnorderedListOutlined', 'data.descriptions', '定义列表', 1695347092, 1692102396);
-INSERT INTO `xin_admin_rule` VALUES (7, 10, '1', 0, '管理员列表', '/admin/list', NULL, 'admin.list', '管理员列表', 1699248330, 1692126786);
-INSERT INTO `xin_admin_rule` VALUES (8, 10, '1', 1, '管理员分组', '/admin/group', NULL, 'admin.group', '管理员分组', 1699248339, 1692126825);
-INSERT INTO `xin_admin_rule` VALUES (9, 10, '1', 2, '权限菜单管理', '/admin/rule', NULL, 'admin.rule', '权限管理', 1699248352, 1692126876);
-INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', 6, '系统管理', '/system', 'SettingOutlined', 'system', '系统管理', 1693313221, 1692127577);
-INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 3, '字典管理', '/system/dict', NULL, 'system.dict', '字典管理', 1699248418, 1692127607);
-INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', 0, '字典新建', NULL, NULL, 'system.dict.add', '字典新建', 1692127688, 1692127688);
-INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', 0, '字典删除', NULL, NULL, 'system.dict.delete', '字典删除', 1692127723, 1692127723);
-INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', 0, '字典编辑', NULL, NULL, 'system.dict.edit', '字典编辑', 1692127804, 1692127804);
-INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', 0, '字典查看', NULL, NULL, 'system.dict.list', '字典查看', 1692148153, 1692148153);
-INSERT INTO `xin_admin_rule` VALUES (16, 7, '2', 0, '查看管理员列表', NULL, NULL, 'admin.list.list', '查看管理员列表', 1692187226, 1692187213);
-INSERT INTO `xin_admin_rule` VALUES (17, 7, '2', 0, '新增管理员', NULL, NULL, 'admin.list.add', '新增管理员', 1692187255, 1692187255);
-INSERT INTO `xin_admin_rule` VALUES (18, 7, '2', 0, '编辑管理员', NULL, NULL, 'admin.list.edit', '编辑管理员信息', 1692187292, 1692187292);
-INSERT INTO `xin_admin_rule` VALUES (19, 7, '2', 0, '删除管理员', NULL, NULL, 'admin.list.delete', '删除管理员', 1692187357, 1692187357);
-INSERT INTO `xin_admin_rule` VALUES (20, 8, '2', 0, '管理员分组查看', NULL, NULL, 'admin.group.list', '管理员分组查看', 1692187425, 1692187425);
-INSERT INTO `xin_admin_rule` VALUES (21, 8, '2', 0, '管理员分组新增', NULL, NULL, 'admin.group.add', '管理员分组新增', 1692187454, 1692187454);
-INSERT INTO `xin_admin_rule` VALUES (22, 8, '2', 0, '管理员分组编辑', NULL, NULL, 'admin.group.edit', '管理员分组编辑', 1692187489, 1692187489);
-INSERT INTO `xin_admin_rule` VALUES (23, 8, '2', 0, '管理员分组删除', NULL, NULL, 'admin.group.delete', '管理员分组删除', 1692187534, 1692187534);
-INSERT INTO `xin_admin_rule` VALUES (24, 8, '2', 0, '分组权限查看', NULL, NULL, 'admin.group.rule', '分组权限查看', 1692187596, 1692187596);
-INSERT INTO `xin_admin_rule` VALUES (25, 8, '2', 0, '管理员权限修改', NULL, NULL, 'admin.group.ruleEdit', '管理员权限修改', 1692187636, 1692187636);
-INSERT INTO `xin_admin_rule` VALUES (26, 9, '2', 0, '权限管理查看', NULL, NULL, 'admin.rule.list', '权限管理查看', 1692263193, 1692263193);
-INSERT INTO `xin_admin_rule` VALUES (27, 9, '2', 0, '权限管理新增', NULL, NULL, 'admin.rule.add', '权限管理新增', 1692263219, 1692263219);
-INSERT INTO `xin_admin_rule` VALUES (28, 9, '2', 0, '权限管理编辑', NULL, NULL, 'admin.rule.edit', '权限管理编辑', 1692263250, 1692263250);
-INSERT INTO `xin_admin_rule` VALUES (29, 9, '2', 0, '权限管理删除', NULL, NULL, 'admin.rule.delete', '权限管理删除', 1692263274, 1692263274);
-INSERT INTO `xin_admin_rule` VALUES (30, 11, '2', 0, '字典配置', NULL, NULL, 'system.dict.item.list', '字典配置', 1692263892, 1692263892);
-INSERT INTO `xin_admin_rule` VALUES (31, 11, '2', 0, '字典配置新增', NULL, NULL, 'system.dict.item.add', '字典配置新增', 1692263926, 1692263926);
-INSERT INTO `xin_admin_rule` VALUES (32, 11, '2', 0, '字典配置编辑', NULL, NULL, 'system.dict.item.edit', '字典配置编辑', 1692263954, 1692263954);
-INSERT INTO `xin_admin_rule` VALUES (33, 11, '2', 0, '字典配置删除', NULL, NULL, 'system.dict.item.delete', '字典配置删除', 1692263984, 1692263984);
-INSERT INTO `xin_admin_rule` VALUES (35, 2, '1', 0, '高级列表', '/data/list', NULL, 'data.list', '高级列表', 1695347129, 1692323263);
-INSERT INTO `xin_admin_rule` VALUES (36, 2, '1', 0, '单选卡片', '/data/checkcard', NULL, 'data.checkcard', '单选卡片', 1695347132, 1692323398);
-INSERT INTO `xin_admin_rule` VALUES (39, 0, '0', 4, '会员管理', '/user', 'TeamOutlined', 'user', '会员管理', 1694679551, 1693226272);
-INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user/list', NULL, 'user.list', '会员列表', 1695807077, 1693226294);
-INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', 'RocketOutlined', 'online', '在线开发', 1693313330, 1693226432);
-INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', NULL, 'online.table', '表格设计', 1694507047, 1693226460);
-INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', 'https://xinadmin.cn/', NULL, 'xinadmin', 'Xin Admin 官网', 1694488334, 1693226618);
-INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 5, '系统信息', '/system/info', NULL, 'system.info', '系统设置', 1699248448, 1693313283);
-INSERT INTO `xin_admin_rule` VALUES (50, 10, '1', 4, '系统设置', '/system/setting', NULL, 'system.setting', '系统设置', 1699248442, 1694652598);
-INSERT INTO `xin_admin_rule` VALUES (51, 50, '2', 0, '设置分组查看', NULL, NULL, 'system.setting.querySettingGroup', '设置分组查看', 1694839716, 1694839716);
-INSERT INTO `xin_admin_rule` VALUES (52, 50, '2', 1, '设置分组新增', NULL, NULL, 'system.setting.addGroup', '设置分组新增', 1694839949, 1694839949);
-INSERT INTO `xin_admin_rule` VALUES (53, 50, '2', 3, '查询设置父 ID', NULL, NULL, 'system.setting.querySettingPid', '查询设置父 ID', 1694841003, 1694841003);
-INSERT INTO `xin_admin_rule` VALUES (54, 44, '2', 0, '表格设计查询', NULL, NULL, 'online.table.list', '表格设计查询', 1694845071, 1694845071);
-INSERT INTO `xin_admin_rule` VALUES (55, 44, '2', 1, '表格设计编辑', NULL, NULL, 'online.table.edit', '表格设计编辑', 1694845117, 1694845117);
-INSERT INTO `xin_admin_rule` VALUES (56, 44, '2', 2, '表格设计删除', NULL, NULL, 'online.table.delete', '表格设计删除', 1694845142, 1694845142);
-INSERT INTO `xin_admin_rule` VALUES (57, 44, '2', 3, '表格设计', NULL, NULL, 'online.table.devise', '表格设计按钮', 1694845394, 1694845394);
-INSERT INTO `xin_admin_rule` VALUES (58, 44, '2', 4, 'CRUD 保存', NULL, NULL, 'online.table.saveData', 'CRUD 保存', 1694845713, 1694845713);
-INSERT INTO `xin_admin_rule` VALUES (59, 44, '2', 5, '获取 CRUD 数据', NULL, NULL, 'online.table.getData', '获取 CRUD 数据', 1694845763, 1694845763);
-INSERT INTO `xin_admin_rule` VALUES (60, 44, '2', 6, 'CRUD 保存并生成', NULL, NULL, 'online.table.crud', 'CRUD 保存并生成', 1694845813, 1694845813);
-INSERT INTO `xin_admin_rule` VALUES (61, 50, '2', 3, '获取设置列表', NULL, NULL, 'system.setting.list', '获取设置列表', 1694916158, 1694916121);
-INSERT INTO `xin_admin_rule` VALUES (62, 50, '2', 4, '新增设置', NULL, NULL, 'system.setting.add', '新增设置', 1694916144, 1694916144);
-INSERT INTO `xin_admin_rule` VALUES (63, 50, '2', 5, '编辑设置', NULL, NULL, 'system.setting.edit', '编辑设置', 1694916193, 1694916193);
-INSERT INTO `xin_admin_rule` VALUES (64, 50, '2', 6, '删除设置', NULL, NULL, 'system.setting.delete', '删除设置', 1694916219, 1694916219);
-INSERT INTO `xin_admin_rule` VALUES (65, 42, '2', 0, '文章新增', NULL, NULL, 'content.article.add', '文章新增', 1695347268, 1695347268);
-INSERT INTO `xin_admin_rule` VALUES (66, 42, '2', 1, '文章编辑', NULL, NULL, 'content.article.edit', '文章编辑', 1695347297, 1695347297);
-INSERT INTO `xin_admin_rule` VALUES (67, 42, '2', 2, '文章删除', NULL, NULL, 'content.article.delete', '文章编辑', 1695347326, 1695347326);
-INSERT INTO `xin_admin_rule` VALUES (68, 42, '2', 0, '文章查询', NULL, NULL, 'content.article.list', '文章查询', 1695347353, 1695347353);
-INSERT INTO `xin_admin_rule` VALUES (69, 39, '1', 2, '会员分组', '/user/group', NULL, 'user.group', '会员分组', 1695806000, 1695806000);
-INSERT INTO `xin_admin_rule` VALUES (70, 39, '1', 2, '权限管理', '/user/rule', NULL, 'user.rule', '权限管理', 1695806135, 1695806082);
-INSERT INTO `xin_admin_rule` VALUES (71, 40, '2', 1, '会员列表查询', NULL, NULL, 'user.list', '会员列表查询', 1695806295, 1695806295);
-INSERT INTO `xin_admin_rule` VALUES (72, 40, '2', 2, '会员列表编辑', NULL, NULL, 'user.edit', '会员列表编辑', 1695806577, 1695806331);
-INSERT INTO `xin_admin_rule` VALUES (73, 40, '2', 3, '会员列表新增', NULL, NULL, 'user.add', '会员列表新增', 1695806620, 1695806356);
-INSERT INTO `xin_admin_rule` VALUES (74, 40, '2', 4, '会员列表删除', NULL, NULL, 'user.delete', '会员列表删除', 1695806387, 1695806387);
-INSERT INTO `xin_admin_rule` VALUES (75, 69, '2', 1, '会员分组查询', NULL, NULL, 'user.group.list', '会员分组查询', 1695806420, 1695806420);
-INSERT INTO `xin_admin_rule` VALUES (76, 69, '2', 2, '会员分组新增', NULL, NULL, 'user.group.add', '会员分组新增', 1695806589, 1695806455);
-INSERT INTO `xin_admin_rule` VALUES (77, 69, '2', 3, '会员分组编辑', NULL, NULL, 'user.group.edit', '会员分组更新', 1695806494, 1695806494);
-INSERT INTO `xin_admin_rule` VALUES (78, 69, '2', 4, '会员分组删除', NULL, NULL, 'user.group.delete', '会员分组删除', 1695806669, 1695806669);
-INSERT INTO `xin_admin_rule` VALUES (79, 69, '2', 5, '分组权限查看', NULL, NULL, 'user.group.rule', '分组权限查看', 1695807154, 1695807154);
-INSERT INTO `xin_admin_rule` VALUES (80, 69, '2', 6, '分组权限修改', NULL, NULL, 'user.group.ruleEdit', '分组权限修改', 1695807222, 1695807201);
-INSERT INTO `xin_admin_rule` VALUES (81, 39, '1', 4, '会员余额记录', '/user/moneyLog', NULL, 'user.moneyLog', '会员余额记录', 1697533629, 1697533629);
-INSERT INTO `xin_admin_rule` VALUES (82, 81, '2', 0, '会员余额记录查询', NULL, NULL, 'user.moneyLog.list', '会员余额记录查询', 1697533746, 1697533746);
-INSERT INTO `xin_admin_rule` VALUES (83, 81, '2', 2, '修改用户余额', NULL, NULL, 'user.moneyLog.add', '修改用户余额', 1697603805, 1697603805);
-INSERT INTO `xin_admin_rule` VALUES (84, 44, '2', 0, '表格设计新增', NULL, NULL, 'online.table.add', '表格设计新增', 1697605467, 1697605467);
-INSERT INTO `xin_admin_rule` VALUES (85, 81, '2', 3, '会员余额记录删除', NULL, NULL, 'user.moneyLog.delete', '会员余额记录删除', 1697605938, 1697605938);
-INSERT INTO `xin_admin_rule` VALUES (86, 2, '1', 0, '表单示例', '/data/form', NULL, 'data.form', '表单示例', 1697617422, 1697616790);
-INSERT INTO `xin_admin_rule` VALUES (87, 7, '2', 1, '修改管理员密码', NULL, NULL, 'admin.list.updatePwd', '修改管理员密码', 1697763578, 1697763567);
+INSERT INTO `xin_admin_rule` VALUES (2, 0, '0', 2, '组件功能', '/data', 'PieChartOutlined', 'data', 'menu.components', '数据展示', 1699248472, 1691653452);
+INSERT INTO `xin_admin_rule` VALUES (3, 2, '1', 0, '定义列表', '/data/descriptions', 'UnorderedListOutlined', 'data.descriptions', 'menu.components.descriptions', '定义列表', 1695347092, 1692102396);
+INSERT INTO `xin_admin_rule` VALUES (7, 92, '1', 0, '管理员列表', '/admin/list', NULL, 'admin.list', 'menu.admin.list', '管理员列表', 1702952109, 1692126786);
+INSERT INTO `xin_admin_rule` VALUES (8, 92, '1', 1, '管理员分组', '/admin/group', NULL, 'admin.group', 'menu.admin.group', '管理员分组', 1702952240, 1692126825);
+INSERT INTO `xin_admin_rule` VALUES (9, 92, '1', 2, '权限菜单管理', '/admin/rule', NULL, 'admin.rule', 'menu.admin.rule', '权限管理', 1702952207, 1692126876);
+INSERT INTO `xin_admin_rule` VALUES (10, 0, '0', 6, '系统管理', '/system', 'SettingOutlined', 'system', 'menu.system', '系统管理', 1693313221, 1692127577);
+INSERT INTO `xin_admin_rule` VALUES (11, 10, '1', 3, '字典管理', '/system/dict', NULL, 'system.dict', 'menu.system.dict', '字典管理', 1699248418, 1692127607);
+INSERT INTO `xin_admin_rule` VALUES (12, 11, '2', 0, '字典新建', NULL, NULL, 'system.dict.add', NULL, '字典新建', 1692127688, 1692127688);
+INSERT INTO `xin_admin_rule` VALUES (13, 11, '2', 0, '字典删除', NULL, NULL, 'system.dict.delete', NULL, '字典删除', 1692127723, 1692127723);
+INSERT INTO `xin_admin_rule` VALUES (14, 11, '2', 0, '字典编辑', NULL, NULL, 'system.dict.edit', NULL, '字典编辑', 1692127804, 1692127804);
+INSERT INTO `xin_admin_rule` VALUES (15, 11, '2', 0, '字典查看', NULL, NULL, 'system.dict.list', NULL, '字典查看', 1692148153, 1692148153);
+INSERT INTO `xin_admin_rule` VALUES (16, 7, '2', 0, '查看管理员列表', NULL, NULL, 'admin.list.list', NULL, '查看管理员列表', 1692187226, 1692187213);
+INSERT INTO `xin_admin_rule` VALUES (17, 7, '2', 0, '新增管理员', NULL, NULL, 'admin.list.add', NULL, '新增管理员', 1692187255, 1692187255);
+INSERT INTO `xin_admin_rule` VALUES (18, 7, '2', 0, '编辑管理员', NULL, NULL, 'admin.list.edit', NULL, '编辑管理员信息', 1692187292, 1692187292);
+INSERT INTO `xin_admin_rule` VALUES (19, 7, '2', 0, '删除管理员', NULL, NULL, 'admin.list.delete', NULL, '删除管理员', 1692187357, 1692187357);
+INSERT INTO `xin_admin_rule` VALUES (20, 8, '2', 0, '管理员分组查看', NULL, NULL, 'admin.group.list', NULL, '管理员分组查看', 1692187425, 1692187425);
+INSERT INTO `xin_admin_rule` VALUES (21, 8, '2', 0, '管理员分组新增', NULL, NULL, 'admin.group.add', NULL, '管理员分组新增', 1692187454, 1692187454);
+INSERT INTO `xin_admin_rule` VALUES (22, 8, '2', 0, '管理员分组编辑', NULL, NULL, 'admin.group.edit', NULL, '管理员分组编辑', 1692187489, 1692187489);
+INSERT INTO `xin_admin_rule` VALUES (23, 8, '2', 0, '管理员分组删除', NULL, NULL, 'admin.group.delete', NULL, '管理员分组删除', 1692187534, 1692187534);
+INSERT INTO `xin_admin_rule` VALUES (24, 8, '2', 0, '分组权限查看', NULL, NULL, 'admin.group.rule', NULL, '分组权限查看', 1692187596, 1692187596);
+INSERT INTO `xin_admin_rule` VALUES (25, 8, '2', 0, '管理员权限修改', NULL, NULL, 'admin.group.ruleEdit', NULL, '管理员权限修改', 1692187636, 1692187636);
+INSERT INTO `xin_admin_rule` VALUES (26, 9, '2', 0, '权限管理查看', NULL, NULL, 'admin.rule.list', NULL, '权限管理查看', 1692263193, 1692263193);
+INSERT INTO `xin_admin_rule` VALUES (27, 9, '2', 0, '权限管理新增', NULL, NULL, 'admin.rule.add', NULL, '权限管理新增', 1692263219, 1692263219);
+INSERT INTO `xin_admin_rule` VALUES (28, 9, '2', 0, '权限管理编辑', NULL, NULL, 'admin.rule.edit', NULL, '权限管理编辑', 1692263250, 1692263250);
+INSERT INTO `xin_admin_rule` VALUES (29, 9, '2', 0, '权限管理删除', NULL, NULL, 'admin.rule.delete', NULL, '权限管理删除', 1692263274, 1692263274);
+INSERT INTO `xin_admin_rule` VALUES (30, 11, '2', 0, '字典配置', NULL, NULL, 'system.dict.item.list', NULL, '字典配置', 1692263892, 1692263892);
+INSERT INTO `xin_admin_rule` VALUES (31, 11, '2', 0, '字典配置新增', NULL, NULL, 'system.dict.item.add', NULL, '字典配置新增', 1692263926, 1692263926);
+INSERT INTO `xin_admin_rule` VALUES (32, 11, '2', 0, '字典配置编辑', NULL, NULL, 'system.dict.item.edit', NULL, '字典配置编辑', 1692263954, 1692263954);
+INSERT INTO `xin_admin_rule` VALUES (33, 11, '2', 0, '字典配置删除', NULL, NULL, 'system.dict.item.delete', NULL, '字典配置删除', 1692263984, 1692263984);
+INSERT INTO `xin_admin_rule` VALUES (35, 2, '1', 0, '高级列表', '/data/list', NULL, 'data.list', 'menu.components.list', '高级列表', 1695347129, 1692323263);
+INSERT INTO `xin_admin_rule` VALUES (36, 2, '1', 0, '单选卡片', '/data/checkcard', NULL, 'data.checkcard', 'menu.components.checkcard', '单选卡片', 1695347132, 1692323398);
+INSERT INTO `xin_admin_rule` VALUES (39, 0, '0', 4, '会员管理', '/user', 'TeamOutlined', 'user', 'menu.user', '会员管理', 1694679551, 1693226272);
+INSERT INTO `xin_admin_rule` VALUES (40, 39, '1', 0, '会员列表', '/user/list', NULL, 'user.list', 'menu.user.list', '会员列表', 1695807077, 1693226294);
+INSERT INTO `xin_admin_rule` VALUES (43, 0, '0', 8, '在线开发', '/online', 'RocketOutlined', 'online', 'menu.online', '在线开发', 1693313330, 1693226432);
+INSERT INTO `xin_admin_rule` VALUES (44, 43, '1', 0, '表格设计', '/online/table', NULL, 'online.table', 'menu.online.table', '表格设计', 1694507047, 1693226460);
+INSERT INTO `xin_admin_rule` VALUES (48, 0, '0', 99, 'Xin Admin', 'https://xinadmin.cn/', NULL, 'xinadmin', 'menu.xinadmin', 'Xin Admin 官网', 1694488334, 1693226618);
+INSERT INTO `xin_admin_rule` VALUES (49, 10, '1', 5, '系统信息', '/system/info', NULL, 'system.info', 'menu.system.info', '系统设置', 1699248448, 1693313283);
+INSERT INTO `xin_admin_rule` VALUES (50, 10, '1', 4, '系统设置', '/system/setting', NULL, 'system.setting', 'menu.system.setting', '系统设置', 1699248442, 1694652598);
+INSERT INTO `xin_admin_rule` VALUES (51, 50, '2', 0, '设置分组查看', NULL, NULL, 'system.setting.querySettingGroup', NULL, '设置分组查看', 1694839716, 1694839716);
+INSERT INTO `xin_admin_rule` VALUES (52, 50, '2', 1, '设置分组新增', NULL, NULL, 'system.setting.addGroup', NULL, '设置分组新增', 1694839949, 1694839949);
+INSERT INTO `xin_admin_rule` VALUES (53, 50, '2', 3, '查询设置父 ID', NULL, NULL, 'system.setting.querySettingPid', NULL, '查询设置父 ID', 1694841003, 1694841003);
+INSERT INTO `xin_admin_rule` VALUES (54, 44, '2', 0, '表格设计查询', NULL, NULL, 'online.table.list', NULL, '表格设计查询', 1694845071, 1694845071);
+INSERT INTO `xin_admin_rule` VALUES (55, 44, '2', 1, '表格设计编辑', NULL, NULL, 'online.table.edit', NULL, '表格设计编辑', 1694845117, 1694845117);
+INSERT INTO `xin_admin_rule` VALUES (56, 44, '2', 2, '表格设计删除', NULL, NULL, 'online.table.delete', NULL, '表格设计删除', 1694845142, 1694845142);
+INSERT INTO `xin_admin_rule` VALUES (57, 44, '2', 3, '表格设计', NULL, NULL, 'online.table.devise', NULL, '表格设计按钮', 1694845394, 1694845394);
+INSERT INTO `xin_admin_rule` VALUES (58, 44, '2', 4, 'CRUD 保存', NULL, NULL, 'online.table.saveData', NULL, 'CRUD 保存', 1694845713, 1694845713);
+INSERT INTO `xin_admin_rule` VALUES (59, 44, '2', 5, '获取 CRUD 数据', NULL, NULL, 'online.table.getData', NULL, '获取 CRUD 数据', 1694845763, 1694845763);
+INSERT INTO `xin_admin_rule` VALUES (60, 44, '2', 6, 'CRUD 保存并生成', NULL, NULL, 'online.table.crud', NULL, 'CRUD 保存并生成', 1694845813, 1694845813);
+INSERT INTO `xin_admin_rule` VALUES (61, 50, '2', 3, '获取设置列表', NULL, NULL, 'system.setting.list', NULL, '获取设置列表', 1694916158, 1694916121);
+INSERT INTO `xin_admin_rule` VALUES (62, 50, '2', 4, '新增设置', NULL, NULL, 'system.setting.add', NULL, '新增设置', 1694916144, 1694916144);
+INSERT INTO `xin_admin_rule` VALUES (63, 50, '2', 5, '编辑设置', NULL, NULL, 'system.setting.edit', NULL, '编辑设置', 1694916193, 1694916193);
+INSERT INTO `xin_admin_rule` VALUES (64, 50, '2', 6, '删除设置', NULL, NULL, 'system.setting.delete', NULL, '删除设置', 1694916219, 1694916219);
+INSERT INTO `xin_admin_rule` VALUES (65, 42, '2', 0, '文章新增', NULL, NULL, 'content.article.add', NULL, '文章新增', 1695347268, 1695347268);
+INSERT INTO `xin_admin_rule` VALUES (66, 42, '2', 1, '文章编辑', NULL, NULL, 'content.article.edit', NULL, '文章编辑', 1695347297, 1695347297);
+INSERT INTO `xin_admin_rule` VALUES (67, 42, '2', 2, '文章删除', NULL, NULL, 'content.article.delete', NULL, '文章编辑', 1695347326, 1695347326);
+INSERT INTO `xin_admin_rule` VALUES (68, 42, '2', 0, '文章查询', NULL, NULL, 'content.article.list', NULL, '文章查询', 1695347353, 1695347353);
+INSERT INTO `xin_admin_rule` VALUES (69, 39, '1', 2, '会员分组', '/user/group', NULL, 'user.group', 'menu.user.group', '会员分组', 1695806000, 1695806000);
+INSERT INTO `xin_admin_rule` VALUES (70, 39, '1', 2, '权限管理', '/user/rule', NULL, 'user.rule', 'menu.user.rule', '权限管理', 1695806135, 1695806082);
+INSERT INTO `xin_admin_rule` VALUES (71, 40, '2', 1, '会员列表查询', NULL, NULL, 'user.list', NULL, '会员列表查询', 1695806295, 1695806295);
+INSERT INTO `xin_admin_rule` VALUES (72, 40, '2', 2, '会员列表编辑', NULL, NULL, 'user.edit', NULL, '会员列表编辑', 1695806577, 1695806331);
+INSERT INTO `xin_admin_rule` VALUES (73, 40, '2', 3, '会员列表新增', NULL, NULL, 'user.add', NULL, '会员列表新增', 1695806620, 1695806356);
+INSERT INTO `xin_admin_rule` VALUES (74, 40, '2', 4, '会员列表删除', NULL, NULL, 'user.delete', NULL, '会员列表删除', 1695806387, 1695806387);
+INSERT INTO `xin_admin_rule` VALUES (75, 69, '2', 1, '会员分组查询', NULL, NULL, 'user.group.list', NULL, '会员分组查询', 1695806420, 1695806420);
+INSERT INTO `xin_admin_rule` VALUES (76, 69, '2', 2, '会员分组新增', NULL, NULL, 'user.group.add', NULL, '会员分组新增', 1695806589, 1695806455);
+INSERT INTO `xin_admin_rule` VALUES (77, 69, '2', 3, '会员分组编辑', NULL, NULL, 'user.group.edit', NULL, '会员分组更新', 1695806494, 1695806494);
+INSERT INTO `xin_admin_rule` VALUES (78, 69, '2', 4, '会员分组删除', NULL, NULL, 'user.group.delete', NULL, '会员分组删除', 1695806669, 1695806669);
+INSERT INTO `xin_admin_rule` VALUES (79, 69, '2', 5, '分组权限查看', NULL, NULL, 'user.group.rule', NULL, '分组权限查看', 1695807154, 1695807154);
+INSERT INTO `xin_admin_rule` VALUES (80, 69, '2', 6, '分组权限修改', NULL, NULL, 'user.group.ruleEdit', NULL, '分组权限修改', 1695807222, 1695807201);
+INSERT INTO `xin_admin_rule` VALUES (81, 39, '1', 4, '会员余额记录', '/user/moneyLog', NULL, 'user.moneyLog', 'menu.user.moneyLog', '会员余额记录', 1697533629, 1697533629);
+INSERT INTO `xin_admin_rule` VALUES (82, 81, '2', 0, '会员余额记录查询', NULL, NULL, 'user.moneyLog.list', NULL, '会员余额记录查询', 1697533746, 1697533746);
+INSERT INTO `xin_admin_rule` VALUES (83, 81, '2', 2, '修改用户余额', NULL, NULL, 'user.moneyLog.add', NULL, '修改用户余额', 1697603805, 1697603805);
+INSERT INTO `xin_admin_rule` VALUES (84, 44, '2', 0, '表格设计新增', NULL, NULL, 'online.table.add', NULL, '表格设计新增', 1697605467, 1697605467);
+INSERT INTO `xin_admin_rule` VALUES (85, 81, '2', 3, '会员余额记录删除', NULL, NULL, 'user.moneyLog.delete', NULL, '会员余额记录删除', 1697605938, 1697605938);
+INSERT INTO `xin_admin_rule` VALUES (86, 2, '1', 0, '表单示例', '/data/form', NULL, 'data.form', 'menu.components.form', '表单示例', 1697617422, 1697616790);
+INSERT INTO `xin_admin_rule` VALUES (87, 7, '2', 1, '修改管理员密码', NULL, NULL, 'admin.list.updatePwd', NULL, '修改管理员密码', 1697763578, 1697763567);
+INSERT INTO `xin_admin_rule` VALUES (88, 0, '0', 1, 'Dashboard', '/dashboard', 'RadarChartOutlined', 'dashboard', 'menu.dashboard', '', 1702885059, 1702884587);
+INSERT INTO `xin_admin_rule` VALUES (89, 88, '1', 0, '分析页', '/dashboard/analysis', NULL, 'dashboard.analysis', 'menu.dashboard.analysis', '分析页', 1702884634, 1702884634);
+INSERT INTO `xin_admin_rule` VALUES (90, 88, '1', 1, '监控页', '/dashboard/monitor', NULL, 'dashboard.monitor', 'menu.dashboard.monitor', '监控页', 1702884665, 1702884665);
+INSERT INTO `xin_admin_rule` VALUES (91, 88, '1', 2, '工作台', '/dashboard/workplace', NULL, 'dashboard.workplace', 'menu.dashboard.workplace', '工作台', 1702884688, 1702884688);
+INSERT INTO `xin_admin_rule` VALUES (92, 0, '0', 5, '管理员', '/admin', 'UsergroupDeleteOutlined', 'admin', 'menu.admin', '', 1702952103, 1702952094);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -521,7 +529,7 @@ CREATE TABLE `xin_setting_group`  (
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_setting_group
@@ -573,8 +581,9 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('43c353b6320753f59b33c4a49c88be2fb9baaea1', 'admin-refresh', 1, 1701400041, 1703992041);
-INSERT INTO `xin_token` VALUES ('9bf7fa7a41083e54c4e1862e8b70b53c6b3978b8', 'admin', 1, 1701400041, 1701400641);
+INSERT INTO `xin_token` VALUES ('18bfac7df5512e3ef36ae29ae1335fc3044ba994', 'admin', 1, 1705279490, 1705280090);
+INSERT INTO `xin_token` VALUES ('95faf061e9d6d8f084cd0befa5b9021aeff89074', 'admin-refresh', 1, 1705279490, 1707871490);
+INSERT INTO `xin_token` VALUES ('fb7d5bffe9bbfe94ab8ef72b4248319f5ba19798', 'user', 1, 1703225239, 1705817239);
 
 -- ----------------------------
 -- Table structure for xin_user
