@@ -204,9 +204,41 @@ const logo = [
   'Sketch',
 ];
 
-const datum = [...direction, ...suggestion, ...editor, ...data, ...logo];
-
-const other = all.filter((n) => !datum.includes(n));
+const use = [
+  'icon-guanzhu',
+  'icon-hulve',
+  'icon-fuwuqi',
+  'icon-daishenhe',
+  'icon-zhongduan',
+  'icon-hexinzichan',
+  'icon-yishenhe',
+  'icon-wangluoshebei',
+  'icon-quanbuzichan',
+  'icon-gongjizhe',
+  'icon-shouhaizhe',
+  'icon-zhongwei',
+  'icon-gaowei',
+  'icon-diwei',
+  'icon-daichuzhishijianzongshu',
+  'icon-wakuang',
+  'icon-shijianzongshu',
+  'icon-shixianzhujigeshu',
+  'icon-APTshijian',
+  'icon-yichangliuliang',
+  'icon-jiangshizhuji',
+  'icon-weixieqingbao',
+  'icon-eyichengxu',
+  'icon-siyoudizhi',
+  'icon-WEBweihu',
+  'icon-zhenchagenzong',
+  'icon-wuqigoujian',
+  'icon-zaihetoudi',
+  'icon-loudongliyong',
+  'icon-anzhuangzhiru',
+  'icon-minglingyukongzhi',
+  'icon-mubiaodacheng',
+  'icon-henjiqingli'
+]
 
 export const categories = {
   direction,
@@ -214,7 +246,7 @@ export const categories = {
   editor,
   data,
   logo,
-  other,
+  use
 };
 
 export default categories;
