@@ -5,7 +5,7 @@ namespace app\admin\controller\system;
 use app\admin\model\system\SettingGroup as SettingGroupModel;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\AdminController;
+use app\common\controller\Controller;
 use app\admin\model\system\Setting as SettingModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -13,7 +13,7 @@ use think\db\exception\ModelNotFoundException;
 use think\response\Json;
 use app\admin\validate\system\Setting as SettingVal;
 
-class Setting extends AdminController
+class Setting extends Controller
 {
 
     protected array $searchField = [

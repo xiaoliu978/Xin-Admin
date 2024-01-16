@@ -6,7 +6,7 @@ use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\ApiController;
+use app\common\controller\Controller;
 use app\common\library\Token;
 use app\common\model\file\File as FileModel;
 use app\common\model\user\UserGroup;
@@ -20,7 +20,7 @@ use think\facade\Filesystem;
 use think\Model;
 use think\response\Json;
 
-class User extends ApiController
+class User extends Controller
 {
 
     public function initialize(): void
@@ -39,7 +39,7 @@ class User extends ApiController
     #[Auth,Method('GET')]
     public function getUserInfo(): Json
     {
-        $info = (new Auth)->getUserInfo();
+        $info = Auth::getUserInfo();
         // 获取权限
         $group = (new UserGroup)->where('id',$info['group_id'])->find();
         $access = [];
@@ -116,7 +116,7 @@ class User extends ApiController
     #[Auth]
     public function logout(): Json
     {
-        $user_id = (new Auth())->getUserId();
+        $user_id = Auth::getUserId();
         if($this->model->logout($user_id)){
             return $this->success('退出登录成功');
         } else {
@@ -139,7 +139,7 @@ class User extends ApiController
 
         $data = [
             'size' => $file->getSize(),
-            'user_id'   => (new Auth())->getUserId(),
+            'user_id'   => Auth::getUserId(),
             'name'  => $putFile->getFileName(),
             'file_name' => $file->getFilename(),
             'type'  => $file->getExtension(),
@@ -148,7 +148,7 @@ class User extends ApiController
 
         $fileModel = new FileModel();
 
-        if($fileModel->saveFile($data,(new Auth())->getUserId())){
+        if($fileModel->saveFile($data,Auth::getUserId())){
             return $this->success('上传成功！',$data);
         }else {
             return $this->error($this->model->getErrorMsg());
@@ -171,7 +171,7 @@ class User extends ApiController
         if(!$result){
             return $this->warn($this->validate->getError());
         }
-        $user = $this->model->where('id',(new Auth())->getUserId())->find();
+        $user = $this->model->where('id',Auth::getUserId())->find();
         $save = $user->allowField(['username', 'nickname', 'gender', 'avatar', 'mobile', 'email'])->save($data);
         if($save){
             return $this->success('更新成功');
@@ -194,7 +194,7 @@ class User extends ApiController
         if(!$result){
             return $this->warn($this->validate->getError());
         }
-        $user_id = (new Auth())->getUserId();
+        $user_id = Auth::getUserId();
         $user = $this->model->where('id',$user_id)->find();
         if($user->save([
             'password' => password_hash($data['newPassword'],PASSWORD_DEFAULT)
@@ -211,7 +211,7 @@ class User extends ApiController
      */
     public function getMoneyLog(): Json
     {
-        $user_id = (new Auth)->getUserId();
+        $user_id = Auth::getUserId();
         $params = $this->request->get();
         $paginate = [
             'list_rows' => $params['pageSize'] ?? 10,

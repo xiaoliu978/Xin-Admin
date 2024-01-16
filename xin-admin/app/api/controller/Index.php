@@ -2,7 +2,7 @@
 namespace app\api\controller;
 
 use app\common\attribute\Method;
-use app\common\controller\ApiController as Controller;
+use app\common\controller\Controller as Controller;
 use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
 use app\common\model\user\UserGroup;

@@ -74,13 +74,13 @@ abstract class BaseController
             $this->error($e->getMessage(), [], 200, 'throw');
         }
         // 获取请求路由信息
-        $this->getRouteinfo();
+        $this->getRouteInfo();
     }
 
     /**
      * 解析当前路由参数 （分组名称、控制器名称、方法名）
      */
-    protected function getRouteinfo(): void
+    protected function getRouteInfo(): void
     {
         $this->controller = uncamelize($this->request->controller());
         $this->action = $this->request->action();

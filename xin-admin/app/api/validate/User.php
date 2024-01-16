@@ -72,7 +72,7 @@ class User extends Validate
 
     protected function oldPassword($value): bool|string
     {
-        $user = (new Auth())->getUserInfo();
+        $user = Auth::getUserInfo();
         if(!password_verify($value,$user['password'])){
             return '旧密码不正确';
         }
