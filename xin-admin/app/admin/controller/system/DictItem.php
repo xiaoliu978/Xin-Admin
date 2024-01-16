@@ -3,7 +3,7 @@
 namespace app\admin\controller\system;
 
 use app\common\attribute\Auth;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use app\admin\model\system\DictItem as DictItemModel;
 use app\admin\validate\system\DictItem as DictItemVal;
 use think\response\Json;

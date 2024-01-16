@@ -1,15 +1,13 @@
 <?php
 declare (strict_types=1);
+
 namespace app\admin\controller;
 
-use app\admin\model\AdminGroup;
-use app\common\attribute\Auth;
-use app\common\attribute\Method;
-use app\common\controller\AdminController as Controller;
 use app\admin\model\Admin as AdminModel;
 use app\admin\validate\Admin as AdminVal;
-use app\common\library\Token;
-use Exception;
+use app\common\attribute\Auth;
+use app\common\attribute\Method;
+use app\common\controller\Controller as Controller;
 use think\response\Json;
 
 class Admin extends Controller
@@ -18,14 +16,14 @@ class Admin extends Controller
     protected string $authName = 'admin.list';
 
     protected array $searchField = [
-        'id'        => '=',
-        'username'  => '=',
-        'mobile'    => '=',
-        'email'     => '=',
-        'sex'       => '=',
-        'nickname'  => 'like'
+        'id' => '=',
+        'username' => '=',
+        'mobile' => '=',
+        'email' => '=',
+        'sex' => '=',
+        'nickname' => 'like'
     ];
-    
+
     public function initialize(): void
     {
         parent::initialize();
@@ -38,14 +36,14 @@ class Admin extends Controller
      * 基础控制器编辑方法
      * @return Json
      */
-    #[Auth('add'),Method('POST')]
+    #[Auth('add'), Method('POST')]
     public function add(): Json
     {
         $data = $this->request->param();
         if (!$this->validate->scene('add')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         $this->model->save($data);
         return $this->success('ok');
     }
@@ -54,14 +52,14 @@ class Admin extends Controller
      * 基础控制器编辑方法
      * @return Json
      */
-    #[Auth('edit'),Method('PUT')]
+    #[Auth('edit'), Method('PUT')]
     public function edit(): Json
     {
         $data = $this->request->param();
         if (!$this->validate->scene('edit')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        $this->model->allowField(['nickname', 'email', 'sex', 'group_id','avatar','status'])->update($data);
+        $this->model->allowField(['nickname', 'email', 'sex', 'group_id', 'avatar', 'status'])->update($data);
         return $this->success('ok');
     }
 
@@ -69,14 +67,14 @@ class Admin extends Controller
      * 修改密码
      * @return Json
      */
-    #[Auth('updatePwd'),Method('PUT')]
-    public function updatePassword() : Json
+    #[Auth('updatePwd'), Method('PUT')]
+    public function updatePassword(): Json
     {
         $data = $this->request->param();
         if (!$this->validate->scene('updatePassword')->check($data)) {
             return $this->warn($this->validate->getError());
         }
-        $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         $this->model->allowField(['password'])->update($data);
         return $this->success('ok');
     }

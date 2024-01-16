@@ -4,7 +4,7 @@ namespace app\admin\controller;
 
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
 use app\admin\model\AdminGroupRule as AdminGroupRuleModel;
 use app\admin\validate\AdminGroup as AdminGroupVal;

@@ -5,7 +5,7 @@ namespace app\admin\controller\user;
 use app\api\validate\user\UserRule as UserRuleVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use app\common\model\user\UserGroup as UserGroupModel;
 use app\common\model\user\UserRule as UserRuleModel;
 use Exception;

@@ -4,7 +4,7 @@ namespace app\admin\controller\user;
 use app\admin\validate\User as UserVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use app\common\model\User as UserModel;
 use think\db\exception\DbException;
 use think\response\Json;

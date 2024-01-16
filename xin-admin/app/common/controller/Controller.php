@@ -13,7 +13,7 @@ use think\response\Json;
 use think\Validate;
 use app\common\attribute\Auth;
 
-class AdminController extends BaseController
+class Controller extends BaseController
 {
     use RequestJson;
 
@@ -61,7 +61,6 @@ class AdminController extends BaseController
     public function initialize(): void
     {
         parent::initialize();
-
         // 运行注解
         $ref = new \ReflectionObject($this);
         $attrs = $ref->getMethod($this->action)->getAttributes();

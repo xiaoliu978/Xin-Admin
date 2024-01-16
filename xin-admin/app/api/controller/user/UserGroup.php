@@ -4,7 +4,7 @@ namespace app\api\controller\user;
 
 use app\api\validate\user\UserGroup as UserGroupVal;
 use app\common\attribute\Auth;
-use app\common\controller\ApiController as Controller;
+use app\common\controller\Controller as Controller;
 use app\common\model\user\UserGroup as UserGroupModel;
 use app\common\model\user\UserGroupRule as UserGroupRuleModel;
 use Exception;

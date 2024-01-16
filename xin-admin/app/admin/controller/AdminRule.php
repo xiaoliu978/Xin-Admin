@@ -12,7 +12,7 @@ use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\Model;
 use think\response\Json;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use app\admin\model\AdminGroup as AdminGroupModel;
 
 #[Auth]

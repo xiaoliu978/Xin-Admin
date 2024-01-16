@@ -8,7 +8,7 @@ use app\admin\model\AdminGroup;
 use app\admin\validate\Admin as AdminVal;
 use app\common\attribute\Auth;
 use app\common\library\Token;
-use app\common\controller\AdminController as Controller;
+use app\common\controller\Controller as Controller;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -119,7 +119,7 @@ class Index extends Controller
     #[Auth]
     public function logout(): Json
     {
-        $user_id = (new Auth())->getAdminId();
+        $user_id = Auth::getAdminId();
         $admin = new AdminModel;
         if($admin->logout($user_id)){
             return $this->success('退出登录成功');
@@ -136,7 +136,7 @@ class Index extends Controller
     #[Auth]
     public function getAdminInfo(): Json
     {
-        $info = (new Auth)->getAdminInfo();
+        $info = Auth::getAdminInfo();
         // 获取权限
         $group = (new AdminGroup())->where('id',$info['group_id'])->find();
         $access = [];

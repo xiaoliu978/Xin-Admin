@@ -4,12 +4,12 @@ namespace app\admin\controller\user;
 
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\controller\AdminController;
+use app\common\controller\Controller;
 use app\common\model\user\UserMoneyLog as MoneyLogModel;
 use app\admin\validate\MoneyLog as MoneyLogVal;
 use think\response\Json;
 
-class UserMoneyLog extends AdminController
+class UserMoneyLog extends Controller
 {
 
     protected string $authName = 'user.moneyLog';
