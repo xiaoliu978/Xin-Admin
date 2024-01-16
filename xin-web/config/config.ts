@@ -88,6 +88,15 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/antd#antd
    */
   antd: {
+    configProvider: {
+      theme: {
+        components: {
+          Menu: {
+            iconSize: 22
+          }
+        }
+      }
+    },
     theme: {
       components: {
         Tabs: {

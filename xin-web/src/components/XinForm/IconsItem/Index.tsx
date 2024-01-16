@@ -124,15 +124,23 @@ export default (props: {config:any,form:any,schema:any}) => {
   const {config,form,schema} = props
   const [iconShow,setIconShow] = useState<boolean>(false);
   const [formIcon,setFormIcon] = useState('');
+  const addonAfter = (value: string) => {
+    if(allIcons[value]) {
+      return React.createElement(allIcons[value],{onClick:()=>setIconShow(true)})
+    }else if(categories['use'].includes(value)) {
+      return <span onClick={()=>setIconShow(true)}>{getIcon(value)}</span>
+    }else {
+      return <span onClick={()=>setIconShow(true)}>请选择</span>
+    }
+  }
   return (
     <>
-      <Input addonAfter={ allIcons[config.value]?React.createElement(allIcons[config.value],{onClick:()=>setIconShow(true)}): <span onClick={()=>setIconShow(true)}>请选择</span> } value={config.value} />
+      <Input addonAfter={addonAfter(config.value)} value={config.value} />
       <Modal open={iconShow} onCancel={()=>setIconShow(false)} width={680} onOk={()=>{
         schema.setFieldValue(form.key,formIcon)
         setIconShow(false)
       }}>
         <Radio.Group optionType="button" buttonStyle="solid"  onChange={({target}) => {
-          console.log(target.value)
           setFormIcon(target.value)
         }}>
           <Tabs defaultActiveKey="use" items={items} />
