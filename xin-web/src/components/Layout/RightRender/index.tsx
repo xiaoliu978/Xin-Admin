@@ -79,11 +79,13 @@ const Right = (props: { initialState?: initialStateType}) => {
            let elem = document.documentElement;
            /* 全屏查看 */
            if (document.fullscreenElement) {
-             setFullscreen(false)
-             document.exitFullscreen()
+             document.exitFullscreen().then(() => {
+               setFullscreen(false)
+             })
            } else {
-             setFullscreen(true)
-             elem.requestFullscreen();
+             elem.requestFullscreen().then(() => {
+               setFullscreen(true)
+             })
            }
          }}>
            { fullscreen ? <FullscreenExitOutlined /> : <FullscreenOutlined /> }
