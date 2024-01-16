@@ -1,6 +1,8 @@
-
+<p align="center">
+    <img src="https://file.xinadmin.cn/file/favicons.ico" alt="xinadmin">
+</p>
 <h1 align="center">Xin Admin</h1>
-<h4 align="center">带你探索技术的革新，享受开发的乐趣</h4>
+<h4 align="center">企业级 PHP 全栈快速开发框架</h4>
 <p align="center">
     <a href="https://www.thinkphp.cn/" target="_blank">
         <img src="https://img.shields.io/badge/ThinkPHP-%3E8.0-brightgreen" alt="thinkphp">
@@ -26,11 +28,8 @@
 </p>
 
 
-
-
-## ✨ 介绍
-基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design 等技术栈开发的后台管理系统，提供权限验证、用户分组、数据字典、可视化CRUD等便捷开发，
-遵循Apache License 无需授权即可免费商用.
+基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Taro 等技术栈开发的全栈开发框架，提供按钮级权限验证、用户分组权限、数据字典、可视化CRUD、系统配置等便捷开发，
+拥有 Web管理端、Web客户端 和 Taro多端小程序。遵循Apache License 无需授权即可免费商用.
 
 <img src="https://file.xinadmin.cn/file/demo.png"/>
 
@@ -44,6 +43,9 @@
 
 ### 🎨 React 技术栈
 我们使用了 阿里 Umi Js 以及 AntdPro 组件库，不仅简单易用，并且可以是你的技术更上一层楼，带你体验技术的革新，站在巨人肩膀上享受开发的便捷和乐趣。
+
+### 🎇 Taro 多端小程序
+包含Taro多端小程序示例应用，已经构建好基础手脚架，包含用户登录注册，基础文章管理等页面，可打包为APP、各种小程序、H5等
 
 ### 📟 权限控制系统
 我们提供了完善的权限验证系统，支持客户端、管理端，双动态菜单，页面按钮级权限控制，使用PHP8注解验证精确控制接口请求，支持分组权限禁用继承。
@@ -64,24 +66,17 @@
 #### 字典配置，支持多中种状态
 <img src="https://file.xinadmin.cn/file/dict.png"/>
 
-
-### 即将上线
-1. 门户设计器，AntdV 图表
-2. 数据导入导，报表设计
-3. 文章管理 CMS 系统
-4. Taro 多端应用
-5. APP手机端页面设计器
-
 ### 项目愿景
 我渴望技术，在这个技术大爆发的时代，通过成熟切优秀的项目，构建出一套稳定、可行性强、方便实用的全栈开发框架，提供多行业跨平台解决方案，包括且不限于 CMS、SaaS、CRM、
 BPM等，适用于商城、游戏、即时通信、业务管理、博客等领域。不断探索新环境，结合人工智能，实现 0 代码的同时支持高度自定义，可视化编程，让数字化、信息化方案不再腐败。
 
-### 你的 Star 是我熬夜敲键盘更新文档和代码的动力
-
+### 支持项目
+如果觉得项目不错，或者已经在使用了，希望你可以去 Github 或者 Gitee 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。
 
 ### 鸣谢巨人
-1. [Ant Design](https://ant-design.antgroup.com/index-cn) 前端UI框架
-2. [Umi Js](https://umijs.com) 前端项目框架
-3. [Think PHP](https://www.thinkphp.cn/) 后端框架
-4. [Build Admin](https://buildadmin.com) 灵感来源以及代码参考
-5. ... 
+1. [Ant Design](https://ant-design.antgroup.com/index-cn)
+2. [Umi Js](https://umijs.com)
+3. [Think PHP](https://www.thinkphp.cn/)
+4. [Build Admin](https://buildadmin.com/)
+5. [Taro](https://taro.jd.com/)
+6. [React](https://react.dev/)
