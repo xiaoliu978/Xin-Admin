@@ -19,6 +19,7 @@ const defaultInitialState: initialStateType  = {
   fetchUserInfo,
   fetchAdminInfo,
   settings: appSettings,
+  borderShow: true,
   app: localStorage.getItem('app'),
   webSetting: {
     logo: 'https://file.xinadmin.cn/file/favicons.ico',

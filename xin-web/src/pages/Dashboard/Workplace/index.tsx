@@ -4,15 +4,10 @@ import ACard from "./components/ACard";
 import CCard from "./components/CCard";
 import RcResizeObserver from "rc-resize-observer";
 import {useState} from "react";
-// import MiniCard from "./components/MiniCard";
+import { ProCard } from '@ant-design/pro-components';
+
 
 const HomePage = () => {
-  // const theme = {
-  //   token: {
-  //     paddingSM: 0
-  //   },
-  // }
-
   const [responsive, setResponsive] = useState(false);
 
   return (
@@ -23,24 +18,28 @@ const HomePage = () => {
       }}
     >
       <h2 style={{marginLeft: 20, marginBottom: 30}}>欢迎你，管理员</h2>
-      <Row gutter={[16,16]}>
+      <Row gutter={[24,24]}>
         <Col span={responsive?24:18}>
-          <Row gutter={[16,16]}>
-            <Col span={24}><ACard></ACard></Col>
-            <Col span={24}><BCard></BCard></Col>
+          <Row gutter={[24,24]}>
+            <Col span={24}>
+              <ProCard bordered>
+                <ACard></ACard>
+              </ProCard>
+            </Col>
+            <Col span={24}>
+              <ProCard bordered>
+                <BCard></BCard>
+              </ProCard>
+            </Col>
           </Row>
         </Col>
         <Col span={responsive?24:6}>
-          <CCard></CCard>
+          <ProCard bordered>
+            <CCard></CCard>
+          </ProCard>
         </Col>
       </Row>
     </RcResizeObserver>
-
-    // <ConfigProvider theme={theme}>
-    //     {/*<MiniCard></MiniCard>*/}
-    //   {/*<ACard></ACard>*/}
-    //   {/*<BCard></BCard>*/}
-    // </ConfigProvider>
   );
 };
 

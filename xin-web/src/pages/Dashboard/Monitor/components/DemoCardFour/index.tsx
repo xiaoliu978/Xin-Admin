@@ -15,7 +15,7 @@ const DemoLiquid = () => {
     },
   };
   return (
-    <Card title={'水波图'} bordered={false}>
+    <Card title={'水波图'} >
       <Liquid {...config} />
     </Card>
   );

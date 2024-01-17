@@ -29,7 +29,7 @@ const ChartCard = (props: ChartCardProps) =>  {
     suffix
   } = props;
   return (
-    <Card loading={loading} bordered={false}>
+    <Card loading={loading}>
       <ConfigProvider
         theme={{
           components: {

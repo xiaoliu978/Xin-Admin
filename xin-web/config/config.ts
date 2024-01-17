@@ -94,6 +94,9 @@ export default defineConfig({
           Menu: {
             iconSize: 22
           }
+        },
+        token: {
+          boxShadowTertiary: '0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017',
         }
       }
     },

@@ -9,6 +9,8 @@ interface initialStateType {
   loading?: boolean;
   // 用户信息
   currentUser?: USER.UserInfo;
+  // 全局样式
+  borderShow?: boolean;
   // 菜单设置
   drawerShow?: boolean;
   // 权限

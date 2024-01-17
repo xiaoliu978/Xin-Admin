@@ -54,7 +54,7 @@ export default () => {
   ]
 
   return (
-    <Card title={'高级表单'}
+    <Card  title={'高级表单'}
       activeTabKey={activeTabKey1}
       onTabChange={onTab1Change}
       tabList={tableList}

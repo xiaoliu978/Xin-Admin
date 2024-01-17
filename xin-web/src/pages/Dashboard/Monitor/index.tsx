@@ -15,7 +15,6 @@ export default () => {
         <Row gutter={[24,24]}>
           <Col span={24}>
             <Card
-              bordered={false}
               title={'区域实时浏览情况'}
             >
               <DemoCardOne></DemoCardOne>

@@ -1,7 +1,7 @@
 /**
  * 图标选择
  */
-
+import {FormInstance} from 'antd';
 import * as AntdIcons from "@ant-design/icons";
 import {Col, Input, Modal, Radio, Row, Tabs, TabsProps} from "antd";
 import React, {useState} from "react";
@@ -120,8 +120,8 @@ const items: TabsProps['items'] = [
 ];
 
 
-export default (props: {config:any,form:any,schema:any}) => {
-  const {config,form,schema} = props
+export default (props: {value?: any, form: FormInstance, dataIndex?: string | number | bigint}) => {
+  const {value,form, dataIndex} = props
   const [iconShow,setIconShow] = useState<boolean>(false);
   const [formIcon,setFormIcon] = useState('');
   const addonAfter = (value: string) => {
@@ -135,9 +135,9 @@ export default (props: {config:any,form:any,schema:any}) => {
   }
   return (
     <>
-      <Input addonAfter={addonAfter(config.value)} value={config.value} />
+      <Input addonAfter={addonAfter(value)} value={value} />
       <Modal open={iconShow} onCancel={()=>setIconShow(false)} width={680} onOk={()=>{
-        schema.setFieldValue(form.key,formIcon)
+        form.setFieldValue(dataIndex, formIcon)
         setIconShow(false)
       }}>
         <Radio.Group optionType="button" buttonStyle="solid"  onChange={({target}) => {

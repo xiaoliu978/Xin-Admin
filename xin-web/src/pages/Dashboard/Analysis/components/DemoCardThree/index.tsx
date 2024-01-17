@@ -103,8 +103,6 @@ export default () => {
   return (
     <Card
       title={<FormattedMessage id={'analysis.title7'}/>}
-      bordered={false}
-
       extra={
         <Space.Compact style={{ width: '100%' }}>
           <Input placeholder="input value"/>

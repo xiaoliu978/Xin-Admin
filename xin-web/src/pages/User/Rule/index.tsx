@@ -70,7 +70,7 @@ const Table: React.FC = () => {
       title: '图标',
       dataIndex: 'icon',
       valueType: 'text',
-      renderFormItem: (form,config,schema) => <IconsItem form={form} schema={schema} config={config}></IconsItem>
+      renderFormItem: (form,config,schema) => <IconsItem dataIndex={form.key} form={schema} value={config.value}></IconsItem>
 
     }
     const locale: ProFormColumnsAndProColumns<ResponseAdminList> = {

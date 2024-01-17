@@ -9,7 +9,7 @@ export default () => {
   const [responsive, setResponsive] = useState(false);
 
   return (
-    <Card bordered={false}>
+    <Card>
       <RcResizeObserver
         key="resize-observer"
         onResize={(offset) => {

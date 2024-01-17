@@ -9,6 +9,8 @@ export default {
   'menu.components.list': '高级列表',
   'menu.components.checkcard': '单选卡片',
   'menu.components.form': '表单示例',
+  'menu.components.table': '高级表格',
+  'menu.components.iconForm': '图标选择',
   'menu.user': '会员管理',
   'menu.user.list': '会员列表',
   'menu.user.group': '会员分组',

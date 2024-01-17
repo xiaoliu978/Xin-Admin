@@ -95,7 +95,7 @@ const DemoChord = () => {
     },
   };
   // @ts-ignore
-  return (<Card title={'和弦图 - 自定义 tooltip'} bordered={false}><Chord {...config} /></Card>);
+  return (<Card title={'和弦图 - 自定义 tooltip'} ><Chord {...config} /></Card>);
 };
 
 export default DemoChord

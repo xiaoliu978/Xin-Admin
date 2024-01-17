@@ -4,7 +4,7 @@ import dayjs from 'dayjs';
 
 export default () => {
   return (
-    <Card title={'高级定义列表'}>
+    <Card  title={'高级定义列表'}>
       <ProDescriptions
         column={2}
         title="高级定义列表"

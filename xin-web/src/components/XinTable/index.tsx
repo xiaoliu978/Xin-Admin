@@ -258,6 +258,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
         { ...Object.assign(defaultProTableConfig, props) }
         columns={operateShow!==false?[...columns,defaultButton()]:columns}
         toolBarRender={defaultToolBar}
+        cardBordered
       />
       {footerBar()}
     </Watermark>

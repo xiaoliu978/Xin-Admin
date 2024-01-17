@@ -6,7 +6,6 @@ import {FormattedMessage} from "@umijs/max";
 export default () => {
   return (
     <Card
-      bordered={false}
       title={<FormattedMessage id={'analysis.title6'}/>}
       extra={
         <>

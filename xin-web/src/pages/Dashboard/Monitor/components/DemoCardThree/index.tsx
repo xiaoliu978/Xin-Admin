@@ -32,7 +32,7 @@ const DemoGauge = () => {
     },
   };
   return (
-    <Card title={'仪表盘（多色）'} bordered={false}>
+    <Card title={'仪表盘（多色）'} >
       <Gauge {...config} />
     </Card>
   );

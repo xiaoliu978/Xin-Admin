@@ -29,7 +29,7 @@ const dataSource = [
 ];
 
 export default () => (
-  <Card title={'基础列表'}>
+  <Card  title={'基础列表'}>
     <ProList<any>
       toolBarRender={() => {
         return [

@@ -1,12 +1,12 @@
-import {Button, Descriptions, ConfigProvider, Space, Card, Row, Col} from 'antd';
-import type {DescriptionsProps} from  'antd';
-import {PageContainer, ProCard} from "@ant-design/pro-components";
+import type { DescriptionsProps } from 'antd';
+import { Button, Card, Col, Descriptions, Row, Space } from 'antd';
+import { PageContainer } from '@ant-design/pro-components';
 
 const items: DescriptionsProps['items'] = [
   {
     key: '1',
     label: '系统',
-    children: 'Xin Admin'
+    children: 'Xin Admin',
   },
   {
     key: '2',
@@ -179,7 +179,7 @@ export default () => {
 
 
   return (
-    <Card title={'系统信息'} bordered={false}>
+    <Card title={'系统信息'}>
       <PageContainer
         ghost
         header={{

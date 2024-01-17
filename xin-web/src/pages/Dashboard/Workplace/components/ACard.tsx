@@ -18,7 +18,7 @@ export default () => {
         setResponsive(offset.width < 596);
       }}
     >
-      <StatisticCard.Group direction={responsive ? 'column' : 'row'}>
+      <StatisticCard.Group direction={responsive ? 'column' : 'row'} >
         <StatisticCard
           statistic={{
             title: '支付金额',

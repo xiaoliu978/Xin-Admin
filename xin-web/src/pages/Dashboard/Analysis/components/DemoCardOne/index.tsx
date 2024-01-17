@@ -52,7 +52,6 @@ export default () => {
       }}
     >
       <Card
-        bordered={false}
         style={{ width: '100%' }}
         tabList={tableList}
         tabBarExtraContent={tabBarExtraContent}
