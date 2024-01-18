@@ -4,6 +4,7 @@ namespace app\admin\model;
 
 use app\common\model\BaseModel;
 use app\common\library\Token;
+use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -55,7 +56,7 @@ class Admin extends BaseModel
                 return false;
             }
             
-        }catch(\Exception $e){
+        }catch(Exception $e){
             $this->setErrorMsg($e->getMessage());
             return false;
         }
@@ -84,11 +85,21 @@ class Admin extends BaseModel
             $token->clear('admin',$user['id']);
             $token->clear('admin-refresh',$user['id']);
             return true;
-        }catch(\Exception $e){
+        }catch(Exception $e){
             $this->setErrorMsg($e->getMessage());
             return false;
         }
     }
 
+    /**
+     * @throws Exception
+     */
+    public static function onBeforeDelete($model): void
+    {
+        if ('admin' == $model->username) {
+            // 当用户name等于"admin"时，抛出异常阻止删除
+            throw new Exception('不允许删除管理员用户');
+        }
+    }
 
 }

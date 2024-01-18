@@ -156,7 +156,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      align: 'center',
       render: (_, record) => (
         <Space split={<Divider type="vertical" />} size={0}>
           {editShow !== false ? editButton(record) : null}

@@ -83,27 +83,7 @@ export default defineConfig({
    * @description 内置了 babel import 插件
    * @doc https://umijs.org/docs/max/antd#antd
    */
-  antd: {
-    configProvider: {
-      theme: {
-        components: {
-          Menu: {
-            iconSize: 20
-          }
-        },
-        token: {
-          boxShadowTertiary: '0 1px 2px -2px #00000029, 0 3px 6px #0000001f, 0 5px 12px 4px #00000017',
-        }
-      }
-    },
-    theme: {
-      components: {
-        Tabs: {
-          cardHeight: 26
-        }
-      }
-    },
-  },
+  antd: {},
   /**
    * @name request 网络请求配置
    * @description 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。

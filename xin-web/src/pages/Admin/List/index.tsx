@@ -2,14 +2,15 @@ import XinTable from '@/components/XinTable'
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import XinDict from "@/components/XinDict";
 import { useAccess, useModel } from '@@/exports';
-import { Avatar } from 'antd';
+import { Avatar, message, Popconfirm } from 'antd';
 import UploadImgItem from "@/components/XinForm/UploadImgItem";
 import { UserOutlined } from '@ant-design/icons';
-import React from 'react';
+import React, { useRef } from 'react';
 import UpdateModel from '@/pages/Admin/List/components/UpdateModel';
 import UpdatePassword from '@/pages/Admin/List/components/UpdatePassword';
-import { listApi } from '@/services/common/table';
+import { deleteApi, listApi } from '@/services/common/table';
 import { Access } from '@umijs/max';
+import { ActionType } from '@ant-design/pro-components';
 
 const api = '/admin';
 
@@ -151,7 +152,27 @@ const Table : React.FC = () => {
   ];
 
   const access = useAccess();
-
+  const actionRef = useRef<ActionType>();
+  /**
+   *  删除节点
+   * @param selectedRows
+   */
+  const handleRemove = async (selectedRows: ResponseAdminList[]) => {
+    const hide = message.loading('正在删除');
+    if (!selectedRows){
+      message.warning('请选择需要删除的节点');
+      return
+    }
+    let ids = selectedRows.map(x => x.id)
+    deleteApi(api+'/delete', { ids: ids.join() || '' }).then( res => {
+      if (res.success) {
+        message.success(res.msg);
+        actionRef.current?.reloadAndRest?.();
+      }else {
+        message.warning(res.msg);
+      }
+    }).finally(() => hide())
+  }
   return (
       <XinTable<ResponseAdminList>
         headerTitle={'管理员列表'}
@@ -159,6 +180,8 @@ const Table : React.FC = () => {
         columns= {columns}
         accessName={'admin.list'}
         editShow={false}
+        deleteShow={false}
+        actionRef={actionRef}
         operateRender={(record) => (
           <>
             <Access accessible={access.buttonAccess('admin.list.edit')}>
@@ -167,6 +190,20 @@ const Table : React.FC = () => {
             <Access accessible={access.buttonAccess('admin.list.updatePwd')}>
               <UpdatePassword record={record}></UpdatePassword>
             </Access>
+            {record.username !== 'admin' ?
+              <Access accessible={access.buttonAccess('admin.list.delete')}>
+                <Popconfirm
+                  title="Delete the task"
+                  description="你确定要删除这条数据吗？"
+                  onConfirm={() => { handleRemove([record]) }}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <a>删除</a>
+                </Popconfirm>
+              </Access>
+              : null
+            }
           </>
         )}
       />

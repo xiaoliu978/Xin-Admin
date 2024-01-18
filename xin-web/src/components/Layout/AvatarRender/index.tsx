@@ -47,7 +47,8 @@ export default (props: {dom: any}) => {
         </Dropdown>
         :
         <>
-          <Button type={'link'} onClick={() => setLoginModel(true)}>立即登录</Button>
+          <Button type={'link'} onClick={() => setLoginModel(true)}>登录</Button>
+          <Button type={'link'} onClick={() => setLoginModel(true)}>注册</Button>
           <Modal open={loginModel} footer={null} onCancel={() => setLoginModel(false)}>
             <LoginModel></LoginModel>
           </Modal>
