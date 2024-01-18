@@ -1,46 +1,13 @@
-import {
-  AlipayOutlined,
-  LockOutlined,
-  MobileOutlined,
-  QqOutlined,
-  TaobaoOutlined,
-  UserOutlined,
-  WechatOutlined,
-  WeiboOutlined,
-} from '@ant-design/icons';
-import {
-  LoginForm,
-  ProFormCaptcha,
-  ProFormCheckbox,
-  ProFormText,
-} from '@ant-design/pro-components';
-import { history, useModel } from '@umijs/max';
-import { Divider, message, Space, Tabs} from 'antd';
-import type { CSSProperties } from 'react';
+import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import { useModel } from '@umijs/max';
+import { message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { login } from '@/services/api';
 
-const iconStyle: CSSProperties = {
-  color: 'rgba(0, 0, 0, 0.2)',
-  fontSize: '18px',
-  verticalAlign: 'middle',
-  cursor: 'pointer',
-};
-const iconDivStyle: CSSProperties = {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  flexDirection: 'column',
-  height: 40,
-  width: 40,
-  border: '1px solid #D4D8DD',
-  borderRadius: '50%',
-}
+export default () => {
 
-
-const Login: React.FC =  () => {
-
-  const { initialState,setInitialState } = useModel('@@initialState');
+  const { initialState, setInitialState } = useModel('@@initialState');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
@@ -210,4 +177,3 @@ const Login: React.FC =  () => {
   );
 };
 
-export default Login;

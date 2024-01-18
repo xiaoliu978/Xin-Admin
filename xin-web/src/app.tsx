@@ -1,21 +1,23 @@
-import Footer from '@/components/Footer';
-import type { MenuDataItem } from '@ant-design/pro-components';
-import { PageLoading } from '@ant-design/pro-components';
-import type {RuntimeConfig, RunTimeLayoutConfig} from '@umijs/max';
+import React, { lazy } from 'react';
 import { history, Navigate } from '@umijs/max';
-import {adminSettings, appSettings} from '../config/defaultSettings';
-import defaultConfig from './utils/request';
-import React, {lazy} from 'react';
+import type { RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
+import { PageLoading } from '@ant-design/pro-components';
+import type { MenuDataItem } from '@ant-design/pro-components';
+import appList from '@/default/appList';
 import defaultRoutes from '@/default/routes';
-import defaultInitialState from "@/default/initialState";
-import {index} from "@/services/api";
-import appList from "@/default/appList";
-import fixMenuItemIcon from "@/utils/menuDataRender";
+import defaultInitialState from '@/default/initialState';
+import { adminSettings, appSettings } from '@/default/settings';
+import { index } from '@/services/api';
+import defaultConfig from '@/utils/request';
+import fixMenuItemIcon from '@/utils/menuDataRender';
+import Footer from '@/components/Footer';
 import Access from '@/components/Access';
 import XinTabs from '@/components/XinTabs';
-import RightRender from "@/components/Layout/RightRender";
-import SettingLayout from "@/components/SettingDrawer";
+import SettingLayout from '@/components/SettingDrawer';
+import ActionsRender from '@/components/Layout/ActionsRender';
+import AvatarRender from '@/components/Layout/AvatarRender';
 import './app.less';
+
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -23,8 +25,8 @@ import './app.less';
  */
 export async function getInitialState(): Promise<initialStateType> {
 // 记录当前应用
-  if(!localStorage.getItem('app') || !localStorage.getItem('token')){
-    localStorage.setItem('app','app');
+  if (!localStorage.getItem('app') || !localStorage.getItem('token')) {
+    localStorage.setItem('app', 'app');
   }
   const { location } = history;
   const data: initialStateType = defaultInitialState;
@@ -64,7 +66,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     footerRender: () => <Footer />,
     onPageChange: () => {
       const { location } = history;
-      if(initialState!.app !== 'admin') return;
+      if (initialState!.app !== 'admin') return;
       // 是否登录
       if (initialState!.isLogin) {
         // Admin 应用首页重定向
@@ -74,17 +76,17 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
         history.push('/admin/login');
       }
     },
-    links: [],
-    menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
-    rightRender: (initialState) => {
-      return <RightRender initialState={initialState}></RightRender>
+    actionsRender: ActionsRender,
+    avatarProps: {
+      src: initialState?.currentUser?.avatar,
+      size: 'small',
+      title: initialState?.currentUser?.nickname,
+      render: (props, dom) => <AvatarRender dom={dom}></AvatarRender>,
     },
     childrenRender: (children: any) => {
       if (initialState?.loading) return <PageLoading />;
-      if (initialState?.app === 'admin') return <Access><SettingLayout/><XinTabs>{children}</XinTabs></Access>;
-      return <Access><SettingLayout/>{children}</Access>;
+      if (initialState?.app === 'admin') return <Access><SettingLayout /><XinTabs>{children}</XinTabs></Access>;
+      return <Access><SettingLayout />{children}</Access>;
     },
     ...initialState?.settings,
   };

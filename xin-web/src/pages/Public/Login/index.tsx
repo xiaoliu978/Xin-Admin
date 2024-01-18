@@ -19,7 +19,7 @@ import { history, useModel } from '@umijs/max';
 import {Button, Divider, message, Space, Tabs, theme} from 'antd';
 import type { CSSProperties } from 'react';
 import React, { useState } from 'react';
-import { adminSettings } from '../../../../config/defaultSettings';
+import { adminSettings } from '@/default/settings';
 
 const iconStyle: CSSProperties = {
   color: 'rgba(0, 0, 0, 0.2)',
@@ -42,12 +42,13 @@ const iconDivStyle: CSSProperties = {
 const Login: React.FC =  () => {
 
   const { initialState,setInitialState } = useModel('@@initialState');
+  const [loading,setLoading] = useState<boolean>(false);
   const { refreshDict } = useModel('dictModel');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
+    setLoading(true)
     // 登录
     const msg = await UserLogin({ ...values, loginType });
-
     message.success('登录成功！');
     // 记录令牌
     localStorage.setItem('token',msg.data.token);
@@ -60,6 +61,7 @@ const Login: React.FC =  () => {
         ...init,
         isLogin: true,
         isAccess: true,
+        loading: false,
         app: 'admin',
         currentUser: userInfo.adminInfo,
         menus: userInfo.menus,
@@ -90,6 +92,7 @@ const Login: React.FC =  () => {
         logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
         title= { initialState!.webSetting.title || "Xin Admin" }
         subTitle={ initialState!.webSetting.subtitle || "用技术改变世界"}
+        loading={loading}
         activityConfig={{
           style: {
             boxShadow: '0px 0px 8px rgba(0, 0, 0, 0.2)',
