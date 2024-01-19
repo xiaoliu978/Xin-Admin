@@ -19,11 +19,27 @@ interface initialStateType {
   fetchUserInfo:  () => Promise<any>;
   fetchAdminInfo:  () => Promise<any>;
   // 菜单
-  menus?: {[key: string] : any};
+  menus?: Menus[];
   // 当前app
   app: string | null;
   // 其它
   webSetting: { [key: string] : any };
+}
+
+interface Menus {
+  children: Menus[];
+  create_time: string;
+  icon: string;
+  id: number;
+  key: string;
+  name: string;
+  path: string;
+  pid: number;
+  remark: string;
+  sort: number;
+  type: string;
+  locale: string;
+  update_time: string;
 }
 
 

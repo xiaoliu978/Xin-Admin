@@ -1,5 +1,17 @@
 /*
- Date: 17/01/2024 17:15:06
+ Navicat Premium Data Transfer
+
+ Source Server         : 本地
+ Source Server Type    : MySQL
+ Source Server Version : 50740 (5.7.40)
+ Source Host           : localhost:3306
+ Source Schema         : test
+
+ Target Server Type    : MySQL
+ Target Server Version : 50740 (5.7.40)
+ File Encoding         : 65001
+
+ Date: 19/01/2024 14:56:52
 */
 
 SET NAMES utf8mb4;
@@ -585,9 +597,6 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('1b2e7dbd7ea9f11ced4b52354e28e745a7f92810', 'admin', 1, 1705474326, 1708066326);
-INSERT INTO `xin_token` VALUES ('893545a33a3a254438a903eb0a59a6d68c954149', 'admin-refresh', 1, 1705473708, 1708065708);
-INSERT INTO `xin_token` VALUES ('daa9b1254b9442b82b8a0fe4a736f7fa06071efe', 'user-refresh', 2, 1705301034, 1707893034);
 INSERT INTO `xin_token` VALUES ('fb7d5bffe9bbfe94ab8ef72b4248319f5ba19798', 'user', 1, 1703225239, 1705817239);
 
 -- ----------------------------
@@ -719,6 +728,7 @@ CREATE TABLE `xin_user_rule`  (
   `path` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '路由地址',
   `icon` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '图标',
   `key` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '权限标识',
+  `locale` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '国际化标识',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '备注',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
@@ -729,17 +739,16 @@ CREATE TABLE `xin_user_rule`  (
 -- ----------------------------
 -- Records of xin_user_rule
 -- ----------------------------
-INSERT INTO `xin_user_rule` VALUES (1, 0, '0', 0, '首页', '/', 'HomeOutlined', 'index', '首页', 1695864022, 1695864022);
-INSERT INTO `xin_user_rule` VALUES (9, 0, '0', 4, '代码仓库', '/git', 'StarOutlined', 'git', '代码仓库', 1695870697, 1695870697);
-INSERT INTO `xin_user_rule` VALUES (10, 9, '1', 0, 'Github', 'https://github.com/Xineny-liu/xinadmin', NULL, 'ttps:..github.com.Xineny-liu.xinadmin', 'github', 1695870807, 1695870807);
-INSERT INTO `xin_user_rule` VALUES (11, 9, '1', 1, 'Gitee', 'https://gitee.com/xineny/xin-admin', NULL, 'ttps:..gitee.com.xineny.xin-admin', 'Gitee', 1695870845, 1695870845);
-INSERT INTO `xin_user_rule` VALUES (12, 0, '0', 4, '官方文档', 'https://xinadmin.cn', 'FileSearchOutlined', 'ttps:..xinadmin.cn', '官方文档', 1695870959, 1695870959);
-INSERT INTO `xin_user_rule` VALUES (13, 0, '0', 1, '会员中心', '', 'UserOutlined', '', '会员中心', 1698309863, 1696749281);
-INSERT INTO `xin_user_rule` VALUES (16, 14, '1', 0, '会员中心首页', '/s/user', NULL, 's.user', '会员中心首页', 1696756073, 1696756073);
-INSERT INTO `xin_user_rule` VALUES (17, 13, '1', 0, '个人中心', '/s/user/index', NULL, 's.user.index', '个人中心', 1698309915, 1698309915);
-INSERT INTO `xin_user_rule` VALUES (18, 13, '1', 1, '账户设置', '/s/user/user_setting', NULL, 's.user.user_setting', '账户设置', 1698309945, 1698309945);
-INSERT INTO `xin_user_rule` VALUES (19, 13, '1', 2, '修改密码', '/s/user/set_password', NULL, 's.user.set_password', '修改密码', 1698309967, 1698309967);
-INSERT INTO `xin_user_rule` VALUES (20, 13, '1', 3, '资产记录', '/s/user/log', NULL, 's.user.log', '资产记录', 1698744852, 1698744852);
-INSERT INTO `xin_user_rule` VALUES (21, 20, '1', 0, '余额记录', '/s/user/money_log', NULL, 's.user.money_log', '余额记录', 1698744884, 1698744884);
+INSERT INTO `xin_user_rule` VALUES (1, 0, '0', 0, '首页', '/', 'HomeOutlined', 'index', 'menu.index', '首页', 1705645357, 1695864022);
+INSERT INTO `xin_user_rule` VALUES (9, 0, '0', 4, '代码仓库', '/git', 'StarOutlined', 'git', 'menu.git', '代码仓库', 1705645435, 1695870697);
+INSERT INTO `xin_user_rule` VALUES (10, 9, '1', 0, 'Github', 'https://github.com/Xineny-liu/xinadmin', NULL, 'ttps:..github.com.Xineny-liu.xinadmin', 'menu.github', 'github', 1695870807, 1695870807);
+INSERT INTO `xin_user_rule` VALUES (11, 9, '1', 1, 'Gitee', 'https://gitee.com/xineny/xin-admin', NULL, 'ttps:..gitee.com.xineny.xin-admin', 'menu.gitee', 'Gitee', 1695870845, 1695870845);
+INSERT INTO `xin_user_rule` VALUES (12, 0, '0', 4, '官方文档', 'https://xinadmin.cn', 'FileSearchOutlined', 'ttps:..xinadmin.cn', 'menu.xinadmin', '官方文档', 1705645446, 1695870959);
+INSERT INTO `xin_user_rule` VALUES (13, 0, '0', 1, '会员中心', '/user', 'UserOutlined', 'user', 'menu.users', '会员中心', 1705645375, 1696749281);
+INSERT INTO `xin_user_rule` VALUES (17, 13, '1', 0, '个人中心', '/user', NULL, 'user', 'menu.user', '个人中心', 1705645401, 1698309915);
+INSERT INTO `xin_user_rule` VALUES (18, 13, '1', 1, '账户设置', '/user/userSetting', NULL, 'user.userSetting', 'menu.userSetting', '账户设置', 1705645407, 1698309945);
+INSERT INTO `xin_user_rule` VALUES (19, 13, '1', 2, '修改密码', '/user/setPassword', NULL, 'user.setPassword', 'menu.setPassword', '修改密码', 1705645413, 1698309967);
+INSERT INTO `xin_user_rule` VALUES (20, 13, '1', 3, '资产记录', '/user/log', NULL, 'user.log', 'menu.log', '资产记录', 1705645420, 1698744852);
+INSERT INTO `xin_user_rule` VALUES (21, 20, '1', 0, '余额记录', '/user/log/moneyLog', NULL, 'user.log.moneyLog', 'menu.log.moneyLog', '余额记录', 1705645427, 1698744884);
 
 SET FOREIGN_KEY_CHECKS = 1;

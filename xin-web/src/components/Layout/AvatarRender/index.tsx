@@ -3,7 +3,7 @@ import { LogoutOutlined } from '@ant-design/icons';
 import { Logout as UserLogout } from '@/services/api/user';
 import { Logout as AdminLogout } from '@/services/admin';
 import { index } from '@/services/api';
-import { useModel } from '@@/exports';
+import { useModel, useNavigate } from '@@/exports';
 import LoginModel from '@/components/Layout/UserLoginRender';
 import React, { useState } from 'react';
 
@@ -27,6 +27,7 @@ export default (props: {dom: any}) => {
     localStorage.clear()
     location.href = '/'
   }
+  let navigate = useNavigate();
   const [loginModel, setLoginModel] = useState(false);
   return (
     <>
@@ -48,7 +49,7 @@ export default (props: {dom: any}) => {
         :
         <>
           <Button type={'link'} onClick={() => setLoginModel(true)}>登录</Button>
-          <Button type={'link'} onClick={() => setLoginModel(true)}>注册</Button>
+          <Button type={'link'} onClick={() => navigate('/reg')}>注册</Button>
           <Modal open={loginModel} footer={null} onCancel={() => setLoginModel(false)}>
             <LoginModel></LoginModel>
           </Modal>

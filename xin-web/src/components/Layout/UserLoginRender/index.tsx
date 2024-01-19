@@ -1,9 +1,19 @@
-import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  AlipayOutlined,
+  LockOutlined,
+  MobileOutlined,
+  QqOutlined,
+  TaobaoOutlined,
+  UserOutlined,
+  WechatOutlined,
+  WeiboOutlined,
+} from '@ant-design/icons';
 import { LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { message, Space, Tabs } from 'antd';
+import { Divider, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
 import { login } from '@/services/api';
+
 
 export default () => {
 
@@ -46,55 +56,45 @@ export default () => {
   ]
 
   return (
-      <LoginForm
-        logo= { initialState!.webSetting.logo || "https://file.xinadmin.cn/file/favicons.ico" }
-        title= { initialState!.webSetting.title || "Xin Admin" }
-        subTitle={ initialState!.webSetting.subtitle || "用技术改变世界"}
-        // actions={
-        //   <div
-        //     style={{
-        //       display: 'flex',
-        //       justifyContent: 'center',
-        //       alignItems: 'center',
-        //       flexDirection: 'column',
-        //     }}
-        //   >
-        //     <Divider plain>
-        //       <span
-        //         style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
-        //       >
-        //         其他登录方式
-        //       </span>
-        //     </Divider>
-        //     <Space align="center" size={24}>
-        //       <div style={iconDivStyle}>
-        //         <QqOutlined style={{ ...iconStyle, color: 'back' }} />
-        //       </div>
-        //       <div style={iconDivStyle}>
-        //         <WechatOutlined style={{ ...iconStyle, color: 'rgb(0,172,132)' }} />
-        //       </div>
-        //       <div style={iconDivStyle}>
-        //         <AlipayOutlined style={{ ...iconStyle, color: '#1677FF' }} />
-        //       </div>
-        //       <div style={iconDivStyle}>
-        //         <TaobaoOutlined style={{ ...iconStyle, color: '#FF6A10' }} />
-        //       </div>
-        //       <div style={iconDivStyle}>
-        //         <WeiboOutlined style={{ ...iconStyle, color: '#333333' }} />
-        //       </div>
-        //     </Space>
-        //   </div>
-        // }
-        onFinish={async (values) => {
-          await handleSubmit(values as USER.UserLoginFrom);
-        }}
-      >
-        <Tabs
-          centered
-          activeKey={loginType}
-          onChange={(activeKey) => setLoginType(activeKey as USER.LoginType)}
-          items = {loginTypeItems}
+    <LoginForm
+      logo={initialState!.webSetting.logo || 'https://file.xinadmin.cn/file/favicons.ico'}
+      title={initialState!.webSetting.title || 'Xin Admin'}
+      subTitle={initialState!.webSetting.subtitle || '用技术改变世界'}
+      actions={
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
         >
+          <Divider plain>
+              <span
+                style={{ color: '#CCC', fontWeight: 'normal', fontSize: 14 }}
+              >
+                其他登录方式
+              </span>
+          </Divider>
+          <Space align='center' size={24}>
+            <QqOutlined style={{ fontSize: 20, color: '#4cafe9' }} />
+            <WechatOutlined style={{ fontSize: 20, color: 'rgb(0,172,132)' }} />
+            <AlipayOutlined style={{ fontSize: 20, color: '#1677FF' }} />
+            <TaobaoOutlined style={{ fontSize: 20, color: '#FF6A10' }} />
+            <WeiboOutlined style={{ fontSize: 20, color: '#e71f19' }} />
+          </Space>
+        </div>
+      }
+      onFinish={async (values) => {
+        await handleSubmit(values as USER.UserLoginFrom);
+      }}
+    >
+      <Tabs
+        centered
+        activeKey={loginType}
+        onChange={(activeKey) => setLoginType(activeKey as USER.LoginType)}
+        items={loginTypeItems}
+      >
         </Tabs>
         {loginType === 'account' && (
           <>

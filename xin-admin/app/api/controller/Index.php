@@ -57,6 +57,7 @@ class Index extends Controller
         $menu = [];
         !$role->name ?: $menu['name'] = $role->name;
         !$role->path ?: $menu['path'] = $role->path;
+        !$role->locale ?: $menu['locale'] = $role->path;
         !$role->component ?: $menu['component'] = $role->component;
         !$role->key ?: $menu['key'] = $role->key;
         !$role->icon ?: $menu['icon'] = $role->icon;
