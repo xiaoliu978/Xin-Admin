@@ -37,6 +37,9 @@ const XinTabs = (props: {children: never[]}) => {
     if (action === 'remove') {
       let itemIndex = tabsItem.findIndex((item) => item.key === key)
       tabsItem.splice(itemIndex, 1)
+      let obj = tabsItem[itemIndex === tabsItem.length ? itemIndex - 1 : itemIndex]
+      setActiveKey(obj.key)
+      navigate(obj.key, {replace: true})
       setTabsItem([...tabsItem])
     }
   }
