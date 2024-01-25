@@ -17,7 +17,6 @@ const HomePage = () => {
         setResponsive(offset.width < 949);
       }}
     >
-      <h2 style={{marginLeft: 20, marginBottom: 30}}>欢迎你，管理员</h2>
       <Row gutter={[24,24]}>
         <Col span={responsive?24:18}>
           <Row gutter={[24,24]}>

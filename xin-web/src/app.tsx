@@ -1,7 +1,6 @@
 import React, { lazy } from 'react';
 import { history, Navigate } from '@umijs/max';
 import type { RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
-import { PageLoading } from '@ant-design/pro-components';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import appList from '@/default/appList';
 import defaultRoutes from '@/default/routes';
@@ -84,7 +83,6 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       render: (props, dom) => <AvatarRender dom={dom}></AvatarRender>,
     },
     childrenRender: (children: any) => {
-      if (initialState?.loading) return <PageLoading />;
       if (initialState?.app === 'admin') return <Access><SettingLayout /><XinTabs>{children}</XinTabs></Access>;
       return <Access><SettingLayout />{children}</Access>;
     },

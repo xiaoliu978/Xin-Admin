@@ -74,7 +74,7 @@ const App: React.FC<{open : boolean;onClose: ()=>void; record: {
       width={520}
       onClose={onClose}
       open={open}
-      bodyStyle={{ paddingBottom: 80 }}
+      styles={{body: { paddingBottom: 80 }}}
       extra={
         <Space>
           <Button onClick={onSave} type="primary" loading={loading}>
