@@ -102,7 +102,6 @@ class OnlineTable extends Controller
             'id' => 'require',
             'columns' => 'require',
             'table_config' => 'require',
-            'sql_config' => 'require',
             'crud_config' => 'require'
         ]);
         if (!$validate->check($data)) {
@@ -117,9 +116,9 @@ class OnlineTable extends Controller
         ];
 
         $crud = new Crud();
-        $crud->buildSql($data['sql_config'], $data['columns']);
+        $crud->buildSql($data['crud_config'], $data['columns']);
         $crud->buildController($data['columns'], $data['crud_config'], $viewData);
-        $crud->buildModel($data['crud_config'], $viewData, $data['sql_config']);
+        $crud->buildModel($data['crud_config'], $viewData);
         $crud->buildValidate($data['columns'], $data['crud_config'], $viewData);
         $crud->buildPage($data);
 

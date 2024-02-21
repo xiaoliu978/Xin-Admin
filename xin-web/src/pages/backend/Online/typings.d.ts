@@ -18,6 +18,7 @@ declare namespace OnlineType {
   }
 
   type ColumnsConfig = ProFormColumnsAndProColumns<any> & {
+    dataIndex?: string;
     valueType?: string;
     sqlType?: string;
     isKey?: boolean;

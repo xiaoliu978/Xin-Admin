@@ -361,7 +361,6 @@ const DynamicSettings = () => {
                         name="tooltip"
                         tooltip="tooltip={false}"
                       />
-
                       <ProFormSwitch
                         fieldProps={{
                           size: 'small',

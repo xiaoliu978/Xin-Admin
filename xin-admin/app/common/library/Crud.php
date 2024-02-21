@@ -88,13 +88,12 @@ class Crud
      * 构建模型
      * @param array $crud_config
      * @param array $viewData
-     * @param array $sql_config
      * @return void
      */
-    public function buildModel(array $crud_config, array $viewData, array $sql_config): void
+    public function buildModel(array $crud_config, array $viewData): void
     {
         // 模型渲染
-        $viewData['autoDeletetime'] = $sql_config['autoDeletetime'];
+        $viewData['autoDeletetime'] = $crud_config['autoDeletetime'];
 
         $modelView = View::fetch('../crud/model',$viewData);
         $path = root_path().$crud_config['modelPath'].'/';

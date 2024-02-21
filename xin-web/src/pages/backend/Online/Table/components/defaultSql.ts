@@ -1,10 +1,10 @@
-import {OnlineType} from "@/pages/Online/typings";
+import {OnlineType} from "@/pages/backend/Online/typings";
 
 const dict = {
   remark: '',
   sqlType: 'varchar',
   defaultValue: 'empty string',
-  title: '',
+  title: '默认字段',
   isKey: false,
   isDict: false,
   enum:
@@ -48,6 +48,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   radioButton: dict,
   password: {
     remark: '密码输入框',
+    title: '密码输入框',
     sqlType: 'varchar',
     defaultValue: 'empty string',
     isKey: false,
@@ -60,6 +61,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   },
   text: {
     remark: '文本框',
+    title: '文本框',
     sqlType: 'varchar',
     defaultValue: 'empty string',
     isKey: false,
@@ -72,6 +74,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   },
   textarea: {
     remark: '文本域',
+    title: '文本域',
     sqlType: 'text',
     defaultValue: 'null',
     isKey: false,
@@ -84,6 +87,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   },
   digit: {
     remark: '数字',
+    title: '数字',
     sqlType: 'int',
     defaultValue: 'null',
     isKey: false,
@@ -96,6 +100,7 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
   },
   money: {
     remark: '金额',
+    title: '金额',
     sqlType: 'double',
     defaultValue: 'null',
     isKey: false,
