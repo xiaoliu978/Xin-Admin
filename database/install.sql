@@ -1,19 +1,3 @@
-/*
- Navicat Premium Data Transfer
-
- Source Server         : 本地
- Source Server Type    : MySQL
- Source Server Version : 50740 (5.7.40)
- Source Host           : localhost:3306
- Source Schema         : test
-
- Target Server Type    : MySQL
- Target Server Version : 50740 (5.7.40)
- File Encoding         : 65001
-
- Date: 19/01/2024 14:56:52
-*/
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -208,6 +192,8 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 91);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 92);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 93);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 94);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 95);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 96);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -228,7 +214,7 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 95 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 97 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
@@ -315,6 +301,7 @@ INSERT INTO `xin_admin_rule` VALUES (91, 88, '1', 2, '工作台', '/dashboard/wo
 INSERT INTO `xin_admin_rule` VALUES (92, 0, '0', 5, '管理员', '/admin', 'icon-jiangshizhuji', 'admin', 'menu.admin', '', 1705393535, 1702952094);
 INSERT INTO `xin_admin_rule` VALUES (93, 2, '1', 5, '高级表格', '/data/table', NULL, 'data.table', 'menu.components.table', '', 1705474326, 1705474326);
 INSERT INTO `xin_admin_rule` VALUES (94, 2, '1', 6, '图标选择', '/data/icon', NULL, 'data.icon', 'menu.components.iconForm', '', 1705475395, 1705475395);
+INSERT INTO `xin_admin_rule` VALUES (96, 39, '1', 0, '测试表格', '/testTable', NULL, 'testTable', NULL, '', 1708498469, 1708498469);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -418,8 +405,6 @@ INSERT INTO `xin_dict_item` VALUES (55, 20, '手机号', 'verifyMobile', '1', 'd
 INSERT INTO `xin_dict_item` VALUES (56, 20, '身份证', 'verifyIdCard', '1', 'default', 1694048875, 1694048875);
 INSERT INTO `xin_dict_item` VALUES (57, 20, '字符串', 'verifyString', '1', 'default', 1694048930, 1694048930);
 INSERT INTO `xin_dict_item` VALUES (58, 17, '自增主键', 'id', '1', 'default', 1695367692, 1695367692);
-INSERT INTO `xin_dict_item` VALUES (59, 17, '创建时间', 'createTime', '1', 'default', 1695370490, 1695370490);
-INSERT INTO `xin_dict_item` VALUES (60, 17, '更新时间', 'updateTime', '1', 'default', 1695370504, 1695370504);
 INSERT INTO `xin_dict_item` VALUES (61, 21, '管理员操作', '0', '1', 'processing', 1697534904, 1697534904);
 INSERT INTO `xin_dict_item` VALUES (62, 21, '消费', '1', '1', 'error', 1697534922, 1697534948);
 INSERT INTO `xin_dict_item` VALUES (63, 21, '签到奖励', '2', '1', 'success', 1697534941, 1697534941);
@@ -499,12 +484,12 @@ CREATE TABLE `xin_online_table`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_online_table
 -- ----------------------------
-INSERT INTO `xin_online_table` VALUES (1, '测试表格', '[{\"valueType\":\"id\",\"dataIndex\":\"id\",\"title\":\"主键ID\",\"select\":\"=\",\"order\":100,\"hideInForm\":true,\"mock\":\"@increment\",\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"decimal\":0,\"unsign\":true},{\"valueType\":\"text\",\"dataIndex\":\"title\",\"title\":\"标题\",\"select\":\"like\",\"validation\":[\"verifyRequired\"],\"order\":98,\"mock\":\"@string(10,15)\",\"sqlType\":\"varchar\",\"remark\":\"文本框\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"money\",\"dataIndex\":\"money\",\"title\":\"金额\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":95,\"mock\":\"@float(100,999,2,2)\",\"sqlType\":\"double\",\"remark\":\"金额\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":2,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"date\",\"dataIndex\":\"date\",\"title\":\"生日\",\"select\":\"date\",\"validation\":[\"verifyRequired\"],\"order\":95,\"mock\":\"@date\",\"sqlType\":\"date\",\"remark\":\"日期\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false,\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"radioButton\",\"dataIndex\":\"school\",\"title\":\"学校\",\"select\":\"=\",\"validation\":[\"verifyRequired\"],\"order\":1,\"mock\":\"@integer(1, 3)\",\"sqlType\":\"varchar\",\"remark\":\"\",\"defaultValue\":\"empty string\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":26,\"decimal\":0,\"unsign\":false,\"isDict\":false,\"enum\":\"1:清华大学\\n2:北京大学\\n3:武汉大学\",\"valueEnum\":{},\"formItemProps\":{\"rules\":[{\"required\":true,\"message\":\"此项为必填项\"}]}},{\"valueType\":\"switch\",\"dataIndex\":\"switch\",\"title\":\"开关\",\"select\":\"=\",\"order\":1,\"mock\":\"@boolean\",\"sqlType\":\"char\",\"remark\":\"开关\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"dateTime\",\"dataIndex\":\"datetime\",\"title\":\"日期时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"datetime\",\"remark\":\"日期时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":0,\"decimal\":0,\"unsign\":false},{\"valueType\":\"rate\",\"dataIndex\":\"rate\",\"title\":\"评分\",\"select\":\"=\",\"order\":1,\"mock\":\"@integer(1, 5)\",\"sqlType\":\"char\",\"remark\":\"评分\",\"defaultValue\":\"0\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":1,\"decimal\":0,\"unsign\":true},{\"valueType\":\"createTime\",\"dataIndex\":\"create_time\",\"title\":\"创建时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false},{\"valueType\":\"updateTime\",\"dataIndex\":\"update_time\",\"title\":\"更新时间\",\"select\":\"date\",\"order\":1,\"mock\":\"@datetime\",\"sqlType\":\"int\",\"remark\":\"更新时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":11,\"decimal\":0,\"unsign\":false}]', '{}', '{\"name\":\"TableName\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/admin/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"src/pages\"}', '{\"headerTitle\":\"查询表格\",\"search\":true,\"addShow\":true,\"operateShow\":true,\"rowSelectionShow\":true,\"editShow\":true,\"deleteShow\":true}', '测试', 1697765314, 1697764941);
+INSERT INTO `xin_online_table` VALUES (3, '测试表格', '[{\"key\":1708497172308,\"dataIndex\":\"id\",\"valueType\":\"digit\",\"title\":\"ID\",\"select\":\"=\",\"validation\":[],\"hideInForm\":true,\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"unsign\":true,\"mock\":\"@integer(0, 100)\"},{\"key\":1708497258405,\"dataIndex\":\"name\",\"valueType\":\"text\",\"title\":\"姓名\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"姓名\",\"defaultValue\":\"\",\"isKey\":false,\"null\":true,\"autoIncrement\":false,\"length\":50,\"unsign\":false,\"mock\":\"@cname\"},{\"key\":1708497305506,\"dataIndex\":\"title\",\"valueType\":\"text\",\"title\":\"标题\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"标题\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@string\"},{\"key\":1708497339089,\"dataIndex\":\"star\",\"valueType\":\"digit\",\"title\":\"点赞量\",\"select\":\"=\",\"sqlType\":\"int\",\"remark\":\"点赞量\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false,\"mock\":\"@natural(60, 100)\"},{\"key\":1708497486863,\"dataIndex\":\"url\",\"valueType\":\"text\",\"title\":\"地址\",\"select\":\"like\",\"hideInSearch\":false,\"sqlType\":\"varchar\",\"remark\":\"地址\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@url\"},{\"key\":1708497510932,\"dataIndex\":\"email\",\"valueType\":\"text\",\"title\":\"邮箱\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"邮箱\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@email\"},{\"key\":1708497540905,\"dataIndex\":\"caty\",\"valueType\":\"text\",\"title\":\"城市\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"城市\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@city(true)\"},{\"key\":1708497577265,\"dataIndex\":\"create_time\",\"valueType\":\"dateTime\",\"title\":\"创建时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\"},{\"key\":1708497662817,\"dataIndex\":\"update_time\",\"valueType\":\"dateTime\",\"title\":\"修改时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"修改时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\"}]', '{}', '{\"sqlTableName\":\"test\",\"sqlTableRemark\":\"测试表\",\"autoDeletetime\":true,\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/admin/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"src/pages/backend\"}', '{\"rowSelectionShow\":true,\"addShow\":true,\"deleteShow\":true,\"editShow\":true,\"bordered\":true,\"showHeader\":true,\"searchShow\":true,\"search\":{\"collapseRender\":true,\"resetText\":\"重置\",\"searchText\":\"查询\",\"span\":6,\"layout\":\"vertical\",\"filterType\":\"query\"},\"optionsShow\":true,\"options\":{\"density\":true,\"search\":false,\"fullScreen\":false,\"setting\":true},\"paginationShow\":true,\"pagination\":{\"current\":1,\"pageSize\":5,\"total\":100},\"headerTitle\":\"表格标题\",\"tooltip\":\"表格 tooltip\",\"size\":\"default\"}', NULL, 1708498411, 1708497151);
 
 -- ----------------------------
 -- Table structure for xin_setting
@@ -553,32 +538,28 @@ CREATE TABLE `xin_setting_group`  (
 INSERT INTO `xin_setting_group` VALUES (3, 0, '网站设置', 'web', '2', 1694832330, 1694832330);
 
 -- ----------------------------
--- Table structure for xin_test_table
+-- Table structure for xin_test
 -- ----------------------------
-DROP TABLE IF EXISTS `xin_test_table`;
-CREATE TABLE `xin_test_table`  (
+DROP TABLE IF EXISTS `xin_test`;
+CREATE TABLE `xin_test`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `string` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '文本框',
-  `int` int(10) NULL DEFAULT NULL COMMENT '数字',
-  `date` date NULL DEFAULT NULL COMMENT '日期',
-  `money` double NULL DEFAULT NULL COMMENT '金额',
-  `one` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
-  `check` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
-  `like` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
-  `ccc` varchar(26) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '',
-  `md` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL COMMENT '文本域',
-  `datetime` datetime NULL DEFAULT NULL COMMENT '日期时间',
-  `switch` int(1) UNSIGNED NULL DEFAULT 0 COMMENT '开关',
-  `rate` int(1) UNSIGNED NULL DEFAULT 0 COMMENT '评分',
-  `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
+  `star` int(10) NULL DEFAULT NULL COMMENT '点赞量',
+  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
+  `caty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '城市',
+  `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` int(10) NULL DEFAULT NULL COMMENT '修改时间',
   `delete_time` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = 'CRUD 测试表格' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '测试表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of xin_test_table
+-- Records of xin_test
 -- ----------------------------
+INSERT INTO `xin_test` VALUES (1, '张三', '测试', 9999, '河南省', '123@qq.com', 'henan1', 1708498522, 1708499535, 1708499535);
+INSERT INTO `xin_test` VALUES (2, '李四', '里斯的一条你', 99, '河南', '666@QQ.COM', '和南宁', 1708498620, 1708498620, NULL);
 
 -- ----------------------------
 -- Table structure for xin_token
@@ -597,7 +578,9 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('fb7d5bffe9bbfe94ab8ef72b4248319f5ba19798', 'user', 1, 1703225239, 1705817239);
+INSERT INTO `xin_token` VALUES ('0d4ac7c46f0706867c9c72bf643acf639864eace', 'admin', 1, 1708414140, 1711006140);
+INSERT INTO `xin_token` VALUES ('11e8981935fed6f2ac637ee6f3f9eaa03eb7488a', 'admin', 1, 1708414140, 1711006140);
+INSERT INTO `xin_token` VALUES ('7c1a5ee5752f9209e03902d29a2b7f9fe3ab77d0', 'admin-refresh', 1, 1708413428, 1711005428);
 
 -- ----------------------------
 -- Table structure for xin_user
