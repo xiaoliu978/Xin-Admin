@@ -16,11 +16,10 @@ class Crud
      */
     public function buildSql(array $sql_config, array $columns): void
     {
-
-        $sql  = "CREATE TABLE IF NOT EXISTS `{$sql_config['sqlTableName']}` (" . PHP_EOL;
+        $tableName = 'xin-'.$sql_config['sqlTableName'];
+        $sql  = "CREATE TABLE IF NOT EXISTS `{$tableName}` (" . PHP_EOL;
         $pk   = '';
         foreach ($columns as $field) {
-
             // 数据库 sql 配置
             if (!isset($field['sqlType']) || !$field['sqlType']) {
                 continue;
@@ -45,13 +44,12 @@ class Crud
                 $pk = $field['dataIndex'];
             }
         }
-
         if($sql_config['autoDeletetime']){
             $sql .= "`delete_time` INT(10) UNSIGNED DEFAULT NULL COMMENT '删除时间',";
         }
-
         $sql .= "PRIMARY KEY (`$pk`)" . PHP_EOL . ") ";
-        $sql .= "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{$sql_config['sqlTableRemark']}'";
+        $comment = $sql_config['sqlTableRemark']??'';
+        $sql .= "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{$comment}'";
         Db::execute($sql);
     }
 
@@ -239,22 +237,54 @@ class Crud
         $columns .= '  ]';
 
 
-        $tableConfig = '';
+        $tableConfig = '{'.PHP_EOL;
+        $tableConfig .= '    tableApi: api,'.PHP_EOL;
+        $tableConfig .= '    columns: columns,'.PHP_EOL;
         foreach ($data['table_config'] as $key=>$item) {
-            if($key == 'search') {
-                $tableConfig .= !$item?"      {$key}={false}" . PHP_EOL: '';
+            if($key == 'paginationShow') {
+                if($item === true) {
+                    continue;
+                }else {
+                    $tableConfig .= "    {$key}: false," . PHP_EOL;
+                }
+            }
+            if($key == 'pagination' || $key == 'searchShow') {
                 continue;
             }
-            if($key == 'headerTitle') {
-                $tableConfig .= "      headerTitle={'{$item}'}" . PHP_EOL;
+            if(is_array($item)) {
+                $tableConfig .= "    {$key}: {" . PHP_EOL;
+                foreach ($item as $key2 => $item2) {
+                    if($item2 === false) {
+                        $tableConfig .= "      {$key2}: false," . PHP_EOL;
+                        continue;
+                    }
+                    if($key2 == 'collapseRender' && $item2 === true) {
+                        continue;
+                    }
+                    if($item2 === true) {
+                        $tableConfig .= "      {$key2}: true," . PHP_EOL;
+                        continue;
+                    }
+                    if($key2 == 'span') {
+                        $tableConfig .= "      {$key2}: $item2," . PHP_EOL;
+                        continue;
+                    }
+                    $tableConfig .= "      {$key2}:'{$item2}'," . PHP_EOL;
+                }
+                $tableConfig .= "    }," . PHP_EOL;
                 continue;
             }
-            if($item) {
-                $tableConfig .= "      {$key}={true}" . PHP_EOL;
+            if($item === false) {
+                $tableConfig .= "    {$key}: false," . PHP_EOL;
                 continue;
             }
-            $tableConfig .= "      {$key}={false}" . PHP_EOL;
+            if($item === true) {
+                $tableConfig .= "    {$key}: true," . PHP_EOL;
+                continue;
+            }
+            $tableConfig .= "    {$key}: '{$item}'," . PHP_EOL;
         }
+        $tableConfig .= '  }' . PHP_EOL;
         // 提取控制器名称（去除路径和文件扩展名）
         $controller = 'app/admin/controller/';
         $con = str_replace($controller,'',$data['crud_config']['controllerPath']);

@@ -168,33 +168,5 @@ const defaultSql: {[key: string]: OnlineType.ColumnsConfig} = {
     select: 'date',
     mock: '@datetime'
   },
-  createTime: {
-    remark: '创建时间',
-    sqlType: 'int',
-    defaultValue: 'null',
-    dataIndex: 'create_time',
-    title: '创建时间',
-    isKey: false,
-    null: false,
-    length: 11,
-    decimal: 0,
-    unsign: false,
-    select: 'date',
-    mock: '@datetime'
-  },
-  updateTime: {
-    remark: '更新时间',
-    sqlType: 'int',
-    defaultValue: 'null',
-    dataIndex: 'update_time',
-    title: '更新时间',
-    isKey: false,
-    null: false,
-    length: 11,
-    decimal: 0,
-    unsign: false,
-    select: 'date',
-    mock: '@datetime'
-  }
 }
 export default defaultSql;

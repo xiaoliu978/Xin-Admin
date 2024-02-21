@@ -1,6 +1,6 @@
 import React from "react";
 import XinTable from '@/components/XinTable'
-import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
+import {ProFormColumnsAndProColumns, TableProps} from '@/components/XinTable/typings';
 import * as verify from '@/utils/format';
 <?php
 if($isDict){
@@ -37,14 +37,10 @@ if($isDict){
   const columns: ProFormColumnsAndProColumns<Data>[] =
   <?php echo htmlspecialchars_decode($columns) ?>
 
-  return (
-    <XinTable<Data>
-      tableApi={api}
-      columns={columns}
-<?php echo htmlspecialchars_decode($table_config) ?>
-      accessName={'admin:rule'}
-    />
-  )
+  const tableConfig: TableProps<Data> =
+  <?php echo htmlspecialchars_decode($table_config) ?>
+
+  return <XinTable<Data> {...tableConfig}/>
 
 }
 

@@ -1,6 +1,6 @@
 import { Button, message, Modal } from 'antd';
 import React, { useState } from 'react';
-import { EditableProTable, ProColumns } from '@ant-design/pro-components';
+import { EditableProTable, ProColumns, useDebounceFn } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import { OnlineType } from '../../typings';
 import defaultSql from './defaultSql';
@@ -286,6 +286,11 @@ function CreateForm(props: {
     setModelShow(false);
   };
 
+  /** 去抖配置 */
+  const updateConfig = useDebounceFn(async (state) => {
+    setDataSource(state);
+  }, 200);
+
   return (
     <>
       <Button onClick={() => setModelShow(true)} type={'primary'} block style={{ marginTop: 10 }}>编辑字段</Button>
@@ -297,7 +302,7 @@ function CreateForm(props: {
           scroll={{ x: 2800, y: 500 }}
           value={dataSource}
           bordered
-          onChange={(value) => setDataSource(value)}
+          onChange={(value) => updateConfig.run(value)}
           recordCreatorProps={{
             newRecordType: 'dataSource',
             record: () => ({
@@ -313,7 +318,7 @@ function CreateForm(props: {
               return [defaultDoms.delete];
             },
             onValuesChange: (record, recordList) => {
-              setDataSource(recordList);
+              updateConfig.run(recordList)
             },
             onChange: setEditableRowKeys,
           }}

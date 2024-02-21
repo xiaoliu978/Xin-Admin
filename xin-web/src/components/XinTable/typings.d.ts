@@ -36,6 +36,7 @@ export type TableProps<TableData> = {
    * 是否显示删除按钮
    */
   deleteShow?: boolean;
+  optionsShow?: boolean;
   /**
    * 自定义操作栏
    * @param record

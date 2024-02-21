@@ -6,7 +6,6 @@ export const defaultTableSetting: OnlineType.TableConfig = {
   bordered: false,
   size: 'default',
   showHeader: false,
-  footer: false,
   rowSelectionShow: false,
   addShow: false,
   deleteShow: false,
@@ -25,7 +24,6 @@ export const defaultTableSetting: OnlineType.TableConfig = {
     searchText: '查询',
     resetText: '重置',
     collapseRender: false,
-    collapsed: true,
     span: 12,
     layout: 'vertical',
     filterType: 'query'
@@ -78,11 +76,6 @@ const tableColumns: ProFormColumnsType[] = [
     dataIndex: 'showHeader',
   },
   {
-    title: '显示页脚',
-    valueType: 'switch',
-    dataIndex: 'footer',
-  },
-  {
     valueType: 'divider',
     fieldProps: {
       orientation: 'left',
@@ -106,11 +99,6 @@ const tableColumns: ProFormColumnsType[] = [
           dataIndex: ['search','collapseRender'],
         },
         {
-          title: '表单收起',
-          valueType: 'switch',
-          dataIndex: ['search','collapsed'],
-        },
-        {
           title: '重置按钮文案',
           valueType: 'text',
           dataIndex: ['search','resetText'],
@@ -125,10 +113,10 @@ const tableColumns: ProFormColumnsType[] = [
           valueType: 'radio',
           dataIndex: ['search','span'],
           valueEnum: new Map([
-            [24,'24'],
-            [12,'12'],
-            [8,'8'],
-            [6,'6'],
+            [24,24],
+            [12,12],
+            [8,8],
+            [6,6],
           ]),
         },
         {
