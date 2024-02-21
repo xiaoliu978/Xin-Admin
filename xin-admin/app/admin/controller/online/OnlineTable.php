@@ -97,6 +97,9 @@ class OnlineTable extends Controller
     #[Auth('crud'), Method('POST')]
     public function crud(): Json
     {
+        if(env('WEB_NAME') && env('WEB_NAME') == 'xin_test'){
+            return $this->warn('演示站已禁止此操作');
+        }
         $data = request()->post();
         $validate = Validate::rule([
             'id' => 'require',
