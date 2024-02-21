@@ -20,7 +20,9 @@ if($autoDeletetime){
 echo('    use SoftDelete;');
 echo PHP_EOL;
 echo("    protected \$deleteTime = 'delete_time';");
+echo PHP_EOL;
 }
+echo("    protected \$table = '$tableName';")
 ?>
 
 }

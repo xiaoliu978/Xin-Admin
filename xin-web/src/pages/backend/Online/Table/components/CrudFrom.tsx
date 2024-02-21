@@ -140,7 +140,7 @@ export default (props: {
           controllerPath: 'app/admin/controller',
           modelPath: 'app/admin/model',
           validatePath: 'app/admin/validate',
-          pagePath: 'src/pages',
+          pagePath: 'src/pages/backend',
         }}
         formRef={formRef}
         onFinish={async (values) => {

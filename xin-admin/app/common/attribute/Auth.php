@@ -47,6 +47,9 @@ class Auth
         }
         if($tokenData['type'] == 'admin') {
             $adminInfo = self::getAdminInfo();
+            if($adminInfo['id'] == 1) {
+                return;
+            }
             if(!$adminInfo['status']) $this->error('账户已被禁用！', [], 403,'throw');
             // 获取用户所有权限
             $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();

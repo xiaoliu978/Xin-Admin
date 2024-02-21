@@ -16,7 +16,7 @@ class Crud
      */
     public function buildSql(array $sql_config, array $columns): void
     {
-        $tableName = 'xin-'.$sql_config['sqlTableName'];
+        $tableName = 'xin_'.$sql_config['sqlTableName'];
         $sql  = "CREATE TABLE IF NOT EXISTS `{$tableName}` (" . PHP_EOL;
         $pk   = '';
         foreach ($columns as $field) {
@@ -92,8 +92,9 @@ class Crud
     {
         // 模型渲染
         $viewData['autoDeletetime'] = $crud_config['autoDeletetime'];
-
+        $viewData['tableName'] = 'xin_'.$crud_config['sqlTableName'];
         $modelView = View::fetch('../crud/model',$viewData);
+
         $path = root_path().$crud_config['modelPath'].'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
@@ -286,10 +287,15 @@ class Crud
         }
         $tableConfig .= '  }' . PHP_EOL;
         // 提取控制器名称（去除路径和文件扩展名）
-        $controller = 'app/admin/controller/';
-        $con = str_replace($controller,'',$data['crud_config']['controllerPath']);
-        // 替换路径分隔符为点号
-        $api = str_replace('/', '.', $con).'.'.$data['crud_config']['name'];
+        $controllerPath = explode('controller',$data['crud_config']['controllerPath']);
+        if($controllerPath[1] != '') {
+            $apiPath = explode('/',$controllerPath[1]);
+            array_shift($apiPath);
+            $api = implode('.',$apiPath) .'.'. $data['crud_config']['name'];
+        }else {
+            $api = $data['crud_config']['name'];
+        }
+
         // 视图渲染
         $pageData = [
             'isDict'    => $isDict,
