@@ -20,7 +20,7 @@ const Devise = () => {
     controllerPath: 'app/admin/controller',
     modelPath: 'app/admin/model',
     validatePath: 'app/admin/validate',
-    pagePath: 'src/pages',
+    pagePath: 'src/pages/backend',
   });
   const [loading, setLoading] = useState(false);
   const [columns, setColumns] = useState<OnlineType.ColumnsConfig[]>([]);

@@ -8,6 +8,9 @@ use {$validatePath}\{$name} as {$name}Val;
 
 class {$name} extends Controller
 {
+
+    protected string $authName = '<?php echo htmlspecialchars_decode($authName) ?>';
+
     /**
      * 字段查询表达式
      */

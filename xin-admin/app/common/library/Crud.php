@@ -2,24 +2,67 @@
 
 namespace app\common\library;
 
+use app\admin\model\AdminRule as AdminRuleModel;
+use Exception;
 use think\facade\Db;
 use think\facade\View;
 
 class Crud
 {
+    private array $columns;
+    private array $tableConfig;
+    private array $crudConfig;
+    private array $viewData;
+    private string $errorMsg;
+
+    public function __construct(array $data)
+    {
+        $this->columns = $data['columns'];
+        $this->tableConfig = $data['table_config'];
+        $this->crudConfig = $data['crud_config'];
+        $this->viewData = [
+            'controllerPath' => str_replace('/', '\\', $this->crudConfig['controllerPath']),
+            'modelPath' => str_replace('/', '\\', $this->crudConfig['modelPath']),
+            'validatePath' => str_replace('/', '\\', $this->crudConfig['validatePath']),
+            'name' => $this->crudConfig['name']
+        ];
+    }
+
+    /**
+     * crud
+     * @return bool
+     */
+    public function generate(): bool
+    {
+        try {
+            $this->buildSql();
+            $this->buildController();
+            $this->buildModel();
+            $this->buildValidate();
+            $this->buildPage();
+            $this->saveAuth();
+            return true;
+        }catch (Exception $exception ) {
+            $this->setErrorMsg($exception->getMessage());
+            return false;
+        }
+    }
 
     /**
      * 构建 sql
-     * @param array $sql_config
-     * @param array $columns
      * @return void
+     * @throws Exception
      */
-    public function buildSql(array $sql_config, array $columns): void
+    private function buildSql(): void
     {
-        $tableName = 'xin_'.$sql_config['sqlTableName'];
+        $crudConfig = $this->crudConfig;
+        if(!isset($crudConfig['sqlTableName']) || !$crudConfig['sqlTableName']) {
+            throw new Exception('请输入数据表名称');
+        }
+        $tableName = 'xin_'.$crudConfig['sqlTableName'];
         $sql  = "CREATE TABLE IF NOT EXISTS `{$tableName}` (" . PHP_EOL;
         $pk   = '';
-        foreach ($columns as $field) {
+        foreach ($this->columns as $field) {
             // 数据库 sql 配置
             if (!isset($field['sqlType']) || !$field['sqlType']) {
                 continue;
@@ -44,26 +87,23 @@ class Crud
                 $pk = $field['dataIndex'];
             }
         }
-        if($sql_config['autoDeletetime']){
+        if(isset($crudConfig['autoDeletetime']) && $crudConfig['autoDeletetime']){
             $sql .= "`delete_time` INT(10) UNSIGNED DEFAULT NULL COMMENT '删除时间',";
         }
         $sql .= "PRIMARY KEY (`$pk`)" . PHP_EOL . ") ";
-        $comment = $sql_config['sqlTableRemark']??'';
+        $comment = $crudConfig['sqlTableRemark']??'';
         $sql .= "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='{$comment}'";
         Db::execute($sql);
     }
 
     /**
      * 构建控制器
-     * @param array $columns
-     * @param array $crud_config
-     * @param array $viewData
      * @return void
      */
-    public function buildController(array $columns ,array $crud_config, array $viewData): void
+    private function buildController(): void
     {
         $select = '';
-        foreach ($columns as $item){
+        foreach ($this->columns as $item){
             if(!isset($item['hideInSearch']) || !$item['hideInSearch']){
                 if(isset($item['select'])){
                     $select .= "        '{$item['dataIndex']}'=> '{$item['select']}',".PHP_EOL;
@@ -72,48 +112,48 @@ class Crud
                 }
             }
         }
+        $viewData = $this->viewData;
         $viewData['select'] = $select;
+        $path = $this->crudConfig['pagePath'].'/'.$this->crudConfig['name'];
+        $auth = preg_replace('/\//', '.', $path);
+        $viewData['authName'] = ltrim($auth, '.');
         // 控制器渲染
         $controllerView = View::fetch('../crud/controller',$viewData);
-        $path = root_path().$crud_config['controllerPath'].'/';
+        $path = root_path().$this->crudConfig['controllerPath'].'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
-        file_put_contents($path.$crud_config['name'].'.php', $controllerView);
+        file_put_contents($path.$this->crudConfig['name'].'.php', $controllerView);
     }
 
     /**
      * 构建模型
-     * @param array $crud_config
-     * @param array $viewData
      * @return void
      */
-    public function buildModel(array $crud_config, array $viewData): void
+    private function buildModel(): void
     {
         // 模型渲染
-        $viewData['autoDeletetime'] = $crud_config['autoDeletetime'];
-        $viewData['tableName'] = 'xin_'.$crud_config['sqlTableName'];
+        $viewData = $this->viewData;
+        $viewData['autoDeletetime'] = $this->crudConfig['autoDeletetime'];
+        $viewData['tableName'] = 'xin_'.$this->crudConfig['sqlTableName'];
         $modelView = View::fetch('../crud/model',$viewData);
 
-        $path = root_path().$crud_config['modelPath'].'/';
+        $path = root_path().$this->crudConfig['modelPath'].'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
-        file_put_contents($path.$crud_config['name'].'.php', $modelView);
+        file_put_contents($path.$this->crudConfig['name'].'.php', $modelView);
     }
 
     /**
      * 构建验证器
-     * @param array $columns
-     * @param array $crud_config
-     * @param array $viewData
      * @return void
      */
-    public function buildValidate(array $columns,array $crud_config, array $viewData): void
+    private function buildValidate(): void
     {
         $validation = '';
         $massage = '';
-        foreach ($columns as $item){
+        foreach ($this->columns as $item){
             if(isset($item['validation']) && $item['validation']){
                 $validation .= "        '{$item['dataIndex']}'  => '";
 
@@ -157,30 +197,30 @@ class Crud
                 $validation .= "',".PHP_EOL;
             }
         }
+        $viewData = $this->viewData;
         $viewData['validation'] = $validation;
         $viewData['massage']    = $massage;
 
         // 验证器渲染
         $validateView = View::fetch('../crud/validate',$viewData);
-        $path = root_path().$crud_config['validatePath'].'/';
+        $path = root_path().$this->crudConfig['validatePath'].'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
-        file_put_contents($path.$crud_config['name'].'.php', $validateView);
+        file_put_contents($path.$this->crudConfig['name'].'.php', $validateView);
     }
 
 
     /**
      * 构建前端页面
-     * @param $data
      * @return void
      */
-    public function buildPage($data): void
+    private function buildPage(): void
     {
         $columns = '['.PHP_EOL;
         $isDict = false;
 
-        foreach ($data['columns'] as $field) {
+        foreach ($this->columns as $field) {
             if(!isset($field['valueType']) && !$field['valueType']){
                 continue;
             }
@@ -241,7 +281,11 @@ class Crud
         $tableConfig = '{'.PHP_EOL;
         $tableConfig .= '    tableApi: api,'.PHP_EOL;
         $tableConfig .= '    columns: columns,'.PHP_EOL;
-        foreach ($data['table_config'] as $key=>$item) {
+        $path = $this->crudConfig['pagePath'].'/'.$this->crudConfig['name'];
+        $auth = preg_replace('/\//', '.', $path);
+        $auth = ltrim($auth, '.');
+        $tableConfig .= "    accessName: '".$auth."',".PHP_EOL;
+        foreach ($this->tableConfig as $key=>$item) {
             if($key == 'paginationShow') {
                 if($item === true) {
                     continue;
@@ -250,6 +294,9 @@ class Crud
                 }
             }
             if($key == 'pagination' || $key == 'searchShow') {
+                continue;
+            }
+            if($key == 'size' && $item == 'default') {
                 continue;
             }
             if(is_array($item)) {
@@ -287,24 +334,24 @@ class Crud
         }
         $tableConfig .= '  }' . PHP_EOL;
         // 提取控制器名称（去除路径和文件扩展名）
-        $controllerPath = explode('controller',$data['crud_config']['controllerPath']);
+        $controllerPath = explode('controller',$this->crudConfig['controllerPath']);
         if($controllerPath[1] != '') {
             $apiPath = explode('/',$controllerPath[1]);
             array_shift($apiPath);
-            $api = implode('.',$apiPath) .'.'. $data['crud_config']['name'];
+            $api = implode('.',$apiPath) .'.'. $this->crudConfig['name'];
         }else {
-            $api = $data['crud_config']['name'];
+            $api = $this->crudConfig['name'];
         }
 
         // 视图渲染
         $pageData = [
             'isDict'    => $isDict,
             'columns' => $columns,
-            'name'    => $data['crud_config']['name'],
+            'name'    => $this->crudConfig['name'],
             'table_config' => $tableConfig,
             'api'     => $api
         ];
-        $pagePath = root_path().env('web_path').'/'.$data['crud_config']['pagePath'].'/'.$data['crud_config']['name'];
+        $pagePath = root_path().env('web_path').'/'.'src/pages/backend'.$this->crudConfig['pagePath'].'/'.$this->crudConfig['name'];
         if(!is_dir($pagePath)){
             mkdir($pagePath, 0777, true); // 使用递归创建目录
         }
@@ -313,4 +360,78 @@ class Crud
     }
 
 
+    /**
+     * @return void
+     * @throws Exception
+     */
+    private function saveAuth(): void
+    {
+        $path = $this->crudConfig['pagePath'].'/'.$this->crudConfig['name'];
+        $auth = preg_replace('/\//', '.', $path);
+        $auth = ltrim($auth, '.');
+        $data = [
+            'icon' => $this->crudConfig['menuIcon']??'',
+            'name' => $this->crudConfig['sqlTableRemark'],
+            'path' => $path,
+            'sort' => 20,
+            'type' => 0,
+            'pid' => 0,
+            'key' => $auth,
+            'remark' => $this->crudConfig['sqlTableRemark']??''
+        ];
+        $model = new AdminRuleModel();
+        $model->save($data);
+        $dataAll = [
+            [
+                'name' => $this->crudConfig['sqlTableRemark'] . '新增',
+                'sort' => 0,
+                'type' => 2,
+                'pid' => $model->getKey(),
+                'key' => $auth . '.add',
+                'remark' => $this->crudConfig['sqlTableRemark'].'新增'
+            ],
+            [
+                'name' => $this->crudConfig['sqlTableRemark'] . '编辑',
+                'sort' => 0,
+                'type' => 2,
+                'pid' => $model->getKey(),
+                'key' => $auth . '.edit',
+                'remark' => $this->crudConfig['sqlTableRemark'].'编辑'
+            ],
+            [
+                'name' => $this->crudConfig['sqlTableRemark'] . '查询',
+                'sort' => 0,
+                'type' => 2,
+                'pid' => $model->getKey(),
+                'key' => $auth . '.list',
+                'remark' => $this->crudConfig['sqlTableRemark'].'查询'
+            ],
+            [
+                'name' => $this->crudConfig['sqlTableRemark'] . '删除',
+                'sort' => 0,
+                'type' => 2,
+                'pid' => $model->getKey(),
+                'key' => $auth . '.delete',
+                'remark' => $this->crudConfig['sqlTableRemark'].'删除'
+            ]
+        ];
+        $model->saveAll($dataAll);
+    }
+
+    /**
+     * @param string $msg
+     * @return void
+     */
+    private function setErrorMsg(string $msg): void
+    {
+        $this->errorMsg = $msg;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorMsg(): string
+    {
+        return $this->errorMsg;
+    }
 }

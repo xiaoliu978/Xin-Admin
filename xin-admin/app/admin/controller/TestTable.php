@@ -7,6 +7,9 @@ use app\admin\validate\TestTable as TestTableVal;
 
 class TestTable extends Controller
 {
+
+    protected string $authName = 'TestTable';
+
     /**
      * 字段查询表达式
      */

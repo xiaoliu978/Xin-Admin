@@ -1,8 +1,9 @@
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
-import { BetaSchemaForm, useDebounceFn } from '@ant-design/pro-components';
+import { BetaSchemaForm } from '@ant-design/pro-components';
 import { OnlineType } from '@/pages/backend/Online/typings';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import IconsItem from '@/components/XinForm/IconsItem';
 
 const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
   {
@@ -101,15 +102,17 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
     title: '前端页面目录',
     dataIndex: 'pagePath',
     valueType: 'text',
-    formItemProps: {
-      rules: [
-        {
-          required: true,
-          message: '此项为必填项',
-        },
-      ],
+    fieldProps: {
+      placeholder: '请输入数据表名称',
+      addonBefore: 'src/pages/backend',
     },
   },
+  {
+    title: '菜单图标',
+    dataIndex: 'menuIcon',
+    valueType: 'text',
+    renderFormItem: (form,config,schema) => <IconsItem dataIndex={form.key} form={schema} value={config.value}></IconsItem>
+  }
 ];
 
 export default (props: {
@@ -124,15 +127,10 @@ export default (props: {
     }
   },[crudConfig])
 
-  /** 去抖配置 */
-  const updateConfig = useDebounceFn(async () => {
-    setCrudConfig(formRef.current?.getFieldsValue());
-  }, 200);
-
   return (
     <>
       <BetaSchemaForm<OnlineType.CrudConfig>
-        onValuesChange={() => updateConfig.run()}
+        onValuesChange={() => setCrudConfig(formRef.current?.getFieldsValue())}
         layoutType={'Form'}
         layout={'horizontal'}
         initialValues={{

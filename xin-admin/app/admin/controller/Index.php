@@ -4,6 +4,7 @@ declare (strict_types=1);
 namespace app\admin\controller;
 
 use app\admin\model\Admin as AdminModel;
+use app\admin\model\AdminRule as AdminRuleModel;
 use app\admin\model\AdminGroup;
 use app\admin\validate\Admin as AdminVal;
 use app\common\attribute\Auth;
@@ -138,26 +139,33 @@ class Index extends Controller
     {
         $info = Auth::getAdminInfo();
         // 获取权限
-        $group = (new AdminGroup())->where('id',$info['group_id'])->find();
-        $access = [];
-        foreach ($group->roles as $role) {
-            $access[] =  $role->key;
+        if($info['id'] == 1) {
+            $menus = (new AdminRuleModel())->where('type',0)->order('sort')->select()->toArray();
+            $childrenMenus = (new AdminRuleModel())->where('type',1)->order('sort')->select()->toArray();
+            foreach ($menus as &$role) {
+                $this->childrenNode($role, $childrenMenus);
+            }
+            $roles = (new AdminRuleModel())->select()->toArray();
+        }else {
+            $roles = (new AdminGroup())->where('id',$info['group_id'])->find()->roles;
+            // 获取一级菜单
+            $menus = (new AdminGroup)->with(['roles' => function($query){
+                $query->where('type',0)->order('sort');
+            }])->where('id',$info['group_id'])->find()->roles->toArray();
+
+            // 获取子菜单
+            $childrenMenus = (new AdminGroup)->with(['roles' => function($query){
+                $query->where('type',1)->order('sort');
+            }])->where('id',$info['group_id'])->find()->roles->toArray();
         }
-
-        // 获取一级菜单
-        $menus = (new AdminGroup)->with(['roles' => function($query){
-            $query->where('type',0)->order('sort');
-        }])->where('id',$info['group_id'])->find()->roles->toArray();
-
-        // 获取子菜单
-        $childrenMenus = (new AdminGroup)->with(['roles' => function($query){
-            $query->where('type',1)->order('sort');
-        }])->where('id',$info['group_id'])->find()->roles->toArray();
 
         foreach ($menus as &$role) {
             $this->childrenNode($role, $childrenMenus);
         }
-
+        $access = [];
+        foreach ($roles as $item) {
+            $access[] =  $item['key'];
+        }
         return $this->success('ok',compact('info','access','menus'));
     }
 

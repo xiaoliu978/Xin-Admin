@@ -111,21 +111,12 @@ class OnlineTable extends Controller
             return $this->warn($validate->getError());
         }
 
-        $viewData = [
-            'controllerPath' => str_replace('/', '\\', $data['crud_config']['controllerPath']),
-            'modelPath' => str_replace('/', '\\', $data['crud_config']['modelPath']),
-            'validatePath' => str_replace('/', '\\', $data['crud_config']['validatePath']),
-            'name' => $data['crud_config']['name']
-        ];
+        $crud = new Crud($data);
+        if($crud->generate()) {
+            return $this->success('ok');
+        }
+        return $this->error($crud->getErrorMsg());
 
-        $crud = new Crud();
-        $crud->buildSql($data['crud_config'], $data['columns']);
-        $crud->buildController($data['columns'], $data['crud_config'], $viewData);
-        $crud->buildModel($data['crud_config'], $viewData);
-        $crud->buildValidate($data['columns'], $data['crud_config'], $viewData);
-        $crud->buildPage($data);
-
-        return $this->success('ok');
     }
 
 }

@@ -5,7 +5,7 @@ import {useModel} from "@umijs/max";
 import {GetRulePid} from "@/services/admin/auth";
 import {useEffect, useState} from "react";
 import {useBoolean} from "ahooks";
-import IconsItem from "@/components/XinForm/IconsItem/Index"
+import IconsItem from "@/components/XinForm/IconsItem"
 
 const api = '/adminRule';
 interface ResponseAdminList {

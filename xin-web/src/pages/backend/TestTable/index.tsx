@@ -1,6 +1,7 @@
 import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns, TableProps} from '@/components/XinTable/typings';
+import * as verify from '@/utils/format';
 
 /**
  *  Api 接口
@@ -61,8 +62,8 @@ const TestTable: React.FC = () => {
     {
       valueType:'dateTime',
       title:'创建时间',
+      hideInForm: true,
       dataIndex:'create_time',
-      hideInForm: true
     },
     {
       valueType:'dateTime',
@@ -75,6 +76,7 @@ const TestTable: React.FC = () => {
   {
     tableApi: api,
     columns: columns,
+    accessName: 'TestTable',
     rowSelectionShow: true,
     addShow: true,
     deleteShow: true,
@@ -91,12 +93,12 @@ const TestTable: React.FC = () => {
     optionsShow: true,
     options: {
       density: true,
-      search: false,
-      fullScreen: false,
+      search: true,
+      fullScreen: true,
       setting: true,
     },
-    headerTitle: '表格标题',
-    tooltip: '表格 tooltip',
+    headerTitle: '数据表',
+    tooltip: '这是tooltip',
   }
 
   return <XinTable<Data> {...tableConfig}/>

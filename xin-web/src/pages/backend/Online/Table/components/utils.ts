@@ -34,6 +34,9 @@ export const buildColumns = (dataSource: OnlineType.ColumnsConfig[] | readonly O
   return dataSource.map((item) => {
     let data = {...item}
     // 生成枚举
+    if(!item.key) {
+      data.key = item.dataIndex;
+    }
     let valueEnum = buildValueEnum(item)
     if(valueEnum) data.valueEnum = valueEnum
     // 处理验证规则
