@@ -13,6 +13,8 @@ use think\response\Json;
 class Admin extends Controller
 {
 
+    protected array $withModel = ['avatar'];
+
     protected string $authName = 'admin.list';
 
     protected array $searchField = [

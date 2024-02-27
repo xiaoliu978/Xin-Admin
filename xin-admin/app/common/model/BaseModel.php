@@ -101,5 +101,21 @@ class BaseModel extends Model
         return $this->where($where)->dec($field, $step)->update();
     }
 
+    /**
+     * 查找单条记录
+     * @param mixed $data 查询条件
+     * @param array $with 关联查询
+     * @return array|static|null
+     */
+    public static function get(mixed $data, array $with = []): array|static|null
+    {
+        try {
+            $query = (new static)->with($with);
+            return is_array($data) ? $query->where($data)->find() : $query->find((int)$data);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
 
 }

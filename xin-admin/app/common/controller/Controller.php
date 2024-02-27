@@ -23,6 +23,8 @@ class Controller extends BaseController
      */
     protected array $allowAction = [];
 
+    protected array $withModel = [];
+
     /**
      * 查询字段
      * @var array
@@ -113,6 +115,7 @@ class Controller extends BaseController
     {
         list($where, $paginate) = $this->buildSearch();
         $list = $this->model
+            ->with($this->withModel)
             ->where($where)
             ->paginate($paginate)
             ->toArray();
