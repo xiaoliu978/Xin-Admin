@@ -1,15 +1,8 @@
 import React from 'react';
 import { MenuDataItem } from '@ant-design/pro-components';
 import * as AntdIcons from "@ant-design/icons";
-import { createFromIconfontCN } from '@ant-design/icons';
-
+import IconFont from '@/components/IconFont';
 const allIcons: { [key: string]: any } = AntdIcons;
-
-let IconFont = createFromIconfontCN({
-  // 以下是默认值，也可以按需要指定
-  scriptUrl: '//at.alicdn.com/t/c/font_4413039_4ep4ccllu9b.js',
-});
-
 // 从接口获取菜单时icon为string类型
 const fixMenuItemIcon = (menus: MenuDataItem[]): MenuDataItem[] => {
   menus.forEach((item) => {
