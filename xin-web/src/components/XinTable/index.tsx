@@ -5,7 +5,7 @@ import {
   ProTable
 } from '@ant-design/pro-components';
 import { Button, message, Divider, Watermark, Popconfirm, Space } from 'antd';
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useImperativeHandle, useRef, useState } from 'react';
 import { ProFormColumnsAndProColumns, TableProps } from './typings';
 import UpdateForm from './components/UpdateForm';
 import CreateForm from './components/CreateForm';
@@ -56,6 +56,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    * 权限
    */
   const access = useAccess();
+
+  useImperativeHandle(props.actionRef,()=> actionRef.current)
 
   /**
    * 递归收集所有 Key
@@ -227,7 +229,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
    */
   const defaultProTableConfig: ProTableProps<TableData, any> = {
     headerTitle: "查询表格",
-    actionRef: actionRef,
     rowKey: "id",
     search: searchConfig,
     expandable: {
@@ -249,7 +250,8 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       };
     },
     rowSelection: rowSelectionShow !== false ? { onChange: (_, selectedRows) => setSelectedRows(selectedRows) } : undefined,
-    tableStyle: {minHeight: 500}
+    tableStyle: {minHeight: 500},
+
   }
 
   return (
@@ -259,6 +261,7 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
         columns={operateShow!==false?[...columns,defaultButton()]:columns}
         toolBarRender={defaultToolBar}
         cardBordered
+        actionRef={actionRef}
       />
       {footerBar()}
     </Watermark>
