@@ -28,7 +28,7 @@
 </p>
 
 
-基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Taro 等技术栈开发的全栈开发框架，提供按钮级权限验证、用户分组权限、数据字典、可视化CRUD、系统配置等便捷开发，
+基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Taro 等技术栈开发的全栈开发框架，提供按钮级权限验证、动态菜单、用户分组权限、数据字典、可视化CRUD、系统配置、文件管理系统等便捷开发，
 拥有 Web管理端、Web客户端 和 Taro多端小程序。遵循Apache License 无需授权即可免费商用.
 
 <img src="https://file.xinadmin.cn/file/demo.png"/>
@@ -53,6 +53,9 @@
 ### ♻️ 数据字典和全局设置
 强大的数据字典，支持CRUD生成，value、label 映射，支持标签、文字、徽标三种表格展示类型，多种显示状态，还有方便的系统配置。
 
+### 🎁 文件管理系统
+XinAdmin 拥有强大的文件系统，可拓展 AliOss 存储 支持多选、文件分组等，支持图片、视频、音频、压缩文件和其它文件上传
+
 ### 🎟️ 插件化开发
 你可以将你的应用或者插件，通过安装包的的形式进行发布提供安装，也可以在我们的插件市场中选择需要的插件安装，具体请看 插件开发指引，你也可以申请加入开发者，与我们共建生态
 
@@ -65,6 +68,9 @@
 
 #### 字典配置，支持多中种状态
 <img src="https://file.xinadmin.cn/file/dict.png"/>
+
+#### 文件系统
+<img src="https://file.xinadmin.cn/file/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-03-01%20162443.png">
 
 ### 项目愿景
 我渴望技术，在这个技术大爆发的时代，通过成熟切优秀的项目，构建出一套稳定、可行性强、方便实用的全栈开发框架，提供多行业跨平台解决方案，包括且不限于 CMS、SaaS、CRM、
