@@ -13,6 +13,8 @@ use think\response\Json;
 
 class File extends Controller
 {
+    protected string $authName = 'file.file';
+
     public function initialize(): void
     {
         parent::initialize();

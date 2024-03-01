@@ -16,6 +16,8 @@ use app\admin\validate\file\Group as GroupVal;
 class Group extends Controller
 {
 
+    protected string $authName = 'file.group';
+
     public function initialize(): void
     {
         parent::initialize();

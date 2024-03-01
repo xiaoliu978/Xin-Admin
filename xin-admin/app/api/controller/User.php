@@ -151,7 +151,7 @@ class User extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getUserId();
-        $model->add($fileInfo, FileTypeEnum::IMAGE->value,$user_id, 6, 20);
+        $model->add($fileInfo, FileTypeEnum::IMAGE->value,$user_id, 14, 20);
         // 图片上传成功
         return $this->success('图片上传成功',['fileInfo' => $model->toArray()]);
     }

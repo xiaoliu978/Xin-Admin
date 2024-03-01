@@ -37,5 +37,5 @@ export default {
   'menu.setPassword': 'Set Password',
   'menu.log': 'log',
   'menu.log.moneyLog': 'Money Log',
-
+  'menu.File': 'Files'
 };

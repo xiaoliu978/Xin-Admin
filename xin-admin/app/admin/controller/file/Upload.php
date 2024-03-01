@@ -3,6 +3,7 @@
 namespace app\admin\controller\file;
 
 use app\common\attribute\Auth;
+use app\common\attribute\Method;
 use app\common\controller\Controller;
 use app\common\enum\FileType as FileTypeEnum;
 use app\common\library\storage\Driver as StorageDriver;
@@ -13,6 +14,8 @@ use think\response\Json;
 class Upload extends Controller
 {
     private string|array $config;
+
+    protected string $authName = 'file.upload';
 
     /**
      * 构造方法
@@ -32,6 +35,7 @@ class Upload extends Controller
      * @return Json
      * @throws Exception
      */
+    #[Auth('image')]
     public function image(int $groupId = 0): Json
     {
         // 实例化存储驱动
@@ -60,6 +64,7 @@ class Upload extends Controller
      * @return Json
      * @throws Exception
      */
+    #[Auth('video')]
     public function video(int $groupId = 0): Json
     {
         // 实例化存储驱动
@@ -83,11 +88,12 @@ class Upload extends Controller
     }
 
     /**
-     * 视频上传接口
+     * 压缩文件上传接口
      * @param int $groupId 分组ID
      * @return Json
      * @throws Exception
      */
+    #[Auth('zip')]
     public function zip(int $groupId = 0): Json
     {
         // 实例化存储驱动
@@ -111,11 +117,12 @@ class Upload extends Controller
     }
 
     /**
-     * 视频上传接口
+     * 音频文件上传接口
      * @param int $groupId 分组ID
      * @return Json
      * @throws Exception
      */
+    #[Auth('mp3')]
     public function mp3(int $groupId = 0): Json
     {
         // 实例化存储驱动
@@ -144,6 +151,7 @@ class Upload extends Controller
      * @return Json
      * @throws Exception
      */
+    #[Auth('annex')]
     public function annex(int $groupId = 0): Json
     {
         // 实例化存储驱动

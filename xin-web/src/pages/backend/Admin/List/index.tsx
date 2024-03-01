@@ -134,7 +134,7 @@ const Table: React.FC = () => {
                 return <UploadImgItem
                     form={form}
                     dataIndex={'avatar_id'}
-                    api={'/admin.php/file.upload/image'}
+                    api={'/admin.php/file.upload/image?group_id=14'}
                     defaultFile={form.getFieldValue('avatar_url')}
                     crop={true}
                 />
