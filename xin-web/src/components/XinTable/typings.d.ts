@@ -1,4 +1,5 @@
 import {
+  ActionType,
   BaseQueryFilterProps,
   ProColumns, ProFormColumnsType, ProTableProps,
 } from '@ant-design/pro-components';
@@ -69,6 +70,7 @@ export type TableProps<TableData> = {
    * 底部按钮
    */
   footerBarButton?: React.ReactNode
+  actionRef?:  React.MutableRefObject<ActionType | undefined>
 } & ProTableProps<TableData, any>;
 
 /**

@@ -130,7 +130,7 @@ class Auth
     {
         $user_id = self::getUserId();
         $userModel = new UserModel;
-        $user = $userModel->where('id',$user_id)->findOrEmpty();
+        $user = $userModel->where('id',$user_id)->with(['avatar'])->findOrEmpty();
         if($user->isEmpty()) {
             self::throwError('用户不存在！');
         }
@@ -158,7 +158,7 @@ class Auth
     {
         $user_id = self::getAdminId();
         $userModel = new AdminModel;
-        $user = $userModel->where('id',$user_id)->findOrEmpty();
+        $user = $userModel->where('id',$user_id)->with(['avatar'])->findOrEmpty();
         if($user->isEmpty()) {
             self::throwError('用户不存在！');
         }

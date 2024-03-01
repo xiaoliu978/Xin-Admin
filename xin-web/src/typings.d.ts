@@ -8,7 +8,7 @@ interface initialStateType {
   // 加载状态
   loading?: boolean;
   // 用户信息
-  currentUser?: USER.UserInfo;
+  currentUser: USER.UserInfo;
   // 全局样式
   borderShow?: boolean;
   // 菜单设置

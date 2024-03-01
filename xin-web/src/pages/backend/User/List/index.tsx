@@ -27,6 +27,7 @@ interface Data {
   motto: string;
   create_time: string;
   update_time: string;
+  avatar_url: string;
 }
 
 /**
@@ -71,8 +72,8 @@ const User: React.FC = () => {
       valueType:'text',
       title:'头像',
       order:94,
-      dataIndex:'avatar',
-      render: (_,data) => <Avatar src={data.avatar} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined/>} />
+      dataIndex:'avatar_url',
+      render: (_,data) => <Avatar src={data.avatar_url} style={{ backgroundColor: '#87d068' }} icon={<UserOutlined/>} />
     },
     {
       valueType:'text',

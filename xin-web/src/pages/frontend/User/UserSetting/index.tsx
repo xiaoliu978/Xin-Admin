@@ -42,9 +42,20 @@ const Table : React.FC = () => {
     },
     {
       title: '头像',
-      dataIndex: 'avatar',
-      valueType: 'text',
-      renderFormItem: (schema,config, form) => <UploadImgItem form={form} dataIndex={'avatar'} api={'/api.php/user/upAvatar'} ></UploadImgItem>,
+      dataIndex: 'avatar_id',
+      hideInSearch: true,
+      valueType: 'avatar',
+      hideInTable: true,
+      renderFormItem: (schema, config, form) => {
+        return <UploadImgItem
+          form={form}
+          dataIndex={'avatar_id'}
+          api={'/api.php/user/upAvatar'}
+          defaultFile={form.getFieldValue('avatar_url')}
+          crop={true}
+        />
+      },
+      colProps: {md: 12,},
     },
     {
       title: '手机号',

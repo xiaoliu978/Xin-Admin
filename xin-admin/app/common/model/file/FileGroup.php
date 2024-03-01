@@ -3,9 +3,19 @@
 namespace app\common\model\file;
 
 use app\common\model\BaseModel;
+use think\model\concern\SoftDelete;
 
 class FileGroup extends  BaseModel
 {
-    protected $key = 'id';
-    protected $field = ['id','pid','name','user_id','create_time','update_time'];
+    protected $pk = 'group_id';
+
+    /**
+     * 分组详情
+     * @param array|int $where
+     * @return static|array|null
+     */
+    public static function detail(array|int $where): array|static|null
+    {
+        return self::get($where);
+    }
 }

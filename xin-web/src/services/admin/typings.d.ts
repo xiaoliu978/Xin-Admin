@@ -43,6 +43,7 @@ declare namespace USER {
     token?: string
     gender?: number
     refresh_token?:string
+    avatar_url?: string
   }
 
   type UserResult = API.ResponseStructure<{

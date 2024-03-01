@@ -3,11 +3,19 @@
 namespace app\common\model\file;
 
 use app\common\model\BaseModel;
-
+use think\model\concern\SoftDelete;
+use think\model\relation\BelongsTo;
+use app\common\enum\FileType as FileTypeEnum;
 class File extends BaseModel
 {
-    protected $key = 'file_id';
+    // 定义主键
+    protected $pk = 'file_id';
 
+    // 追加的字段
+    protected $append = [
+        'preview_url',     // 图片预览url
+        'external_url'     // 文件外链url (用于视频文件)
+    ];
 
     public function saveFile(array $data,int $user_id): bool
     {
@@ -40,6 +48,57 @@ class File extends BaseModel
             return false;
         }
 
+    }
+
+    /**
+     * 关联模型：文件库分组
+     * @return BelongsTo
+     */
+    public function fileGroup(): BelongsTo
+    {
+        return $this->belongsTo('FileGroup', 'group_id');
+    }
+
+    /**
+     * 生成预览url (preview_url)
+     * @param $value
+     * @param $data
+     * @return string
+     */
+    public function getPreviewUrlAttr($value, $data): string
+    {
+        // 图片的预览图直接使用外链
+        if ($data['file_type'] == '10') {
+            return $this->getExternalUrlAttr($value, $data);
+        }
+        // 生成默认的预览图
+        $previewPath = FileTypeEnum::data()[$data['file_type']]['preview_path'];
+        return base_url() . $previewPath;
+    }
+
+    /**
+     * 生成外链url (external_url)
+     * @param $value
+     * @param $data
+     * @return string
+     */
+    public function getExternalUrlAttr($value, $data): string
+    {
+        // 存储方式本地：拼接当前域名
+        if ($data['storage'] === 'local') {
+            $data['domain'] = rtrim(uploads_url(), '/');
+        }
+        return "{$data['domain']}/{$data['file_path']}";
+    }
+
+    /**
+     * 文件详情
+     * @param int $fileId
+     * @return static|array|null
+     */
+    public static function detail(int $fileId): array|static|null
+    {
+        return self::get($fileId);
     }
 
 

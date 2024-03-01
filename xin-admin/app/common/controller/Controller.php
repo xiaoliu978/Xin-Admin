@@ -84,7 +84,7 @@ class Controller extends BaseController
             'page' => $params['current'] ?? 1,
         ];
         foreach ($this->searchField as $key => $op) {
-            if (isset($params[$key]) && $params[$key]) {
+            if (isset($params[$key]) && $params[$key] != '') {
                 if (in_array($op, $this->sqlTerm)) {
                     $where[] = [$key, $op, $params[$key]];
                     continue;

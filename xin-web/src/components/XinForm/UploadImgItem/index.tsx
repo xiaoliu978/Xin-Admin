@@ -1,27 +1,47 @@
 import ImgCrop from 'antd-img-crop';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Upload} from 'antd';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { FormInstance } from 'antd/lib/form';
 
 interface PropsType {
-  dataIndex: string;
-  api: string;
-  form: FormInstance;
+  dataIndex: string; // 值
+  api: string; // 接口
+  form: FormInstance; // 表单
+  maxCount?: number; // 最大上传数量
+  crop?: boolean; // 图片剪裁
+  defaultFile?: string | [];
 }
 
 
 const UploadImgItem: React.FC<PropsType> = (props) => {
-  const {form,dataIndex, api} = props
+  const {form,dataIndex, api, maxCount = 1, crop, defaultFile} = props
 
-  const [fileList, setFileList] = useState<UploadFile[]>([
-    {
-      uid: '-1',
-      name: '',
-      status: 'done',
-      url: form.getFieldValue(dataIndex),
-    },
-  ]);
+  const [fileList, setFileList] = useState<UploadFile[]>();
+
+  useEffect(() => {
+    // 设置默认显示图片
+    if(!defaultFile) {
+      return
+    }
+    if(defaultFile instanceof Array) {
+      setFileList(defaultFile.map((item, index): UploadFile => {
+        return {
+          uid: index.toString(),
+          name: '',
+          status: 'done',
+          url: item,
+        }
+      }))
+    } else {
+      setFileList([{
+        uid: '-1',
+        name: '',
+        status: 'done',
+        url: defaultFile,
+      }])
+    }
+  },[defaultFile])
 
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
@@ -29,8 +49,8 @@ const UploadImgItem: React.FC<PropsType> = (props) => {
       return
     }
     if(newFileList[0].status === 'done'){
-      console.log(newFileList[0].response.data.url)
-      form.setFieldValue(dataIndex ,newFileList[0].response.data.url)
+      console.log(newFileList[0].response)
+      form.setFieldValue(dataIndex ,newFileList[0].response.data.fileInfo.file_id)
     }
   };
 
@@ -51,23 +71,33 @@ const UploadImgItem: React.FC<PropsType> = (props) => {
 
   return (
     <>
-      <ImgCrop rotationSlider>
+      { crop ?
+        <ImgCrop rotationSlider>
+          <Upload
+            maxCount={maxCount}
+            action={api}
+            listType="picture-card"
+            fileList={fileList}
+            onChange={onChange}
+            onPreview={onPreview}
+            headers={{
+              'Authorization': localStorage.getItem('token')!
+            }}
+          >+ Upload</Upload>
+        </ImgCrop>
+        :
         <Upload
-          maxCount={1}
+          maxCount={maxCount}
           action={api}
           listType="picture-card"
           fileList={fileList}
           onChange={onChange}
-          onPreview={onPreview}
           headers={{
             'Authorization': localStorage.getItem('token')!
           }}
-        >
-          {fileList.length < 5 && '+ Upload'}
-        </Upload>
-      </ImgCrop>
+        >+ Upload</Upload>
+      }
     </>
-
   );
 };
 

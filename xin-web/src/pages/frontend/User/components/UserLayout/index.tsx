@@ -67,7 +67,7 @@ export default (props: { children: React.ReactNode, selectedKey: string }) => {
     <Content style={{ maxWidth: 1460, width: '100%', margin: '0 auto' }}>
       <Content style={layoutContentCss}>
         <Space style={headStyle}>
-          <Avatar icon={<UserOutlined />} src={initialState!.currentUser!.avatar} />
+          <Avatar icon={<UserOutlined />} src={initialState!.currentUser!.avatar_url} />
           {initialState!.currentUser!.nickname || initialState!.currentUser!.name || initialState!.currentUser!.username}
         </Space>
       </Content>

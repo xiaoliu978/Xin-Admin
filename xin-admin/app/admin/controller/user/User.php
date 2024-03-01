@@ -12,6 +12,8 @@ use think\response\Json;
 class User extends Controller
 {
 
+    protected array $withModel = ['avatar'];
+
     protected string $authName = 'user';
 
     protected array $searchField = [];

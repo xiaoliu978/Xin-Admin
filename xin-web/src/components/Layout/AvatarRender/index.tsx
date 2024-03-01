@@ -1,4 +1,4 @@
-import { Button, Dropdown, Modal } from 'antd';
+import { Avatar, Button, Dropdown, Modal } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 import { Logout as UserLogout } from '@/services/api/user';
 import { Logout as AdminLogout } from '@/services/admin';
@@ -7,7 +7,7 @@ import { useModel, useNavigate } from '@@/exports';
 import LoginModel from '@/components/Layout/UserLoginRender';
 import React, { useState } from 'react';
 
-export default (props: {dom: any}) => {
+export default () => {
   const {initialState,setInitialState} = useModel('@@initialState');
   const logout =  async () => {
     if(!localStorage.getItem('app') || localStorage.getItem('app') === 'app') {
@@ -44,7 +44,7 @@ export default (props: {dom: any}) => {
             ],
           }}
         >
-          {props.dom}
+          <Avatar src={initialState.currentUser?.avatar_url}/>
         </Dropdown>
         :
         <>

@@ -3,17 +3,15 @@
 namespace app\api\model;
 
 use app\common\library\Token;
-use app\common\model\BaseModel;
+use app\common\model\User as UserModel;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 
-class User extends BaseModel
+class User extends UserModel
 {
 
-    protected $hidden = [
-        'password', 'create_time', 'update_time', 'status'
-    ];
+
 
     /**
      * @description: 模型登录

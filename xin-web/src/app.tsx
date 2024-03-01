@@ -77,10 +77,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     actionsRender: ActionsRender,
     avatarProps: {
-      src: initialState?.currentUser?.avatar,
-      size: 'small',
-      title: initialState?.currentUser?.nickname,
-      render: (props, dom) => <AvatarRender dom={dom}></AvatarRender>,
+      render: () => <AvatarRender/>,
     },
     childrenRender: (children: any) => {
       if (initialState?.app === 'admin') return <Access><SettingLayout /><XinTabs>{children}</XinTabs></Access>;

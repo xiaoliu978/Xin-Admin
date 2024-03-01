@@ -21,6 +21,7 @@ const defaultInitialState: initialStateType  = {
   drawerShow: false,
   fetchUserInfo,
   fetchAdminInfo,
+  currentUser: {},
   settings: appSettings,
   borderShow: true,
   app: localStorage.getItem('app'),

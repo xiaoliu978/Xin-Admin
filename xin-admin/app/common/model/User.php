@@ -1,13 +1,29 @@
 <?php
 namespace app\common\model;
 
+use app\common\model\file\File;
 use app\common\model\user\UserMoneyLog as MoneyLogModel;
+use think\model\relation\HasOne;
 
 /**
  * Model
  */
 class User extends BaseModel
 {
+
+    protected $hidden = [
+        'password', 'create_time', 'update_time', 'status'
+    ];
+
+    /**
+     * 关联用户头像表
+     * @return HasOne
+     */
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(File::class, 'file_id', 'avatar_id')
+            ->bind(['avatar_url' => 'preview_url']);
+    }
 
 
     /**

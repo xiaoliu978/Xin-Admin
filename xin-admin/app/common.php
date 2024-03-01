@@ -6,8 +6,9 @@ use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\HttpResponseException;
+use think\facade\Request;
 use think\Response;
-
+use think\facade\Config;
 /**
  * 驼峰转下划线
  * @param string $camelCaps
@@ -68,4 +69,72 @@ function get_setting(string $name): array|string
     }
 
 
+}
+
+
+/**
+ * 文本左斜杠转换为右斜杠
+ * @param string $string
+ * @return string
+ */
+function convert_left_slash(string $string): string
+{
+    return str_replace('\\', '/', $string);
+}
+
+/**
+ * 获取web根目录
+ * @return string
+ */
+function web_path(): string
+{
+    static $webPath = '';
+    if (empty($webPath)) {
+        $request = Request::instance();
+        $webPath = dirname($request->server('SCRIPT_FILENAME')) . DIRECTORY_SEPARATOR;
+    }
+    return $webPath;
+}
+
+/**
+ * 获取当前域名及根路径
+ * @return string
+ */
+function base_url(): string
+{
+    static $baseUrl = '';
+    if (empty($baseUrl)) {
+        $request = Request::instance();
+        // url协议，设置强制https或自动获取
+        $scheme = $request->scheme();
+        // url子目录
+        $rootUrl = root_url();
+        // 拼接完整url
+        $baseUrl = "{$scheme}://" . $request->host() . $rootUrl;
+    }
+    return $baseUrl;
+}
+
+/**
+ * 获取当前url的子目录路径
+ * @return string
+ */
+function root_url(): string
+{
+    static $rootUrl = '';
+    if (empty($rootUrl)) {
+        $request = Request::instance();
+        $subUrl = str_replace('\\', '/', dirname($request->baseFile()));
+        $rootUrl = $subUrl . ($subUrl === '/' ? '' : '/');
+    }
+    return $rootUrl;
+}
+
+/**
+ * 获取当前uploads目录访问地址
+ * @return string
+ */
+function uploads_url(): string
+{
+    return base_url() . 'storage/';
 }

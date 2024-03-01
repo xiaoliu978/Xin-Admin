@@ -2,11 +2,14 @@
 
 namespace app\api\controller;
 
+use app\admin\model\file\File as UploadFileModel;
 use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
 use app\common\controller\Controller;
+use app\common\enum\FileType as FileTypeEnum;
+use app\common\library\storage\Driver as StorageDriver;
 use app\common\library\Token;
 use app\common\model\file\File as FileModel;
 use app\common\model\user\UserGroup;
@@ -125,33 +128,32 @@ class User extends Controller
 
 
     /**
-     * 上传头像
+     * 头像上传接口
      * @return Json
+     * @throws Exception
      */
-    #[Auth]
     public function upAvatar(): Json
     {
-        $putFile = request()->file('file');
-        // 上传到本地服务器
-        $filename = Filesystem::putFile('file', $putFile, 'md5');
-        $file = new SplFileInfo(public_path().'storage/'.$filename);
-
-        $data = [
-            'size' => $file->getSize(),
-            'user_id'   => Auth::getUserId(),
-            'name'  => $putFile->getFileName(),
-            'file_name' => $file->getFilename(),
-            'type'  => $file->getExtension(),
-            'url'   => request()->domain().'/storage/'.$filename
-        ];
-
-        $fileModel = new FileModel();
-
-        if($fileModel->saveFile($data,Auth::getUserId())){
-            return $this->success('上传成功！',$data);
-        }else {
-            return $this->error($this->model->getErrorMsg());
+        // 实例化存储驱动
+        $storage = new StorageDriver(['default' => 'local','engine' => [
+            'local' => null
+        ]]);
+        // 设置上传文件的信息
+        $storage->setUploadFile('file')
+            ->setRootDirName('image')
+            ->setValidationScene('image');
+        // 执行文件上传
+        if (!$storage->upload()) {
+            return $this->error('图片上传失败：' . $storage->getError());
         }
+        // 文件信息
+        $fileInfo = $storage->getSaveFileInfo();
+        // 添加文件库记录
+        $model = new UploadFileModel;
+        $user_id = Auth::getUserId();
+        $model->add($fileInfo, FileTypeEnum::IMAGE->value,$user_id, 6, 20);
+        // 图片上传成功
+        return $this->success('图片上传成功',['fileInfo' => $model->toArray()]);
     }
 
 
@@ -171,7 +173,7 @@ class User extends Controller
             return $this->warn($this->validate->getError());
         }
         $user = $this->model->where('id',Auth::getUserId())->find();
-        $save = $user->allowField(['username', 'nickname', 'gender', 'avatar', 'mobile', 'email'])->save($data);
+        $save = $user->allowField(['username', 'nickname', 'gender', 'avatar_id', 'mobile', 'email'])->save($data);
         if($save){
             return $this->success('更新成功');
         }

@@ -4,10 +4,12 @@ namespace app\admin\model;
 
 use app\common\model\BaseModel;
 use app\common\library\Token;
+use app\common\model\file\File;
 use Exception;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
+use think\model\relation\HasOne;
 
 class Admin extends BaseModel
 {
@@ -100,6 +102,16 @@ class Admin extends BaseModel
             // 当用户name等于"admin"时，抛出异常阻止删除
             throw new Exception('不允许删除管理员用户');
         }
+    }
+
+    /**
+     * 关联用户头像表
+     * @return HasOne
+     */
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(File::class, 'file_id', 'avatar_id')
+            ->bind(['avatar_url' => 'preview_url']);
     }
 
 }
