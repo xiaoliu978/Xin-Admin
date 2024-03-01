@@ -41,22 +41,22 @@ enum FileType: int
             self::ANNEX->value => [
                 'name' => '附件',
                 'value' => self::ANNEX,
-                'preview_path' => 'assets/annex.png',
+                'preview_path' => 'static/annex.png',
             ],
             self::VIDEO->value => [
                 'name' => '视频',
                 'value' => self::VIDEO,
-                'preview_path' => 'assets/video.png',
+                'preview_path' => 'static/video.png',
             ],
             self::ZIP->value => [
                 'name' => '压缩包',
                 'value' => self::ZIP,
-                'preview_path' => 'assets/zip.png',
+                'preview_path' => 'static/zip.png',
             ],
             self::MP3->value => [
                 'name' => '音频',
                 'value' => self::MP3,
-                'preview_path' => 'assets/mp3.png',
+                'preview_path' => 'static/mp3.png',
             ],
         ];
     }
