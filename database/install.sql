@@ -9,7 +9,7 @@ CREATE TABLE `xin_admin`  (
   `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `username` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户名',
   `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '头像',
+  `avatar_id` int(10) NOT NULL COMMENT '头像',
   `sex` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '性别',
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '邮箱',
   `mobile` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '手机',
@@ -26,10 +26,10 @@ CREATE TABLE `xin_admin`  (
 -- ----------------------------
 -- Records of xin_admin
 -- ----------------------------
-INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 'http://127.0.0.1:8000/storage/file/c4\\0a68035ffb3ec01b9c3d94ffcdc8f8.png', '0', '111@qq.com', '15966666666', '1', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1645876529, 1697697240);
-INSERT INTO `xin_admin` VALUES (2, 'test1', '测试账号1', 'http://127.0.0.1:8000/storage/file/4c\\53e0fec4facbcb9416fc9da3f9ad32.png', '0', '230@qq.com', '15866666666', '0', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697305, 1697699375);
-INSERT INTO `xin_admin` VALUES (3, 'test2', '测试账号2', 'http://127.0.0.1:8000/storage/file/62\\87527b4016e4e3c812e46900fd1087.png', '1', '230@qq.com', '16695635422', '0', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697586, 1697699361);
-INSERT INTO `xin_admin` VALUES (4, 'test3', '测试账号3', 'http://127.0.0.1:8000/storage/file/73\\77aef6d9fed083b664119cccb2e351.jpg', '1', '230@qw.com', '15699999999', '0', 4, '$2y$10$E/QEZf7SyPwhiKy9zKNvc.lzOAO5nJp.KtIdhMJ3AqIdmaGCnrg3m', 1697699079, 1697700252);
+INSERT INTO `xin_admin` VALUES (1, 'admin', 'Xin Admin', 20197, '0', '111@qq.com', '15966666666', '1', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1645876529, 1709277043);
+INSERT INTO `xin_admin` VALUES (2, 'test1', '测试账号1', 20198, '0', '230@qq.com', '15866666666', '1', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697305, 1709277798);
+INSERT INTO `xin_admin` VALUES (3, 'test2', '测试账号2', 20199, '1', '230@qq.com', '16695635422', '0', 1, '$2y$10$e3dDVLeMGQ4eV0bXB5r40usR5yi8rscI1gXK2kugwG03OonZ/Trhq', 1697697586, 1709277058);
+INSERT INTO `xin_admin` VALUES (4, 'test3', '测试账号3', 20200, '1', '230@qw.com', '15699999999', '0', 4, '$2y$10$E/QEZf7SyPwhiKy9zKNvc.lzOAO5nJp.KtIdhMJ3AqIdmaGCnrg3m', 1697699079, 1709277064);
 
 -- ----------------------------
 -- Table structure for xin_admin_group
@@ -99,69 +99,29 @@ INSERT INTO `xin_admin_group_rule` VALUES (4, 35);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 36);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 86);
 INSERT INTO `xin_admin_group_rule` VALUES (4, 48);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 7);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 8);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 1);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 10);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 11);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 9);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 16);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 17);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 18);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 20);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 21);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 22);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 24);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 25);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 15);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 3);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 12);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 26);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 27);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 28);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 30);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 31);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 32);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 5);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 34);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 35);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 36);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 23);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 13);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 14);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 33);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 19);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 29);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 40);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 41);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 42);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 44);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 45);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 46);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 47);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 39);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 49);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 43);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 48);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 6);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 2);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 38);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 50);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 51);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 52);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 53);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 54);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 55);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 56);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 37);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 57);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 58);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 59);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 60);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 61);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 62);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 63);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 64);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 65);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 66);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 67);
@@ -181,19 +141,25 @@ INSERT INTO `xin_admin_group_rule` VALUES (1, 80);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 81);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 82);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 83);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 84);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 85);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 86);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 87);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 88);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 89);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 90);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 91);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 92);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 93);
-INSERT INTO `xin_admin_group_rule` VALUES (1, 94);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 95);
 INSERT INTO `xin_admin_group_rule` VALUES (1, 96);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 102);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 103);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 104);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 105);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 106);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 107);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 108);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 109);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 110);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 111);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 112);
+INSERT INTO `xin_admin_group_rule` VALUES (1, 113);
 
 -- ----------------------------
 -- Table structure for xin_admin_rule
@@ -214,7 +180,7 @@ CREATE TABLE `xin_admin_rule`  (
   `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`id`, `key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 97 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 114 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员权限规则表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_admin_rule
@@ -301,7 +267,23 @@ INSERT INTO `xin_admin_rule` VALUES (91, 88, '1', 2, '工作台', '/dashboard/wo
 INSERT INTO `xin_admin_rule` VALUES (92, 0, '0', 5, '管理员', '/admin', 'icon-jiangshizhuji', 'admin', 'menu.admin', '', 1705393535, 1702952094);
 INSERT INTO `xin_admin_rule` VALUES (93, 2, '1', 5, '高级表格', '/data/table', NULL, 'data.table', 'menu.components.table', '', 1705474326, 1705474326);
 INSERT INTO `xin_admin_rule` VALUES (94, 2, '1', 6, '图标选择', '/data/icon', NULL, 'data.icon', 'menu.components.iconForm', '', 1705475395, 1705475395);
-INSERT INTO `xin_admin_rule` VALUES (96, 39, '1', 0, '测试表格', '/testTable', NULL, 'testTable', NULL, '', 1708498469, 1708498469);
+INSERT INTO `xin_admin_rule` VALUES (97, 0, '0', 20, '测试表', '/TestTable', 'icon-daichuzhishijianzongshu', 'TestTable', NULL, '测试表', 1708587876, 1708586997);
+INSERT INTO `xin_admin_rule` VALUES (98, 97, '2', 0, '测试表新增', NULL, NULL, 'TestTable.add', NULL, '测试表新增', 1708586997, 1708586997);
+INSERT INTO `xin_admin_rule` VALUES (99, 97, '2', 0, '测试表编辑', NULL, NULL, 'TestTable.edit', NULL, '测试表编辑', 1708586997, 1708586997);
+INSERT INTO `xin_admin_rule` VALUES (100, 97, '2', 0, '测试表查询', NULL, NULL, 'TestTable.list', NULL, '测试表查询', 1708586997, 1708586997);
+INSERT INTO `xin_admin_rule` VALUES (101, 97, '2', 0, '测试表删除', NULL, NULL, 'TestTable.delete', NULL, '测试表删除', 1708586997, 1708586997);
+INSERT INTO `xin_admin_rule` VALUES (102, 10, '1', 4, '文件管理', '/system/file', NULL, 'system.file', 'menu.File', '', 1709276743, 1709276743);
+INSERT INTO `xin_admin_rule` VALUES (103, 102, '2', 0, '文件分组列表', NULL, NULL, 'file.group.list', NULL, '', 1709277310, 1709277310);
+INSERT INTO `xin_admin_rule` VALUES (104, 102, '2', 1, '新增文件分组', NULL, NULL, 'file.group.add', NULL, '', 1709277342, 1709277342);
+INSERT INTO `xin_admin_rule` VALUES (105, 102, '2', 2, '编辑文件分组', NULL, NULL, 'file.group.edit', NULL, '', 1709277372, 1709277372);
+INSERT INTO `xin_admin_rule` VALUES (106, 102, '2', 3, '删除文件分组', NULL, NULL, 'file.group.delete', NULL, '', 1709277418, 1709277418);
+INSERT INTO `xin_admin_rule` VALUES (107, 102, '2', 4, '获取文件列表', NULL, NULL, 'file.file.list', NULL, '', 1709277487, 1709277487);
+INSERT INTO `xin_admin_rule` VALUES (108, 102, '2', 5, '删除文件', NULL, NULL, 'file.file.delete', NULL, '', 1709277518, 1709277518);
+INSERT INTO `xin_admin_rule` VALUES (109, 102, '2', 6, '上传图片文件', NULL, NULL, 'file.upload.image', NULL, '', 1709277634, 1709277634);
+INSERT INTO `xin_admin_rule` VALUES (110, 102, '2', 7, '上传视频文件', NULL, NULL, 'file.upload.video', NULL, '', 1709277660, 1709277660);
+INSERT INTO `xin_admin_rule` VALUES (111, 102, '2', 8, '上传压缩文件', NULL, NULL, 'file.upload.zip', NULL, '', 1709277698, 1709277698);
+INSERT INTO `xin_admin_rule` VALUES (112, 102, '2', 9, '上传音频文件', NULL, NULL, 'file.upload.mp3', NULL, '', 1709277732, 1709277732);
+INSERT INTO `xin_admin_rule` VALUES (113, 102, '2', 10, '上传其它文件', NULL, NULL, 'file.upload.annex', NULL, '', 1709277765, 1709277765);
 
 -- ----------------------------
 -- Table structure for xin_dict
@@ -414,60 +396,55 @@ INSERT INTO `xin_dict_item` VALUES (63, 21, '签到奖励', '2', '1', 'success',
 -- ----------------------------
 DROP TABLE IF EXISTS `xin_file`;
 CREATE TABLE `xin_file`  (
-  `file_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '文件ID',
-  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件名',
-  `group_id` int(11) NULL DEFAULT NULL COMMENT '分组ID',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户id',
-  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件后缀类型',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件路径',
-  `size` int(11) NULL DEFAULT NULL COMMENT '文件大小',
-  `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
+  `file_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '文件ID',
+  `group_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '文件分组ID',
+  `channel` tinyint(3) UNSIGNED NOT NULL DEFAULT 10 COMMENT '上传来源(10商户后台 20用户端)',
+  `storage` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '存储方式',
+  `domain` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '存储域名',
+  `file_type` tinyint(3) UNSIGNED NOT NULL DEFAULT 10 COMMENT '文件类型(10图片 20附件 30视频)',
+  `file_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件名称(仅显示)',
+  `file_path` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件路径',
+  `file_size` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '文件大小(字节)',
+  `file_ext` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件扩展名',
+  `cover` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '文件封面',
+  `uploader_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上传者用户ID',
+  `is_recycle` tinyint(3) UNSIGNED NOT NULL DEFAULT 0 COMMENT '是否在回收站',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
   PRIMARY KEY (`file_id`) USING BTREE,
-  UNIQUE INDEX `file_name`(`file_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件表' ROW_FORMAT = DYNAMIC;
+  INDEX `group_id`(`group_id`) USING BTREE,
+  INDEX `is_recycle`(`is_recycle`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 20201 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件库记录表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of xin_file
 -- ----------------------------
-INSERT INTO `xin_file` VALUES (11, '64a530ed7c2a968eb60b9d83e4cb5d.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/a4\\64a530ed7c2a968eb60b9d83e4cb5d.png', 279293, 1692095787, 1692095787);
-INSERT INTO `xin_file` VALUES (13, 'd1a4c7b61016c0a22c8559b4651dca.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/74\\d1a4c7b61016c0a22c8559b4651dca.png', 59746, 1692097196, 1692097196);
-INSERT INTO `xin_file` VALUES (14, 'f3048addd9c5b7aee7ac728b5dd12b.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/49\\f3048addd9c5b7aee7ac728b5dd12b.png', 32565, 1692097300, 1692097300);
-INSERT INTO `xin_file` VALUES (15, 'c96530775f2b747b5ebf491e908719.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/fc\\c96530775f2b747b5ebf491e908719.png', 25669, 1692097475, 1692097475);
-INSERT INTO `xin_file` VALUES (16, '531f3c8809dd46382f4149a2afee86.jpg', 1, 1, 'jpg', 'http://127.0.0.1:8000/storage/file/53\\531f3c8809dd46382f4149a2afee86.jpg', 23966, 1692097545, 1692097545);
-INSERT INTO `xin_file` VALUES (17, 'db3edbd3582a030750223ac0f277de.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/c6\\db3edbd3582a030750223ac0f277de.png', 4366, 1692101992, 1692101992);
-INSERT INTO `xin_file` VALUES (18, '8254977b68347f4b831b6a72658aa8.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/28\\8254977b68347f4b831b6a72658aa8.png', 26995, 1692102192, 1692102192);
-INSERT INTO `xin_file` VALUES (19, '6784aff49221e6f735a792391c075f.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/8f\\6784aff49221e6f735a792391c075f.png', 10650, 1692113871, 1692113871);
-INSERT INTO `xin_file` VALUES (20, 'ef324135a0a3a2351b9b08080c885a.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/0b\\ef324135a0a3a2351b9b08080c885a.png', 1387, 1692113924, 1692113924);
-INSERT INTO `xin_file` VALUES (21, '6ec9464deb3ec2e830d3dc8280c142.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/59\\6ec9464deb3ec2e830d3dc8280c142.png', 1556451, 1692128954, 1692128954);
-INSERT INTO `xin_file` VALUES (22, '33cdbfba42849c00e9af4f7e6c72aa.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/f5\\33cdbfba42849c00e9af4f7e6c72aa.png', 10714, 1695284148, 1695284148);
-INSERT INTO `xin_file` VALUES (23, '0a68035ffb3ec01b9c3d94ffcdc8f8.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/c4\\0a68035ffb3ec01b9c3d94ffcdc8f8.png', 8707, 1697518542, 1697518542);
-INSERT INTO `xin_file` VALUES (24, '87f8d38ac1324cd13dddc282500b35.ico', 2, 2, 'ico', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', 20161, 1697525568, 1697525568);
-INSERT INTO `xin_file` VALUES (25, '53e0fec4facbcb9416fc9da3f9ad32.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/4c\\53e0fec4facbcb9416fc9da3f9ad32.png', 20617, 1697697293, 1697697293);
-INSERT INTO `xin_file` VALUES (26, '87527b4016e4e3c812e46900fd1087.png', 1, 1, 'png', 'http://127.0.0.1:8000/storage/file/62\\87527b4016e4e3c812e46900fd1087.png', 37222, 1697697535, 1697697535);
-INSERT INTO `xin_file` VALUES (27, '77aef6d9fed083b664119cccb2e351.jpg', 3, 3, 'jpg', 'http://127.0.0.1:8000/storage/file/73\\77aef6d9fed083b664119cccb2e351.jpg', 10185, 1697698950, 1697698950);
+INSERT INTO `xin_file` VALUES (20196, 14, 20, 'local', '', 10, 'v2-c3ae61918a04d8229be5b9f33470f655_720w.webp', 'image/20240301/59507cef3b07957594fe93632054c6ee.webp', 21702, 'webp', '', 2, 0, 1709277001, 1709277001);
+INSERT INTO `xin_file` VALUES (20197, 14, 10, 'local', '', 10, 'v2-0bf66cc1b78c825320931d55478ab5b4_720w.webp', 'image/20240301/c59bf55560943339d0d7bb1112341c77.webp', 41872, 'webp', '', 1, 0, 1709277042, 1709277042);
+INSERT INTO `xin_file` VALUES (20198, 14, 10, 'local', '', 10, 'v2-8db68f412f0409d09587bfe550278afc_720w.webp', 'image/20240301/9916cd0079b4d33443cc90f2bbc6f94f.webp', 38918, 'webp', '', 1, 0, 1709277050, 1709277050);
+INSERT INTO `xin_file` VALUES (20199, 14, 10, 'local', '', 10, 'v2-c3ae61918a04d8229be5b9f33470f655_720w.webp', 'image/20240301/522bef0c44225576414e4253b6bd86d3.webp', 21702, 'webp', '', 1, 0, 1709277057, 1709277057);
+INSERT INTO `xin_file` VALUES (20200, 14, 10, 'local', '', 10, 'v2-87dc6bcee6c0823a659559d887c26040_720w.webp', 'image/20240301/cd2c143dcf77745c6aacc5a945cb226b.webp', 43880, 'webp', '', 1, 0, 1709277064, 1709277064);
 
 -- ----------------------------
 -- Table structure for xin_file_group
 -- ----------------------------
 DROP TABLE IF EXISTS `xin_file_group`;
 CREATE TABLE `xin_file_group`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分组ID',
-  `pid` int(11) NULL DEFAULT NULL COMMENT '父ID',
-  `user_id` int(11) NULL DEFAULT NULL COMMENT '用户',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '文件夹名',
-  `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `file`(`pid`, `user_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件分组表' ROW_FORMAT = DYNAMIC;
+  `group_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '分组ID',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '分组名称',
+  `parent_id` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级分组ID',
+  `sort` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '排序(数字越小越靠前)',
+  `create_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '创建时间',
+  `update_time` int(10) UNSIGNED NOT NULL DEFAULT 0 COMMENT '更新时间',
+  PRIMARY KEY (`group_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '文件库分组记录表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of xin_file_group
 -- ----------------------------
-INSERT INTO `xin_file_group` VALUES (1, 0, 1, 'root', 1692092722, 1692092722);
-INSERT INTO `xin_file_group` VALUES (2, 0, 2, 'root', 1697525567, 1697525567);
-INSERT INTO `xin_file_group` VALUES (3, 0, 3, 'root', 1697698950, 1697698950);
+INSERT INTO `xin_file_group` VALUES (14, '头像文件夹', 0, 0, 1709276785, 1709276785);
+INSERT INTO `xin_file_group` VALUES (15, '附件文件夹', 0, 0, 1709276794, 1709276794);
+INSERT INTO `xin_file_group` VALUES (16, '视频文件夹', 0, 0, 1709276810, 1709276810);
 
 -- ----------------------------
 -- Table structure for xin_online_table
@@ -489,7 +466,7 @@ CREATE TABLE `xin_online_table`  (
 -- ----------------------------
 -- Records of xin_online_table
 -- ----------------------------
-INSERT INTO `xin_online_table` VALUES (3, '测试表格', '[{\"key\":1708497172308,\"dataIndex\":\"id\",\"valueType\":\"digit\",\"title\":\"ID\",\"select\":\"=\",\"validation\":[],\"hideInForm\":true,\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"unsign\":true,\"mock\":\"@integer(0, 100)\"},{\"key\":1708497258405,\"dataIndex\":\"name\",\"valueType\":\"text\",\"title\":\"姓名\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"姓名\",\"defaultValue\":\"\",\"isKey\":false,\"null\":true,\"autoIncrement\":false,\"length\":50,\"unsign\":false,\"mock\":\"@cname\"},{\"key\":1708497305506,\"dataIndex\":\"title\",\"valueType\":\"text\",\"title\":\"标题\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"标题\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@string\"},{\"key\":1708497339089,\"dataIndex\":\"star\",\"valueType\":\"digit\",\"title\":\"点赞量\",\"select\":\"=\",\"sqlType\":\"int\",\"remark\":\"点赞量\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false,\"mock\":\"@natural(60, 100)\"},{\"key\":1708497486863,\"dataIndex\":\"url\",\"valueType\":\"text\",\"title\":\"地址\",\"select\":\"like\",\"hideInSearch\":false,\"sqlType\":\"varchar\",\"remark\":\"地址\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@url\"},{\"key\":1708497510932,\"dataIndex\":\"email\",\"valueType\":\"text\",\"title\":\"邮箱\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"邮箱\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@email\"},{\"key\":1708497540905,\"dataIndex\":\"caty\",\"valueType\":\"text\",\"title\":\"城市\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"城市\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@city(true)\"},{\"key\":1708497577265,\"dataIndex\":\"create_time\",\"valueType\":\"dateTime\",\"title\":\"创建时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\"},{\"key\":1708497662817,\"dataIndex\":\"update_time\",\"valueType\":\"dateTime\",\"title\":\"修改时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"修改时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\"}]', '{}', '{\"sqlTableName\":\"test\",\"sqlTableRemark\":\"测试表\",\"autoDeletetime\":true,\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/admin/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"src/pages/backend\"}', '{\"rowSelectionShow\":true,\"addShow\":true,\"deleteShow\":true,\"editShow\":true,\"bordered\":true,\"showHeader\":true,\"searchShow\":true,\"search\":{\"collapseRender\":true,\"resetText\":\"重置\",\"searchText\":\"查询\",\"span\":6,\"layout\":\"vertical\",\"filterType\":\"query\"},\"optionsShow\":true,\"options\":{\"density\":true,\"search\":false,\"fullScreen\":false,\"setting\":true},\"paginationShow\":true,\"pagination\":{\"current\":1,\"pageSize\":5,\"total\":100},\"headerTitle\":\"表格标题\",\"tooltip\":\"表格 tooltip\",\"size\":\"default\"}', NULL, 1708498411, 1708497151);
+INSERT INTO `xin_online_table` VALUES (3, '测试表', '[{\"key\":1708497172308,\"dataIndex\":\"id\",\"valueType\":\"digit\",\"title\":\"ID\",\"select\":\"=\",\"validation\":[],\"hideInForm\":true,\"sqlType\":\"int\",\"remark\":\"ID\",\"defaultValue\":\"\",\"isKey\":true,\"null\":true,\"autoIncrement\":true,\"length\":10,\"unsign\":true,\"mock\":\"@integer(0, 100)\"},{\"key\":1708497258405,\"dataIndex\":\"name\",\"valueType\":\"text\",\"title\":\"姓名\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"姓名\",\"defaultValue\":\"\",\"isKey\":false,\"null\":true,\"autoIncrement\":false,\"length\":50,\"unsign\":false,\"mock\":\"@cname\"},{\"key\":1708497305506,\"dataIndex\":\"title\",\"valueType\":\"text\",\"title\":\"标题\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"标题\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@string\"},{\"key\":1708497339089,\"dataIndex\":\"star\",\"valueType\":\"digit\",\"title\":\"点赞量\",\"select\":\"=\",\"sqlType\":\"int\",\"remark\":\"点赞量\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"unsign\":false,\"mock\":\"@natural(60, 100)\"},{\"key\":1708497486863,\"dataIndex\":\"url\",\"valueType\":\"text\",\"title\":\"地址\",\"select\":\"like\",\"hideInSearch\":false,\"sqlType\":\"varchar\",\"remark\":\"地址\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@url\"},{\"key\":1708497510932,\"dataIndex\":\"email\",\"valueType\":\"text\",\"title\":\"邮箱\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"邮箱\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@email\"},{\"key\":1708497540905,\"dataIndex\":\"caty\",\"valueType\":\"text\",\"title\":\"城市\",\"select\":\"like\",\"sqlType\":\"varchar\",\"remark\":\"城市\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":255,\"unsign\":false,\"mock\":\"@city(true)\"},{\"key\":1708497577265,\"dataIndex\":\"create_time\",\"valueType\":\"dateTime\",\"title\":\"创建时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"创建时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\",\"hideInForm\":true},{\"key\":1708497662817,\"dataIndex\":\"update_time\",\"valueType\":\"dateTime\",\"title\":\"修改时间\",\"select\":\"date\",\"sqlType\":\"int\",\"remark\":\"修改时间\",\"defaultValue\":\"null\",\"isKey\":false,\"null\":false,\"autoIncrement\":false,\"length\":10,\"decimal\":0,\"unsign\":false,\"mock\":\"@datetime(\\\"y-MM-dd HH:mm:ss\\\")\",\"hideInForm\":true}]', '{}', '{\"sqlTableName\":\"test\",\"sqlTableRemark\":\"测试表\",\"autoDeletetime\":true,\"name\":\"TestTable\",\"controllerPath\":\"app/admin/controller\",\"modelPath\":\"app/admin/model\",\"validatePath\":\"app/admin/validate\",\"pagePath\":\"\"}', '{\"rowSelectionShow\":true,\"addShow\":true,\"deleteShow\":true,\"editShow\":true,\"bordered\":true,\"showHeader\":true,\"searchShow\":true,\"search\":{\"collapseRender\":true,\"resetText\":\"重置\",\"searchText\":\"查询\",\"span\":6,\"layout\":\"vertical\",\"filterType\":\"query\"},\"optionsShow\":true,\"options\":{\"density\":true,\"search\":true,\"fullScreen\":true,\"setting\":true},\"paginationShow\":true,\"pagination\":{\"current\":1,\"pageSize\":5,\"total\":100},\"headerTitle\":\"数据表\",\"tooltip\":\"这是tooltip\",\"size\":\"default\"}', NULL, 1708588100, 1708497151);
 
 -- ----------------------------
 -- Table structure for xin_setting
@@ -558,8 +535,8 @@ CREATE TABLE `xin_test`  (
 -- ----------------------------
 -- Records of xin_test
 -- ----------------------------
-INSERT INTO `xin_test` VALUES (1, '张三', '测试', 9999, '河南省', '123@qq.com', 'henan1', 1708498522, 1708499535, 1708499535);
-INSERT INTO `xin_test` VALUES (2, '李四', '里斯的一条你', 99, '河南', '666@QQ.COM', '和南宁', 1708498620, 1708498620, NULL);
+INSERT INTO `xin_test` VALUES (1, '张三', '测试标题', 99, '河南', '230@qq.com', 'henan1', 1708587078, 1708587078, NULL);
+INSERT INTO `xin_test` VALUES (2, 'CRUD测试', 'CRUD测试', 1, '1', '1', '1', 1708588353, 1708588353, NULL);
 
 -- ----------------------------
 -- Table structure for xin_token
@@ -578,9 +555,8 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('0d4ac7c46f0706867c9c72bf643acf639864eace', 'admin', 1, 1708414140, 1711006140);
-INSERT INTO `xin_token` VALUES ('11e8981935fed6f2ac637ee6f3f9eaa03eb7488a', 'admin', 1, 1708414140, 1711006140);
-INSERT INTO `xin_token` VALUES ('7c1a5ee5752f9209e03902d29a2b7f9fe3ab77d0', 'admin-refresh', 1, 1708413428, 1711005428);
+INSERT INTO `xin_token` VALUES ('f97d1999a66488a1f19ce3879588e46fceff81be', 'admin-refresh', 2, 1709277901, 1711869901);
+INSERT INTO `xin_token` VALUES ('fc547c41fe6e14220aea8b605aa44482dea58765', 'admin', 2, 1709277901, 1709278501);
 
 -- ----------------------------
 -- Table structure for xin_user
@@ -593,7 +569,7 @@ CREATE TABLE `xin_user`  (
   `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '' COMMENT '用户邮箱',
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '密码',
   `nickname` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '头像',
+  `avatar_id` int(10) NULL DEFAULT NULL COMMENT '头像',
   `gender` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT '0' COMMENT '性别',
   `birthday` date NULL DEFAULT NULL COMMENT '生日',
   `group_id` int(11) NULL DEFAULT 1 COMMENT '分组ID',
@@ -609,7 +585,7 @@ CREATE TABLE `xin_user`  (
 -- ----------------------------
 -- Records of xin_user
 -- ----------------------------
-INSERT INTO `xin_user` VALUES (2, '19999999999', 'user', '23@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', '小刘同学', 'http://127.0.0.1:8000/storage/file/f5\\87f8d38ac1324cd13dddc282500b35.ico', '0', NULL, 1, 190, 0, '', '1', 1695790550, 1698744816);
+INSERT INTO `xin_user` VALUES (2, '19999999999', 'user', '23@qq.com', '$2y$10$k8R6dLJ6TopQ8IUoDOBUvezDvr6UShMtTfMMiv1uh2CvZlQKMWSne', '小刘同学', 20196, '0', NULL, 1, 190, 0, '', '1', 1695790550, 1709277002);
 
 -- ----------------------------
 -- Table structure for xin_user_group
