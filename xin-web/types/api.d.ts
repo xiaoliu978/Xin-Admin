@@ -28,16 +28,5 @@ declare namespace API {
 
   type TableData<T> = ResponseStructure<ListResponse<T>>
 
-  interface UserLoginFrom {
-    username?: string
-    password?: string
-    autoLogin?: boolean
-    mobile?: string
-    captcha?: number
-    loginType?: LoginType
-  }
-
-  type LoginType = 'phone' | 'account';
-
 }
 

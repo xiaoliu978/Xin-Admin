@@ -19,7 +19,7 @@ interface initialStateType {
   fetchUserInfo:  () => Promise<any>;
   fetchAdminInfo:  () => Promise<any>;
   // 菜单
-  menus?: Menus[];
+  menus?: USER.MenuType[];
   // 当前app
   app: string | null;
   // 其它
