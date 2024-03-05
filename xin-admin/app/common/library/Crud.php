@@ -240,7 +240,7 @@ class Crud
                     $columnsData .= "      ]),".PHP_EOL;
                 }else {
                     $isDict = true;
-                    $columnsData .= "      request: async () => getDictionaryData('{$field['dict']}'),".PHP_EOL;
+                    $columnsData .= "      request: async () => await getDictionaryData('{$field['dict']}'),".PHP_EOL;
                     $columnsData .= "      render: (_, data) => <XinDict value={data.{$field['dataIndex']}} dict={'{$field['dict']}'} />,".PHP_EOL;
                 }
             }else {

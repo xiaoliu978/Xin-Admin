@@ -4,6 +4,8 @@ import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
 import React from 'react';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar } from 'antd';
+import XinDict from '@/components/XinDict';
+import { useModel } from '@@/exports';
 
 /**
  *  Api 接口
@@ -34,7 +36,7 @@ interface Data {
  * 表格渲染
  */
 const User: React.FC = () => {
-
+  const {getDictionaryData} = useModel('dictModel')
   const columns: ProFormColumnsAndProColumns<Data>[] =
   [
     {
@@ -79,6 +81,8 @@ const User: React.FC = () => {
       valueType:'text',
       title:'性别',
       order:93,
+      request: async () => await getDictionaryData('sex'),
+      render: (_, date) => <XinDict value={date.gender} dict={'sex'} />,
       dataIndex:'gender',
     },
     {

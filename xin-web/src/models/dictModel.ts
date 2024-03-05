@@ -1,16 +1,16 @@
 // 全局共享数据示例
-import {useEffect, useState} from 'react';
-import {gitDict} from "@/services/admin/system";
+import { gitDict } from '@/services/admin/system';
+import { useRequest } from 'ahooks';
 
 interface DictItem {
-  label:string
-  value: string
-  type?: 'badge' | 'tag'
-  status?: 'success' | 'error' | 'default' | 'processing' | 'warning'
+  label: string;
+  value: string;
+  type?: 'badge' | 'tag';
+  status?: 'success' | 'error' | 'default' | 'processing' | 'warning';
 }
 
 interface DictDate {
-  code: string
+  code: string;
   name: string
   type?: number
   dictItems: DictItem[]
@@ -18,53 +18,44 @@ interface DictDate {
 
 const useDict = () => {
 
-  const [dictionaryCache , setDictionaryCache ] = useState<Map<string,DictItem[]>>(new Map())
-
   /**
    * 格式化字典
    * @param data
    */
-  const setDictJson = (data: DictDate[]): Map<string,DictItem[]> => {
-    let dictMap: Map<string,DictItem[]>= new Map()
-    data.forEach((dict: DictDate) =>{
-      dictMap.set(dict.code,dict.dictItems.map(a=>Object.assign(a,{type:dict.type})))
-    })
-    return dictMap
+  const setDictJson = (data: DictDate[]): Map<string, DictItem[]> => {
+    let dictMap: Map<string, DictItem[]> = new Map();
+    data.forEach((dict: DictDate) => {
+      dictMap.set(dict.code, dict.dictItems.map(a => Object.assign(a, { type: dict.type })));
+    });
+    return dictMap;
   }
+
+  const { data: dictionaryCache, refresh: refreshDict, refreshAsync: refreshDictAsync } = useRequest(async () => {
+    let token = localStorage.getItem('token');
+    if (token) {
+      if (localStorage.getItem('dictMap')) {
+        console.log('-------获取字典缓存--------');
+        return setDictJson(JSON.parse(localStorage.getItem('dictMap')!));
+      } else {
+        let { data } = await gitDict();
+        localStorage.setItem('dictMap', JSON.stringify(data));
+        return setDictJson(data);
+      }
+    }
+    return setDictJson([]);
+  });
 
   /**
    * 通过键值获取字典
    * @param key
    */
-  const getDictionaryData = (key:string): DictItem[] => {
-    if(!dictionaryCache.size && localStorage.getItem('dictMap')){
-      console.log('-------获取字典缓存--------')
-      setDictionaryCache(setDictJson(JSON.parse(localStorage.getItem('dictMap')!)))
+  const getDictionaryData = async (key: string): Promise<DictItem[]> => {
+    if (!dictionaryCache) {
+      let res = await refreshDictAsync();
+      return res.has(key) ? res.get(key)! : [];
     }
-    return dictionaryCache.has(key)?dictionaryCache.get(key)!:[]
-  }
-
-  const refreshDict = () => {
-    gitDict().then(res=>{
-      let { success, data } = res
-      if(success){
-        localStorage.setItem('dictMap',JSON.stringify(data))
-        setDictionaryCache(setDictJson(data))
-      }
-    })
-  }
-
-  useEffect(()=>{
-    let token = localStorage.getItem('token');
-    if (token) {
-      if(localStorage.getItem('dictMap')){
-        console.log('-------获取字典缓存--------')
-        setDictionaryCache(setDictJson(JSON.parse(localStorage.getItem('dictMap')!)))
-      }else {
-        refreshDict()
-      }
-    }
-  },[])
+    return dictionaryCache.has(key) ? dictionaryCache.get(key)! : [];
+  };
 
   return {
     refreshDict,

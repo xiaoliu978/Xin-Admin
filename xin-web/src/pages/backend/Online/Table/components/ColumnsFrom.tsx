@@ -32,7 +32,7 @@ function CreateForm(props: {
           valueType: 'select',
           align: 'center',
           tooltip: '生成CRUD表单的类型',
-          request: async () => getDictionaryData('valueType'),
+          request: async () => await getDictionaryData('valueType'),
           fieldProps: (form, { rowKey }) => {
             return {
               onChange: (value: any) => {
@@ -90,7 +90,7 @@ function CreateForm(props: {
           title: '查询方式',
           align: 'center',
           dataIndex: 'select',
-          request: async () => getDictionaryData('select'),
+          request: async () => await getDictionaryData('select'),
           valueType: 'text',
           width: 120,
         },
@@ -98,7 +98,7 @@ function CreateForm(props: {
           title: '验证规则',
           dataIndex: 'validation',
           valueType: 'select',
-          request: async () => getDictionaryData('validation'),
+          request: async () => await getDictionaryData('validation'),
           align: 'center',
           fieldProps: { mode: 'multiple' },
           tooltip: '内置部分验证规则，需要自定义验证规则请看文档',
@@ -186,7 +186,7 @@ function CreateForm(props: {
           title: '字段类型',
           dataIndex: 'sqlType',
           valueType: 'select',
-          request: async () => getDictionaryData('sqlType'),
+          request: async () => await getDictionaryData('sqlType'),
           align: 'center',
         },
         {

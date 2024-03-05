@@ -94,7 +94,7 @@ const Table: React.FC = () => {
       title: '类型',
       dataIndex: 'type',
       valueType: 'radio',
-      request: async () => getDictionaryData('ruleType'),
+      request: async () => await getDictionaryData('ruleType'),
       hideInTable: true,
       formItemProps: {
         rules: [
@@ -122,7 +122,7 @@ const Table: React.FC = () => {
       title: '类型',
       dataIndex: 'type',
       valueType: 'radioButton',
-      request: async () => getDictionaryData('ruleType'),
+      request: async () => await getDictionaryData('ruleType'),
       render: (_, date) => <XinDict value={date.type} dict={'ruleType'} />,
       hideInForm: true,
       align: 'center'

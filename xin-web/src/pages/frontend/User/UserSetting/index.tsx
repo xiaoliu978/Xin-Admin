@@ -32,7 +32,7 @@ const Table : React.FC = () => {
       title: '性别',
       dataIndex: 'gender',
       valueType: 'radio',
-      request: async () => getDictionaryData('sex'),
+      request: async () => await getDictionaryData('sex'),
       render: (_, date) => <XinDict value={date.gender} dict={'sex'} />
     },
     {

@@ -49,7 +49,7 @@ export default () => {
     //   dataIndex: 'type',
     //   hideInTable: true,
     //   valueType: 'text',
-    //   request: async () => getDictionaryData('valueType'),
+    //   request: async () => await getDictionaryData('valueType'),
     // },
     {
       title: '设置用法',
