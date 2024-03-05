@@ -173,4 +173,23 @@ class Controller extends BaseController
         }
     }
 
+    /**
+     * 获取树状列表
+     * @param $list
+     * @param int $parentId
+     * @return array
+     */
+    protected function getTreeData(&$list, int $parentId = 0): array
+    {
+        $data = [];
+        foreach ($list as $key => $item) {
+            if ($item['pid'] == $parentId) {
+                $children = $this->getTreeData($list, $item['id']);
+                !empty($children) && $item['children'] = $children;
+                $data[] = $item;
+                unset($list[$key]);
+            }
+        }
+        return $data;
+    }
 }

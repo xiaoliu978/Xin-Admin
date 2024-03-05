@@ -121,7 +121,7 @@ class Group extends Controller
      * @param int $parentId
      * @return array
      */
-    private function getTreeData(&$list, int $parentId = 0): array
+    protected function getTreeData(&$list, int $parentId = 0): array
     {
         $data = [];
         foreach ($list as $key => $item) {

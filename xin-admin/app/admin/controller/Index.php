@@ -139,34 +139,22 @@ class Index extends Controller
     {
         $info = Auth::getAdminInfo();
         // 获取权限
+        $access = [];
         if($info['id'] == 1) {
-            $menus = (new AdminRuleModel())->where('type',0)->order('sort')->select()->toArray();
-            $childrenMenus = (new AdminRuleModel())->where('type',1)->order('sort')->select()->toArray();
-            foreach ($menus as &$role) {
-                $this->childrenNode($role, $childrenMenus);
-            }
             $roles = (new AdminRuleModel())->select()->toArray();
+            $menus = (new AdminRuleModel())->where('type',0)->whereOr('type',1)->order('sort')->select()->toArray();
         }else {
-            $roles = (new AdminGroup())->where('id',$info['group_id'])->find()->roles;
+            $roles = (new AdminGroup())->where('id', $info['group_id'])->find()->roles;
             // 获取一级菜单
             $menus = (new AdminGroup)->with(['roles' => function($query){
-                $query->where('type',0)->order('sort');
-            }])->where('id',$info['group_id'])->find()->roles->toArray();
-
-            // 获取子菜单
-            $childrenMenus = (new AdminGroup)->with(['roles' => function($query){
-                $query->where('type',1)->order('sort');
+                $query->where('type',0)->whereOr('type',1)->order('sort');
             }])->where('id',$info['group_id'])->find()->roles->toArray();
         }
-
-        foreach ($menus as &$role) {
-            $this->childrenNode($role, $childrenMenus);
-        }
-        $access = [];
         foreach ($roles as $item) {
             $access[] =  $item['key'];
         }
-        return $this->success('ok',compact('info','access','menus'));
+        $menus = $this->getTreeData($menus);
+        return $this->success('ok',compact('menus','access','info'));
     }
 
 

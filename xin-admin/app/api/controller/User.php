@@ -48,47 +48,14 @@ class User extends Controller
         foreach ($group->roles as $role) {
             $access[] =  $role->key;
         }
-
         // 获取一级菜单
         $menus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',0)->order('sort');
+            $query->where('type',0)->whereOr('type',1)->order('sort');
         }])->where('id',$info['group_id'])->find()->roles->toArray();
-
-        // 获取子菜单
-        $childrenMenus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',1)->order('sort');
-        }])->where('id',$info['group_id'])->find()->roles->toArray();
-
-        foreach ($menus as &$role) {
-            $this->childrenNode($role, $childrenMenus);
-        }
+        $menus = $this->getTreeData($menus);
 
         return $this->success('ok',compact('info','access','menus'));
     }
-
-    /**
-     * @param $role
-     * @param $menus
-     * @return void
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
-     */
-    public function childrenNode(&$role, $menus): void
-    {
-        $childNode = [];
-
-        foreach($menus as &$item){
-            if($item['pid'] == $role['id']){
-                $this->childrenNode($item,$menus);
-                $childNode[] = $item;
-            }
-        }
-        if(!count($childNode)) return;
-
-        $role['children'] = $childNode;
-    }
-
 
     /**
      * 刷新 Token
