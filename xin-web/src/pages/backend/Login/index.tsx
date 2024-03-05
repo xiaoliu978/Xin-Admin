@@ -13,7 +13,7 @@ import {
     WeiboOutlined,
 } from '@ant-design/icons';
 import {LoginFormPage, ProFormCaptcha, ProFormCheckbox, ProFormText} from '@ant-design/pro-components';
-import {useModel, useNavigate} from '@umijs/max';
+import {useModel} from '@umijs/max';
 import {Divider, message, Space, Tabs} from 'antd';
 import type {CSSProperties} from 'react';
 import React, {useState} from 'react';
@@ -39,7 +39,6 @@ const iconDivStyle: CSSProperties = {
 const Login: React.FC = () => {
     const {initialState, refresh} = useModel('@@initialState');
     const {refreshDict} = useModel('dictModel');
-    const navigate = useNavigate();
     const [loginType, setLoginType] = useState<USER.LoginType>('account');
     const handleSubmit = async (values: USER.UserLoginFrom) => {
         // 登录
@@ -51,7 +50,7 @@ const Login: React.FC = () => {
         message.success('登录成功！');
         await refresh();
         await refreshDict();
-        navigate("/dashboard/analysis", {replace: true});
+        window.location.href = '/'
         return;
     };
 

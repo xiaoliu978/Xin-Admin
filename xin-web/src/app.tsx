@@ -74,7 +74,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       // 是否登录
       if (initialState!.isLogin) {
         // Admin 应用首页重定向
-        if (location.pathname === '/') history.push('/home');
+        if (location.pathname === '/') history.push('/dashboard/analysis');
       } else {
         localStorage.removeItem('app');
         history.push('/admin/login');
@@ -85,7 +85,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       render: () => <AvatarRender/>,
     },
     childrenRender: (children: any) => {
-      if (initialState?.app === 'admin') return <Access><SettingLayout /><XinTabs>{children}</XinTabs></Access>;
+      if (initialState?.app === 'admin') return <Access><SettingLayout />{children}</Access>;
       return <Access><SettingLayout />{children}</Access>;
     },
     ...initialState?.settings,
