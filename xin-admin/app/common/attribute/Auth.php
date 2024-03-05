@@ -97,6 +97,17 @@ class Auth
     }
 
     /**
+     * 是否登录
+     * @return bool
+     */
+    static public function isLogin(): bool
+    {
+        $token = request()->header('Authorization');
+        if($token) return true;
+        return false;
+    }
+
+    /**
      * 获取 Token Data
      * @return array
      */
