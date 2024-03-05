@@ -11,7 +11,7 @@ export default (initialState:initialStateType) => {
   return {
     buttonAccess: (name:string) => access.includes(name.toLowerCase()),
     urlAccess: (name:string) => {
-      let accessName = name.slice(1).replace(/\//g,'.');
+      let accessName = name.slice(1).toLowerCase().replace(/\//g,'.');
       return access.includes(accessName) || noAuthRouter.includes(name)
     },
   }

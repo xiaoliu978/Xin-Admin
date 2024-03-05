@@ -19,7 +19,7 @@ export async function index() {
  * 用户登录
  */
 export async function login(data: USER.UserLoginFrom) {
-  return request<API.ResponseStructure<USER.LoginResult>>(api.login, {
+  return request<USER.LoginResult>(api.login, {
     method: 'post',
     data
   });

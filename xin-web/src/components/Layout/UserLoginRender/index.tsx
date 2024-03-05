@@ -17,30 +17,19 @@ import { login } from '@/services/api';
 
 export default () => {
 
-  const { initialState, setInitialState } = useModel('@@initialState');
+  const { initialState, refresh } = useModel('@@initialState');
   const [loginType, setLoginType] = useState<USER.LoginType>('account');
   const handleSubmit = async (values: USER.UserLoginFrom) => {
     // 登录
     const msg = await login({ ...values, loginType });
 
-    message.success('登录成功！');
     // 记录令牌
-    localStorage.setItem('token',msg.data.token);
-    localStorage.setItem('refresh_token',msg.data.refresh_token);
-    localStorage.setItem('app','app');
-
-    const userInfo = await initialState!.fetchUserInfo?.();
-    setInitialState((init: any) => {
-      return {
-        ...init,
-        isLogin: true,
-        isAccess: true,
-        currentUser: userInfo.adminInfo,
-        menus: userInfo.menus,
-        access: userInfo.access,
-      }
-    })
-    location.pathname = '/';
+    await localStorage.setItem('token', msg.data.token);
+    await localStorage.setItem('refresh_token', msg.data.refresh_token);
+    await localStorage.setItem('app', 'admin');
+    message.success('登录成功！');
+    await refresh();
+    window.location.href = '/'
     return;
   };
 
