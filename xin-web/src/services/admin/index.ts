@@ -12,7 +12,7 @@ const api = {
  * @param data
  * @constructor
  */
-export async function UserLogin(data: USER.UserLoginFrom) {
+export async function adminLogin(data: USER.UserLoginFrom) {
   return request<USER.LoginResult>(api.loginApi, {
     method: 'post',
     data
@@ -23,8 +23,8 @@ export async function UserLogin(data: USER.UserLoginFrom) {
  * 获取管理员用户信息
  * @constructor
  */
-export async function GetAdminInfo() {
-  return request<USER.UserResult>(api.getAdminInfoApi, {
+export async function getAdminInfo() {
+  return request<USER.AdminInfoResult>(api.getAdminInfoApi, {
     method: 'get'
   });
 }

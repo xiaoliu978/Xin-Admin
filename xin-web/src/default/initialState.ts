@@ -2,11 +2,11 @@
  * 全局初始化状态
  */
 import { appSettings } from './settings';
-import { GetAdminInfo } from '@/services/admin';
+import { getAdminInfo } from '@/services/admin';
 import { getUserInfo } from '@/services/api/user';
 
 const fetchAdminInfo = async () => {
-  const msg = await GetAdminInfo();
+  const msg = await getAdminInfo();
   return msg.data;
 };
 const fetchUserInfo = async () => {

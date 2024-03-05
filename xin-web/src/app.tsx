@@ -23,24 +23,29 @@ import './app.less';
  * 全局初始状态管理插件，允许您快速构建并在组件内获取 Umi 项目全局的初始状态
  */
 export async function getInitialState(): Promise<initialStateType> {
-// 记录当前应用
-  if (!localStorage.getItem('app') || !localStorage.getItem('token')) {
-    localStorage.setItem('app', 'app');
-  }
   const { location } = history;
   const data: initialStateType = defaultInitialState;
+
+  // 记录当前应用
+  if (localStorage.getItem('app')) {
+    data.app = localStorage.getItem('app')
+  }else {
+    localStorage.setItem('app', 'app');
+    data.app = 'app'
+  }
+
   try{
     let indexDate = await index();
     data.webSetting = indexDate.data.web_setting;
     data.menus = indexDate.data.menus;
     if (location.pathname !== 'admin/login' && localStorage.getItem('token')) {
       let userInfo;
-      if(data.app === 'app'){
-        userInfo = await data.fetchUserInfo();
-        data.settings = appSettings;
-      }else {
+      if(data.app === 'admin'){
         userInfo = await data.fetchAdminInfo();
         data.settings = adminSettings;
+      }else {
+        userInfo = await data.fetchUserInfo();
+        data.settings = appSettings;
       }
       data.isLogin = true;
       data.isAccess = true;

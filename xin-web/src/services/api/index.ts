@@ -18,8 +18,8 @@ export async function index() {
 /**
  * 用户登录
  */
-export async function login(data: API.UserLoginFrom) {
-  return request<API.ResponseStructure<any>>(api.login, {
+export async function login(data: USER.UserLoginFrom) {
+  return request<API.ResponseStructure<USER.LoginResult>>(api.login, {
     method: 'post',
     data
   });

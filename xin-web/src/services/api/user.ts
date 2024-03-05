@@ -15,7 +15,7 @@ const api = {
  * @constructor
  */
 export async function getUserInfo() {
-  return request<API.ResponseStructure<any>>(api.getUserInfoApi, {
+  return request<API.ResponseStructure<USER.UserInfoResult>>(api.getUserInfoApi, {
     method: 'get'
   });
 }
