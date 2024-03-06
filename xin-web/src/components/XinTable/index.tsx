@@ -161,9 +161,9 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
       valueType: 'option',
       render: (_, record) => (
         <Space split={<Divider type="vertical" />} size={0}>
-          {editShow !== false ? editButton(record) : null}
-          {deleteShow !== false ? deleteButton(record) : null}
-          {operateRender !== undefined ? operateRender(record) : null}
+          {editShow !== false && editButton(record)}
+          {deleteShow !== false && deleteButton(record)}
+          {operateRender !== undefined && operateRender(record)}
         </Space>
       ),
     }
