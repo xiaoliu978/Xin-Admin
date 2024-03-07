@@ -24,6 +24,7 @@ declare namespace USER {
     icon: string;
     children: MenuType[];
     key: string;
+    locale: string;
   }
 
 
