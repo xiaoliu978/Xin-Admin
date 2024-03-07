@@ -23,7 +23,17 @@ class Controller extends BaseController
      */
     protected array $allowAction = [];
 
+    /**
+     * 关联预载入模型
+     * @var array
+     */
     protected array $withModel = [];
+
+    /**
+     * 快速查询字段
+     * @var array
+     */
+    protected array $quickSearchField = [];
 
     /**
      * 查询字段
@@ -78,11 +88,47 @@ class Controller extends BaseController
     protected function buildSearch(): array
     {
         $params = $this->request->get();
-        $where = [];
+
+        // 构建分页
         $paginate = [
             'list_rows' => $params['pageSize'] ?? 10,
             'page' => $params['current'] ?? 1,
         ];
+        $pk = $this->model->getPk();
+        $order = [$pk => 'desc'];
+        $where = [];
+
+        // 构建排序
+        if(isset($params['sorter']) && $params['sorter']) {
+            $sorter = json_decode($params['sorter'],true);
+            if(count($sorter) > 0) {
+                $sorterKey = array_keys($sorter)[0];
+                $sorterType = $sorter[$sorterKey] == 'ascend' ? 'asc' : 'desc';
+                $order = [$sorterKey => $sorterType];
+            }
+        }
+
+        $modelTable         = strtolower($this->model->getTable());
+        $alias[$modelTable] = parse_name(basename(str_replace('\\', '/', get_class($this->model))));
+        $tableAlias         = $alias[$modelTable] . '.';
+        if (isset($params['keyword']) && $params['keyword'] != '') {
+            $quickSearchArr = $this->quickSearchField;
+            foreach ($quickSearchArr as $k => $v) {
+                $quickSearchArr[$k] = stripos($v, ".") === false ? $tableAlias . $v : $v;
+            }
+            $where[] = [implode("|", $quickSearchArr), "LIKE", '%' . str_replace('%', '\%', $params['keyword']) . '%'];
+        }
+
+        if (isset($params['filter']) && $params['filter'] != '') {
+            $filter = json_decode($params['filter'],true);
+            foreach ($filter as $k => $v) {
+                if(!$v) {
+                    continue;
+                }
+                $where[] = [$k,'in',$v];
+            }
+        }
+
         foreach ($this->searchField as $key => $op) {
             if (isset($params[$key]) && $params[$key] != '') {
                 if (in_array($op, $this->sqlTerm)) {
@@ -102,7 +148,7 @@ class Controller extends BaseController
                 }
             }
         }
-        return [$where, $paginate];
+        return [$where, $paginate, $order];
     }
 
     /**
@@ -113,10 +159,11 @@ class Controller extends BaseController
     #[Auth('list'),Method('GET')]
     public function list(): Json
     {
-        list($where, $paginate) = $this->buildSearch();
+        list($where, $paginate, $order) = $this->buildSearch();
         $list = $this->model
             ->with($this->withModel)
             ->where($where)
+            ->order($order)
             ->paginate($paginate)
             ->toArray();
         return $this->success('ok', $list);

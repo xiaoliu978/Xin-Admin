@@ -29,7 +29,7 @@ class DictItem extends Controller
     #[Auth('list')]
     public function list(): Json
     {
-        list($where, $paginate) = $this->buildSearch();
+        list($where, $paginate, $order) = $this->buildSearch();
         $params = $this->request->get();
         if(!isset($params['dictId'])){
             return $this->warn('字典ID不存在');
@@ -38,6 +38,7 @@ class DictItem extends Controller
         $list = $this->model
             ->where('dict_id',$params['dictId'])
             ->where($where)
+            ->order($order)
             ->paginate($paginate)
             ->toArray();
         return $this->success('ok', $list);

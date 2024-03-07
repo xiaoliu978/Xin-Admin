@@ -20,7 +20,8 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
   {
     title: 'ID',
     dataIndex: 'id',
-    hideInForm: true
+    hideInForm: true,
+    sorter: true
   },
   {
     title: '字典名称',
@@ -46,7 +47,8 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
         text: '标签',
         status: 'Success',
       },
-    }
+    },
+    filters: true
   },
   {
     title: '描述',
@@ -82,6 +84,12 @@ const Table: React.FC = () => {
       <XinTable<Data>
         tableApi={api}
         columns={columns}
+        options={{
+          density: true,
+          search: true,
+          fullScreen: true,
+          setting: true,
+        }}
         operateRender = { (record: Data) => {
           return (
             <Access accessible={access.buttonAccess('system.dict.item.list')}>
