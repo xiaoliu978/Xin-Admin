@@ -10,12 +10,12 @@
   },
   "dependencies": {
     "@ant-design/charts": "^1.4.3",
-    "@ant-design/icons": "^5.2.6",
-    "@ant-design/pro-components": "^2.6.46",
-    "@umijs/max": "^4.1.0",
-    "ahooks": "^3.7.8",
-    "antd": "^5.13.1",
-    "antd-img-crop": "^4.18.0",
+    "@ant-design/icons": "^5.3.6",
+    "@ant-design/pro-components": "^2.7.0",
+    "@umijs/max": "^4.1.6",
+    "ahooks": "^3.7.11",
+    "antd": "^5.16.0",
+    "antd-img-crop": "^4.21.0",
     "dayjs": "^1.11.10",
     "mockjs": "^1.1.0",
     "rc-resize-observer": "^1.4.0"
