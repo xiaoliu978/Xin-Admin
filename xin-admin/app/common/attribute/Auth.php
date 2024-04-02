@@ -1,6 +1,7 @@
 <?php
 
 namespace app\common\attribute;
+
 use app\admin\model\Admin as AdminModel;
 use app\admin\model\AdminGroup;
 use app\api\model\User as UserModel;
@@ -10,13 +11,8 @@ use app\common\model\user\UserGroup;
 use Attribute;
 use Exception;
 use ReflectionClass;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
 use think\exception\HttpResponseException;
-use think\Model;
 use think\Response;
-use think\response\Json;
 
 /**
  * 接口权限注解
@@ -40,45 +36,45 @@ class Auth
     public function __construct(string $key = '')
     {
         $tokenData = self::getTokenData();
-        if($key == '') return;
+        if ($key == '') return;
         $rules = [];
-        if(!isset($tokenData['type'])) {
+        if (!isset($tokenData['type'])) {
             self::throwError('Token 类型不正确！');
         }
-        if($tokenData['type'] == 'admin') {
+        if ($tokenData['type'] == 'admin') {
             $adminInfo = self::getAdminInfo();
-            if($adminInfo['id'] == 1) {
+            if ($adminInfo['id'] == 1) {
                 return;
             }
-            if(!$adminInfo['status']) $this->error('账户已被禁用！', [], 403,'throw');
+            if (!$adminInfo['status']) $this->error('账户已被禁用！', [], 403, 'throw');
             // 获取用户所有权限
-            $group = (new AdminGroup())->where('id',$adminInfo['group_id'])->find();
-            foreach ($group->roles as $rule){
+            $group = (new AdminGroup())->where('id', $adminInfo['group_id'])->find();
+            foreach ($group->roles as $rule) {
                 $rules[] = strtolower($rule->key);
             }
         }
-        if($tokenData['type'] == 'user') {
+        if ($tokenData['type'] == 'user') {
             $userInfo = self::getUserInfo();
-            $group = (new UserGroup())->where('id',$userInfo['group_id'])->find();
-            foreach ($group->roles as $rule){
+            $group = (new UserGroup())->where('id', $userInfo['group_id'])->find();
+            foreach ($group->roles as $rule) {
                 $rules[] = strtolower($rule->key);
             }
         }
         // 使用反射机制获取当前控制器的 AuthName
-        $class = 'app\\'.app('http')->getName().'\\controller\\'.str_replace(".","\\",request()->controller());
+        $class = 'app\\' . app('http')->getName() . '\\controller\\' . str_replace(".", "\\", request()->controller());
         $reflection = new ReflectionClass($class);
         $properties = $reflection->getProperty('authName')->getDefaultValue();
         $allowAction = $reflection->getProperty('allowAction')->getDefaultValue();
-        if(in_array(request()->controller(),$allowAction)){
+        if (in_array(request()->controller(), $allowAction)) {
             return;
         }
-        if($properties){
+        if ($properties) {
             $authKey = strtolower($properties . '.' . $key);
-        }else {
-            $authKey = strtolower(str_replace("\\",".",request()->controller()). '.' . $key);
+        } else {
+            $authKey = strtolower(str_replace("\\", ".", request()->controller()) . '.' . $key);
         }
-        if(!in_array($authKey,$rules)){
-            $this->warn('暂无权限',[],200,'throw');
+        if (!in_array($authKey, $rules)) {
+            $this->warn('暂无权限', [], 200, 'throw');
         }
 
     }
@@ -90,7 +86,7 @@ class Auth
     static public function getToken(): string
     {
         $token = request()->header('Authorization');
-        if(!$token){
+        if (!$token) {
             static::throwError('请先登录！');
         }
         return $token;
@@ -103,7 +99,7 @@ class Auth
     static public function isLogin(): bool
     {
         $token = request()->header('Authorization');
-        if($token) return true;
+        if ($token) return true;
         return false;
     }
 
@@ -114,7 +110,7 @@ class Auth
     static public function getTokenData(): array
     {
         $tokenData = (new Token)->get(self::getToken());
-        if(!$tokenData){
+        if (!$tokenData) {
             static::throwError('请先登录！');
         }
         return $tokenData;
@@ -127,7 +123,7 @@ class Auth
     static public function getUserId(): int
     {
         $tokenData = self::getTokenData();
-        if($tokenData['type'] != 'user' || !isset($tokenData['user_id'])){
+        if ($tokenData['type'] != 'user' || !isset($tokenData['user_id'])) {
             self::throwError('用户ID不存在！');
         }
         return $tokenData['user_id'];
@@ -141,8 +137,8 @@ class Auth
     {
         $user_id = self::getUserId();
         $userModel = new UserModel;
-        $user = $userModel->where('id',$user_id)->with(['avatar'])->findOrEmpty();
-        if($user->isEmpty()) {
+        $user = $userModel->where('id', $user_id)->with(['avatar'])->findOrEmpty();
+        if ($user->isEmpty()) {
             self::throwError('用户不存在！');
         }
         return $user->toArray();
@@ -155,7 +151,7 @@ class Auth
     static public function getAdminId(): int
     {
         $tokenData = self::getTokenData();
-        if($tokenData['type'] != 'admin' || !isset($tokenData['user_id'])){
+        if ($tokenData['type'] != 'admin' || !isset($tokenData['user_id'])) {
             self::throwError('管理员ID不存在！');
         }
         return $tokenData['user_id'];
@@ -169,8 +165,8 @@ class Auth
     {
         $user_id = self::getAdminId();
         $userModel = new AdminModel;
-        $user = $userModel->where('id',$user_id)->with(['avatar'])->findOrEmpty();
-        if($user->isEmpty()) {
+        $user = $userModel->where('id', $user_id)->with(['avatar'])->findOrEmpty();
+        if ($user->isEmpty()) {
             self::throwError('用户不存在！');
         }
         return $user->toArray();

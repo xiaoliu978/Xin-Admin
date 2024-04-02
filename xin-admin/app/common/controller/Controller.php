@@ -7,7 +7,6 @@ use app\common\attribute\Method;
 use app\common\library\RequestJson;
 use Exception;
 use think\db\exception\DbException;
-use app\common\library\Token;
 use think\Model;
 use think\response\Json;
 use think\Validate;
@@ -16,12 +15,6 @@ use app\common\attribute\Auth;
 class Controller extends BaseController
 {
     use RequestJson;
-
-    /**
-     * 登录验证白名单
-     * @var array
-     */
-    protected array $allowAction = [];
 
     /**
      * 关联预载入模型
@@ -108,6 +101,7 @@ class Controller extends BaseController
             }
         }
 
+        // 快速搜索
         $modelTable         = strtolower($this->model->getTable());
         $alias[$modelTable] = parse_name(basename(str_replace('\\', '/', get_class($this->model))));
         $tableAlias         = $alias[$modelTable] . '.';
@@ -119,6 +113,7 @@ class Controller extends BaseController
             $where[] = [implode("|", $quickSearchArr), "LIKE", '%' . str_replace('%', '\%', $params['keyword']) . '%'];
         }
 
+        // 构建筛选
         if (isset($params['filter']) && $params['filter'] != '') {
             $filter = json_decode($params['filter'],true);
             foreach ($filter as $k => $v) {
@@ -129,6 +124,7 @@ class Controller extends BaseController
             }
         }
 
+        // 构建查询
         foreach ($this->searchField as $key => $op) {
             if (isset($params[$key]) && $params[$key] != '') {
                 if (in_array($op, $this->sqlTerm)) {
