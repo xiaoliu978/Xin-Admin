@@ -30,7 +30,7 @@ const useDict = () => {
     return dictMap;
   }
 
-  const { data: dictionaryCache, refresh: refreshDict, refreshAsync: refreshDictAsync } = useRequest(async () => {
+  const { data: dictionaryCache, refresh, refreshAsync: refreshDictAsync } = useRequest(async () => {
     let token = localStorage.getItem('token');
     if (token) {
       if (localStorage.getItem('dictMap')) {
@@ -44,6 +44,14 @@ const useDict = () => {
     }
     return setDictJson([]);
   });
+
+  /**
+   * 刷新字典
+   */
+  const refreshDict = () => {
+    localStorage.removeItem('dictMap');
+    refresh();
+  }
 
   /**
    * 通过键值获取字典

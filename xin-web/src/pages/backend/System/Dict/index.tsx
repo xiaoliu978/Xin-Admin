@@ -1,8 +1,9 @@
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns} from '@/components/XinTable/typings';
+import {Button} from 'antd';
 import DictItem from "./components/DictItem";
 import {useState} from "react";
-import {Access} from "@umijs/max";
+import { Access, useModel } from '@umijs/max';
 import {useAccess} from "@@/exports";
 
 const api = '/system.dict';
@@ -75,6 +76,7 @@ const columns: ProFormColumnsAndProColumns<Data>[] = [
 const Table: React.FC = () => {
   const [open, setOpen ] = useState(false);
   const [ record, setRecord ] = useState<Data>({})
+  const {refreshDict} = useModel('dictModel');
   const access = useAccess();
   const onClose = () =>  setOpen(false);
 
@@ -89,6 +91,9 @@ const Table: React.FC = () => {
           search: true,
           fullScreen: true,
           setting: true,
+        }}
+        optionsRender={(_,dom): React.ReactNode[] => {
+          return [<Button type="primary" key={'ref'} onClick={() => {refreshDict()}}>刷新字典缓存</Button>,...dom]
         }}
         operateRender = { (record: Data) => {
           return (
