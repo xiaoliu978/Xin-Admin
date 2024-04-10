@@ -1,6 +1,7 @@
 // 全局共享数据示例
 import { gitDict } from '@/services/admin/system';
 import { useRequest } from 'ahooks';
+import { ReactNode } from 'react';
 
 interface DictItem {
   label: string;
@@ -19,7 +20,7 @@ interface DictDate {
 const useDict = () => {
 
   /**
-   * 格式化字典
+   * 格式化字典： request
    * @param data
    */
   const setDictJson = (data: DictDate[]): Map<string, DictItem[]> => {
@@ -30,19 +31,39 @@ const useDict = () => {
     return dictMap;
   }
 
-  const { data: dictionaryCache, refresh, refreshAsync: refreshDictAsync } = useRequest(async () => {
+  /**
+   * 格式化字典： Enum
+   * @param data
+   */
+  const setDictEnum = (data: DictDate[]): Map<string,{[key: string]: ReactNode}> => {
+    let dictMap: Map<string, {[key: string]: ReactNode}> = new Map();
+    data.forEach((dict: DictDate) => {
+      let data: {[key: string]: ReactNode} = {};
+      dict.dictItems.forEach((a) => {
+        data[a.value] = a.label;
+      })
+      dictMap.set(dict.code, data);
+    });
+    return dictMap;
+  }
+
+  const { data: dictData, refresh, refreshAsync: refreshDictAsync } = useRequest(async () => {
     let token = localStorage.getItem('token');
+    let data: DictDate[] = [];
     if (token) {
       if (localStorage.getItem('dictMap')) {
         console.log('-------获取字典缓存--------');
-        return setDictJson(JSON.parse(localStorage.getItem('dictMap')!));
+        data = JSON.parse(localStorage.getItem('dictMap')!)
       } else {
-        let { data } = await gitDict();
+        let res = await gitDict();
+        data = res.data
         localStorage.setItem('dictMap', JSON.stringify(data));
-        return setDictJson(data);
       }
     }
-    return setDictJson([]);
+    return {
+      dictJson: setDictJson(data),
+      dictEnum: setDictEnum(data)
+    };
   });
 
   /**
@@ -58,16 +79,19 @@ const useDict = () => {
    * @param key
    */
   const getDictionaryData = async (key: string): Promise<DictItem[]> => {
-    if (!dictionaryCache) {
+    if (!dictData) {
       let res = await refreshDictAsync();
-      return res.has(key) ? res.get(key)! : [];
+      return res.dictJson.has(key) ? res.dictJson.get(key)! : [];
     }
-    return dictionaryCache.has(key) ? dictionaryCache.get(key)! : [];
+    return dictData.dictJson.has(key) ? dictData.dictJson.get(key)! : [];
   };
 
   return {
     refreshDict,
-    getDictionaryData
+    getDictionaryData,
+    dictionaryCache: dictData ? dictData.dictJson : {},
+    dictEnum: dictData ? dictData.dictEnum : new Map()
+    // 后面考虑废除 dictionaryCache，dictEnum 兼容性更强
   };
 };
 
