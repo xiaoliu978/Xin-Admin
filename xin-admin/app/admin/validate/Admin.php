@@ -28,7 +28,9 @@ class Admin extends Validate
         // 新增管理员
         'add'      =>  ['username','nickname','password','email','mobile','rePassword','group_id','status'],
         // 修改密码
-        'updatePassword' => ['id','password','rePassword']
+        'updatePassword' => ['id','password','rePassword'],
+        // 修改信息
+        'updateAdmin' => ['username','mobile','nickname','email','avatar_id']
     ]; 
 
     // edit 验证场景定义

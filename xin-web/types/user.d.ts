@@ -57,7 +57,7 @@ declare namespace USER {
     nickname?: string
     username?: string
     email?: string
-    avatar?: string
+    avatar_id?: string
     mobile?: string
     motto?: string
     token?: string

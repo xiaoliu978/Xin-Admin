@@ -81,4 +81,21 @@ class Admin extends Controller
         return $this->success('ok');
     }
 
+    /**
+     * 修改管理员信息
+     * @return Json
+     */
+    #[Auth, Method('PUT')]
+    public function updateAdmin(): Json
+    {
+        $data = $this->request->param();
+        if (!$this->validate->scene('updateAdmin')->check($data)) {
+            return $this->warn($this->validate->getError());
+        }
+        $user_id = Auth::getAdminId();
+        $model = $this->model->findOrEmpty($user_id);
+        $model->allowField(['mobile','nickname','email','avatar_id'])->save($data);
+        return $this->success('ok');
+    }
+
 }

@@ -1,5 +1,5 @@
-import { Avatar, Button, Dropdown, Modal } from 'antd';
-import { LogoutOutlined } from '@ant-design/icons';
+import { Avatar, Button, Dropdown, DropdownProps, Modal } from 'antd';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { Logout as UserLogout } from '@/services/api/user';
 import { Logout as AdminLogout } from '@/services/admin';
 import { index } from '@/services/api';
@@ -29,20 +29,33 @@ export default () => {
   }
   let navigate = useNavigate();
   const [loginModel, setLoginModel] = useState(false);
+  const dropItem = (): DropdownProps['menu']  => {
+    let data: DropdownProps['menu'] = {
+      items: [
+        {
+          key: 'logout',
+          icon: <LogoutOutlined />,
+          label: '退出登录',
+          onClick: logout,
+        },
+      ],
+    }
+    if(initialState!.app === 'admin') {
+      data.items!.unshift({
+        key: 'user',
+        icon: <UserOutlined/>,
+        label: '用户设置',
+        onClick: () => navigate('/admin/setting')
+      })
+    }
+    return data
+  }
+
   return (
     <>
       { initialState?.isLogin ?
         <Dropdown
-          menu={{
-            items: [
-              {
-                key: 'logout',
-                icon: <LogoutOutlined />,
-                label: '退出登录',
-                onClick: logout,
-              },
-            ],
-          }}
+          menu={dropItem()}
         >
           <Avatar src={initialState.currentUser?.avatar_url}/>
         </Dropdown>

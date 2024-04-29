@@ -1,6 +1,6 @@
 import React, { lazy } from 'react';
-import { history, Navigate } from '@umijs/max';
 import type { RuntimeConfig, RunTimeLayoutConfig } from '@umijs/max';
+import { history, Navigate } from '@umijs/max';
 import type { MenuDataItem } from '@ant-design/pro-components';
 import appList from '@/default/appList';
 import defaultRoutes from '@/default/routes';
@@ -11,7 +11,6 @@ import defaultConfig from '@/utils/request';
 import fixMenuItemIcon from '@/utils/menuDataRender';
 import Footer from '@/components/Footer';
 import Access from '@/components/Access';
-import XinTabs from '@/components/XinTabs';
 import SettingLayout from '@/components/SettingDrawer';
 import ActionsRender from '@/components/Layout/ActionsRender';
 import AvatarRender from '@/components/Layout/AvatarRender';
@@ -89,8 +88,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       return <Access><SettingLayout />{children}</Access>;
     },
     ...initialState?.settings,
-  };
-};
+  }
+}
 
 /**
  * @doc： https://umijs.org/docs/api/runtime-config#patchclientroutes-routes-
