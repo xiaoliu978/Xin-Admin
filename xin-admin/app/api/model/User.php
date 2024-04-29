@@ -10,9 +10,6 @@ use think\db\exception\ModelNotFoundException;
 
 class User extends UserModel
 {
-
-
-
     /**
      * @description: 模型登录
      * @param string $username 用户名

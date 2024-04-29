@@ -2,16 +2,19 @@
 
 namespace app\admin\model;
 
+use app\admin\model\AdminRule as AdminRuleModel;
 use app\common\model\BaseModel;
-use think\model\relation\BelongsToMany;
 
 class AdminGroup extends BaseModel
 {
 
-    public function roles(): BelongsToMany
+    public function getRulesAttr($value): array
     {
-        return $this->belongsToMany(AdminRule::class, AdminGroupRule::class,'rule_id','group_id');
+        if($value == '*') {
+            return (new AdminRuleModel())->where('status',1)->column('id');
+        }else {
+            return array_map('intval',explode(',',$value));
+        }
     }
-
 
 }

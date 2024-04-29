@@ -4,6 +4,7 @@ namespace app\api\controller;
 
 use app\admin\model\file\File as UploadFileModel;
 use app\api\model\User as UserModel;
+use app\common\model\user\UserRule as UserRuleModel;
 use app\api\validate\User as UserVal;
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
@@ -43,15 +44,18 @@ class User extends Controller
     {
         $info = Auth::getUserInfo();
         // 获取权限
-        $group = (new UserGroup)->where('id',$info['group_id'])->find();
-        $access = [];
-        foreach ($group->roles as $role) {
-            $access[] =  $role->key;
-        }
-        // 获取一级菜单
-        $menus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',0)->whereOr('type',1)->order('sort');
-        }])->where('id',$info['group_id'])->find()->roles->toArray();
+        $model = new UserGroup();
+        $group = $model->where('id', $info['group_id'])->findOrEmpty()->toArray();
+        $where = [];
+        $where[] = ['status', '=', 1];
+        $where[] = ['id', 'in', $group['rules']];
+        $rule_model = new UserRuleModel();
+        // 权限
+        $access = $rule_model->where($where)->column('key');
+        // 菜单
+        $where[] = ['show', '=', 1];
+        $where[] = ['type', 'in', [0, 1]];
+        $menus = $rule_model->where($where)->order('sort', 'desc')->select()->toArray();
         $menus = $this->getTreeData($menus);
 
         return $this->success('ok',compact('info','access','menus'));

@@ -6,6 +6,7 @@ use app\common\controller\Controller as Controller;
 use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
 use app\common\model\user\UserGroup;
+use app\common\model\user\UserRule;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
 use think\db\exception\ModelNotFoundException;
@@ -30,9 +31,11 @@ class Index extends Controller
      */
     public function index(): Json
     {
-        $menus = (new UserGroup)->with(['roles' => function($query){
-            $query->where('type',0)->whereOr('type',1)->order('sort');
-        }])->where('id',2)->find()->roles->toArray();
+        $group = (new UserGroup)->where('id',2)->findOrEmpty()->toArray();
+        trace($group);
+        $rule_model = new UserRule();
+        $menus = $rule_model->where('id','in',$group['rules'])->order('sort', 'desc')->select()->toArray();
+        trace($menus);
         $menus = $this->getTreeData($menus);
         $web_setting = get_setting('web');
         return $this->success('ok',compact('web_setting', 'menus'));

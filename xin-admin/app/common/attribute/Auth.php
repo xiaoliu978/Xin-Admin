@@ -4,10 +4,11 @@ namespace app\common\attribute;
 
 use app\admin\model\Admin as AdminModel;
 use app\admin\model\AdminGroup;
+use app\admin\model\AdminRule;
 use app\api\model\User as UserModel;
-use app\common\library\RequestJson;
 use app\common\library\Token;
 use app\common\model\user\UserGroup;
+use app\common\model\user\UserRule;
 use Attribute;
 use Exception;
 use ReflectionClass;
@@ -20,7 +21,6 @@ use think\Response;
 #[Attribute]
 class Auth
 {
-    use RequestJson;
 
     /**
      * @var string
@@ -43,28 +43,27 @@ class Auth
         }
         if ($tokenData['type'] == 'admin') {
             $adminInfo = self::getAdminInfo();
-            if ($adminInfo['id'] == 1) {
+            if ($adminInfo['group_id'] == 1) {
                 return;
             }
-            if (!$adminInfo['status']) $this->error('账户已被禁用！', [], 403, 'throw');
+            if (!$adminInfo['status']) self::throwError('账户已被禁用！');
             // 获取用户所有权限
-            $group = (new AdminGroup())->where('id', $adminInfo['group_id'])->find();
-            foreach ($group->roles as $rule) {
-                $rules[] = strtolower($rule->key);
-            }
+            $group = (new AdminGroup())->where('id', $adminInfo['group_id'])->findOrEmpty();
+            $rules = (new AdminRule())->where('id', 'in', $group->rules)->column('key');
+            $rules = array_map('strtolower',$rules);
         }
         if ($tokenData['type'] == 'user') {
             $userInfo = self::getUserInfo();
-            $group = (new UserGroup())->where('id', $userInfo['group_id'])->find();
-            foreach ($group->roles as $rule) {
-                $rules[] = strtolower($rule->key);
-            }
+            if (!$userInfo['status']) self::throwError('账户已被禁用！');
+            $group = (new UserGroup())->where('id', $userInfo['group_id'])->findOrEmpty();
+            $rules = (new UserRule())->where('id', 'in', $group->rules)->column('key');
+            $rules = array_map('strtolower',$rules);
         }
         // 使用反射机制获取当前控制器的 AuthName
         $class = 'app\\' . app('http')->getName() . '\\controller\\' . str_replace(".", "\\", request()->controller());
         $reflection = new ReflectionClass($class);
         $properties = $reflection->getProperty('authName')->getDefaultValue();
-        $allowAction = $reflection->getProperty('allowAction')->getDefaultValue();
+        $allowAction = $reflection->getProperty('allowAction')->getDefaultValue(); // 权限验证白名单
         if (in_array(request()->controller(), $allowAction)) {
             return;
         }
@@ -73,8 +72,9 @@ class Auth
         } else {
             $authKey = strtolower(str_replace("\\", ".", request()->controller()) . '.' . $key);
         }
+        trace($authKey);
         if (!in_array($authKey, $rules)) {
-            $this->warn('暂无权限', [], 200, 'throw');
+            self::throwError('暂无权限！');
         }
 
     }

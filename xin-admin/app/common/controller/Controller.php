@@ -58,6 +58,9 @@ class Controller extends BaseController
      */
     protected array $sqlTerm = ['=', '>', '<>', '<', '>=', '<='];
 
+    // 权限验证白名单
+    protected array $allowAction = [];
+
     /**
      * 初始化
      * @return void

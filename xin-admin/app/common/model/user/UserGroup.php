@@ -1,18 +1,18 @@
 <?php
-
 namespace app\common\model\user;
 
-
 use app\common\model\BaseModel;
-use think\model\relation\BelongsToMany;
 
 class UserGroup extends BaseModel
 {
 
-    public function roles(): BelongsToMany
+    public function getRulesAttr($value): array
     {
-        return $this->belongsToMany(UserRule::class, UserGroupRule::class,'rule_id','group_id');
+        if($value == '*') {
+            return (new UserRule())->where('status',1)->column('id');
+        }else {
+            return array_map('intval',explode(',',$value));
+        }
     }
-
 
 }
