@@ -101,15 +101,17 @@ const Table: React.FC = () => {
   }
 
   const allIcons: { [key: string]: any } = AntdIcons;
-  const getIcon = (icon?: string | React.ReactNode): React.ReactNode => {
-    if(icon && typeof icon === 'string' && allIcons[icon]){
+  const getIcon = (icon: any): React.ReactNode => {
+    if(typeof icon === 'string' && icon) {
       if (icon.startsWith('icon-')) {
-        return <IconFont type={icon} className={icon} />;
+        return <IconFont type={icon} className={icon} />
       } else {
         return React.createElement(allIcons[icon]);
       }
     }
+    return '-';
   };
+
 
   const upDate = (value: boolean, index: string, id: number) => {
     console.log(value);
