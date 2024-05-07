@@ -1,7 +1,7 @@
 {
   "name": "Xin Admin",
   "description": "the new xin admin",
-  "version": "0.1-beta",
+  "version": "v1.0.3",
   "author": "小刘同学",
   "require": {
     "php": "8.1.0",
