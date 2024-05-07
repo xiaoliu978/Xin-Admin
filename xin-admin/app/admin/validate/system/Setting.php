@@ -18,8 +18,8 @@ class Setting extends Validate
     protected $scene = [
         'addGroup'    =>  ['title','key',],
         'editGroup'      =>  ['id','title','key'],
-        'add'          => ['key','describe','values','group_id'],
+        'add'          => ['title','key','group_id','type'],
         'list'      => ['group_id'],
-        'edit'  => ['id','key','describe','values']
+        'edit'  => ['id','title','key','group_id','type']
     ];
 }

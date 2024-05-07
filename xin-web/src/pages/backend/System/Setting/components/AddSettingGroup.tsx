@@ -1,4 +1,4 @@
-import { Button, Form, message, Radio } from 'antd';
+import { Button, Form, message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { addGroup } from '@/services/admin/system';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
@@ -13,8 +13,8 @@ export default () => {
 
   return (
     <ModalForm<{ key: string, title: string, pid?: number }>
-      title="新建分组"
-      trigger={<Button type={'primary'} icon={<PlusOutlined />}>新增分组</Button>}
+      title='新建分组'
+      trigger={<Button type={'primary'} icon={<PlusOutlined />} block>新增分组</Button>}
       form={form}
       autoFocusFirstInput
       modalProps={{ destroyOnClose: true, width: 400}}

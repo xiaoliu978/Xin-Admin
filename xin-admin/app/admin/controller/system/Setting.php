@@ -27,6 +27,49 @@ class Setting extends Controller
         $this->validate = new SettingVal();
     }
 
+    /**
+     * 基础控制器查询方法
+     * @return Json
+     * @throws DbException
+     */
+    #[Auth('list'),Method('GET')]
+    public function list(): Json
+    {
+        $group_id = $this->request->param('group_id');
+        if(!$group_id) {
+            return $this->warn('请选择设置分组');
+        }
+        $list = $this->model
+            ->with($this->withModel)
+            ->append(['defaultData'])
+            ->where('group_id','=',$group_id)
+            ->order('sort','desc')
+            ->select()
+            ->toArray();
+        return $this->success('ok', $list);
+    }
+
+    /**
+     * 保存设置
+     * @return Json
+     */
+    #[Auth('add'),Method('POST')]
+    public function saveSetting(): Json
+    {
+        $data = $this->request->param();
+        if(!isset($data['group_id'])) {
+            return $this->warn('请选择分组');
+        }
+        foreach ($data as $key => $value) {
+            $setting = $this->model->where('group_id',$data['group_id'])->where('key',$key)->findOrEmpty();
+            if($setting->isEmpty()) {
+                continue;
+            }
+            $setting->values = $value;
+            $setting->save();
+        }
+        return $this->success('保存成功！');
+    }
 
     /**
      * 新增分组
