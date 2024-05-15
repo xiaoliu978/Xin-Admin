@@ -24,7 +24,7 @@ const page = () => {
       <View className={'login-b'}>
         <View className={'login-title'}>
           <View className={'title'}>您好!</View>
-          <View className={'remark'}>欢迎来到收银台系统</View>
+          <View className={'remark'}>欢迎使用XinAdmin</View>
         </View>
         <View className={'login-card'}>
           <Tabs value={tab1value} onChange={(value:'phone' | 'user' ) => {

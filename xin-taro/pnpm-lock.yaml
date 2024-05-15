@@ -9,11 +9,11 @@ dependencies:
     specifier: ^7.7.7
     version: 7.23.2
   '@nutui/icons-react-taro':
-    specifier: ^0.0.1
-    version: 0.0.1
+    specifier: ^1.0.4
+    version: 1.0.4
   '@nutui/nutui-react-taro':
-    specifier: ^2.0.15
-    version: 2.0.23(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^2.6.3
+    version: 2.6.3(react-dom@18.2.0)(react@18.2.0)
   '@tarojs/components':
     specifier: 3.6.18
     version: 3.6.18(@types/react@18.2.36)(postcss@8.4.31)(react@18.2.0)
@@ -1505,6 +1505,13 @@ packages:
     dependencies:
       regenerator-runtime: 0.14.0
 
+  /@babel/runtime@7.24.5:
+    resolution: {integrity: sha512-Nms86NXrsaeU9vbBJKni6gXiEXZ4CVpYVzEjDH9Sb8vmZ3UljyA1GSOJl/6LGPO8EHLuSF9H+IxNXHPX8QHJ4g==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.14.0
+    dev: false
+
   /@babel/template@7.22.15:
     resolution: {integrity: sha512-QPErUVm4uyJa60rkI73qneDacvdvzxshT3kksGqlGWYdOTIUOwJ7RDUL8sGqslY1uXWSL6xMFKEXDS3ox2uF0w==}
     engines: {node: '>=6.9.0'}
@@ -1740,24 +1747,22 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@nutui/icons-react-taro@0.0.1:
-    resolution: {integrity: sha512-uHUaVnh9yfkUdbYLEfoxArFedP7pti+sOrnBTDknemsJKqK/jnQ9xnIKpO2l+1CgGWpbAkipQVBDUM7CXKuWaA==}
-    dependencies:
-      classnames: 2.3.2
+  /@nutui/icons-react-taro@1.0.4:
+    resolution: {integrity: sha512-2sDhJXJPAgatSg8dSWVYLYVvxCZo2OIWpSzVO0xkyCU0X6pWtKt7Hh26UbT9PTWaTfg9cX9xqwYvBkkxUypvSQ==}
     dev: false
 
-  /@nutui/nutui-react-taro@2.0.23(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-Mls8JM6TeJl6uOKD23leowLW9iBKcKmFOEpYGFgg8O33Xa1uN4Bk/S1IO/WEUM6UhWNb3W2YuYBBoGQHEdhnEw==}
+  /@nutui/nutui-react-taro@2.6.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-IonL8p7OGASAznorU267UrlzTXBqM+LgZo3M7LgK5quH3NwR4Nz00jNboK3FYYtzOQZg0VaRZG9PRPcKXcRcPA==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.23.2
-      '@nutui/icons-react-taro': 0.0.1
+      '@babel/runtime': 7.24.5
+      '@nutui/icons-react-taro': 1.0.4
       '@nutui/touch-emulator': 1.0.0
       '@react-spring/web': 9.6.1(react-dom@18.2.0)(react@18.2.0)
       '@use-gesture/react': 10.2.20(react@18.2.0)
       async-validator: 4.2.5
-      classnames: 2.3.2
+      classnames: 2.5.1
       lodash.isequal: 4.5.0
       lodash.kebabcase: 4.1.1
       react: 18.2.0
@@ -4360,6 +4365,10 @@ packages:
   /classnames@2.3.2:
     resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
 
+  /classnames@2.5.1:
+    resolution: {integrity: sha512-saHYOzhIQs6wy2sVxTM6bUDsQO4F50V9RQ22qBpEdCW+I+/Wmke2HOl6lS6dTpdxVhb88/I6+Hs+438c3lfUow==}
+    dev: false
+
   /clean-css@4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
@@ -5408,7 +5417,7 @@ packages:
   /dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==}
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.24.5
       csstype: 3.1.2
     dev: false
 
@@ -8613,8 +8622,8 @@ packages:
     resolution: {integrity: sha512-ewXOEqLGIgqQSy4wbaCHq47sfDsC/hQhO9QVzTQTCKNf9x691AwADHorfCTfVLXDVkOjbbLmJ086M3Dv7hKcXw==}
     dev: true
 
-  /miniprogram-compiler@0.2.2:
-    resolution: {integrity: sha512-fiJXv/15jCcRAU8YKcO7S7fkPKLa5ZBgpLN+d6B3r3KMktM5tAkDEQ+zm6aTfNoHurYOHcRyPyGf26gqQXlFXg==}
+  /miniprogram-compiler@0.2.3:
+    resolution: {integrity: sha512-/MfFiXTBUwYxnrTbj1hgwk1+qGkMCTL1zi8IReOq/0SPVkUxpx19E89w+ohYCELFXkMfVbD+6ejrHh3Y1u5sVg==}
     dependencies:
       glob: 7.2.3
       unescape-js: 1.1.4
@@ -8630,7 +8639,7 @@ packages:
       csso: 3.5.1
       j-component: 1.4.9
       less: 3.13.1
-      miniprogram-compiler: 0.2.2
+      miniprogram-compiler: 0.2.3
       postcss: 7.0.39
       pretty-format: 26.6.2
     dev: true
@@ -9961,7 +9970,7 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
     dependencies:
-      '@babel/runtime': 7.23.2
+      '@babel/runtime': 7.24.5
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
       prop-types: 15.8.1

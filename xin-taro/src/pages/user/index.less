@@ -1,16 +1,29 @@
 .user-page {
-  padding: 10px;
+  background: #e7e7e7;
+  min-height: 100vh;
   position: relative;
-  top: -140px;
   .user {
-    margin-bottom: 20px;
+    margin: 0 20px 10px;
+    position: relative;
+    padding-top: 20px;
+  }
+
+  .user-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 200px;
+    width: 100%;
+    background-image: linear-gradient(to top, #e7e7e7 0%, #88c2fc 60%, #0b90ee 100%);
   }
 
   .order {
+    position: relative;
     background: #fff;
+    margin: 10px;
     border-radius: 5px;
     padding: 0 20px 0 10px;
-    margin-bottom: 10px;
+    z-index: 2;
 
     .title {
       line-height: 40px;
@@ -33,15 +46,9 @@
   }
 }
 
-.user-background {
-  height: 200px;
-  background-image: linear-gradient(to top,#f5f5f5 0%, #88c2fc 60%, #d1ecff 100%);
-}
-
 .login {
   height: 100vh;
   width: 100vw;
-  background-image: url("/src/assets/img/login.jpg");
   background-size: auto 100%;
   background-position: center;
   background-repeat: no-repeat;

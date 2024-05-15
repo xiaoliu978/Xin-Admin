@@ -1,43 +1,24 @@
-import { View, Text } from '@tarojs/components';
-import {Row, Col, Grid, ConfigProvider, Cell} from '@nutui/nutui-react-taro';
+import {Text, View} from '@tarojs/components';
+import {Col, ConfigProvider, Grid, Row} from '@nutui/nutui-react-taro';
 import './index.less';
-import {ArrowRight, Right} from "@nutui/icons-react-taro";
+import {ArrowRight, IconFont} from "@nutui/icons-react-taro";
 import Taro from "@tarojs/taro";
-import { IconFont } from '@nutui/icons-react-taro'
 
 definePageConfig({
-    navigationBarTitleText: '用户页'
+  navigationBarTitleText: '用户页'
 })
 
 function Index() {
-  const onJumpclick = (link: string) => {
-    const replace = false
-    if (link) {
-      replace ? Taro.redirectTo({ url: link }) : Taro.navigateTo({ url: link })
-    }
-  }
-
-
 
   return (
-    <ConfigProvider theme={{
-      nutuiGridBorderColor: '#fff',
-    }} style={{position:"relative"}}>
-      <View className={'user-background'}></View>
+    <ConfigProvider theme={{nutuiGridBorderColor: '#fff'}} style={{position: "relative"}}>
       <View className="user-page">
-        <Row gutter={'10'} className={'user'} onClick={() => onJumpclick('/pages/user/login')}>
+        <View className={'user-background'}></View>
+        <Row gutter={'10'} className={'user'} onClick={() => Taro.navigateTo({ url: '/pages/user/login' })}>
           <Col span={5}>
             <IconFont fontClassName="iconfont" classPrefix='icon' size={60} name="weidenglu-touxiang"/>
-            {/*<Image*/}
-            {/*  src={'https://newnmsd.sanheshangcheng.cn/uploads/10001/20231114/49190ef7910ea135026daaa41226be03.png'}*/}
-            {/*  width="60"*/}
-            {/*  height="60"*/}
-            {/*  radius="50%"*/}
-            {/*/>*/}
           </Col>
-          <Col span={19}>
-            请登录
-          </Col>
+          <Col span={19}>点击登录</Col>
         </Row>
         <View className={"order"}>
           <View className={'title'}>
@@ -52,29 +33,6 @@ function Index() {
             <Grid.Item text="评论"><IconFont color={'#f40'} fontClassName="iconfont" classPrefix='icon' size={26} name="31pinglun"/></Grid.Item>
           </Grid>
         </View>
-
-        <Cell.Group>
-          <Cell
-            className='nutui-cell--clickable'
-            title='链接'
-            align='center'
-            extra={<Right />}
-          />
-          <Cell
-            className='nutui-cell--clickable'
-            title='URL 跳转'
-            extra={
-              <>
-                <span style={{ marginRight: '5px' }}>/pages/index/index</span>
-                <Right />
-              </>
-            }
-            align='center'
-            onClick={() => onJumpclick('/pages/index/index')}
-          />
-        </Cell.Group>
-
-
 
         <View className={"order"}>
           <View className={'title'}>
@@ -94,7 +52,6 @@ function Index() {
             <Grid.Item text="帮助中心"><IconFont color={'#ff2b2b'} fontClassName="iconfont" classPrefix='icon' size={26} name="bangzhu"/></Grid.Item>
           </Grid>
         </View>
-
       </View>
     </ConfigProvider>
   )

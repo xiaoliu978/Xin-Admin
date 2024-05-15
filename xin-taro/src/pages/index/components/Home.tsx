@@ -34,7 +34,7 @@ const data:DataItem[] = [
       username: '小刘同学',
       avatar: 'https://img12.360buyimg.com/imagetools/jfs/t1/143702/31/16654/116794/5fc6f541Edebf8a57/4138097748889987.png'
     },
-    img: 'https://nimg.ws.126.net/?url=http%3A%2F%2Fcms-bucket.ws.126.net%2F2023%2F1107%2Fb29fd4bep00s3qyce0017c0009c0070c.png&thumbnail=330x2147483647&quality=75&type=webp',
+    img: 'https://nimg.ws.126.net/?url=https%3A%2F%2Fcms-bucket.ws.126.net%2F2024%2F0425%2F67d815b0p00schvw600c8c0005k002ic.png&thumbnail=200y90&quality=100&type=jpg',
     content: '时间过得是真快，不知不觉已经在这个行业摸爬滚打近十年了。看到有很多人被网上的一些言论误导，基础不扎实的情况下就直接上手框架，最终只能成为框架使用者、代码搬运工，得不到好的发展，于是趁着周末写下这篇回答，给各位初学者提供一些学习建议。',
     like: 0,
     star: 5
@@ -58,7 +58,7 @@ const data:DataItem[] = [
       username: '小刘同学',
       avatar: 'https://img12.360buyimg.com/imagetools/jfs/t1/143702/31/16654/116794/5fc6f541Edebf8a57/4138097748889987.png'
     },
-    img: 'https://nimg.ws.126.net/?url=http%3A%2F%2Fcms-bucket.ws.126.net%2F2023%2F1107%2Fe18b57f7p00s3qrn20024c0009c0070c.png&thumbnail=330x2147483647&quality=75&type=webp',
+    img: 'https://nimg.ws.126.net/?url=https%3A%2F%2Fcms-bucket.ws.126.net%2F2024%2F0425%2F67d815b0p00schvw600c8c0005k002ic.png&thumbnail=200y90&quality=100&type=jpg',
     content: '根据巴勒斯坦加沙地带卫生部门11月6日发布的最新数据，自10月7日冲突爆发以来，加沙地带，已有10022人死亡，其中包括4104名儿童和2641名妇女，此外还有25408人受伤。约旦河西岸有155人死亡，2250人受伤。',
     like: 0,
     star: 5
