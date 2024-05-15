@@ -75,9 +75,13 @@ const requestConfig: RuntimeConfig['request'] = {
   requestInterceptors: [
     (config: any) => {
       // 拦截请求配置，进行个性化处理。
-      let token = localStorage.getItem('token');
-      if (token) {
-        config.headers['Authorization'] = token;
+      let XToken = localStorage.getItem('x-token');
+      let XUserToken = localStorage.getItem('x-user-token');
+      if (XToken) {
+        config.headers['x-token'] = XToken;
+      }
+      if (XUserToken) {
+        config.headers['x-user-token'] = XUserToken;
       }
       // const url = config.url.concat('?token = 123');
       return { ...config };

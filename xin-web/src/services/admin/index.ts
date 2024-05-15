@@ -37,7 +37,7 @@ export async function refreshAdminToken() {
   return request<USER.ReToken>(api.refreshAdminTokenApi, {
     method: 'post',
     headers: {
-      'RefreshToken': localStorage.getItem('refresh_token') || ''
+      'x-refresh-token': localStorage.getItem('x-refresh-token') || ''
     }
   });
 }

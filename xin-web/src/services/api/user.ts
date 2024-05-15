@@ -29,7 +29,7 @@ export async function refreshUserToken() {
   return request<USER.ReToken>(api.reTokenApi, {
     method: 'post',
     headers: {
-      'RefreshToken': localStorage.getItem('refresh_token') || ''
+      'x-user-refresh-token': localStorage.getItem('x-user-refresh-token') || ''
     }
   });
 }

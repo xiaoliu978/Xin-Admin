@@ -43,12 +43,18 @@ class Auth
      */
     public function __construct(string $key = '')
     {
-        $tokenData = self::getTokenData();
-        if ($key == '') return;
-        $rules = [];
-        if (!isset($tokenData['type'])) {
+        if ( $key == '' ) return;
+        $app = app('http')->getName();
+        if ( $app === 'app' ) {
+            $token = self::getUserToken();
+        } else {
+            $token = self::getToken();
+        }
+        $tokenData = self::getTokenData($token);
+        if ( $tokenData['type'] != $app ) {
             self::throwError('Token 类型不正确！');
         }
+        $rules = [];
         if ($tokenData['type'] == 'admin') {
             $adminInfo = self::getAdminInfo();
             if ($adminInfo['group_id'] == 1) {
@@ -67,8 +73,9 @@ class Auth
             $rules = (new UserRule())->where('id', 'in', $group->rules)->column('key');
             $rules = array_map('strtolower',$rules);
         }
+
         // 使用反射机制获取当前控制器的 AuthName
-        $class = 'app\\' . app('http')->getName() . '\\controller\\' . str_replace(".", "\\", request()->controller());
+        $class = 'app\\' . $app . '\\controller\\' . str_replace(".", "\\", request()->controller());
         $reflection = new ReflectionClass($class);
         $properties = $reflection->getProperty('authName')->getDefaultValue();
         $allowAction = $reflection->getProperty('allowAction')->getDefaultValue(); // 权限验证白名单
@@ -91,14 +98,28 @@ class Auth
      * 是否登录
      * @return string
      */
-    static public function getToken(): string
+    static public function getUserToken(): string
     {
-        $token = request()->header('Authorization');
+        $token = request()->header('x-user-token');
         if (!$token) {
             static::throwError('请先登录！');
         }
         return $token;
     }
+
+    /**
+     * 是否登录
+     * @return string
+     */
+    static public function getToken(): string
+    {
+        $token = request()->header('x-token');
+        if (!$token) {
+            static::throwError('请先登录！');
+        }
+        return $token;
+    }
+
 
     /**
      * 是否登录
@@ -113,11 +134,12 @@ class Auth
 
     /**
      * 获取 Token Data
+     * @param $token
      * @return array
      */
-    static public function getTokenData(): array
+    static public function getTokenData($token): array
     {
-        $tokenData = (new Token)->get(self::getToken());
+        $tokenData = (new Token)->get($token);
         if (!$tokenData) {
             static::throwError('请先登录！');
         }
@@ -130,7 +152,8 @@ class Auth
      */
     static public function getUserId(): int
     {
-        $tokenData = self::getTokenData();
+        $token = self::getUserToken();
+        $tokenData = self::getTokenData($token);
         if ($tokenData['type'] != 'user' || !isset($tokenData['user_id'])) {
             self::throwError('用户ID不存在！');
         }
@@ -158,7 +181,8 @@ class Auth
      */
     static public function getAdminId(): int
     {
-        $tokenData = self::getTokenData();
+        $token = self::getToken();
+        $tokenData = self::getTokenData($token);
         if ($tokenData['type'] != 'admin' || !isset($tokenData['user_id'])) {
             self::throwError('管理员ID不存在！');
         }

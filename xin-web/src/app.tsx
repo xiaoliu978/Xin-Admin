@@ -32,19 +32,20 @@ export async function getInitialState(): Promise<initialStateType> {
     localStorage.setItem('app', 'app');
     data.app = 'app'
   }
-
   try{
     let indexDate = await index();
     data.webSetting = indexDate.data.web_setting;
     data.menus = indexDate.data.menus;
-    if (location.pathname !== 'admin/login' && localStorage.getItem('token')) {
+    if (location.pathname !== 'admin/login') {
       let userInfo;
-      if(data.app === 'admin'){
+      if(data.app === 'admin' && localStorage.getItem('x-token')){
         userInfo = await data.fetchAdminInfo();
         data.settings = adminSettings;
-      }else {
+      }else if (data.app === 'app' && localStorage.getItem('x-user-token')) {
         userInfo = await data.fetchUserInfo();
         data.settings = appSettings;
+      }else {
+        return data;
       }
       data.isLogin = true;
       data.isAccess = true;

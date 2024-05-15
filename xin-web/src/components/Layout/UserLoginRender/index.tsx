@@ -24,8 +24,8 @@ export default () => {
     const msg = await login({ ...values, loginType });
 
     // 记录令牌
-    await localStorage.setItem('token', msg.data.token);
-    await localStorage.setItem('refresh_token', msg.data.refresh_token);
+    await localStorage.setItem('x-user-token', msg.data.token);
+    await localStorage.setItem('x-user-refresh-token', msg.data.refresh_token);
     await localStorage.setItem('app', 'admin');
     message.success('登录成功！');
     await refresh();

@@ -44,8 +44,8 @@ const Login: React.FC = () => {
         // 登录
         const msg = await adminLogin({...values, loginType});
         // 记录令牌
-        await localStorage.setItem('token', msg.data.token);
-        await localStorage.setItem('refresh_token', msg.data.refresh_token);
+        await localStorage.setItem('x-token', msg.data.token);
+        await localStorage.setItem('x-refresh-token', msg.data.refresh_token);
         await localStorage.setItem('app', 'admin');
         message.success('登录成功！');
         await refresh();
