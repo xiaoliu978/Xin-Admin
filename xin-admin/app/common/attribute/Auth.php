@@ -117,7 +117,7 @@ class Auth
     }
 
     /**
-     * 获取管理员ID
+     * 获取用户ID
      * @return int
      */
     static public function getUserId(): int
