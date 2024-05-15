@@ -76,8 +76,8 @@ class User extends Controller
      */
     public function refreshToken(): Json
     {
-        $token =  $this->request->header('Authorization');
-        $reToken = $this->request->header('Refreshtoken');
+        $token =  $this->request->header('x-user-token');
+        $reToken = $this->request->header('x-user-refresh-token');
         if($this->request->isPost() && $reToken){
             $Token = new Token;
             $Token->delete($token);
