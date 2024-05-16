@@ -21,20 +21,16 @@ function uncamelize(string $camelCaps, string $separator = '_'): string
 }
 
 
-
 /**
  * 获取站点的系统配置，不传递参数则获取所有配置项
  * @param string $name 变量名
  * @return string | array
- * @throws DataNotFoundException
- * @throws DbException
- * @throws ModelNotFoundException
  */
 function get_setting(string $name): array|string
 {
     $setting_name = explode('.',$name);
-    $setting_group = (new SettingGroup())->where('key',$setting_name[0])->find();
-    if(!$setting_group){
+    $setting_group = (new SettingGroup())->where('key',$setting_name[0])->findOrEmpty();
+    if($setting_group->isEmpty()){
         $data = [
             'data' => [],
             'success' => false,
@@ -46,8 +42,8 @@ function get_setting(string $name): array|string
         throw new HttpResponseException($response);
     }
     if(count($setting_name) > 1){
-        $setting = $setting_group->setting()->where('key',$setting_name[1])->find();
-        if(!$setting){
+        $setting = $setting_group->setting()->where('key',$setting_name[1])->findOrEmpty();
+        if($setting->isEmpty()){
             $data = [
                 'data' => [],
                 'success' => false,
@@ -60,15 +56,25 @@ function get_setting(string $name): array|string
         }
         return $setting['values'];
     }else {
-        $setting = $setting_group->setting()->select();
+        try {
+            $setting = $setting_group->setting()->select();
+        } catch (Exception $e) {
+            $data = [
+                'data' => [],
+                'success' => false,
+                'status' => 200,
+                'msg'   => $e->getMessage(),
+                'showType' => ShowType::WARN_MESSAGE->value
+            ];
+            $response = Response::create($data, 'json', 200);
+            throw new HttpResponseException($response);
+        }
         $arr = [];
         foreach ($setting as $set){
             $arr[$set['key']] = $set['values'];
         }
         return $arr;
     }
-
-
 }
 
 
