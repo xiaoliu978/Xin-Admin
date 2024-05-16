@@ -55,6 +55,8 @@ class User extends Validate
     protected $scene = [
         // 账号密码登录
         'account'  =>  ['username','password'],
+        // 邮箱登录
+        'email'    =>  ['email','captcha'],
         // 手机号登录
         'phone'    =>  ['mobile','captcha'],
         'add'      =>  ['username','nickname','password'],
