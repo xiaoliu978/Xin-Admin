@@ -13,9 +13,9 @@ namespace app\common\controller;
 use app\BaseController;
 use app\common\attribute\Method;
 use app\common\library\RequestJson;
+use app\common\model\BaseModel;
 use Exception;
 use think\db\exception\DbException;
-use think\Model;
 use think\response\Json;
 use think\Validate;
 use app\common\attribute\Auth;
@@ -44,9 +44,9 @@ class Controller extends BaseController
 
     /**
      * 当前控制器模型
-     * @var Model
+     * @var BaseModel
      */
-    protected Model $model;
+    protected BaseModel $model;
 
     /**
      * 验证器
