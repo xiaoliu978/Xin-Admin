@@ -2,7 +2,8 @@ import { request } from '@umijs/max';
 
 const api = {
   index: '/api.php/index',
-  login: '/api.php/index/login'
+  login: '/api.php/index/login',
+  getMailCodeApi: '/api.php/index/sendMailCode'
 }
 
 /**
@@ -20,6 +21,16 @@ export async function index() {
  */
 export async function login(data: USER.UserLoginFrom) {
   return request<USER.LoginResult>(api.login, {
+    method: 'post',
+    data
+  });
+}
+
+/**
+ * 获取邮箱验证码
+ */
+export async function getMailCode(data: any) {
+  return request<USER.LoginResult>(api.getMailCodeApi, {
     method: 'post',
     data
   });

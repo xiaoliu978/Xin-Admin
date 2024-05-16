@@ -28,7 +28,8 @@
         "topthink/think-view": "^2.0",
         "ext-curl": "*",
         "ext-pdo": "*",
-        "ext-zip": "*"
+        "ext-zip": "*",
+        "phpmailer/phpmailer": "^6.9"
     },
     "require-dev": {
         "symfony/var-dumper": ">=4.2",

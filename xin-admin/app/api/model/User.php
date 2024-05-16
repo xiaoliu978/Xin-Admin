@@ -12,14 +12,13 @@ namespace app\api\model;
 
 use app\common\library\Token;
 use app\common\model\User as UserModel;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
+use Exception;
 
 class User extends UserModel
 {
+
     /**
-     * @description: 模型登录
+     * 用户名密码登录
      * @param string $username 用户名
      * @param string $password 密码
      * @return bool | array
@@ -37,32 +36,40 @@ class User extends UserModel
                 $this->setErrorMsg('密码错误');
                 return false;
             }
-
-            $token = new Token();
-            $token->clear('user',$user['id']);
-            $token->clear('user-refresh',$user['id']);
-
-            $data = [];
-            $data['refresh_token'] =  md5(random_bytes(10));
-            $data['token'] =  md5(random_bytes(10));
-            $data['id'] = $user['id'];
-            if(
-                $token->set($data['token'],'user',$user['id'],600) &&
-                $token->set($data['refresh_token'],'user-refresh',$user['id'],2592000)
-            ) {
-                return $data;
-            } else {
-                $this->setErrorMsg('token 生成失败');
-                return false;
-            }
-
-        }catch(\Exception $e){
+            return $this->getToken($user['id']);
+        }catch(Exception $e){
             $this->setErrorMsg($e->getMessage());
             return false;
         }
-
     }
 
+    /**
+     * 邮箱登录 | 未存在用户自动注册
+     * @param $mail
+     * @return bool|array
+     */
+    public function mailLogin($mail): bool|array
+    {
+        $userInfo = $this->where('email',$mail)->findOrEmpty();
+        if($userInfo->isEmpty()) {
+            $user = self::create([
+                'username' => 'uid'.time(),
+                'nickname' => substr_replace($mail,'****',3,4),
+                'password' => password_hash('',PASSWORD_DEFAULT),
+                'mobile' => '',
+                'email' => $mail
+            ]);
+            return $this->getToken($user['id']);
+        }else {
+            return $this->getToken($userInfo['id']);
+        }
+    }
+
+    /**
+     * 用户注册
+     * @param $data
+     * @return bool|array
+     */
     public function register($data): bool|array
     {
         try {
@@ -77,53 +84,57 @@ class User extends UserModel
                 return false;
             }
             $data['password'] = password_hash($data['password'],PASSWORD_DEFAULT);
-
             $user = self::create($data,['username','nickname','password','mobile','email']);
-            if($user){
-                $token = new Token();
-                $token->clear('user',$user['id']);
-                $token->clear('user-refresh',$user['id']);
-                $data = [];
-                $data['refresh_token'] =  md5(random_bytes(10));
-                $data['token'] =  md5(random_bytes(10));
-                $data['id'] = $user['id'];
-                if(
-                    $token->set($data['token'],'user',$user['id'],600) &&
-                    $token->set($data['refresh_token'],'user-refresh',$user['id'],2592000)
-                ) {
-                    return $data;
-                } else {
-                    $this->setErrorMsg('token 生成失败');
-                    return false;
-                }
-            }else {
-                $this->setErrorMsg('注册失败');
-                return false;
-            }
-
-        }catch(\Exception $e){
+            return $this->getToken($user['id']);
+        }catch(Exception $e){
             $this->setErrorMsg('系统错误'.$e->getMessage());
             return false;
         }
-
     }
 
     /**
-     * @description: 退出登录
-     * @param {*} $user_id
-     * @return bool {*}
-     * @throws DataNotFoundException
-     * @throws DbException
-     * @throws ModelNotFoundException
+     * 获取 Token
+     * @param int $user_id
+     * @return array|false
+     */
+    private function getToken(int $user_id): array | false
+    {
+        try {
+            $token = new Token();
+            $token->clear('user',$user_id);
+            $token->clear('user-refresh',$user_id);
+            $data = [];
+            $data['refresh_token'] =  md5(random_bytes(10));
+            $data['token'] =  md5(random_bytes(10));
+            $data['id'] = $user_id;
+            if(
+                $token->set($data['token'],'user',$user_id,600) &&
+                $token->set($data['refresh_token'],'user-refresh',$user_id,2592000)
+            ) {
+                return $data;
+            } else {
+                $this->setErrorMsg('token 生成失败');
+                return false;
+            }
+        }catch(\Exception $e){
+            $this->setErrorMsg($e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 退出登录
+     * @param $user_id
+     * @return bool
      */
     public function logout($user_id): bool
     {
-        $user = $this->where('id',$user_id)->find();
-        if(!$user) {
-            $this->setErrorMsg('用户不存在');
-            return false;
-        }
         try {
+            $user = $this->where('id',$user_id)->find();
+            if(!$user) {
+                $this->setErrorMsg('用户不存在');
+                return false;
+            }
             $token = new Token;
             $token->clear('user',$user['id']);
             $token->clear('user-refresh',$user['id']);

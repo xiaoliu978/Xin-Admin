@@ -12,7 +12,7 @@ import { LoginForm, ProFormCaptcha, ProFormCheckbox, ProFormText } from '@ant-de
 import { useModel } from '@umijs/max';
 import { Divider, message, Space, Tabs } from 'antd';
 import React, { useState } from 'react';
-import { login } from '@/services/api';
+import { getMailCode, login } from '@/services/api';
 
 
 export default () => {
@@ -37,6 +37,10 @@ export default () => {
     {
       key: 'account',
       label: '账号密码登录'
+    },
+    {
+      key: 'email',
+      label: '邮箱登录'
     },
     {
       key: 'phone',
@@ -152,6 +156,56 @@ export default () => {
               ]}
               onGetCaptcha={async () => {
                 message.success('获取验证码成功！验证码为：1234');
+              }}
+            />
+          </>
+        )}
+        {loginType === 'email' && (
+          <>
+            <ProFormText
+              fieldProps={{
+                size: 'large',
+                prefix: <MobileOutlined className={'prefixIcon'} />,
+              }}
+              name="email"
+              placeholder={'邮箱'}
+              rules={[
+                {
+                  required: true,
+                  message: '请输入邮箱！',
+                },
+                {
+                  pattern: /^[\w\\.-]+@[\w\\.-]+\.\w+$/,
+                  message: '邮箱格式错误！',
+                },
+              ]}
+            />
+            <ProFormCaptcha
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined className={'prefixIcon'} />,
+              }}
+              phoneName={'email'}
+              captchaProps={{
+                size: 'large',
+              }}
+              placeholder={'请输入验证码'}
+              captchaTextRender={(timing, count) => {
+                if (timing) {
+                  return `${count} ${'获取验证码'}`;
+                }
+                return '获取验证码';
+              }}
+              name="captcha"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入验证码！',
+                },
+              ]}
+              onGetCaptcha={async (email) => {
+                await getMailCode({email});
+                message.success('获取验证码成功！');
               }}
             />
           </>

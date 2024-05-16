@@ -8,7 +8,7 @@ declare namespace USER {
     loginType?: LoginType
   }
 
-  type LoginType = 'phone' | 'account';
+  type LoginType = 'phone' | 'account' | 'email';
 
   interface UpdatePassword {
     oldPassword: string

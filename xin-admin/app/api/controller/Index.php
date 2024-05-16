@@ -14,6 +14,7 @@ use app\common\attribute\Method;
 use app\common\controller\Controller as Controller;
 use app\api\model\User as UserModel;
 use app\api\validate\User as UserVal;
+use app\common\library\sms\driver\Mail;
 use app\common\model\user\UserGroup;
 use app\common\model\user\UserRule;
 use think\db\exception\DataNotFoundException;
@@ -58,7 +59,7 @@ class Index extends Controller
     public function login(): Json
     {
         $data = $this->request->post();
-
+        $model = new UserModel();
         // 账号密码登录
         if(isset($data['loginType']) && $data['loginType'] === 'account') {
             // 规则验证
@@ -66,19 +67,43 @@ class Index extends Controller
             if(!$result){
                 return $this->warn($this->validate->getError());
             }
-
-            $data = $this->model->login($data['username'],$data['password']);
+            $data = $model->login($data['username'],$data['password']);
             if($data) {
                 return $this->success('ok',$data);
             }
             return $this->error($this->model->getErrorMsg());
         }
+        // 邮箱登录
+        if(isset($data['loginType']) && $data['loginType'] === 'email') {
+            if(get_setting('mail.login') != 1) {
+                return $this->warn('暂未开启邮箱登录！');
+            }
+            // 规则验证
+            $result = $this->validate->scene('email')->check($data);
+            if(!$result){
+                return $this->warn($this->validate->getError());
+            }
+            $mail = new Mail();
+            $verify = $mail->verify($data['email'],$data['captcha']);
+            if($verify !== true){
+                return $this->error($verify);
+            }
+            $data = $model->mailLogin($data['email']);
+            if($data){
+                return $this->success('ok',$data);
+            }
+            return $this->error($model->getErrorMsg());
+        }
 
         // 手机号登录
         if(isset($data['loginType']) && $data['loginType'] === 'phone') {
+            // 规则验证
+            $result = $this->validate->scene('phone')->check($data);
+            if(!$result){
+                return $this->warn($this->validate->getError());
+            }
             return $this->warn('暂未开通手机号登录！');
         }
-
         return $this->warn('请选择登录方式！');
     }
 
@@ -100,5 +125,24 @@ class Index extends Controller
             return $this->success('ok',$data);
         }
         return $this->error($this->model->getErrorMsg());
+    }
+
+    /**
+     * 发送验证码
+     * @return Json
+     */
+    public function sendMailCode(): Json
+    {
+        $params = $this->request->param();
+        if(!isset($params['email'])) {
+            return $this->error('请输入邮箱！');
+        }
+        $SMS = new Mail();
+        $data = $SMS->sendCode($params['email']);
+        if($data === true){
+            return $this->success('ok');
+        }else {
+            return $this->error($data);
+        }
     }
 }
