@@ -16,7 +16,7 @@ use Attribute;
 /**
  * 请求注解类
  */
-#[Attribute]
+#[Attribute(\Attribute::TARGET_METHOD)]
 class Method
 {
     use RequestJson;
@@ -26,12 +26,14 @@ class Method
         if (!$method) {
             return;
         }
-        $currentMethod = request()->method();
+        if(function_exists('request')) {
+            $currentMethod = request()->method();
 
-        if ($method == $currentMethod) {
-            return;
+            if ($method == $currentMethod) {
+                return;
+            }
+            $this->error('请求方式错误，请检查！', [], 200, 'throw');
         }
-        $this->error('请求方式错误，请检查！', [], 200, 'throw');
     }
 
 }

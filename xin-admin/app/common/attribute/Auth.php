@@ -10,13 +10,13 @@
 // +----------------------------------------------------------------------
 namespace app\common\attribute;
 
-use app\admin\model\Admin as AdminModel;
-use app\admin\model\AdminGroup;
-use app\admin\model\AdminRule;
-use app\api\model\User as UserModel;
+use app\admin\model\admin\AdminGroupModel;
+use app\admin\model\admin\AdminModel as AdminModel;
+use app\admin\model\admin\AdminRuleModel;
+use app\api\model\UserModel as UserModel;
 use app\common\library\Token;
-use app\common\model\user\UserGroup;
-use app\common\model\user\UserRule;
+use app\common\model\user\UserGroupModel;
+use app\common\model\user\UserRuleModel;
 use Attribute;
 use Exception;
 use ReflectionClass;
@@ -26,7 +26,7 @@ use think\Response;
 /**
  * 接口权限注解
  */
-#[Attribute]
+#[Attribute(\Attribute::TARGET_METHOD)]
 class Auth
 {
 
@@ -44,6 +44,8 @@ class Auth
     public function __construct(string $key = '')
     {
         if ( $key == '' ) return;
+        if(!function_exists('app')) return;
+
         $app = app('http')->getName();
         if ( $app === 'app' ) {
             $token = self::getUserToken();
@@ -62,15 +64,15 @@ class Auth
             }
             if (!$adminInfo['status']) self::throwError('账户已被禁用！');
             // 获取用户所有权限
-            $group = (new AdminGroup())->where('id', $adminInfo['group_id'])->findOrEmpty();
-            $rules = (new AdminRule())->where('id', 'in', $group->rules)->column('key');
+            $group = (new AdminGroupModel())->where('id', $adminInfo['group_id'])->findOrEmpty();
+            $rules = (new AdminRuleModel())->where('id', 'in', $group->rules)->column('key');
             $rules = array_map('strtolower',$rules);
         }
         if ($tokenData['type'] == 'user') {
             $userInfo = self::getUserInfo();
             if (!$userInfo['status']) self::throwError('账户已被禁用！');
-            $group = (new UserGroup())->where('id', $userInfo['group_id'])->findOrEmpty();
-            $rules = (new UserRule())->where('id', 'in', $group->rules)->column('key');
+            $group = (new UserGroupModel())->where('id', $userInfo['group_id'])->findOrEmpty();
+            $rules = (new UserRuleModel())->where('id', 'in', $group->rules)->column('key');
             $rules = array_map('strtolower',$rules);
         }
 
@@ -213,7 +215,7 @@ class Auth
         $data = [
             'data' => ['type' => 'user'],
             'success' => false,
-            'status' => 200,
+            'status' => 401,
             'msg' => $msg,
             'showType' => 1
         ];

@@ -12,7 +12,6 @@
 /xin-web/.mfsu
 /xin-web/.swc
 
-
 /xin-admin/.env
 /xin-admin/composer.phar
 /xin-admin/composer.lock
@@ -22,7 +21,6 @@
 /xin-admin/.settings
 /xin-admin/.buildpath
 /xin-admin/.project
-/xin-admin/public/*.html
 /xin-admin/public/*.ini
 /xin-admin/public/storage
 

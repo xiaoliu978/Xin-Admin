@@ -15,6 +15,9 @@ use think\exception\HttpResponseException;
 use think\Model;
 use think\Response;
 
+/**
+ * 基础模型
+ */
 class BaseModel extends Model
 {
     use RequestJson;

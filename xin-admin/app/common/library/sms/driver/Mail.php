@@ -11,7 +11,7 @@
 namespace app\common\library\sms\driver;
 
 use app\common\library\sms\Driver;
-use app\common\model\VerificationCode;
+use app\common\model\VerificationCodeModel;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -53,7 +53,7 @@ class Mail extends Driver
             $mail->Body    = "你的邮箱验证码是\" {$code} \"，请在10分钟内使用，请勿泄露与他人！";
             $mail->AltBody = "你的邮箱验证码是{$code}，请在10分钟内使用，请勿泄露与他人！";
             $mail->send();
-            $model = new VerificationCode();
+            $model = new VerificationCodeModel();
             $model->save([
                 'type'   => 'mail',
                 'code'   => $code,
@@ -72,7 +72,7 @@ class Mail extends Driver
      */
     function verify($sendNo, $code): bool|string
     {
-        $model = new VerificationCode();
+        $model = new VerificationCodeModel();
         // 获取最新的一条验证码数据
         $verCode = $model->where('data',$sendNo)->where('type','mail')->order('id', 'desc')->findOrEmpty();
         if($verCode->isEmpty()) {

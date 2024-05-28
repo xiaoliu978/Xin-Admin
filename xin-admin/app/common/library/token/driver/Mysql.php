@@ -76,12 +76,12 @@ class Mysql extends Driver
         if ($data['expire_time'] && $data['expire_time'] <= time() && $expirationException) {
             // token过期-触发前端刷新token
             $response = Response::create([
-                'status' => 409, 
+                'status' => 202,
                 'msg' => 'Token 已过期', 
                 'data' => $data, 
                 'success'=> false, 
                 'showType' => 0
-            ], 'json', 200);
+            ], 'json', 202);
             throw new HttpResponseException($response);
         }
         return $data;

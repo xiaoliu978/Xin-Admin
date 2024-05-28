@@ -1,6 +1,6 @@
 <?php
 // 应用公共文件
-use app\admin\model\system\SettingGroup;
+use app\admin\model\setting\SettingGroupModel;
 use app\common\enum\ApiEnum\ShowType;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\DbException;
@@ -29,7 +29,7 @@ function uncamelize(string $camelCaps, string $separator = '_'): string
 function get_setting(string $name): array|string
 {
     $setting_name = explode('.',$name);
-    $setting_group = (new SettingGroup())->where('key',$setting_name[0])->findOrEmpty();
+    $setting_group = (new SettingGroupModel())->where('key',$setting_name[0])->findOrEmpty();
     if($setting_group->isEmpty()){
         $data = [
             'data' => [],

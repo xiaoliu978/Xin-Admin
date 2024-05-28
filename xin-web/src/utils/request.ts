@@ -17,64 +17,9 @@ const requestConfig: RuntimeConfig['request'] = {
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
 
-  errorConfig: {
-    errorThrower: (res: ResponseStructure<any>) => {
-      const { success, data, errorCode, msg, showType } = res;
-      if (!success) {
-        const error: any = new Error(msg);
-        error.name = 'BizError';
-        error.info = { errorCode, msg, showType, data };
-        throw error;
-      }
-    },
-    // 错误接收及处理
-    errorHandler: async (error: any, opts: any) => {
-      if (opts?.skipErrorHandler) throw error;
-      // 我们的 errorThrower 抛出的错误。
-      if (error.name === 'BizError') {
-        const errorInfo: ResponseStructure<any> | undefined = error.info;
-        if (errorInfo) {
-          const { msg, errorCode } = errorInfo;
-          switch (errorInfo.showType) {
-            case ErrorShowType.SILENT:
-              // do nothing
-              break;
-            case ErrorShowType.WARN_MESSAGE:
-              message.warning(msg);
-              break;
-            case ErrorShowType.ERROR_MESSAGE:
-              message.error(msg);
-              break;
-            case ErrorShowType.NOTIFICATION:
-              notification.open({
-                description: msg,
-                message: errorCode,
-              });
-              break;
-            case ErrorShowType.REDIRECT:
-              // TODO: redirect
-              break;
-            default:
-              message.error(msg);
-          }
-        }
-      } else if (error.response) {
-        // Axios 的错误
-        // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-      } else if (error.request) {
-        // 请求已经成功发起，但没有收到响应
-        message.error('请求超时，请稍后再试！');
-      } else {
-        // 发送请求时出了点问题！
-        message.error('发送请求时出了点问题！');
-      }
-    },
-  },
-
   // 请求拦截器
   requestInterceptors: [
     (config: any) => {
-      // 拦截请求配置，进行个性化处理。
       let XToken = localStorage.getItem('x-token');
       let XUserToken = localStorage.getItem('x-user-token');
       if (XToken) {
@@ -83,7 +28,6 @@ const requestConfig: RuntimeConfig['request'] = {
       if (XUserToken) {
         config.headers['x-user-token'] = XUserToken;
       }
-      // const url = config.url.concat('?token = 123');
       return { ...config };
     },
   ],
@@ -92,36 +36,70 @@ const requestConfig: RuntimeConfig['request'] = {
   responseInterceptors: [
     // @ts-ignore
     async (response: AxiosResponse): Promise<AxiosResponse> => {
+      console.log(response);
       // 拦截响应数据，进行个性化处理
-      // 没有登录拒绝访问
-      if (response.data.status === 403) {
-        localStorage.removeItem('token')
+      if(response.data.status === 500) {
+        message.error(`服务器异常: ${response.data.status}`);
+        return Promise.resolve(response);
+      }
+      if (response.data.status === 401) {
+        // 没有登录拒绝访问
+        localStorage.clear();
         history.push('/');
         return Promise.resolve(response);
       }
-      // 登录状态过期，刷新令牌并重新发起请求
-      if (response.data.status === 409) {
-        let app = localStorage.getItem('app');
-        let res;
-        if(app === null || app === 'app'){
-          res = await refreshUserToken()
-        }else {
-          res = await refreshAdminToken()
+      if (response.data.status === 202) {
+        try {
+          // 登录状态过期，刷新令牌并重新发起请求
+          let app = localStorage.getItem('app');
+          if( !app || app === 'app'){
+            let res = await refreshUserToken()
+            localStorage.setItem('x-user-token', res.data.token);
+            response.headers!.xUserToken = res.data.token;
+            // 重新发送请求
+            let data = await request(response.config.url!,response.config);
+            return Promise.resolve(data);
+          }else {
+            let res = await refreshAdminToken()
+            localStorage.setItem('x-token', res.data.token);
+            response.headers!.xToken = res.data.token;
+            // 重新发送请求
+            let data = await request(response.config.url!,response.config);
+            return Promise.resolve(data);
+          }
+        }catch (e) {
+          return Promise.reject(e);
         }
-        if (res.success) {
-          localStorage.setItem('token', res.data.token);
-          response.headers!.Authorization = res.data.token;
-          // 重新发送请求
-          let data = await request(response.config.url!,response.config);
-          return Promise.resolve(data);
-        } else {
-          return Promise.reject(res);
+      } else if (response.data.status === 403 ||  response.data.status === 200 || response.data.status === 400) {
+        const { success, errorCode, msg, showType } = response.data;
+        if(success) return Promise.resolve(response);
+        switch (showType) {
+          case ErrorShowType.SILENT:
+            // do nothing
+            break;
+          case ErrorShowType.WARN_MESSAGE:
+            message.warning(msg);
+            break;
+          case ErrorShowType.ERROR_MESSAGE:
+            message.error(msg);
+            break;
+          case ErrorShowType.NOTIFICATION:
+            notification.open({
+              description: msg,
+              message: errorCode,
+            });
+            break;
+          case ErrorShowType.REDIRECT:
+            // TODO: redirect
+            break;
+          default:
+            message.error(msg);
         }
-      }
-      if (response.data.status !== 200) {
+        return Promise.reject(response);
+      }else {
+        message.error(`Response status:${response.data.status}`);
         return Promise.reject(response);
       }
-      return Promise.resolve(response);
     }
   ],
 };

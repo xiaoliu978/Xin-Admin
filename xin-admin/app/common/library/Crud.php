@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\common\library;
 
-use app\admin\model\AdminRule as AdminRuleModel;
+use app\admin\model\admin\AdminRuleModel as AdminRuleModel;
 use Exception;
 use think\facade\Db;
 use think\facade\View;

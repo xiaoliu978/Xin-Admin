@@ -14,6 +14,7 @@ use think\Response;
 use think\exception\HttpResponseException;
 use think\response\Json;
 use app\common\enum\ApiEnum\ShowType as ShopTypeEnum;
+use OpenApi\Attributes as OAT;
 
 /**
  * 控制器基础类
@@ -29,6 +30,13 @@ trait RequestJson
      * @param string $type 响应类型 render | throw
      * @return Json
      */
+    #[OAT\Schema(schema: 'requestSuccess', properties: [
+        new OAT\Property(property: 'msg', description: '响应消息', type: 'string'),
+        new OAT\Property(property: 'showType', description: '错误显示类型', type: 'int'),
+        new OAT\Property(property: 'status', description: '状态码', type: 'int', default: 200),
+        new OAT\Property(property: 'success', description: '成功状态', type: 'boolean'),
+        new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
+    ])]
     protected function success(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
     {
         if ($type === 'throw') {
@@ -46,7 +54,14 @@ trait RequestJson
      * @param string $type 响应类型 render | throw
      * @return Json
      */
-    protected function error(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
+    #[OAT\Schema(schema: 'requestError', properties: [
+        new OAT\Property(property: 'msg', description: '响应消息', type: 'string', default: '报错内容'),
+        new OAT\Property(property: 'showType', description: '错误显示类型', type: 'int', default: 2),
+        new OAT\Property(property: 'status', description: '状态码', type: 'int', default: 400),
+        new OAT\Property(property: 'success', description: '成功状态', type: 'boolean', default: false),
+        new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
+    ])]
+    protected function error(string $message, array $data = [], int $status = 400, string $type = 'render'): Json
     {
         if ($type === 'throw') {
             self::renderThrow(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
@@ -62,7 +77,14 @@ trait RequestJson
      * @param string $type 响应类型 render | throw
      * @return Json
      */
-    protected function warn(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
+    #[OAT\Schema(schema: 'requestWarn', properties: [
+        new OAT\Property(property: 'msg', description: '响应消息', type: 'string', default: '警告内容'),
+        new OAT\Property(property: 'showType', description: '错误显示类型', type: 'int', default: 1),
+        new OAT\Property(property: 'status', description: '状态码', type: 'int', default: 403),
+        new OAT\Property(property: 'success', description: '成功状态', type: 'boolean', default: false),
+        new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
+    ])]
+    protected function warn(string $message, array $data = [], int $status = 403, string $type = 'render'): Json
     {
         if ($type === 'throw') {
             self::renderThrow(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
@@ -97,7 +119,7 @@ trait RequestJson
      */
     protected static function renderJson(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0): Json
     {
-        return json(compact('data', 'success', 'status', 'msg', 'showType'), 200);
+        return json(compact('data', 'success', 'status', 'msg', 'showType'), $status);
     }
 
     /**
@@ -110,7 +132,7 @@ trait RequestJson
      */
     public static function renderThrow(bool $success = true, array $data = [], int $status = 200, string $msg = '', int $showType = 0)
     {
-        $response = Response::create(compact('data', 'success', 'status', 'msg', 'showType'), 'json', 200);
+        $response = Response::create(compact('data', 'success', 'status', 'msg', 'showType'), 'json', $status);
         throw new HttpResponseException($response);
     }
 

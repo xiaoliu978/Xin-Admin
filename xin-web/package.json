@@ -1,24 +1,28 @@
 {
   "private": true,
   "author": "",
+  "name": "xinadmin",
   "scripts": {
     "dev": "max dev",
     "build": "max build",
     "postinstall": "max setup",
     "setup": "max setup",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "openapi": "max openapi"
   },
   "dependencies": {
     "@ant-design/charts": "^1.4.3",
     "@ant-design/icons": "^5.3.6",
     "@ant-design/pro-components": "^2.7.0",
-    "@umijs/max": "^4.2.3",
+    "@umijs/max": "^4.2.5",
+    "@umijs/max-plugin-openapi": "2.0.3",
     "ahooks": "^3.7.11",
     "antd": "^5.16.0",
     "antd-img-crop": "^4.21.0",
     "dayjs": "^1.11.10",
     "mockjs": "^1.1.0",
-    "rc-resize-observer": "^1.4.0"
+    "rc-resize-observer": "^1.4.0",
+    "swagger-ui-dist": "^5.17.10"
   },
   "devDependencies": {
     "@types/mockjs": "^1.0.7",
