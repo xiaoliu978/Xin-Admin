@@ -26,13 +26,6 @@ use app\common\attribute as XinAttr;
 class IndexController extends BaseController
 {
 
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->model = new UserModel();
-        $this->validate = new UserVal();
-    }
-
     /**
      * @return Json
      * @throws DataNotFoundException
@@ -87,18 +80,19 @@ class IndexController extends BaseController
     {
         $data = $this->request->post();
         $model = new UserModel();
+        $validate = new UserVal();
         // 账号密码登录
         if(isset($data['loginType']) && $data['loginType'] === 'account') {
             // 规则验证
-            $result = $this->validate->scene('account')->check($data);
+            $result = $validate->scene('account')->check($data);
             if(!$result){
-                return $this->warn($this->validate->getError());
+                return $this->warn($validate->getError());
             }
             $data = $model->login($data['username'],$data['password']);
             if($data) {
                 return $this->success('ok',$data);
             }
-            return $this->error($this->model->getErrorMsg());
+            return $this->error($model->getErrorMsg());
         }
         // 邮箱登录
         if(isset($data['loginType']) && $data['loginType'] === 'email') {
@@ -106,9 +100,9 @@ class IndexController extends BaseController
                 return $this->warn('暂未开启邮箱登录！');
             }
             // 规则验证
-            $result = $this->validate->scene('email')->check($data);
+            $result = $validate->scene('email')->check($data);
             if(!$result){
-                return $this->warn($this->validate->getError());
+                return $this->warn($validate->getError());
             }
             $mail = new Mail();
             $verify = $mail->verify($data['email'],$data['captcha']);
@@ -125,9 +119,9 @@ class IndexController extends BaseController
         // 手机号登录
         if(isset($data['loginType']) && $data['loginType'] === 'phone') {
             // 规则验证
-            $result = $this->validate->scene('phone')->check($data);
+            $result = $validate->scene('phone')->check($data);
             if(!$result){
-                return $this->warn($this->validate->getError());
+                return $this->warn($validate->getError());
             }
             return $this->warn('暂未开通手机号登录！');
         }
@@ -158,15 +152,17 @@ class IndexController extends BaseController
     {
         $data = $this->request->post();
         // 规则验证
-        $result = $this->validate->scene('reg')->check($data);
+        $validate = new UserVal();
+        $model = new UserModel();
+        $result = $validate->scene('reg')->check($data);
         if(!$result){
-            return $this->warn($this->validate->getError());
+            return $this->warn($validate->getError());
         }
-        $data = $this->model->register($data);
+        $data = $model->register($data);
         if($data) {
             return $this->success('ok',$data);
         }
-        return $this->error($this->model->getErrorMsg());
+        return $this->error($model->getErrorMsg());
     }
 
     /**

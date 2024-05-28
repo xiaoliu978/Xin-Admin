@@ -32,13 +32,6 @@ use think\response\Json;
 class UserController extends BaseController
 {
 
-    public function initialize(): void
-    {
-        parent::initialize();
-        $this->model = new UserModel();
-        $this->validate = new UserVal();
-    }
-
     /**
      * 获取用户信息
      * @return Json
@@ -128,7 +121,7 @@ class UserController extends BaseController
         if ($model->logout($user_id)) {
             return $this->success('退出登录成功');
         } else {
-            return $this->error($this->model->getErrorMsg());
+            return $this->error($model->getErrorMsg());
         }
     }
 
@@ -193,11 +186,13 @@ class UserController extends BaseController
     public function setUserInfo(): Json
     {
         $data = $this->request->post();
-        $result = $this->validate->scene('set')->check($data);
+        $validate = new UserVal();
+        $model = new UserModel();
+        $result = $validate->scene('set')->check($data);
         if (!$result) {
-            return $this->warn($this->validate->getError());
+            return $this->warn($validate->getError());
         }
-        $user = $this->model->where('id', Auth::getUserId())->find();
+        $user = $model->where('id', Auth::getUserId())->find();
         $save = $user->allowField(['username', 'nickname', 'gender', 'avatar_id', 'mobile', 'email'])->save($data);
         if ($save) {
             return $this->success('更新成功');
@@ -226,12 +221,14 @@ class UserController extends BaseController
     public function setPassword(): Json
     {
         $data = $this->request->post();
-        $result = $this->validate->scene('set_pwd')->check($data);
+        $validate = new UserVal();
+        $model = new UserModel();
+        $result = $validate->scene('set_pwd')->check($data);
         if (!$result) {
-            return $this->warn($this->validate->getError());
+            return $this->warn($validate->getError());
         }
         $user_id = Auth::getUserId();
-        $user = $this->model->where('id', $user_id)->find();
+        $user = $model->where('id', $user_id)->find();
         if ($user->save([
             'password' => password_hash($data['newPassword'], PASSWORD_DEFAULT)
         ])) {
