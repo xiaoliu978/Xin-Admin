@@ -35,7 +35,7 @@ class OnlineTableModel extends BaseModel
 
     protected $schema = [
         'id' => 'int',
-        'table' => 'varchar',
+        'table_name' => 'varchar',
         'columns' => 'longtext',
         'sql_config' => 'longtext',
         'crud_config' => 'longtext',
