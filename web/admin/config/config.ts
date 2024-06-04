@@ -1,7 +1,7 @@
 // https://umijs.org/config/
 import { defineConfig } from '@umijs/max';
 import proxy from './proxy';
-
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 const { REACT_APP_ENV = 'dev' } = process.env;
 
 export default defineConfig({
@@ -102,7 +102,7 @@ export default defineConfig({
    */
   headScripts: [
     // 解决首次加载时白屏的问题
-    { src: '/public/loading.js', async: true },
+    { src: '/scripts/loading.js', async: true },
   ],
   mfsu: {
     strategy: 'normal',
@@ -122,7 +122,16 @@ export default defineConfig({
   analytics: {
     baidu: '03fb97a161517001d21cf900d8d328df',
   },
-  publicPath: '/assets/',
+  // publicPath: '/assets/',
+  // // 输出目录
+  // outputPath: './dist/assets',
+  // base: '/dict/',
+  // // 自定义 webpack 配置
+  // chainWebpack(config) {
+  //   config.plugin('html').use(HtmlWebpackPlugin, [{
+  //     filename: '../index.html', // 将 index.html 文件输出到 /dict/index.html
+  //   }]);
+  // },
   favicons: [
     'https://file.xinadmin.cn/file/favicons.ico'
   ],

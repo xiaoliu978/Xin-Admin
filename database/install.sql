@@ -399,7 +399,7 @@ CREATE TABLE `xin_setting`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_key`(`key`, `group_id`) USING BTREE,
   INDEX `store_id`(`group_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商家设置记录表' ROW_FORMAT = COMPACT;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设置记录表' ROW_FORMAT = COMPACT;
 
 -- ----------------------------
 -- Records of xin_setting
