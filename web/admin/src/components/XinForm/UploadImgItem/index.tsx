@@ -81,7 +81,7 @@ const UploadImgItem: React.FC<PropsType> = (props) => {
             onChange={onChange}
             onPreview={onPreview}
             headers={{
-              'Authorization': localStorage.getItem('token')!
+              'X-Token': localStorage.getItem('x-token')!
             }}
           >+ Upload</Upload>
         </ImgCrop>
@@ -93,7 +93,7 @@ const UploadImgItem: React.FC<PropsType> = (props) => {
           fileList={fileList}
           onChange={onChange}
           headers={{
-            'Authorization': localStorage.getItem('token')!
+            'X-Token': localStorage.getItem('x-token')!
           }}
         >+ Upload</Upload>
       }

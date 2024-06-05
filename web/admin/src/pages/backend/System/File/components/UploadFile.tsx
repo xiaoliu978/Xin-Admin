@@ -28,7 +28,7 @@ export default (props: {selectGroup: GroupDataType,getFileList: (group_id: numbe
       <Upload
         name={'file'}
         action={action}
-        headers={{Authorization: localStorage.getItem('token')!,}}
+        headers={{'X-Token': localStorage.getItem('x-token')!,}}
         onChange={onChange}
         multiple
         accept={accept}
