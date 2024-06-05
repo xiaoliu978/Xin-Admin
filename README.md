@@ -4,23 +4,23 @@
 <h1 align="center">Xin Admin</h1>
 <h4 align="center">企业级 PHP 全栈快速开发框架</h4>
 <p align="center">
+    <a href="https://xinadmin.cn/" target="_blank">
+        <img src="https://img.shields.io/badge/XinAdmin-1.1.2-brightgreen" alt="xinadmin">
+    </a>
+    <a href="https://www.php.com/" target="_blank">
+        <img src="https://img.shields.io/badge/PHP->=8.2-brightgreen" alt="thinkphp">
+    </a>
     <a href="https://www.thinkphp.cn/" target="_blank">
-        <img src="https://img.shields.io/badge/ThinkPHP-%3E8.0-brightgreen" alt="thinkphp">
+        <img src="https://img.shields.io/badge/ThinkPHP->=8.0-brightgreen" alt="thinkphp">
     </a>
     <a href="https://react.dev/" target="_blank">
-        <img src="https://img.shields.io/badge/React-%3E18.1-brightgreen" alt="React">
+        <img src="https://img.shields.io/badge/React->=18.1-brightgreen" alt="React">
     </a>
     <a href="https://umijs.org/" target="_blank">
-        <img src="https://img.shields.io/badge/UmiJs-%3E4.0-brightgreen" alt="UmiJs">
+        <img src="https://img.shields.io/badge/UmiJs->=4.0-brightgreen" alt="UmiJs">
     </a>
-    <a href="https://www.tslang.cn/" target="_blank">
-        <img src="https://img.shields.io/badge/TypeScript-%3E5.1-brightgreen" alt="typescript">
-    </a>
-    <a href="https://ant.design/" target="_blank">
-        <img src="https://img.shields.io/badge/AntDesign-%3E5.7-brightgreen" alt="Ant Design">
-    </a>
-    <a href="https://procomponents.ant.design/" target="_blank">
-        <img src="https://img.shields.io/badge/AntDesignProComponents-%3E2.6.8-brightgreen" alt="AntDesignProComponents">
+    <a href="https://mysql.org/" target="_blank">
+        <img src="https://img.shields.io/badge/mysql->=5.7-brightgreen" alt="UmiJs">
     </a>
     <a href="https://gitee.com/wonderful-code/buildadmin/blob/master/LICENSE" target="_blank">
         <img src="https://img.shields.io/badge/Apache2.0-license-brightgreen" alt="license">
@@ -28,7 +28,7 @@
 </p>
 
 
-基于 ThinkPHP8 + React + TypeScript + UmiJs + Ant Design + Taro 等技术栈开发的全栈开发框架，提供按钮级权限验证、动态菜单、用户分组权限、数据字典、可视化CRUD、系统配置、文件管理系统等便捷开发，
+基于 PHP8.2 + ThinkPHP8 + Mysql + React + TypeScript + UmiJs + Ant Design + Taro 等技术栈开发的全栈开发框架，提供按钮级权限验证、Swagger 文档、动态菜单、用户分组权限、数据字典、可视化CRUD、系统配置、文件管理系统等便捷开发，
 拥有 Web管理端、Web客户端 和 Taro多端小程序。遵循Apache License 无需授权即可免费商用.
 
 <img src="https://file.xinadmin.cn/file/demo.png"/>
@@ -37,6 +37,9 @@
 
 ### 🚀 Online 在线开发
 在线开发页面，支持一键生成CRUD代码，新增或编辑字段实时更新效果，预览效果，提供多种表单组件，支持 Mock 模拟数据，详细查看具体介绍。
+
+### 🧩 Swagger 文档
+基于 Swagger PHP 支持注解文档生成，搭配 UmiJs 前端可实现 0 接口 0 类型定义，一键生成 api 接口文件与 Ts 类型文件
 
 ### ✨命令行脚本
 项目自带一套PHP命令行脚本，支持一键依赖安装，自动执行 Composer 依赖安装 和 NPM 依赖安装，让你不在为复杂的准备工作头疼，支持命令行安装和更新模块和插件
@@ -72,12 +75,11 @@ XinAdmin 拥有强大的文件系统，可拓展 AliOss 存储 支持多选、�
 #### 文件系统
 <img src="https://file.xinadmin.cn/file/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE%202024-03-01%20162443.png">
 
-### 项目愿景
-我渴望技术，在这个技术大爆发的时代，通过成熟切优秀的项目，构建出一套稳定、可行性强、方便实用的全栈开发框架，提供多行业跨平台解决方案，包括且不限于 CMS、SaaS、CRM、
-BPM等，适用于商城、游戏、即时通信、业务管理、博客等领域。不断探索新环境，结合人工智能，实现 0 代码的同时支持高度自定义，可视化编程，让数字化、信息化方案不再腐败。
+### 理念
+技术无止境，在我享受他人技术成果的时候，也想要为技术做出一份贡献。对于设计理念，我们始终站在巨人的肩膀之上，探索属于我们的全新篇章！
 
 ### 支持项目
-如果觉得项目不错，或者已经在使用了，希望你可以去 Github 或者 Gitee 帮我们点个 ⭐ Star，这将是对我们极大的鼓励与支持。
+如果觉得项目不错，或者已经在使用了，希望你可以去 Github 或者 Gitee 帮我们点个 ⭐ Star，或者[赞助我们](https://xinadmin.cn/introduce/sponsor)，这将是对我们极大的鼓励与支持。
 
 ### 鸣谢巨人
 1. [Ant Design](https://ant-design.antgroup.com/index-cn)
