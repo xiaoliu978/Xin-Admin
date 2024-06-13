@@ -1,8 +1,8 @@
-import { refreshAdminToken } from '@/services/admin';
-import { refreshUserToken } from '@/services/api/user';
-import { history, request } from '@umijs/max';
-import { message,notification } from 'antd';
-import type { AxiosResponse, RuntimeConfig } from '@umijs/max';
+import {refreshAdminToken} from '@/services/admin';
+import {refreshUserToken} from '@/services/api/user';
+import type {RuntimeConfig} from '@umijs/max';
+import {history, request} from '@umijs/max';
+import {message, notification} from 'antd';
 
 // 错误处理方案： 错误类型
 enum ErrorShowType {
@@ -16,7 +16,6 @@ enum ErrorShowType {
 const requestConfig: RuntimeConfig['request'] = {
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
-
   // 请求拦截器
   requestInterceptors: [
     (config: any) => {
@@ -31,77 +30,79 @@ const requestConfig: RuntimeConfig['request'] = {
       return { ...config };
     },
   ],
-
-  // 响应拦截器
   responseInterceptors: [
-    // @ts-ignore
-    async (response: AxiosResponse): Promise<AxiosResponse> => {
-      console.log(response);
-      // 拦截响应数据，进行个性化处理
-      if(response.data.status === 500) {
-        message.error(`服务器异常: ${response.data.status}`);
-        return Promise.resolve(response);
-      }
-      if (response.data.status === 401) {
-        // 没有登录拒绝访问
-        localStorage.clear();
-        history.push('/');
-        return Promise.resolve(response);
-      }
-      if (response.data.status === 202) {
-        try {
-          // 登录状态过期，刷新令牌并重新发起请求
-          let app = localStorage.getItem('app');
-          if( !app || app === 'app'){
-            let res = await refreshUserToken()
-            localStorage.setItem('x-user-token', res.data.token);
-            response.headers!.xUserToken = res.data.token;
-            // 重新发送请求
-            let data = await request(response.config.url!,response.config);
-            return Promise.resolve(data);
-          }else {
-            let res = await refreshAdminToken()
-            localStorage.setItem('x-token', res.data.token);
-            response.headers!.xToken = res.data.token;
-            // 重新发送请求
-            let data = await request(response.config.url!,response.config);
-            return Promise.resolve(data);
+    [
+      async function (response: any) {
+        if(response.data.status === 202) {
+          try {
+            // 登录状态过期，刷新令牌并重新发起请求
+            let app = localStorage.getItem('app');
+            if( !app || app === 'app'){
+              let res = await refreshUserToken()
+              localStorage.setItem('x-user-token', res.data.token);
+              response.headers!.xUserToken = res.data.token;
+              // 重新发送请求
+              return await request(response.config.url!, response.config);
+            }else {
+              let res = await refreshAdminToken()
+              localStorage.setItem('x-token', res.data.token);
+              response.headers!.xToken = res.data.token;
+              // 重新发送请求
+              let data = await request(response.config.url!,response.config);
+              return Promise.resolve(data);
+            }
+          }catch (e) {
+            return Promise.reject(e);
           }
-        }catch (e) {
-          return Promise.reject(e);
         }
-      } else if (response.data.status === 403 ||  response.data.status === 200 || response.data.status === 400) {
-        const { success, errorCode, msg, showType } = response.data;
-        if(success) return Promise.resolve(response);
-        switch (showType) {
-          case ErrorShowType.SILENT:
-            // do nothing
-            break;
-          case ErrorShowType.WARN_MESSAGE:
-            message.warning(msg);
-            break;
-          case ErrorShowType.ERROR_MESSAGE:
-            message.error(msg);
-            break;
-          case ErrorShowType.NOTIFICATION:
-            notification.open({
-              description: msg,
-              message: errorCode,
-            });
-            break;
-          case ErrorShowType.REDIRECT:
-            // TODO: redirect
-            break;
+        return response;
+      },
+      async function (response: any) {
+        let { success, status, msg, showType } = response.response.data;
+        switch (status){
+          case 500:
+            // 服务器异常
+            message.error(`服务器异常: ${status}`);
+            return Promise.reject(response);
+          case 401:
+            // 没有登录拒绝访问
+            localStorage.clear();
+            history.push('/');
+            return Promise.reject(response);
+          case 403:
+          case 400:
+            // 预期用户操作错误
+            if(success) return Promise.resolve(response);
+            switch (showType) {
+              case ErrorShowType.SILENT:
+                // do nothing
+                break;
+              case ErrorShowType.WARN_MESSAGE:
+                message.warning(msg);
+                break;
+              case ErrorShowType.ERROR_MESSAGE:
+                message.error(msg);
+                break;
+              case ErrorShowType.NOTIFICATION:
+                notification.open({
+                  description: msg,
+                  message: status,
+                });
+                break;
+              case ErrorShowType.REDIRECT:
+                // TODO: redirect
+                break;
+              default:
+                message.error(msg);
+            }
+            return Promise.reject(response);
           default:
-            message.error(msg);
+            message.error(`Response status:${response.data.status}`);
+            return Promise.reject(response);
         }
-        return Promise.reject(response);
-      }else {
-        message.error(`Response status:${response.data.status}`);
-        return Promise.reject(response);
       }
-    }
-  ],
+    ]
+  ]
 };
 
 export default requestConfig;
