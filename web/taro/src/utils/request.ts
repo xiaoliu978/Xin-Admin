@@ -20,10 +20,10 @@ type RequestError = AxiosError | Error
 interface IErrorHandler {
   (error: RequestError, opts: IRequestOptions): void;
 }
-
+type WithPromise<T> = T | Promise<T>;
 type IRequestInterceptor = (config: IRequestOptions) => IRequestOptions;
 type IErrorInterceptor = (error: Error) => Promise<Error>;
-type IResponseInterceptor = <T = any>(response : AxiosResponse<T>) => AxiosResponse<T> ;
+type IResponseInterceptor = <T = any>(response : AxiosResponse<T>) => WithPromise<AxiosResponse<T>> ;
 type IRequestInterceptorTuple = [IRequestInterceptor , IErrorInterceptor] | [ IRequestInterceptor ] | IRequestInterceptor
 type IResponseInterceptorTuple = [IResponseInterceptor, IErrorInterceptor] | [IResponseInterceptor] | IResponseInterceptor
 

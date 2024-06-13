@@ -1,22 +1,16 @@
 // UmiJs 的请求配置
-import type { AxiosResponse , RequestConfig} from './request';
+import type { RequestConfig} from './request';
 import toast from './toast';
+import {request} from "./request";
+import {refreshUserToken} from "../api";
 import Taro from "@tarojs/taro";
+import storage from "./storage";
 enum ErrorShowType {
   SILENT = 0,
   WARN_MESSAGE = 1,
   ERROR_MESSAGE = 2,
   NOTIFICATION = 3,
   REDIRECT = 9,
-}
-
-interface ResponseStructure<T> {
-  success: boolean
-  data: T
-  errorCode?: number
-  msg?: string
-  showType?: number
-  status?: number
 }
 
 let baseUrlPrefix = ''
@@ -35,90 +29,77 @@ const requestConfig: RequestConfig = {
   timeout: 5000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' },
   baseURL: baseUrlPrefix,
-  errorConfig: {
-    errorThrower: (res: ResponseStructure<any>) => {
-      const { success, data, errorCode, msg, showType } = res;
-      if (!success) {
-        const error: any = new Error(msg);
-        error.name = 'BizError';
-        error.info = { errorCode, msg, showType, data };
-        throw error;
-      }
-    },
-    // 错误接收及处理
-    errorHandler: async (error: any, opts: any) => {
-      if (opts?.skipErrorHandler) throw error;
-      // 我们的 errorThrower 抛出的错误。
-      if (error.name === 'BizError') {
-        const errorInfo: ResponseStructure<any> | undefined = error.info;
-        if (errorInfo) {
-          const { msg } = errorInfo;
-          switch (errorInfo.showType) {
-            case ErrorShowType.SILENT:
-              // do nothing
-              break;
-            case ErrorShowType.WARN_MESSAGE:
-              toast('error',msg);
-              break;
-            case ErrorShowType.ERROR_MESSAGE:
-              toast('error',msg);
-              break;
-            case ErrorShowType.NOTIFICATION:
-              toast('error',msg);
-              break;
-            case ErrorShowType.REDIRECT:
-              // TODO: redirect
-              break;
-            default:
-              toast('error',msg);
-          }
-        }
-      } else if (error.response) {
-        // Axios 的错误
-        // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-      } else if (error.request) {
-        // 请求已经成功发起，但没有收到响应
-        toast('error','请求超时');
-      } else {
-        // 发送请求时出了点问题！
-        toast('error','发送请求时出了点问题！');
-      }
-    },
-  },
-
   // 请求拦截器
   requestInterceptors: [
     (config: any) => {
-      // 拦截请求配置，进行个性化处理。
-      let token = Taro.getStorageSync('token');
-      if (token) {
-        config.headers['Authorization'] = token;
+      let XUserToken = storage.get('x-user-token');
+      if (XUserToken) {
+        config.headers['x-user-token'] = XUserToken;
       }
-      // const url = config.url.concat('?token = 123');
       return { ...config };
     },
   ],
-
-  // 响应拦截器
   responseInterceptors: [
-    // @ts-ignore
-    async (response: AxiosResponse): Promise<AxiosResponse> => {
-      // 拦截响应数据，进行个性化处理
-      // 没有登录拒绝访问
-      if (response.data.status === 403) {
-        localStorage.removeItem('token')
-        return Promise.resolve(response);
-      }
-      // 登录状态过期，刷新令牌并重新发起请求
-      if (response.data.status === 409) {
+    [
+      async function (response: any) {
+        if(response.data.status === 202) {
+          try {
+            // 登录状态过期，刷新令牌并重新发起请求
+            let res = await refreshUserToken()
+            storage.set('x-user-token', res.data.token);
+            response.headers!.xUserToken = res.data.token;
+            // 重新发送请求
+            return await request(response.config.url!, response.config);
 
+          }catch (e) {
+            return Promise.reject(e);
+          }
+        }
+        return response;
+      },
+      async function (response: any) {
+        let { success, status, msg, showType } = response.response.data;
+        switch (status){
+          case 500:
+            // 服务器异常
+            toast('error',`服务器异常: ${status}`);
+            return Promise.reject(response);
+          case 401:
+            // 没有登录拒绝访问
+            storage.clear();
+            Taro.navigateTo({ url: '/pages/index/index' })
+            return Promise.reject(response);
+          case 403:
+          case 400:
+            // 预期用户操作错误
+            if(success) return Promise.resolve(response);
+            switch (showType) {
+              case ErrorShowType.SILENT:
+                // do nothing
+                break;
+              case ErrorShowType.WARN_MESSAGE:
+                toast('none',msg);
+                break;
+              case ErrorShowType.ERROR_MESSAGE:
+                toast('error',msg);
+                break;
+              case ErrorShowType.NOTIFICATION:
+                toast('none',msg);
+                break;
+              case ErrorShowType.REDIRECT:
+                // TODO: redirect
+                break;
+              default:
+                toast('error',msg);
+            }
+            return Promise.reject(response);
+          default:
+            toast('error',`Response status:${response.data.status}`);
+            return Promise.reject(response);
+        }
       }
-      if (response.data.status !== 200) {
-        return Promise.reject(response);
-      }
-      return Promise.resolve(response);
-    }
-  ],
+    ]
+  ]
 };
 
 export default requestConfig;
