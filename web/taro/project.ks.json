@@ -1,0 +1,13 @@
+{
+    "miniprogramRoot": "./",
+    "projectname": "pure-project-vantui",
+    "description": "",
+    "setting": {
+      "urlCheck": true,
+      "es6": false,
+      "postcss": false,
+      "minified": false,
+      "enhance": false
+    },
+    "compileType": "miniprogram"
+  }

@@ -1,22 +1,26 @@
+/* eslint-disable import/no-commonjs */
 // babel-preset-taro 更多选项和默认值：
 // https://github.com/NervJS/taro/blob/next/packages/babel-preset-taro/README.md
 module.exports = {
   presets: [
-    ['taro', {
-      framework: 'react',
-      ts: true
-    }]
+    [
+      'taro',
+      {
+        framework: 'react',
+        ts: true,
+        useBuiltIns: false,
+        hot: false,
+      },
+    ],
   ],
   plugins: [
     [
-      "import",
+      'import',
       {
-        "libraryName": "@nutui/nutui-react-taro",
-        "libraryDirectory": "dist/esm",
-        "style": 'css',
-        "camel2DashComponentName": false
+        libraryName: '@antmjs/vantui',
+        libraryDirectory: 'es',
       },
-      'nutui-react-taro'
-    ]
-  ]
+      '@antmjs/vantui',
+    ],
+  ],
 }

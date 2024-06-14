@@ -1,10 +1,11 @@
 // UmiJs 的请求配置
+import Taro from "@tarojs/taro";
 import type { RequestConfig} from './request';
 import toast from './toast';
 import {request} from "./request";
 import {refreshUserToken} from "../api";
-import Taro from "@tarojs/taro";
 import storage from "./storage";
+
 enum ErrorShowType {
   SILENT = 0,
   WARN_MESSAGE = 1,
@@ -21,7 +22,7 @@ switch (env) {
     baseUrlPrefix = 'http://127.0.0.1:8000'
     break
   case 'production':
-    baseUrlPrefix = 'https://127.0.0.1:8000'
+    baseUrlPrefix = 'http://127.0.0.1:8000'
     break
 }
 
@@ -58,6 +59,10 @@ const requestConfig: RequestConfig = {
         return response;
       },
       async function (response: any) {
+        if(!response.response) {
+          toast('error',`服务器异常: ${response.message}`);
+          return Promise.reject(response);
+        }
         let { success, status, msg, showType } = response.response.data;
         switch (status){
           case 500:

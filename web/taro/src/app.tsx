@@ -1,9 +1,10 @@
 import { useEffect } from 'react'
 import { useDidShow, useDidHide } from '@tarojs/taro'
+import { View } from '@tarojs/components';
 // 全局样式
 import './app.less'
 import './assets/font/iconfont.css';
-import { View } from '@tarojs/components'
+
 
 function App(props) {
   // 可以使用所有的 React Hooks

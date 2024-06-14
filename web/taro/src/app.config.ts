@@ -1,9 +1,8 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/user/index',
     'pages/message/index',
-    'pages/user/login'
+    'pages/user/index'
   ],
   tabBar: {
     list: [
@@ -29,12 +28,13 @@ export default defineAppConfig({
     color: '#000',
     selectedColor: '#fa2c19',
     backgroundColor: '#fff',
-    borderStyle: 'white',
   },
   window: {
     backgroundTextStyle: 'light',
     navigationBarBackgroundColor: '#fff',
-    navigationBarTitleText: 'V2EX',
-    navigationBarTextStyle: 'black',
+    navigationBarTitleText: 'WeChat',
+    navigationBarTextStyle: 'black'
   },
-})
+  animation: false,
+}
+)

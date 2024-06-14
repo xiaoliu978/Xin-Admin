@@ -1,15 +1,13 @@
 {
-  "miniprogramRoot": "./dist",
-  "projectname": "taro",
-  "description": "Xin Admin Taro 项目",
-  "appid": "touristappid",
+  "miniprogramRoot": "./",
+  "projectname": "pure-project-vantui",
+  "description": "",
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": false,
-    "enhance": false,
-    "compileHotReLoad": false,
     "postcss": false,
-    "minified": false
+    "minified": false,
+    "enhance": false
   },
   "compileType": "miniprogram"
 }
