@@ -108,7 +108,7 @@ export default () => {
                     <div className='wrapper'>
                       <Image height={60} preview={item.file_type === 10 ? {} : false} className='file-icon'
                              src={item.preview_url} />
-                      <p className='gi_line_1 file-name'>{item.file_name}</p>
+                      <p className='gi-line-1 file-name'>{item.file_name}</p>
                     </div>
                   </div>
                 );

@@ -246,7 +246,8 @@ export const categories = {
   editor,
   data,
   logo,
-  use
+  use,
+  all
 };
 
 export default categories;

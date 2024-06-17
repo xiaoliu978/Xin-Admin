@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
- 
+
 const DemoLine = () => {
-  const [data, setData] = useState([
+  const [data] = useState([
       {
         "Date": "2010-01",
         "scales": 1998
@@ -350,7 +350,7 @@ const DemoLine = () => {
 
   useEffect(() => {
   }, []);
- 
+
   return {
     data
   }

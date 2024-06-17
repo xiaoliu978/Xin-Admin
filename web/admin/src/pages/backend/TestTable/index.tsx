@@ -1,7 +1,6 @@
 import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns, TableProps} from '@/components/XinTable/typings';
-import * as verify from '@/utils/format';
 
 /**
  *  Api 接口

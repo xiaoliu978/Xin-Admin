@@ -1,7 +1,6 @@
 import { LockOutlined, MobileOutlined, UserOutlined } from '@ant-design/icons';
-import { LoginForm, ProConfigProvider, ProFormCaptcha, ProFormText, setAlpha } from '@ant-design/pro-components';
+import { LoginForm, ProConfigProvider, ProFormCaptcha, ProFormText } from '@ant-design/pro-components';
 import { message, Tabs, theme } from 'antd';
-import type { CSSProperties } from 'react';
 import { useState } from 'react';
 import { useModel } from '@umijs/max';
 
@@ -11,13 +10,6 @@ export default () => {
   const { token } = theme.useToken();
   const [loginType, setLoginType] = useState<LoginType>('email');
   const { initialState } = useModel('@@initialState');
-  const iconStyles: CSSProperties = {
-    marginInlineStart: '16px',
-    color: setAlpha(token.colorTextBase, 0.2),
-    fontSize: '24px',
-    verticalAlign: 'middle',
-    cursor: 'pointer',
-  };
 
   return (
     <ProConfigProvider hashed={false}>

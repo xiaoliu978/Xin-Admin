@@ -20,7 +20,6 @@ function XinTable<TableData extends Record<string, any>>(props: TableProps<Table
     addShow,
     deleteShow,
     editShow ,
-    optionsShow ,
     searchConfig,
     rowSelectionShow,
     operateRender,

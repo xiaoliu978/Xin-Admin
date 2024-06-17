@@ -8,7 +8,8 @@
     "postinstall": "max setup",
     "setup": "max setup",
     "start": "npm run dev",
-    "openapi": "max openapi"
+    "openapi": "max openapi",
+    "line": "max lint"
   },
   "dependencies": {
     "@ant-design/charts": "^1.4.3",

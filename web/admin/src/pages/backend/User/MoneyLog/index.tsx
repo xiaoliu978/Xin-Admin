@@ -71,7 +71,7 @@ const User: React.FC = () => {
         render: (_, date) => (
           <Popover placement="left" content={userInfo(date.user)} title={date.user.nickname}>
             <Space style={{ display: 'flex' }}>
-              <Avatar src={date.user.avatar} icon={<UserOutlined/>}></Avatar>
+              <Avatar src={date.user.avatar_url} icon={<UserOutlined/>}></Avatar>
               {date.user.nickname}
             </Space>
           </Popover>
@@ -119,7 +119,7 @@ const User: React.FC = () => {
       editShow={false}
       deleteShow={true}
       accessName={'admin.rule'}
-      toolBarRender={()=>[<AddMoneyLog/>]}
+      toolBarRender={()=>[<AddMoneyLog key={'add'}/>]}
     />
   )
 
