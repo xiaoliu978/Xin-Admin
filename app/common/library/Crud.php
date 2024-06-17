@@ -131,7 +131,7 @@ class Crud
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
-        file_put_contents($path.$this->crudConfig['name'].'.php', $controllerView);
+        file_put_contents($path.$this->crudConfig['name'].'Controller.php', $controllerView);
     }
 
     /**
@@ -150,7 +150,7 @@ class Crud
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
-        file_put_contents($path.$this->crudConfig['name'].'.php', $modelView);
+        file_put_contents($path.$this->crudConfig['name'].'Model.php', $modelView);
     }
 
     /**
