@@ -2,7 +2,7 @@ import { View } from '@tarojs/components'
 import { Button } from "@antmjs/vantui"
 
 definePageConfig({
-  navigationBarTitleText: '我的'
+  navigationBarTitleText: '分类'
 })
 
 function Index() {

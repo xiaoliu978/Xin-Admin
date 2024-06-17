@@ -1,32 +1,39 @@
 export default defineAppConfig({
   pages: [
     'pages/index/index',
-    'pages/message/index',
-    'pages/user/index'
+    'pages/class/index',
+    'pages/user/index',
+    'pages/like/index'
   ],
   tabBar: {
     list: [
       {
         pagePath: 'pages/index/index',
-        text: '',
+        text: '首页',
         iconPath: './images/tabbar/home.png',
-        selectedIconPath: './images/tabbar/home_selected.png',
+        selectedIconPath: './images/tabbar/home-selected.png',
       },
       {
-        pagePath: 'pages/message/index',
-        text: '',
-        iconPath: './images/tabbar/to_do_list.png',
-        selectedIconPath: './images/tabbar/to_do_list_selected.png',
+        pagePath: 'pages/class/index',
+        text: '分类',
+        iconPath: './images/tabbar/class.png',
+        selectedIconPath: './images/tabbar/class-selected.png',
+      },
+      {
+        pagePath: 'pages/like/index',
+        text: '喜欢',
+        iconPath: './images/tabbar/like.png',
+        selectedIconPath: './images/tabbar/like-selected.png',
       },
       {
         pagePath: 'pages/user/index',
-        text: '',
-        iconPath: './images/tabbar/personal.png',
-        selectedIconPath: './images/tabbar/personal_selected.png',
+        text: '我的',
+        iconPath: './images/tabbar/me.png',
+        selectedIconPath: './images/tabbar/me-selected.png',
       },
     ],
-    color: '#000',
-    selectedColor: '#fa2c19',
+    color: '#515151',
+    selectedColor: '#f40',
     backgroundColor: '#fff',
   },
   window: {

@@ -2,7 +2,7 @@ import { View } from '@tarojs/components'
 import { Button } from "@antmjs/vantui"
 
 definePageConfig({
-  navigationBarTitleText: '消息页面'
+  navigationBarTitleText: '喜欢'
 })
 
 function Index() {
