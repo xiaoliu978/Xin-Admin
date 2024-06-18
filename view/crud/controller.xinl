@@ -3,10 +3,10 @@
 namespace {$controllerPath};
 
 use app\admin\controller\Controller as Controller;
-use {$modelPath}\{$name} as {$name}Model;
+use {$modelPath}\{$name}Model as {$name}Model;
 use {$validatePath}\{$name} as {$name}Val;
 
-class {$name} extends Controller
+class {$name}Controller extends Controller
 {
 
     protected string $authName = '<?php echo htmlspecialchars_decode($authName) ?>';

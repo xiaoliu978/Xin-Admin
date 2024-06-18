@@ -12,14 +12,14 @@ if($autoDeletetime){
 /**
  * Model
  */
-class {$name} extends BaseModel
+class {$name}Model extends BaseModel
 {
 
 <?php
 if($autoDeletetime){
 echo('    use SoftDelete;');
 echo PHP_EOL;
-echo("    protected \$deleteTime = 'delete_time';");
+echo("    protected string \$deleteTime = 'delete_time';");
 echo PHP_EOL;
 }
 echo("    protected \$table = '$tableName';")
