@@ -2,7 +2,7 @@
 
 namespace {$controllerPath};
 
-use app\common\controller\Controller as Controller;
+use app\admin\controller\Controller as Controller;
 use {$modelPath}\{$name} as {$name}Model;
 use {$validatePath}\{$name} as {$name}Val;
 
