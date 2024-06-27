@@ -264,6 +264,7 @@ const Table: React.FC = () => {
       pagination={false}
       addBefore={() => setRef.toggle()}
       accessName={'user.rule'}
+      scroll={{ x: 1580 }}
     />
   )
 
