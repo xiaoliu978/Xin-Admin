@@ -1,6 +1,8 @@
 import { BetaSchemaForm, ProFormColumnsType, ProFormInstance, useDebounceFn } from '@ant-design/pro-components';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { OnlineType } from '@/pages/backend/Online/typings';
+import { Typography } from 'antd';
+import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
 
 export const defaultTableSetting: OnlineType.TableConfig = {
   bordered: false,
@@ -34,58 +36,89 @@ export const defaultTableSetting: OnlineType.TableConfig = {
     pageSize: 5,
     current: 1,
     total: 100,
-  },
+  }
 }
 
 const tableColumns: ProFormColumnsType[] = [
   {
-    valueType: 'divider',
-    fieldProps: {
-      orientation: 'left',
-      children: '功能开关'
-    }
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>表格设置</Typography.Title>
+    )
+  },
+  {
+    title: '表格标题',
+    valueType: 'text',
+    dataIndex: 'headerTitle',
+  },
+  {
+    title: '表格提示',
+    valueType: 'text',
+    dataIndex: 'tooltip',
+  },
+  {
+    title: '表格尺寸',
+    valueType: 'radio',
+    dataIndex: 'size',
+    valueEnum: new Map([
+      ['default', '大'],
+      ['middle', '中'],
+      ['small', '小'],
+    ])
+  },
+  {
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>功能开关</Typography.Title>
+    )
   },
   {
     title: '表格多选',
     valueType: 'switch',
     dataIndex: 'rowSelectionShow',
+    colProps: {span: 8},
   },
   {
     title: '表格新增',
     valueType: 'switch',
     dataIndex: 'addShow',
+    colProps: {span: 8}
   },
   {
     title: '表格删除',
     valueType: 'switch',
     dataIndex: 'deleteShow',
+    colProps: {span: 8}
   },
   {
     title: '表格编辑',
     valueType: 'switch',
     dataIndex: 'editShow',
+    colProps: {span: 8}
   },
   {
     title: '表格边框',
     valueType: 'switch',
     dataIndex: 'bordered',
+    colProps: {span: 8}
   },
   {
     title: '显示标题',
     valueType: 'switch',
     dataIndex: 'showHeader',
+    colProps: {span: 8}
   },
   {
-    valueType: 'divider',
-    fieldProps: {
-      orientation: 'left',
-      children: '查询配置'
-    }
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>查询配置</Typography.Title>
+    )
   },
   {
     title: '表格查询',
     valueType: 'switch',
     dataIndex: 'searchShow',
+    colProps: {span: 8}
   },
   {
     valueType: 'dependency',
@@ -97,6 +130,7 @@ const tableColumns: ProFormColumnsType[] = [
           title: '收起按钮',
           valueType: 'switch',
           dataIndex: ['search','collapseRender'],
+          colProps: {span: 8},
         },
         {
           title: '重置按钮文案',
@@ -123,10 +157,14 @@ const tableColumns: ProFormColumnsType[] = [
           title: '表单布局',
           valueType: 'radioButton',
           dataIndex: ['search','layout'],
+          fieldProps: {
+            size: 'small'
+          },
           valueEnum: new Map([
             ['vertical','垂直'],
             ['horizontal','水平']
           ]),
+          colProps: {span: 12},
         },
         {
           title: '表单类型',
@@ -136,21 +174,25 @@ const tableColumns: ProFormColumnsType[] = [
             ['query', '默认'],
             ['light', '轻量']
           ]),
+          fieldProps: {
+            size: 'small'
+          },
+          colProps: {span: 12},
         },
       ]
     }
   },
   {
-    valueType: 'divider',
-    fieldProps: {
-      orientation: 'left',
-      children: '操作栏配置'
-    }
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>操作栏配置</Typography.Title>
+    )
   },
   {
-    title: '表格操作栏',
+    title: '启用状态',
     valueType: 'switch',
     dataIndex: 'optionsShow',
+    colProps: {span: 8},
   },
   {
     valueType: 'dependency',
@@ -159,39 +201,43 @@ const tableColumns: ProFormColumnsType[] = [
       if(optionsShow === false) return []
       return [
         {
-          title: '密度 Icon',
+          title: '密度按钮',
           valueType: 'switch',
           dataIndex: ['options','density'],
+          colProps: {span: 8},
         },
         {
-          title: 'keyWords',
+          title: '一键搜索',
           valueType: 'switch',
           dataIndex: ['options','search'],
+          colProps: {span: 8},
         },
         {
-          title: '全屏 Icon',
+          title: '全屏按钮',
           valueType: 'switch',
           dataIndex: ['options','fullScreen'],
+          colProps: {span: 8},
         },
         {
-          title: '列设置 Icon',
+          title: '列设置',
           valueType: 'switch',
           dataIndex: ['options','setting'],
+          colProps: {span: 8},
         },
       ]
     }
   },
   {
-    valueType: 'divider',
-    fieldProps: {
-      orientation: 'left',
-      children: '分页配置',
-    }
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>分页配置</Typography.Title>
+    )
   },
   {
-    title: '分页器',
+    title: '启用状态',
     valueType: 'switch',
     dataIndex: 'paginationShow',
+    colProps: {span: 12},
   },
   {
     valueType: 'dependency',
@@ -206,83 +252,45 @@ const tableColumns: ProFormColumnsType[] = [
           valueEnum: new Map([
             ['default', '默认'],
             ['small', '小'],
-          ])
-        },
-        {
-          title: '页码',
-          valueType: 'digit',
-          dataIndex: ['pagination','current'],
-        },
-        {
-          title: '每页数量',
-          valueType: 'digit',
-          dataIndex: ['pagination','pageSize'],
-        },
-        {
-          title: '数据总数',
-          valueType: 'digit',
-          dataIndex: ['pagination','total'],
+          ]),
+          fieldProps: {size: 'small'},
+          colProps: {span: 12},
         },
       ]
     }
   },
-  {
-    valueType: 'divider',
-    fieldProps: {
-      orientation: 'left',
-      children: '其它配置'
-    }
-  },
-  {
-    title: '表格标题',
-    valueType: 'text',
-    dataIndex: 'headerTitle',
-  },
-  {
-    title: '表格的tooltip',
-    valueType: 'text',
-    dataIndex: 'tooltip',
-  },
-  {
-    title: '表格尺寸',
-    valueType: 'radio',
-    dataIndex: 'size',
-    valueEnum: new Map([
-      ['default', '大'],
-      ['middle', '中'],
-      ['small', '小'],
-    ])
-  },
 ]
 
 
-export default (props: {setTableSetting: React.Dispatch<any>,tableSetting?: OnlineType.TableConfig}) => {
-  const { setTableSetting, tableSetting } = props
+export default () => {
+
+  const {tableConfig,setTableConfig} = useContext(TableConfigContext);
+
   /** 去抖配置 */
   const updateConfig = useDebounceFn(async (state) => {
-    console.log(state)
-    setTableSetting(state);
-  }, 20);
+    if(state.footer === true) state.footer = () => <>页脚</>
+    if(!state.searchShow) state.search = false
+    if(!state.optionsShow) state.options = false
+    if(!state.paginationShow) state.pagination = false
+    setTableConfig({
+      ...tableConfig,
+      tableSetting: state
+    })
+  }, 300);
+
   const form = useRef<ProFormInstance>()
 
   useEffect(()=>{
-    form.current?.setFieldsValue(tableSetting)
-  },[tableSetting])
+    form.current?.setFieldsValue(tableConfig.tableSetting)
+  },[tableConfig])
 
   return (
     <BetaSchemaForm<OnlineType.TableConfig>
       layout="inline"
       layoutType={'Form'}
       formRef={form}
-      rowProps={{ gutter: [16, 16], }}
-      colProps={{ span: 24, }}
-      onValuesChange={(changeValue, values) => {
-        if(values.footer === true) values.footer = () => <>页脚</>
-        if(!values.searchShow) values.search = false
-        if(!values.optionsShow) values.options = false
-        if(!values.paginationShow) values.pagination = false
-        updateConfig.run(values)
-      }}
+      grid={true}
+      onValuesChange={(changeValue, values) => updateConfig.run(values)}
       initialValues={defaultTableSetting}
       columns={tableColumns}
       submitter={{ render: () => [] }}

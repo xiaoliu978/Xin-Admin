@@ -1,28 +1,25 @@
 import { Button, message, Modal } from 'antd';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { EditableProTable, ProColumns, useDebounceFn } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
-import { OnlineType } from '../../typings';
 import defaultSql from './defaultSql';
 import { buildColumns } from '@/pages/backend/Online/Table/components/utils';
+import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
 
-function CreateForm(props: {
-  defaultData: OnlineType.ColumnsConfig[];
-  setColumns: React.Dispatch<React.SetStateAction<OnlineType.ColumnsConfig[]>>;
-}) {
-  const { setColumns, defaultData } = props;
+function CreateForm() {
+  const {tableConfig,setTableConfig} = useContext(TableConfigContext);
   const { getDictionaryData } = useModel('dictModel');
   const [modelShow, setModelShow] = useState<boolean>(false);
 
-  const [dataSource, setDataSource] = useState<readonly OnlineType.ColumnsConfig[]>(
-    () => defaultData
+  const [dataSource, setDataSource] = useState(
+    () => tableConfig.columns
   );
   const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
-    dataSource.map((item) => item.key!),
+    dataSource.map((item: any) => item.key!),
   );
   const isMenu = ['select', 'checkbox', 'radio', 'radioButton'];
 
-  const columns: ProColumns<OnlineType.ColumnsConfig, 'text'>[] = [
+  const columns: ProColumns[] = [
     {
       title: '基本配置',
       children: [
@@ -263,7 +260,7 @@ function CreateForm(props: {
       align: 'center',
       render: (text, record) => (
         <a key='delete' onClick={() => {
-          setDataSource(dataSource.filter((item) => item.dataIndex !== record.dataIndex));
+          setDataSource(dataSource.filter((item: any) => item.dataIndex !== record.dataIndex));
         }}
         >删除</a>
       ),
@@ -272,8 +269,8 @@ function CreateForm(props: {
   ];
 
   const onSave = () => {
-    let reDataIndex = dataSource.some((item, index) => {
-      return dataSource.some((innerItem, innerIndex) => {
+    let reDataIndex = dataSource.some((item: any, index: any) => {
+      return dataSource.some((innerItem: any, innerIndex: any) => {
         return index !== innerIndex && item.dataIndex === innerItem.dataIndex && item.title === innerItem.title;
       });
     });
@@ -281,7 +278,10 @@ function CreateForm(props: {
       message.warning('字段种存在相同字段名或字段备注！');
       return;
     }
-    setColumns(buildColumns(dataSource));
+    setTableConfig({
+      ...tableConfig,
+      columns: buildColumns(dataSource)
+    });
     message.success('保存字段成功！');
     setModelShow(false);
   };
@@ -295,7 +295,7 @@ function CreateForm(props: {
     <>
       <Button onClick={() => setModelShow(true)} type={'primary'} block style={{ marginTop: 10 }}>编辑字段</Button>
       <Modal open={modelShow} onCancel={() => setModelShow(false)} width={'80%'} onOk={onSave} okText={'保存字段'}>
-        <EditableProTable<OnlineType.ColumnsConfig>
+        <EditableProTable
           headerTitle={'字段设置'}
           columns={columns}
           rowKey='key'

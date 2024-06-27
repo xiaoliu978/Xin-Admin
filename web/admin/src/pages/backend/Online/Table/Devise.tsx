@@ -1,90 +1,92 @@
 import { useParams } from '@umijs/max';
 import React, { useEffect, useState } from 'react';
 import './index.less';
-import { ProCard, ProCardTabsProps } from '@ant-design/pro-components';
-import DefaultTable, { defaultTableSetting } from './components/defaultTable';
-import { Button, message, Space } from 'antd';
+import { Button, message, Space, Tabs, Watermark } from 'antd';
 import { OnlineType } from '@/pages/backend/Online/typings';
-import ColumnsFrom from '@/pages/backend/Online/Table/components/ColumnsFrom';
-import DragSort from '@/pages/backend/Online/Table/components/DragSort';
 import { crudApi, getData, saveData } from '@/services/admin/online';
-import { buildColumns } from '@/pages/backend/Online/Table/components/utils';
-import Preview from '@/pages/backend/Online/Table/components/Preview';
-import CrudFrom from '@/pages/backend/Online/Table/components/CrudFrom';
+import TableSetting, { defaultTableSetting } from './components/TableSetting';
+import ColumnsFrom from './components/ColumnsFrom';
+import { buildColumns } from './components/utils';
+import Preview from './components/Preview';
+import CrudFrom from './components/CrudFrom';
+import TableConfigContext from './components/TableConfigContext';
+import DragSort from '@/pages/backend/Online/Table/components/DragSort';
+
 
 const Devise = () => {
+  /**
+   * 路由参数
+   */
   const params = useParams();
-  const [tableSetting, setTableSetting] = useState<OnlineType.TableConfig>(defaultTableSetting);
-  const [crudConfig, setCrudConfig] = useState<OnlineType.CrudConfig>({
-    name: 'TableName',
-    controllerPath: 'app/admin/controller',
-    modelPath: 'app/admin/model',
-    validatePath: 'app/admin/validate',
-    pagePath: 'src/pages/backend',
-  });
+
+  /**
+   * 加载状态
+   */
   const [loading, setLoading] = useState(false);
-  const [columns, setColumns] = useState<OnlineType.ColumnsConfig[]>([]);
+
+  /**
+   * 表格配置
+   */
+  const [tableConfig, setTableConfig] = useState<{
+    tableSetting: OnlineType.TableConfig,
+    crudConfig: OnlineType.CrudConfig,
+    columns: OnlineType.ColumnsConfig[],
+    id: string
+  }>({
+    tableSetting: defaultTableSetting,
+    crudConfig: {
+      name: 'TableName',
+      controllerPath: 'app/admin/controller',
+      modelPath: 'app/admin/model',
+      validatePath: 'app/admin/validate',
+      pagePath: 'src/pages/backend',
+    },
+    columns: [],
+    id: '',
+  });
+
+
+  /**
+   * 获取远程数据
+   * @param id
+   */
   const request = async (id: string) => {
-    let resData = await getData({ id });
-    let columns: OnlineType.ColumnsConfig[] = JSON.parse(resData.data.data.columns);
-    if (columns) setColumns(buildColumns(columns));
-    console.log(columns);
-    // 表格设置
-    let table_config: OnlineType.TableConfig = JSON.parse(resData.data.data.table_config);
-    if (table_config) setTableSetting(table_config);
-    console.log(table_config);
-    // crud设置
-    let crud_config: OnlineType.CrudConfig = JSON.parse(resData.data.data.crud_config);
-    if (crud_config) setCrudConfig(crud_config);
-  };
-  useEffect(() => {
-    if (params.id) {
-      request(params.id).then(() => {
-        message.success('获取数据成功！');
+    let { data: { data: resData } } = await getData({ id });
+    let columns: OnlineType.ColumnsConfig[] = JSON.parse(resData.columns);
+    let table_config: OnlineType.TableConfig = JSON.parse(resData.table_config);
+    let crud_config: OnlineType.CrudConfig = JSON.parse(resData.crud_config);
+    if (columns && table_config && crud_config) {
+      setTableConfig({
+        columns: buildColumns(columns),
+        tableSetting: table_config,
+        crudConfig: crud_config,
+        id,
       });
+      message.success('获取数据成功！');
+    } else {
+      message.warning('数据不完整！');
     }
+  };
+
+  useEffect(() => {
+    if (params.id) request(params.id).then(() => {
+    });
   }, [params]);
 
-  const tabs: ProCardTabsProps = {
-    items: [
-      {
-        label: '表格配置',
-        key: 'table',
-        children: (
-          <DefaultTable setTableSetting={setTableSetting} tableSetting={tableSetting}></DefaultTable>
-        ),
-      },
-      {
-        key: '3',
-        label: '字段设置',
-        children: (
-          <>
-            <DragSort setColumns={setColumns} defaultData={columns}></DragSort>
-            <ColumnsFrom setColumns={setColumns} defaultData={columns}></ColumnsFrom>
-          </>
-        ),
-      },
-      {
-        key: '4',
-        label: '生成设置',
-        children: (
-          <CrudFrom crudConfig={crudConfig} setCrudConfig={setCrudConfig}></CrudFrom>
-        ),
-      },
-    ],
-  };
-
+  /**
+   * 保存数据
+   */
   const saveOnlineTable = () => {
-    if (!params.id) {
+    if (!tableConfig.id) {
       message.warning('在线开发ID不存在');
       return;
     }
     let data = {
-      id: params.id,
-      columns: JSON.stringify(columns),
-      table_config: JSON.stringify(tableSetting),
+      id: tableConfig.id,
+      columns: JSON.stringify(tableConfig.columns),
+      table_config: JSON.stringify(tableConfig.tableSetting),
       sql_config: '{}',
-      crud_config: JSON.stringify(crudConfig),
+      crud_config: JSON.stringify(tableConfig.crudConfig),
     };
     setLoading(true);
     saveData(data).then(res => {
@@ -94,36 +96,84 @@ const Devise = () => {
     }).finally(() => setLoading(false));
   };
 
-  const crud = ()=> {
-    saveOnlineTable()
+  /**
+   * 保存并生成代码
+   */
+  const crud = () => {
+    saveOnlineTable();
     let data = {
       id: params.id,
-      columns: columns,
-      table_config: tableSetting,
+      columns: tableConfig.columns,
+      table_config: tableConfig.tableSetting,
       sql_config: {},
-      crud_config: crudConfig,
-    }
+      crud_config: tableConfig.crudConfig,
+    };
     crudApi(data).then(res => {
       if (res.success) {
         message.success('代码生成成功！');
       }
     });
-  }
+  };
 
-  const extra = (
-    <Space>
-      <Button onClick={saveOnlineTable} type={'primary'}>保存编辑</Button>
-      <Button onClick={crud} type={'primary'}>保存并生成代码</Button>
-    </Space>
-  );
+  const [tabChange, setTableChange] = useState('1');
+  const tabItem = [
+    {
+      key: '1',
+      label: '基础配置',
+      children: <CrudFrom />,
+    },
+    {
+      key: '2',
+      label: '表格配置',
+      children: <TableSetting />,
+    },
+    {
+      key: '3',
+      label: '字段配置',
+      children: <>
+        <DragSort />
+        <ColumnsFrom />
+      </>,
+    },
+  ];
 
   return (
-    <ProCard split='vertical' style={{ width: '100vw', height: '100vh' }}>
-      <ProCard loading={loading} colSpan='450px' tabs={tabs} style={{ height: '100vh', overflow: 'auto' }}></ProCard>
-      <ProCard loading={loading} title='表格预览' headerBordered bodyStyle={{ background: '#f5f5f5' }} extra={extra}>
-        <Preview columns={columns} tableSetting={tableSetting}></Preview>
-      </ProCard>
-    </ProCard>
+    <TableConfigContext.Provider value={{ tableConfig, setTableConfig }}>
+      <div style={{ width: '100vw', height: '100vh', display: 'flex', flexWrap: 'wrap', background: '#efefef' }}>
+        <div style={{ width: '24%', height: '100%', padding: '14px' }}>
+          <div style={{ background: '#fff', padding: '20px 10px 20px 20px', height: '100%', borderRadius: 5 }}>
+            <div style={{ height: '100%', overflowX: 'auto', padding: '5px' }}>
+              <Tabs
+                defaultActiveKey='1'
+                style={{ marginBottom: 32 }}
+                items={tabItem}
+                activeKey={tabChange}
+                onChange={setTableChange}
+              />
+              <Space>
+                <Button onClick={saveOnlineTable} type={'primary'}>保存编辑</Button>
+                <Button onClick={crud} type={'primary'}>保存并生成代码</Button>
+              </Space>
+            </div>
+          </div>
+        </div>
+        <div style={{ width: '76%', height: '100%', padding: '14px 14px 14px 0' }}>
+          <Watermark content={['预览', 'XinAdmin']}>
+            <div style={{
+              width: '100%',
+              height: 'calc(100% - 120px)',
+              overflow: 'auto',
+              padding: '10px',
+              border: '1px solid red',
+              borderRadius: 5,
+              marginBottom: 10,
+            }}>
+              <Preview />
+            </div>
+          </Watermark>
+        </div>
+      </div>
+    </TableConfigContext.Provider>
   );
 }
 

@@ -1,7 +1,8 @@
 import type { ProColumns } from '@ant-design/pro-components';
 import { DragSortTable } from '@ant-design/pro-components';
 import { message } from 'antd';
-import { OnlineType } from '@/pages/backend/Online/typings';
+import { useContext } from 'react';
+import TableConfigContext from './TableConfigContext';
 
 const columns: ProColumns[] = [
   {
@@ -20,19 +21,18 @@ const columns: ProColumns[] = [
   }
 ];
 
-export default (props: {
-  defaultData: OnlineType.ColumnsConfig[];
-  setColumns:  React.Dispatch<React.SetStateAction<OnlineType.ColumnsConfig[]>>;
-}) => {
-  const {defaultData,setColumns} = props;
+export default () => {
+  const {tableConfig,setTableConfig} = useContext(TableConfigContext);
 
   const handleDragSortEnd = (
     beforeIndex: number,
     afterIndex: number,
     newDataSource: any,
   ) => {
-    console.log('排序后的数据', newDataSource);
-    setColumns(newDataSource);
+    setTableConfig({
+      ...tableConfig,
+      columns: newDataSource
+    })
     message.success('修改列表排序成功');
   };
 
@@ -44,7 +44,7 @@ export default (props: {
       search={false}
       rowKey="key"
       pagination={false}
-      dataSource={defaultData}
+      dataSource={tableConfig.columns}
       dragSortKey="sort"
       cardProps={{
         bodyStyle: {padding: 0}

@@ -1,13 +1,21 @@
 import type { ProFormColumnsType, ProFormInstance } from '@ant-design/pro-components';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import { OnlineType } from '@/pages/backend/Online/typings';
-import { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRef } from 'react';
 import IconsItem from '@/components/XinForm/IconsItem';
+import { Typography } from 'antd';
+import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
 
 const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
   {
-    title: '数据表名',
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>数据库配置</Typography.Title>
+    )
+  },
+  {
+    title: '数据表名称',
     dataIndex: 'sqlTableName',
     valueType: 'text',
     formItemProps: {
@@ -45,9 +53,23 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
         width: '200px',
       },
     },
+    formItemProps: {
+      rules: [
+        {
+          required: true,
+          message: '此项为必填项',
+        },
+      ],
+    },
   },
   {
-    title: '文件名',
+    valueType: 'text',
+    renderFormItem: () => (
+      <Typography.Title level={5} style={{ margin: 0 }}>代码生成设置</Typography.Title>
+    )
+  },
+  {
+    title: '生成文件名',
     dataIndex: 'name',
     valueType: 'text',
     formItemProps: {
@@ -115,24 +137,27 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
   }
 ];
 
-export default (props: {
-  crudConfig?: OnlineType.CrudConfig;
-  setCrudConfig:  React.Dispatch<React.SetStateAction<OnlineType.CrudConfig>>;
-}) => {
-  const {crudConfig, setCrudConfig} = props
+export default () => {
+
+  const {tableConfig,setTableConfig} = useContext(TableConfigContext);
+
   const formRef = useRef<ProFormInstance>()
   useEffect(() => {
-    if(crudConfig) {
-      formRef.current?.setFieldsValue(crudConfig)
+    if(tableConfig) {
+      formRef.current?.setFieldsValue(tableConfig.crudConfig)
     }
-  },[crudConfig])
+  },[tableConfig])
 
   return (
     <>
       <BetaSchemaForm<OnlineType.CrudConfig>
-        onValuesChange={() => setCrudConfig(formRef.current?.getFieldsValue())}
+        onValuesChange={() => setTableConfig({
+          ...tableConfig,
+          crudConfig: formRef.current?.getFieldsValue()
+        })}
         layoutType={'Form'}
-        layout={'horizontal'}
+        layout={'inline'}
+        grid={true}
         initialValues={{
           name: 'TableName',
           controllerPath: 'app/admin/controller',
@@ -141,9 +166,6 @@ export default (props: {
           pagePath: 'src/pages/backend',
         }}
         formRef={formRef}
-        onFinish={async (values) => {
-          console.log(values);
-        }}
         columns={columns}
         submitter={{render: () => <></>}}
       />
