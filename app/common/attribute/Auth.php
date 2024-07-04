@@ -14,6 +14,7 @@ use app\admin\model\admin\AdminGroupModel;
 use app\admin\model\admin\AdminModel as AdminModel;
 use app\admin\model\admin\AdminRuleModel;
 use app\api\model\UserModel as UserModel;
+use app\common\enum\ApiEnum\StatusCode;
 use app\common\library\Token;
 use app\common\model\user\UserGroupModel;
 use app\common\model\user\UserRuleModel;
@@ -226,11 +227,11 @@ class Auth
         $data = [
             'data' => ['type' => 'user'],
             'success' => false,
-            'status' => 401,
+            'status' => StatusCode::RULE->value,
             'msg' => $msg,
             'showType' => 1
         ];
-        $response = Response::create($data, 'json', 401);
+        $response = Response::create($data, 'json', StatusCode::RULE->value);
         throw new HttpResponseException($response);
     }
 
