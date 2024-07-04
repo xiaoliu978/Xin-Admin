@@ -10,6 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\common\attribute;
 
+use app\common\enum\ApiEnum\StatusCode;
 use app\common\library\RequestJson;
 use Attribute;
 
@@ -28,11 +29,10 @@ class Method
         }
         if(function_exists('request')) {
             $currentMethod = request()->method();
-
             if ($method == $currentMethod) {
                 return;
             }
-            $this->error('请求方式错误，请检查！', [], 200, 'throw');
+            $this->error('请求方式错误，请检查！', [], StatusCode::ERROR->value, 'throw');
         }
     }
 
