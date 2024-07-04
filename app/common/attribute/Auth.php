@@ -219,7 +219,7 @@ class Auth
             'msg' => $msg,
             'showType' => 1
         ];
-        $response = Response::create($data, 'json');
+        $response = Response::create($data, 'json', 401);
         throw new HttpResponseException($response);
     }
 
