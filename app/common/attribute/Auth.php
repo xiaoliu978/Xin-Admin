@@ -124,12 +124,23 @@ class Auth
 
 
     /**
-     * 是否登录
+     * 是否登录 Api
+     * @return bool
+     */
+    static public function isUserLogin(): bool
+    {
+        $token = request()->header('x-user-token');
+        if ($token) return true;
+        return false;
+    }
+
+    /**
+     * 是否登录 Admin
      * @return bool
      */
     static public function isLogin(): bool
     {
-        $token = request()->header('Authorization');
+        $token = request()->header('x-token');
         if ($token) return true;
         return false;
     }
