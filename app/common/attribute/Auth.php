@@ -14,6 +14,7 @@ use app\admin\model\admin\AdminGroupModel;
 use app\admin\model\admin\AdminModel as AdminModel;
 use app\admin\model\admin\AdminRuleModel;
 use app\api\model\UserModel as UserModel;
+use app\common\enum\ApiEnum\StatusCode;
 use app\common\library\Token;
 use app\common\model\user\UserGroupModel;
 use app\common\model\user\UserRuleModel;
@@ -124,12 +125,23 @@ class Auth
 
 
     /**
-     * 是否登录
+     * 是否登录 Api
+     * @return bool
+     */
+    static public function isUserLogin(): bool
+    {
+        $token = request()->header('x-user-token');
+        if ($token) return true;
+        return false;
+    }
+
+    /**
+     * 是否登录 Admin
      * @return bool
      */
     static public function isLogin(): bool
     {
-        $token = request()->header('Authorization');
+        $token = request()->header('x-token');
         if ($token) return true;
         return false;
     }
@@ -215,11 +227,11 @@ class Auth
         $data = [
             'data' => ['type' => 'user'],
             'success' => false,
-            'status' => 401,
+            'status' => StatusCode::RULE->value,
             'msg' => $msg,
             'showType' => 1
         ];
-        $response = Response::create($data, 'json');
+        $response = Response::create($data, 'json', StatusCode::RULE->value);
         throw new HttpResponseException($response);
     }
 
