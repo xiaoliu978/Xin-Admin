@@ -143,11 +143,11 @@ export default defineConfig({
     './config/plugins/multiRoutes',
     '@umijs/max-plugin-openapi'
   ],
-  openAPI: {
-    requestLibPath: "import { request } from '@umijs/max'",
-    // 或者使用在线的版本
-    schemaPath: "http://127.0.0.1:8000/swagger.php",
-    // schemaPath: join(__dirname, 'oneapi.json'),
-    mock: false,
-  }
+  // openAPI: {
+  //   requestLibPath: "import { request } from '@umijs/max'",
+  //   // 或者使用在线的版本
+  //   schemaPath: "http://127.0.0.1:8000/swagger.php",
+  //   // schemaPath: join(__dirname, 'oneapi.json'),
+  //   mock: false,
+  // }
 });
