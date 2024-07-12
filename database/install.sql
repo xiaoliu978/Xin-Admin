@@ -231,7 +231,7 @@ CREATE TABLE `xin_dict_item`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `name`(`dict_id`, `value`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 64 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 69 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典项列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_dict_item
@@ -292,6 +292,11 @@ INSERT INTO `xin_dict_item` VALUES (58, 17, '自增主键', 'id', '1', 'default'
 INSERT INTO `xin_dict_item` VALUES (61, 21, '管理员操作', '0', '1', 'processing', 1697534904, 1697534904);
 INSERT INTO `xin_dict_item` VALUES (62, 21, '消费', '1', '1', 'error', 1697534922, 1697534948);
 INSERT INTO `xin_dict_item` VALUES (63, 21, '签到奖励', '2', '1', 'success', 1697534941, 1697534941);
+INSERT INTO `xin_dict_item` VALUES (64, 17, '密码框', 'password', '1', 'default', 1720752395, 1720752395);
+INSERT INTO `xin_dict_item` VALUES (65, 17, '月', 'dateMonth', '1', 'default', 1720752435, 1720752435);
+INSERT INTO `xin_dict_item` VALUES (66, 17, '季度', 'dateQuarter', '1', 'default', 1720752447, 1720752447);
+INSERT INTO `xin_dict_item` VALUES (67, 17, '年', 'dateYear', '1', 'default', 1720752456, 1720752456);
+INSERT INTO `xin_dict_item` VALUES (68, 17, '颜色选择器', 'color', '1', 'default', 1720752491, 1720752491);
 
 -- ----------------------------
 -- Table structure for xin_file
@@ -372,7 +377,7 @@ CREATE TABLE `xin_online_table`  (
   `update_time` int(11) NULL DEFAULT NULL COMMENT '更新时间',
   `create_time` int(11) NULL DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '在线开发记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_online_table
@@ -429,37 +434,13 @@ CREATE TABLE `xin_setting_group`  (
   `update_time` int(10) NULL DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `key`(`key`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '设置分组表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_setting_group
 -- ----------------------------
 INSERT INTO `xin_setting_group` VALUES (3, 0, '网站设置', 'web', '2', 1694832330, 1694832330);
 INSERT INTO `xin_setting_group` VALUES (4, 0, '邮箱设置', 'mail', '1', 1715820561, 1715820561);
-
--- ----------------------------
--- Table structure for xin_test
--- ----------------------------
-DROP TABLE IF EXISTS `xin_test`;
-CREATE TABLE `xin_test`  (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '姓名',
-  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
-  `star` int(10) NULL DEFAULT NULL COMMENT '点赞量',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `caty` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '城市',
-  `create_time` int(10) NULL DEFAULT NULL COMMENT '创建时间',
-  `update_time` int(10) NULL DEFAULT NULL COMMENT '修改时间',
-  `delete_time` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '删除时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '测试表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of xin_test
--- ----------------------------
-INSERT INTO `xin_test` VALUES (1, '张三', '测试标题', 99, '河南', '230@qq.com', 'henan1', 1708587078, 1708587078, NULL);
-INSERT INTO `xin_test` VALUES (2, 'CRUD测试', 'CRUD测试', 1, '1', '1', '1', 1708588353, 1708588353, NULL);
 
 -- ----------------------------
 -- Table structure for xin_token
@@ -478,10 +459,7 @@ CREATE TABLE `xin_token`  (
 -- ----------------------------
 -- Records of xin_token
 -- ----------------------------
-INSERT INTO `xin_token` VALUES ('01bd7382938824e8bf4b47cd32368429d10d5dff', 'user-refresh', 3, 1715824452, 1718416452);
-INSERT INTO `xin_token` VALUES ('0dfd241d1a8fdde5f096722ad625e111e1e9fc72', 'user', 3, 1715824452, 1715825052);
-INSERT INTO `xin_token` VALUES ('6333b8a744879c17cde734bd8e96d844d156e567', 'user', 1, 1715755763, 1718347763);
-INSERT INTO `xin_token` VALUES ('ec78d390c3f611b0a224fbef519a267be7af3d29', 'user', 1, 1714362233, 1716954233);
+INSERT INTO `xin_token` VALUES ('381bd289a44fdb1e79d75fc258a5ae10c001dbed', 'admin-refresh', 1, 1716257084, 1718849084);
 
 -- ----------------------------
 -- Table structure for xin_user
@@ -505,7 +483,7 @@ CREATE TABLE `xin_user`  (
   `create_time` int(10) UNSIGNED NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` int(10) NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户列表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of xin_user
