@@ -164,11 +164,6 @@ INSERT INTO `xin_admin_rule` VALUES (91, 88, '1', 2, '工作台', '/dashboard/wo
 INSERT INTO `xin_admin_rule` VALUES (92, 0, '0', 996, '管理员', '/admin', 'icon-jiangshizhuji', 'admin', 'menu.admin', 1, 1, 1714290502, 1702952094);
 INSERT INTO `xin_admin_rule` VALUES (93, 2, '1', 5, '高级表格', '/data/table', NULL, 'data.table', 'menu.components.table', 1, 1, 1705474326, 1705474326);
 INSERT INTO `xin_admin_rule` VALUES (94, 2, '1', 6, '图标选择', '/data/icon', NULL, 'data.icon', 'menu.components.iconForm', 1, 1, 1705475395, 1705475395);
-INSERT INTO `xin_admin_rule` VALUES (97, 0, '0', 993, '测试表', '/TestTable', 'icon-daichuzhishijianzongshu', 'TestTable', 'menu.testTable', 1, 1, 1714290476, 1708586997);
-INSERT INTO `xin_admin_rule` VALUES (98, 97, '2', 0, '测试表新增', NULL, NULL, 'TestTable.add', NULL, 1, 1, 1708586997, 1708586997);
-INSERT INTO `xin_admin_rule` VALUES (99, 97, '2', 0, '测试表编辑', NULL, NULL, 'TestTable.edit', NULL, 1, 1, 1708586997, 1708586997);
-INSERT INTO `xin_admin_rule` VALUES (100, 97, '2', 0, '测试表查询', NULL, NULL, 'TestTable.list', NULL, 1, 1, 1708586997, 1708586997);
-INSERT INTO `xin_admin_rule` VALUES (101, 97, '2', 0, '测试表删除', NULL, NULL, 'TestTable.delete', NULL, 1, 1, 1708586997, 1708586997);
 INSERT INTO `xin_admin_rule` VALUES (102, 10, '1', 4, '文件管理', '/system/file', NULL, 'system.file', 'menu.File', 1, 1, 1709276743, 1709276743);
 INSERT INTO `xin_admin_rule` VALUES (103, 102, '2', 0, '文件分组列表', NULL, NULL, 'file.group.list', NULL, 1, 1, 1709277310, 1709277310);
 INSERT INTO `xin_admin_rule` VALUES (104, 102, '2', 1, '新增文件分组', NULL, NULL, 'file.group.add', NULL, 1, 1, 1709277342, 1709277342);
