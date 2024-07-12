@@ -1,25 +1,41 @@
-import { Button, message, Modal } from 'antd';
+import { Button, Col, message, Row, Space } from 'antd';
 import React, { useContext, useState } from 'react';
 import { EditableProTable, ProColumns, useDebounceFn } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import defaultSql from './defaultSql';
-import { buildColumns } from '@/pages/backend/Online/Table/components/utils';
 import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
 
-function CreateForm() {
-  const {tableConfig,setTableConfig} = useContext(TableConfigContext);
-  const { getDictionaryData } = useModel('dictModel');
-  const [modelShow, setModelShow] = useState<boolean>(false);
 
-  const [dataSource, setDataSource] = useState(
-    () => tableConfig.columns
-  );
-  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>(() =>
-    dataSource.map((item: any) => item.key!),
-  );
+const CardStyle: React.CSSProperties = {
+  width: '100vw',
+  height: '100vh',
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  zIndex: 99,
+  background: '#fff',
+  paddingBottom: 100,
+  overflow: 'auto',
+}
+
+const BottomButtonStyle: React.CSSProperties = {
+  padding: 20,
+  background: '#fff',
+  width: '100%',
+  zIndex: 100,
+  flexDirection: 'row-reverse'
+}
+
+
+function CreateForm() {
+  const { tableConfig, setTableConfig } = useContext(TableConfigContext);
+  const { getDictionaryData, dictEnum } = useModel('dictModel');
+  const [modelShow, setModelShow] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<OnlineType.ColumnsConfig[]>([]);
+  const [editableKeys, setEditableRowKeys] = useState<React.Key[]>([]);
   const isMenu = ['select', 'checkbox', 'radio', 'radioButton'];
 
-  const columns: ProColumns[] = [
+  const columns: ProColumns<OnlineType.ColumnsConfig>[] = [
     {
       title: '基本配置',
       children: [
@@ -29,7 +45,7 @@ function CreateForm() {
           valueType: 'select',
           align: 'center',
           tooltip: '生成CRUD表单的类型',
-          request: async () => await getDictionaryData('valueType'),
+          valueEnum: dictEnum.get('valueType'),
           fieldProps: (form, { rowKey }) => {
             return {
               onChange: (value: any) => {
@@ -60,7 +76,7 @@ function CreateForm() {
               { required: true, message: '此项为必填项' },
             ],
           },
-          width: 120,
+          width: 160,
           align: 'center',
           fixed: 'left',
         },
@@ -69,7 +85,7 @@ function CreateForm() {
           dataIndex: 'title',
           valueType: 'text',
           tooltip: '作为表格表头和表单项名称',
-          width: 120,
+          width: 160,
           align: 'center',
           formItemProps: {
             rules: [
@@ -89,7 +105,7 @@ function CreateForm() {
           dataIndex: 'select',
           request: async () => await getDictionaryData('select'),
           valueType: 'text',
-          width: 120,
+          width: 140,
         },
         {
           title: '验证规则',
@@ -99,7 +115,7 @@ function CreateForm() {
           align: 'center',
           fieldProps: { mode: 'multiple' },
           tooltip: '内置部分验证规则，需要自定义验证规则请看文档',
-          width: 120,
+          width: 140,
         },
         {
           title: '搜索隐藏',
@@ -123,20 +139,6 @@ function CreateForm() {
           align: 'center',
         },
         {
-          title: '是否字典',
-          dataIndex: 'isDict',
-          valueType: 'switch',
-          width: 100,
-          align: 'center',
-          fieldProps: (form, { rowKey }) => {
-            let valueType = form?.getFieldValue([rowKey, 'valueType']);
-            if (isMenu.includes(valueType)) {
-              return {};
-            }
-            return { disabled: true };
-          },
-        },
-        {
           title: '数据枚举',
           dataIndex: 'enum',
           valueType: 'textarea',
@@ -146,6 +148,8 @@ function CreateForm() {
               { required: true, message: '此项为必填项' },
             ],
           },
+          width: 160,
+          align: 'center',
           fieldProps: (form, { rowKey }) => {
             let valueType = form?.getFieldValue([rowKey, 'valueType']);
             let isDict = form?.getFieldValue([rowKey, 'isDict']);
@@ -153,25 +157,6 @@ function CreateForm() {
               return { disabled: false, autoSize: true };
             }
             return { disabled: true, autoSize: true };
-          },
-        },
-        {
-          title: '字典Code',
-          dataIndex: 'dict',
-          valueType: 'text',
-          tooltip: '字典需要生成之后才可以看到效果，如果你有办法请提交PR',
-          formItemProps: {
-            rules: [
-              { required: true, message: '此项为必填项' },
-            ],
-          },
-          fieldProps: (form, { rowKey }) => {
-            let valueType = form?.getFieldValue([rowKey, 'valueType']);
-            let isDict = form?.getFieldValue([rowKey, 'isDict']);
-            if (isMenu.includes(valueType) && isDict) {
-              return { disabled: false };
-            }
-            return { disabled: true };
           },
         },
       ],
@@ -182,27 +167,33 @@ function CreateForm() {
         {
           title: '字段类型',
           dataIndex: 'sqlType',
-          valueType: 'select',
-          request: async () => await getDictionaryData('sqlType'),
+          valueType: 'text',
+          initialValue: 'null',
+          tooltip: '请输入正确的数据库类型！',
           align: 'center',
+          width: 160,
         },
         {
-          title: '字段备注',
-          dataIndex: 'remark',
-          valueType: 'text',
+          title: '字段长度',
+          dataIndex: 'sqlLength',
+          valueType: 'digit',
           align: 'center',
+          width: 120,
         },
         {
           title: '字段默认值',
           dataIndex: 'defaultValue',
           valueType: 'text',
           initialValue: 'null',
+          tooltip: '支持 null（NULL） 和 empty string（EMPTY STRING） 以及其它非空字符串',
           align: 'center',
+          width: 160,
         },
         {
           title: '是否主键',
           dataIndex: 'isKey',
           valueType: 'switch',
+          tooltip: '主键只能有一个',
           initialValue: false,
           width: 100,
           align: 'center',
@@ -224,18 +215,6 @@ function CreateForm() {
           align: 'center',
         },
         {
-          title: '字段长度',
-          dataIndex: 'length',
-          valueType: 'digit',
-          align: 'center',
-        },
-        {
-          title: '小数点',
-          dataIndex: 'decimal',
-          valueType: 'digit',
-          align: 'center',
-        },
-        {
           title: '无符号',
           dataIndex: 'unsign',
           valueType: 'switch',
@@ -249,9 +228,9 @@ function CreateForm() {
       dataIndex: 'mock',
       valueType: 'text',
       align: 'center',
-      tooltip: <>模拟数据格式，请查看文档 <a href={'http://mockjs.com/examples.html'} rel='noreferrer'
-                                            target='_blank'>Mock</a> </>,
+      tooltip: <>模拟数据格式，请查看文档 <a href={'http://mockjs.com/examples.html'} rel='noreferrer' target='_blank'>Mock</a> </>,
       initialValue: '@string',
+      width: 220,
     },
     {
       title: '操作',
@@ -268,6 +247,9 @@ function CreateForm() {
     },
   ];
 
+  /**
+   * 保存字段并返回
+   */
   const onSave = () => {
     let reDataIndex = dataSource.some((item: any, index: any) => {
       return dataSource.some((innerItem: any, innerIndex: any) => {
@@ -280,7 +262,7 @@ function CreateForm() {
     }
     setTableConfig({
       ...tableConfig,
-      columns: buildColumns(dataSource)
+      columns: dataSource
     });
     message.success('保存字段成功！');
     setModelShow(false);
@@ -291,39 +273,89 @@ function CreateForm() {
     setDataSource(state);
   }, 200);
 
+  /**
+   * 添加字段
+   * @param createData 字段初始值
+   */
+  const createColumns = (createData: OnlineType.ColumnsConfig) => {
+    let arr = [
+      ...dataSource,
+      {
+        key: createData.dataIndex! + Date.now().toString(),
+        valueType: createData.valueType,
+        title: createData.title! + dataSource.length,
+        dataIndex: createData.dataIndex! + dataSource.length,
+        select: createData.select,
+        validation: createData.validation,
+        hideInForm: createData.hideInForm,
+        hideInSearch: createData.hideInSearch,
+        hideInTable: createData.hideInTable,
+        enum: createData.enum,
+        defaultValue: createData.defaultValue,
+        isKey: createData.isKey,
+        null: createData.null,
+        autoIncrement: createData.autoIncrement,
+        unsign: createData.unsign,
+        mock: createData.mock,
+        sqlLength: createData.sqlLength,
+        sqlType: createData.sqlType
+      }
+    ]
+    setDataSource(arr)
+    setEditableRowKeys(arr.map((item: any) => item.key))
+  }
+
   return (
     <>
-      <Button onClick={() => setModelShow(true)} type={'primary'} block style={{ marginTop: 10 }}>编辑字段</Button>
-      <Modal open={modelShow} onCancel={() => setModelShow(false)} width={'80%'} onOk={onSave} okText={'保存字段'}>
-        <EditableProTable
-          headerTitle={'字段设置'}
-          columns={columns}
-          rowKey='key'
-          scroll={{ x: 2800, y: 500 }}
-          value={dataSource}
-          bordered
-          onChange={(value) => updateConfig.run(value)}
-          recordCreatorProps={{
-            newRecordType: 'dataSource',
-            record: () => ({
-              key: Date.now(),
-              dataIndex: 'newKey',
-            }),
-          }}
-          size={'small'}
-          editable={{
-            type: 'multiple',
-            editableKeys,
-            actionRender: (row, config, defaultDoms) => {
-              return [defaultDoms.delete];
-            },
-            onValuesChange: (record, recordList) => {
-              updateConfig.run(recordList)
-            },
-            onChange: setEditableRowKeys,
-          }}
-        />
-      </Modal>
+      <Button
+        onClick={() => {
+          setDataSource(tableConfig.columns)
+          setEditableRowKeys(tableConfig.columns.map((i: any) => i.key))
+          setModelShow(true)
+        }}
+        type={'primary'}
+        block
+        style={{ marginTop: 10 }}
+      >
+        编辑字段
+      </Button>
+      { modelShow &&
+        <div style={CardStyle}>
+          <Row style={{padding: 20}}>
+            <Col span={20}>
+              { defaultSql.map((item,index) => (
+                <div style={{padding: '0 20px', marginBottom: 10}} key={index}>
+                  <Space wrap={true}>
+                    <span>{item.title}：</span>
+                    { item.component.map((component) => {
+                      return <Button type="dashed" key={component.title} onClick={() => createColumns(component)} >{component.title}</Button>
+                    })}
+                  </Space>
+                </div>
+              ))}
+            </Col>
+            <Col span={4} style={BottomButtonStyle}>
+              <Button onClick={() => setModelShow(false)} danger type={'primary'}>取消保存并返回</Button>
+              <Button style={{marginLeft: 10}} onClick={onSave} type={'primary'}>保存并返回</Button>
+            </Col>
+          </Row>
+          <EditableProTable
+            columns={columns}
+            rowKey='key'
+            scroll={{ x: 1600}}
+            value={dataSource}
+            bordered
+            recordCreatorProps={false}
+            size={'middle'}
+            editable={{
+              type: 'multiple',
+              editableKeys,
+              actionRender: (_, __, defaultDom) => [defaultDom.delete],
+              onValuesChange: (record, recordList) => {updateConfig.run(recordList)}
+            }}
+          />
+        </div>
+      }
     </>
   );
 }

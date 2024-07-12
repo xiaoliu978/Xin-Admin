@@ -2,14 +2,6 @@ import React from "react";
 import XinTable from '@/components/XinTable'
 import {ProFormColumnsAndProColumns, TableProps} from '@/components/XinTable/typings';
 import * as verify from '@/utils/format';
-<?php
-if($isDict){
-    echo("import XinDict from '@/components/XinDict';");
-}
-if($isDict){
-    echo("import {useModel} from '@umijs/max';");
-}
-?>
 
 /**
  *  Api 接口
@@ -28,11 +20,6 @@ interface Data {
  * 表格渲染
  */
 const {$name}: React.FC = () => {
-<?php
-if($isDict){
-    echo("  const {getDictionaryData} = useModel('dictModel');");
-}
-?>
 
   const columns: ProFormColumnsAndProColumns<Data>[] =
   <?php echo htmlspecialchars_decode($columns) ?>

@@ -56,7 +56,6 @@ class OnlineTableController extends Controller
             'id' => 'require',
             'columns' => 'require',
             'table_config' => 'require',
-            'sql_config' => 'require',
             'crud_config' => 'require'
         ]);
         if (!$validate->check($data)) {
@@ -67,7 +66,6 @@ class OnlineTableController extends Controller
         if ($online) {
             $online->columns = $data['columns'];
             $online->table_config = $data['table_config'];
-            $online->sql_config = $data['sql_config'];
             $online->crud_config = $data['crud_config'];
             $online->save();
             return $this->success('保存成功', $data);
@@ -90,7 +88,7 @@ class OnlineTableController extends Controller
             return $this->warn('id不存在');
         }
 
-        $data = $this->model->field('columns,table_config,sql_config,crud_config')->where('id', $id)->find();
+        $data = $this->model->field('columns,table_config,crud_config')->where('id', $id)->find();
         if (!$data) {
             return $this->warn('表单不存在');
         }

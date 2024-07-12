@@ -1,10 +1,10 @@
 <?php echo('<?php') ?>
 
-namespace {$controllerPath};
+namespace app\admin\controller{$controllerPath};
 
 use app\admin\controller\Controller as Controller;
-use {$modelPath}\{$name}Model as {$name}Model;
-use {$validatePath}\{$name} as {$name}Val;
+use app\admin\model{$modelPath}\{$name}Model as {$name}Model;
+use app\admin\validate{$validatePath}\{$name} as {$name}Val;
 
 class {$name}Controller extends Controller
 {

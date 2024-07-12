@@ -1,17 +1,24 @@
-import { OnlineType } from '@/pages/backend/Online/typings';
 import {mock} from 'mockjs';
 import XinTable from '@/components/XinTable';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
+import { buildColumns } from '@/pages/backend/Online/Table/components/utils';
 const api = '/online.onlineTable';
 export default () => {
-  const {tableConfig} = useContext(TableConfigContext);
+  const {tableConfig} = useContext(TableConfigContext)
+
+  const [columns, setColumns] = useState([]);
+
+  useEffect(() => {
+    setColumns(buildColumns(tableConfig.columns))
+  },[tableConfig])
+
   return (
       <XinTable<any>
         {...tableConfig.tableSetting}
         tableApi={api}
         tableStyle={{}}
-        columns={tableConfig.columns}
+        columns={columns}
         params={{ data: tableConfig.columns }}
         request={async (params) => {
           let data = params.data;
@@ -21,11 +28,11 @@ export default () => {
             dataIndex[item.dataIndex] = item.mock;
           });
           return mock({
-            'data|10': [dataIndex],
+            'data|5': [dataIndex],
             current_page: 1,
             last_page: 1,
             per_page: 100,
-            total: 5,
+            total: 500,
           });
         }}
       />

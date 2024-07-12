@@ -1,10 +1,9 @@
-import { OnlineType } from '@/pages/backend/Online/typings';
 import { FormRule } from 'antd';
 import * as verify from '@/utils/format';
 
 export const buildValueEnum = (data: OnlineType.ColumnsConfig) => {
   let map = new Map;
-  if (['select', 'checkbox', 'radio', 'radioButton'].includes(data.valueType!) && !data.isDict) {
+  if (['select', 'checkbox', 'radio', 'radioButton'].includes(data.valueType!)) {
     let enumArr = data.enum!.split('\n');
     enumArr.forEach((str: string) => {
       let data = str.split(':');
@@ -30,13 +29,11 @@ export const buildValidation = (data: OnlineType.ColumnsConfig) => {
   }
 }
 
-export const buildColumns = (dataSource: OnlineType.ColumnsConfig[] | readonly OnlineType.ColumnsConfig[] ) => {
-  return dataSource.map((item) => {
-    let data = {...item}
+export const buildColumns = (dataSource: any) => {
+  return dataSource.map((item: OnlineType.ColumnsConfig) => {
+    let data: any = {...item}
     // 生成枚举
-    if(!item.key) {
-      data.key = item.dataIndex;
-    }
+    data.key = item.dataIndex;
     let valueEnum = buildValueEnum(item)
     if(valueEnum) data.valueEnum = valueEnum
     // 处理验证规则

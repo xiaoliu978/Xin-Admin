@@ -78,16 +78,19 @@ class Crud
             $unsigned      = (isset($field['unsign']) && $field['unsign']) ? ' UNSIGNED' : '';
             $null          = (isset($field['null']) && $field['null']) ? ' NOT NULL' : '' ;
             $autoIncrement = (isset($field['autoIncrement']) && $field['autoIncrement']) ? ' AUTO_INCREMENT' : '';
-            $length        = (isset($field['length']) && $field['length']) ? "({$field['length']})": '';
+            $length        = (isset($field['sqlLength']) && $field['sqlLength']) ? "({$field['sqlLength']})": '';
             $default       = '';
+            if ($field['defaultValue'] !== '') {
+                $default = " DEFAULT '{$field['defaultValue']}'";
+            }
             if (strtolower((string)$field['defaultValue']) == 'null') {
                 $default = ' DEFAULT NULL';
-            } elseif ($field['defaultValue'] == '0') {
-                $default = " DEFAULT 0";
-            } elseif ($field['defaultValue'] == 'empty string') {
+            }
+            if (strtolower((string)$field['defaultValue']) == 'empty string') {
                 $default = " DEFAULT ''";
-            } elseif ($field['defaultValue']) {
-                $default = " DEFAULT '{$field['defaultValue']}'";
+            }
+            if ($field['defaultValue'] == '0') {
+                $default = " DEFAULT 0";
             }
             $fieldComment = (isset($field['remark']) && $field['remark']) ? " COMMENT '{$field['remark']}'" : '';
             $sql          .= "`{$field['dataIndex']}` {$field['sqlType']}$length$unsigned$null$autoIncrement$default$fieldComment ," . PHP_EOL;
@@ -126,8 +129,8 @@ class Crud
         $auth = preg_replace('/\//', '.', $path);
         $viewData['authName'] = ltrim($auth, '.');
         // 控制器渲染
-        $controllerView = View::fetch('../crud/controller',$viewData);
-        $path = root_path().$this->crudConfig['controllerPath'].'/';
+        $controllerView = View::fetch('crud/controller',$viewData);
+        $path = root_path() . '/app/admin/controller/' . $this->crudConfig['controllerPath'] . '/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
@@ -144,9 +147,9 @@ class Crud
         $viewData = $this->viewData;
         $viewData['autoDeletetime'] = $this->crudConfig['autoDeletetime'];
         $viewData['tableName'] = 'xin_'.$this->crudConfig['sqlTableName'];
-        $modelView = View::fetch('../crud/model',$viewData);
+        $modelView = View::fetch('crud/model',$viewData);
 
-        $path = root_path().$this->crudConfig['modelPath'].'/';
+        $path = root_path() . '/app/admin/model/' . $this->crudConfig['modelPath'] . '/' ;
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
@@ -210,8 +213,8 @@ class Crud
         $viewData['massage']    = $massage;
 
         // 验证器渲染
-        $validateView = View::fetch('../crud/validate',$viewData);
-        $path = root_path().$this->crudConfig['validatePath'].'/';
+        $validateView = View::fetch('crud/validate',$viewData);
+        $path = root_path(). '/app/admin/validate/' . $this->crudConfig['validatePath'].'/';
         if(!is_dir($path)){
             mkdir($path, 0777, true);
         }
@@ -226,40 +229,30 @@ class Crud
     private function buildPage(): void
     {
         $columns = '['.PHP_EOL;
-        $isDict = false;
-
         foreach ($this->columns as $field) {
             if(!isset($field['valueType']) && !$field['valueType']){
                 continue;
             }
-            $columnsData = '    {'. PHP_EOL;
-
-            if($field['valueType'] == 'id'){
-                $columnsData .= "";
-            }else if(in_array($field['valueType'],['select','checkbox','radio','radioButton'])) {
-                if(!$field['isDict']){
-                    $columnsData .= "      valueType:'{$field['valueType']}',".PHP_EOL;
-                    $columnsData .= "      valueEnum: new Map([".PHP_EOL;
-                    $enum = explode("\n",$field['enum']);
-                    foreach($enum as $item){
-                        $l = explode(':',$item);
-                        $columnsData .= "        [{$l[0]},'{$l[1]}'],".PHP_EOL;
-                    }
-                    $columnsData .= "      ]),".PHP_EOL;
-                }else {
-                    $isDict = true;
-                    $columnsData .= "      request: async () => await getDictionaryData('{$field['dict']}'),".PHP_EOL;
-                    $columnsData .= "      render: (_, data) => <XinDict value={data.{$field['dataIndex']}} dict={'{$field['dict']}'} />,".PHP_EOL;
+            $columnsData = '    {' . PHP_EOL;
+            $columnsData .= "      valueType:'{$field['valueType']}'," . PHP_EOL;
+            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," . PHP_EOL;
+            if($field['valueType'] === 'color') {
+                $columnsData .= "      transform: (value) => {" . PHP_EOL;
+                $columnsData .= "        return { {$field['dataIndex']}: typeof value === 'string' ? value :  value.toHexString() }" . PHP_EOL;
+                $columnsData .= "      }," . PHP_EOL;
+            }
+            if(in_array($field['valueType'],['select','checkbox','radio','radioButton'])) {
+                $columnsData .= "      valueEnum: new Map([".PHP_EOL;
+                $enum = explode("\n",$field['enum']);
+                foreach($enum as $item){
+                    $l = explode(':',$item);
+                    $columnsData .= "        [{$l[0]},'{$l[1]}'],".PHP_EOL;
                 }
-            }else {
-                $columnsData .= "      valueType:'{$field['valueType']}',".PHP_EOL;
+                $columnsData .= "      ]),".PHP_EOL;
             }
 
             if(isset($field['title']) && $field['title']){
                 $columnsData .= "      title:'{$field['title']}'," . PHP_EOL;
-            }
-            if(isset($field['order']) && $field['order']){
-                $columnsData .= "      order:{$field['order']}," . PHP_EOL;
             }
             if(isset($field['hideInSearch']) && $field['hideInSearch']){
                 $columnsData .= '      hideInSearch: true,' . PHP_EOL;
@@ -270,8 +263,6 @@ class Crud
             if(isset($field['hideInForm']) && $field['hideInForm']){
                 $columnsData .= '      hideInForm: true,' . PHP_EOL;
             }
-            $columnsData .= "      dataIndex:'{$field['dataIndex']}'," .PHP_EOL;
-
             if(isset($field['validation']) && $field['validation']){
                 $val = '';
                 foreach ($field['validation'] as $item){
@@ -294,19 +285,6 @@ class Crud
         $auth = ltrim($auth, '.');
         $tableConfig .= "    accessName: '".$auth."',".PHP_EOL;
         foreach ($this->tableConfig as $key=>$item) {
-            if($key == 'paginationShow') {
-                if($item === true) {
-                    continue;
-                }else {
-                    $tableConfig .= "    {$key}: false," . PHP_EOL;
-                }
-            }
-            if($key == 'pagination' || $key == 'searchShow') {
-                continue;
-            }
-            if($key == 'size' && $item == 'default') {
-                continue;
-            }
             if(is_array($item)) {
                 $tableConfig .= "    {$key}: {" . PHP_EOL;
                 foreach ($item as $key2 => $item2) {
@@ -343,7 +321,7 @@ class Crud
         $tableConfig .= '  }' . PHP_EOL;
         // 提取控制器名称（去除路径和文件扩展名）
         $controllerPath = explode('controller',$this->crudConfig['controllerPath']);
-        if($controllerPath[1] != '') {
+        if(isset($controllerPath[1]) && $controllerPath[1] != '') {
             $apiPath = explode('/',$controllerPath[1]);
             array_shift($apiPath);
             $api = implode('.',$apiPath) .'.'. $this->crudConfig['name'];
@@ -353,18 +331,17 @@ class Crud
 
         // 视图渲染
         $pageData = [
-            'isDict'    => $isDict,
             'columns' => $columns,
             'name'    => $this->crudConfig['name'],
             'table_config' => $tableConfig,
             'api'     => $api
         ];
         $web_path = env('web_path', './web/admin');
-        $pagePath = root_path() . $web_path.'/src/pages/backend' . $this->crudConfig['pagePath'] . '/' . $this->crudConfig['name'];
+        $pagePath = root_path() . $web_path .'/src/pages/backend' . $this->crudConfig['pagePath'] . '/' . $this->crudConfig['name'];
         if(!is_dir($pagePath)){
             mkdir($pagePath, 0777, true); // 使用递归创建目录
         }
-        $modelView = View::fetch('../crud/pages',$pageData);
+        $modelView = View::fetch('crud/pages',$pageData);
         file_put_contents($pagePath.'/index.tsx', $modelView);
     }
 

@@ -1,6 +1,6 @@
 <?php echo('<?php') ?>
 
-namespace {$modelPath};
+namespace app\admin\model{$modelPath};
 
 use app\common\model\BaseModel;
 <?php

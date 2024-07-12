@@ -1,6 +1,6 @@
 <?php echo('<?php') ?>
 
-namespace {$validatePath};;
+namespace app\admin\validate{$validatePath};;
 
 use think\Validate;
 

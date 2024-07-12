@@ -1,12 +1,11 @@
 import { BetaSchemaForm, ProFormColumnsType, ProFormInstance, useDebounceFn } from '@ant-design/pro-components';
 import React, { useContext, useEffect, useRef } from 'react';
-import { OnlineType } from '@/pages/backend/Online/typings';
 import { Typography } from 'antd';
 import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
 
 export const defaultTableSetting: OnlineType.TableConfig = {
   bordered: false,
-  size: 'default',
+  size: 'middle',
   showHeader: false,
   rowSelectionShow: false,
   addShow: false,
@@ -18,6 +17,7 @@ export const defaultTableSetting: OnlineType.TableConfig = {
     search: false,
     fullScreen: false,
     setting: true,
+    reload: true
   },
   headerTitle: '表格标题',
   tooltip: '表格 tooltip',
@@ -25,21 +25,17 @@ export const defaultTableSetting: OnlineType.TableConfig = {
   search: {
     searchText: '查询',
     resetText: '重置',
-    collapseRender: false,
-    span: 12,
+    span: 6,
     layout: 'vertical',
     filterType: 'query'
   },
   paginationShow: true,
   pagination: {
-    show: true,
-    pageSize: 5,
-    current: 1,
-    total: 100,
+    size: 'default',
   }
 }
 
-const tableColumns: ProFormColumnsType[] = [
+const tableColumns: ProFormColumnsType<OnlineType.TableConfig>[] = [
   {
     valueType: 'text',
     renderFormItem: () => (
@@ -127,12 +123,6 @@ const tableColumns: ProFormColumnsType[] = [
       if(searchShow === false) return []
       return [
         {
-          title: '收起按钮',
-          valueType: 'switch',
-          dataIndex: ['search','collapseRender'],
-          colProps: {span: 8},
-        },
-        {
           title: '重置按钮文案',
           valueType: 'text',
           dataIndex: ['search','resetText'],
@@ -201,6 +191,12 @@ const tableColumns: ProFormColumnsType[] = [
       if(optionsShow === false) return []
       return [
         {
+          title: '刷新按钮',
+          valueType: 'switch',
+          dataIndex: ['options','reload'],
+          colProps: {span: 8},
+        },
+        {
           title: '密度按钮',
           valueType: 'switch',
           dataIndex: ['options','density'],
@@ -256,6 +252,12 @@ const tableColumns: ProFormColumnsType[] = [
           fieldProps: {size: 'small'},
           colProps: {span: 12},
         },
+        {
+          title: '简介分页',
+          valueType: 'switch',
+          dataIndex: ['pagination','simple'],
+          colProps: {span: 12},
+        },
       ]
     }
   },
@@ -267,8 +269,7 @@ export default () => {
   const {tableConfig,setTableConfig} = useContext(TableConfigContext);
 
   /** 去抖配置 */
-  const updateConfig = useDebounceFn(async (state) => {
-    if(state.footer === true) state.footer = () => <>页脚</>
+  const updateConfig = useDebounceFn(async (state: OnlineType.TableConfig) => {
     if(!state.searchShow) state.search = false
     if(!state.optionsShow) state.options = false
     if(!state.paginationShow) state.pagination = false
