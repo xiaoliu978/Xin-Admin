@@ -46,15 +46,32 @@ const Devise = () => {
    */
   const request = async (id: string) => {
     let { data: { data: resData } } = await getData({ id });
-    let columns: OnlineType.ColumnsConfig[] = JSON.parse(resData.columns) || [];
-    let table_config: OnlineType.TableConfig = JSON.parse(resData.table_config) || {};
-    let crud_config: OnlineType.CrudConfig = JSON.parse(resData.crud_config) || {};
-    setTableConfig({
-      columns: buildColumns(columns),
-      tableSetting: table_config,
-      crudConfig: crud_config,
-      id,
-    });
+    let columns: OnlineType.ColumnsConfig[];
+    let table_config: OnlineType.TableConfig;
+    let crud_config: OnlineType.CrudConfig;
+    if(
+      typeof resData.columns === 'string' &&
+      typeof resData.table_config === 'string' &&
+      typeof resData.crud_config === 'string'
+    ) {
+      try {
+        columns = JSON.parse(resData.columns);
+        table_config = JSON.parse(resData.table_config)
+        crud_config = JSON.parse(resData.crud_config)
+        setTableConfig({
+          columns: buildColumns(columns),
+          tableSetting: table_config,
+          crudConfig: crud_config,
+          id
+        });
+      }catch (e) {
+        message.warning('数据不是有效 JSON')
+        setTableConfig({ ...tableConfig, id})
+      }
+    }else {
+      message.warning('数据不是有效 JSON')
+      setTableConfig({ ...tableConfig, id})
+    }
   };
 
   useEffect(() => {
