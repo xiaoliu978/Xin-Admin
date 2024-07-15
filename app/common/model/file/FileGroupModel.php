@@ -30,15 +30,6 @@ class FileGroupModel extends BaseModel
 
     protected $pk = 'group_id';
 
-    protected $schema = [
-        'group_id' => 'int',
-        'name' => 'varchar',
-        'parent_id' => 'int',
-        'sort' => 'int',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
     /**
      * 分组详情
      * @param array|int $where

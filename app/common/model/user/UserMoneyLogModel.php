@@ -31,15 +31,6 @@ class UserMoneyLogModel extends BaseModel
 
     protected $updateTime = false;
 
-    protected $schema = [
-        'id' => 'int',
-        'user_id' => 'int',
-        'scene' => 'varchar',
-        'money' => 'decimal',
-        'describe' => 'varchar',
-        'create_time' => 'int'
-    ];
-
     /**
      * 关联会员记录表
      * @return BelongsTo

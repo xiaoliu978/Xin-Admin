@@ -35,19 +35,5 @@ class SettingModel extends BaseModel
 
     protected $table = 'xin_setting';
 
-    protected $schema = [
-        'id' => 'int',
-        'key' => 'varchar',
-        'title' => 'varchar',
-        'describe' => 'varchar',
-        'values' => 'varchar',
-        'type' => 'varchar',
-        'options' => 'varchar',
-        'props' => 'varchar',
-        'group_id' => 'int',
-        'sort' => 'int',
-        'create_time' => 'int',
-        'update_time' => 'int',
-    ];
 
 }

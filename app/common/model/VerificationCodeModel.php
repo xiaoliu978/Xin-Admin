@@ -30,14 +30,5 @@ class VerificationCodeModel extends BaseModel
 
     protected $table = 'xin_verification_code';
 
-    protected $schema = [
-        'id' => 'int',
-        'type' => 'varchar',
-        'code' => 'int',
-        'status' => 'int',
-        'interval' => 'int',
-        'data' => 'varchar',
-        'create_time' => 'int',
-    ];
 
 }

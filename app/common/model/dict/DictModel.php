@@ -31,15 +31,6 @@ class DictModel extends BaseModel
 
     protected $table = 'xin_dict';
 
-    protected $schema = [
-        'id' => 'int',
-        'name' => 'varchar',
-        'type' => 'enum',
-        'describe' => 'varchar',
-        'code' => 'varchar',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
 
     public function dictItems(): HasMany
     {

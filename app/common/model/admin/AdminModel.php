@@ -33,19 +33,4 @@ class AdminModel extends BaseModel
     protected $table = 'xin_admin';
 
     protected $hidden = ['password'];
-
-    protected $schema = [
-        'id' => 'int',
-        'username' => 'varchar',
-        'nickname' => 'varchar',
-        'avatar_id' => 'int',
-        'sex' => 'varchar',
-        'email' => 'varchar',
-        'mobile' => 'varchar',
-        'status' => 'enum',
-        'group_id' => 'int',
-        'password' => 'varchar',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
 }

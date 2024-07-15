@@ -42,24 +42,6 @@ class FileModel extends BaseModel
     // 定义主键
     protected $pk = 'file_id';
 
-    protected $schema = [
-        'file_id' => 'int',
-        'group_id' => 'int',
-        'channel' => 'tinyint',
-        'storage' => 'varchar',
-        'domain' => 'varchar',
-        'file_type' => 'tinyint',
-        'file_name' => 'varchar',
-        'file_path' => 'varchar',
-        'file_size' => 'int',
-        'file_ext' => 'varchar',
-        'cover' => 'varchar',
-        'uploader_id' => 'int',
-        'is_recycle' => 'tinyint',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
     // 追加的字段
     protected $append = [
         'preview_url',     // 图片预览url

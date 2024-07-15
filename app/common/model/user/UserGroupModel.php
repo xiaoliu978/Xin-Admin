@@ -28,15 +28,6 @@ class UserGroupModel extends BaseModel
 {
     protected $table = 'xin_user_group';
 
-    protected $schema = [
-        'id' => 'int',
-        'pid' => 'int',
-        'rules' => 'text',
-        'name'=>  'varchar',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
     public function getRulesAttr($value): array
     {
         if($value == '*') {

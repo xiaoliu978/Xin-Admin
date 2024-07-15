@@ -32,15 +32,5 @@ class OnlineTableModel extends BaseModel
 
     protected $table = 'xin_online_table';
 
-    protected $schema = [
-        'id' => 'int',
-        'table_name' => 'varchar',
-        'columns' => 'longtext',
-        'crud_config' => 'longtext',
-        'table_config' => 'longtext',
-        'describe' => 'varchar',
-        'update_time' => 'int',
-        'create_time' => 'int',
-    ];
 
 }

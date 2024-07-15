@@ -31,15 +31,4 @@ class DictItemModel extends BaseModel
 
     protected $table = 'xin_dict_item';
 
-    protected $schema = [
-        'id' => 'int',
-        'dict_id' => 'int',
-        'label' => 'varchar',
-        'value' => 'varchar',
-        'switch' => 'enum',
-        'status' => 'enum',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
 }

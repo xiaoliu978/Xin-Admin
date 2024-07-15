@@ -35,19 +35,4 @@ class UserRuleModel extends BaseModel
 {
     protected $table = 'xin_user_rule';
 
-    protected $schema = [
-        'id' => 'int',
-        'pid' => 'int',
-        'type' => 'enum',
-        'sort' => 'int',
-        'name' => 'varchar',
-        'path' => 'varchar',
-        'icon' => 'varchar',
-        'key' => 'varchar',
-        'locale' => 'varchar',
-        'status' => 'tinyint',
-        'show' => 'tinyint',
-        'update_time' => 'int',
-        'create_time' => 'int'
-    ];
 }

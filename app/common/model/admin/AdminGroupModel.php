@@ -29,14 +29,4 @@ class AdminGroupModel extends BaseModel
 {
     protected $table = 'xin_admin_group';
 
-    protected $schema = [
-        'id' => 'int',
-        'pid' => 'int',
-        'rules' => 'text',
-        'name'=>  'varchar',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
-
 }

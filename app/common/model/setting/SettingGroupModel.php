@@ -30,16 +30,6 @@ class SettingGroupModel extends BaseModel
 {
     protected $table = 'xin_setting_group';
 
-    protected $schema = [
-        'id' => 'int',
-        'pid' => 'int',
-        'title' => 'varchar',
-        'key' => 'varchar',
-        'type' => 'enum',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
-
     public function setting(): HasMany
     {
         return $this->hasMany(SettingModel::class,'group_id');

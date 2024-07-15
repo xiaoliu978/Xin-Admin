@@ -35,19 +35,4 @@ class AdminRuleModel extends BaseModel
 {
     protected $table = 'xin_admin_rule';
 
-    protected $schema = [
-        'id' => 'int',
-        'pid' => 'int',
-        'type' => 'enum',
-        'sort' => 'int',
-        'name' => 'varchar',
-        'path' => 'varchar',
-        'icon' => 'varchar',
-        'key' => 'varchar',
-        'locale' => 'varchar',
-        'status' => 'int',
-        'show' => 'int',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
 }

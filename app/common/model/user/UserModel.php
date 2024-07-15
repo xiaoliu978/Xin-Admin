@@ -44,24 +44,6 @@ class UserModel extends BaseModel
         'password', 'create_time', 'update_time', 'status'
     ];
 
-    protected $schema = [
-        'id' => 'int',
-        'mobile' => 'varchar',
-        'username' => 'varchar',
-        'email' => 'varchar',
-        'password' => 'varchar',
-        'nickname' => 'varchar',
-        'avatar_id' => 'int',
-        'gender' => 'char',
-        'birthday' => 'date',
-        'group_id' => 'int',
-        'money' => 'decimal',
-        'score' => 'decimal',
-        'motto' => 'varchar',
-        'status' => 'char',
-        'create_time' => 'int',
-        'update_time' => 'int'
-    ];
     /**
      * 关联用户头像表
      * @return HasOne
