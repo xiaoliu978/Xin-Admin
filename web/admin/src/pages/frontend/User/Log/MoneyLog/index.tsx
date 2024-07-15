@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getMoneyLog } from '@/services/api/user';
-import { Table } from 'antd';
+import { Card, Table } from 'antd';
 import { TableProps } from 'antd';
 import XinDict from '@/components/XinDict';
 import UserLayout from '@/pages/frontend/User/components/UserLayout';
@@ -45,18 +45,20 @@ const MoneyLog = () => {
   ]
 
   return (
-    <UserLayout selectedKey={'/user/log/moneyLog'}>
-      <Table
-        columns={columns}
-        dataSource={data}
-        bordered
-        rowKey={'id'}
-        pagination={{
-          onChange: (page, pageSize) =>{
-            setParams({page: page, pageSize: pageSize })
-          }
-        }}
-      />
+    <UserLayout>
+      <Card title={'余额记录'}>
+        <Table
+          columns={columns}
+          dataSource={data}
+          bordered
+          rowKey={'id'}
+          pagination={{
+            onChange: (page, pageSize) =>{
+              setParams({page: page, pageSize: pageSize })
+            }
+          }}
+        />
+      </Card>
     </UserLayout>
   )
 }

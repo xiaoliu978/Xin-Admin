@@ -120,26 +120,26 @@ const User: React.FC = () => {
       hideInForm: true,
       dataIndex:'password',
     },
-    {
-      valueType:'digit',
-      title:'状态',
-      order:2,
-      hideInForm: true,
-      dataIndex:'status',
-    },
-    {
-      valueType:'date',
-      title:'创建时间',
-      order:1,
-      hideInForm: true,
-      dataIndex:'create_time',
-    },
-    {
-      valueType:'date',
-      title:'修改时间',
-      hideInForm: true,
-      dataIndex:'update_time',
-    },
+    // {
+    //   valueType:'digit',
+    //   title:'状态',
+    //   order:2,
+    //   hideInForm: true,
+    //   dataIndex:'status',
+    // },
+    // {
+    //   valueType:'date',
+    //   title:'创建时间',
+    //   order:1,
+    //   hideInForm: true,
+    //   dataIndex:'create_time',
+    // },
+    // {
+    //   valueType:'date',
+    //   title:'修改时间',
+    //   hideInForm: true,
+    //   dataIndex:'update_time',
+    // },
   ]
   return (
     <XinTable<Data>

@@ -1,10 +1,11 @@
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
 import {useModel} from "@@/exports";
-import { message } from 'antd';
+import { Card, message } from 'antd';
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import React from 'react';
 import { setPassWord } from '@/services/api/user';
 import UserLayout from '@/pages/frontend/User/components/UserLayout';
+import { Link } from '@umijs/max';
 
 
 const Table : React.FC = () => {
@@ -46,17 +47,22 @@ const Table : React.FC = () => {
   ];
 
   return (
-    <UserLayout selectedKey={'/user/setPassword'}>
-      <BetaSchemaForm<USER.UpdatePassword>
-        layoutType="Form"
-        onFinish={async (values) => {
-          console.log(values);
-          await setPassWord(values);
-          message.success('更新成功');
-        }}
-        initialValues={initialState!.currentUser}
-        columns={columns}
-      />
+    <UserLayout>
+      <Card title={'修改密码'} extra={<Link to="/user/userSetting">编辑资料</Link>}>
+        <BetaSchemaForm<USER.UpdatePassword>
+          layoutType="Form"
+          onFinish={async (values) => {
+            console.log(values);
+            await setPassWord(values);
+            message.success('更新成功');
+          }}
+          layout={'horizontal'}
+          labelCol={{span: 2}}
+          wrapperCol={{span: 6}}
+          initialValues={initialState!.currentUser}
+          columns={columns}
+        />
+      </Card>
     </UserLayout>
   )
 

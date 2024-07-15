@@ -1,7 +1,6 @@
 import { ProFormColumnsAndProColumns } from '@/components/XinTable/typings';
-import XinDict from "@/components/XinDict";
-import {useModel} from "@@/exports";
-import { message } from 'antd';
+import { Link, useModel } from '@@/exports';
+import { Card, message } from 'antd';
 import UploadImgItem from "@/components/XinForm/UploadImgItem";
 import { BetaSchemaForm } from '@ant-design/pro-components';
 import React from 'react';
@@ -11,9 +10,7 @@ import UserLayout from '../components/UserLayout';
 
 const Table : React.FC = () => {
 
-  const {getDictionaryData} = useModel('dictModel')
   const {initialState} = useModel('@@initialState');
-
 
   const columns: ProFormColumnsAndProColumns<USER.UserInfo>[] = [
     {
@@ -32,8 +29,11 @@ const Table : React.FC = () => {
       title: '性别',
       dataIndex: 'gender',
       valueType: 'radio',
-      request: async () => await getDictionaryData('sex'),
-      render: (_, date) => <XinDict value={date.gender} dict={'sex'} />
+      valueEnum: new Map([
+        ['0','男'],
+        ['1','女'],
+        ['2','保密']
+      ])
     },
     {
       title: '邮箱',
@@ -67,17 +67,22 @@ const Table : React.FC = () => {
 
 
   return (
-    <UserLayout selectedKey={'/user/userSetting'}>
-      <BetaSchemaForm<USER.UserInfo>
-        layoutType="Form"
-        onFinish={async (values) => {
-          console.log(values);
-          await setUserInfo(values);
-          message.success('更新成功');
-        }}
-        initialValues={initialState!.currentUser}
-        columns={columns}
-      />
+    <UserLayout>
+      <Card title={'账户设置'}  extra={<Link to="/user/setPassword">修改密码</Link>}>
+        <BetaSchemaForm<USER.UserInfo>
+          layoutType="Form"
+          layout={'horizontal'}
+          labelCol={{span: 2}}
+          wrapperCol={{span: 6}}
+          onFinish={async (values) => {
+            console.log(values);
+            await setUserInfo(values);
+            message.success('更新成功');
+          }}
+          initialValues={initialState!.currentUser}
+          columns={columns}
+        />
+      </Card>
     </UserLayout>
 
   )
