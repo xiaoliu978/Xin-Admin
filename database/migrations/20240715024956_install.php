@@ -423,6 +423,7 @@ class Install extends Migrator
                 ->addColumn('status', 'integer', ['comment' => '状态0：未发送 1：已发送 2：已验证', 'null' => false, 'default' => 0,  'signed' => false])
                 ->addColumn('interval', 'integer', ['comment' => '有效期', 'null' => false, 'default' => 0,  'signed' => false])
                 ->addColumn('data', 'string', ['comment' => '接收方', 'null' => false, 'default' => '', 'limit' => 255])
+                ->addColumn('create_time', 'integer', ['limit' => 10, 'signed' => false, 'null' => true, 'default' => null, 'comment' => '更新时间'])
                 ->addColumn('update_time', 'integer', ['limit' => 10, 'signed' => false, 'null' => true, 'default' => null, 'comment' => '创建时间'])
                 ->create();
         }
