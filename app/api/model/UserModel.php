@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\api\model;
 
-use app\common\library\Token;
+use app\common\library\token\Token;
 use app\common\model\user\UserModel as BaseUserModel;
 use Exception;
 
@@ -101,8 +101,6 @@ class UserModel extends BaseUserModel
     {
         try {
             $token = new Token();
-            $token->clear('user',$user_id);
-            $token->clear('user-refresh',$user_id);
             $data = [];
             $data['refresh_token'] =  md5(random_bytes(10));
             $data['token'] =  md5(random_bytes(10));

@@ -10,17 +10,18 @@
 // +----------------------------------------------------------------------
 namespace app\common\library\token\driver;
 
-use RedisException;
-use think\Response;
 use BadFunctionCallException;
-use app\common\library\token\Driver;
+use RedisException;
 use think\exception\HttpResponseException;
+use think\Response;
 
 /**
  * @see Driver
  */
 class Redis extends Driver
 {
+
+
     /**
      * 默认配置
      * @var array

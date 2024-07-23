@@ -8,26 +8,24 @@
 // +----------------------------------------------------------------------
 // | Author: 小刘同学 <2302563948@qq.com>
 // +----------------------------------------------------------------------
-namespace app\common\library;
+namespace app\common\library\token;
 
-use think\helper\Arr;
-use think\helper\Str;
-use think\facade\Config;
+use app\common\library\token\driver\Driver;
 use InvalidArgumentException;
+use think\facade\Config;
+use think\helper\Str;
 
 /**
  * Token 管理类
  */
 class Token
 {
-    // 实例
-    public  $instance = [];
 
-    // token驱动类句柄
-    public $handler;
+    // token 驱动类句柄
+    public null | Driver $handler = null;
 
     // 驱动类命名空间
-    protected $namespace = '\\app\\common\\library\\token\\driver\\';
+    protected string $namespace = '\\app\\common\\library\\token\\driver\\';
 
     /**
      * 获取驱动句柄
@@ -39,8 +37,8 @@ class Token
         if (!is_null($this->handler)) {
             return $this->handler;
         }
-        $name = $name ?: $this->getDefaultDriver();
-
+        // 默认驱动
+        $name = $name ?: Config::get('xin.token.default');
         if (is_null($name)) {
             throw new InvalidArgumentException(sprintf(
                 'Unable to resolve NULL driver for [%s].',
@@ -57,58 +55,13 @@ class Token
      */
     protected function createDriver(string $name): mixed
     {
-        $type = (string)$this->resolveType($name);
-
-        $method = 'create' . Str::studly($type) . 'Driver';
-
-        $params = $this->resolveParams($name);
-
-        if (method_exists($this, $method)) {
-            return $this->$method(...$params);
+        // 获取驱动配置
+        $config = Config::get("xin.token.stores.{$name}");
+        if (!$config) {
+            throw new InvalidArgumentException("Store Config [$name] not found.");
         }
-
-        $class = $this->resolveClass($type);
-
-        if (isset($this->instance[$type])) {
-            return $this->instance[$type];
-        }
-
-        return new $class(...$params);
-    }
-
-    /**
-     * 默认驱动
-     * @return string
-     */
-    protected function getDefaultDriver(): string
-    {
-        return $this->getConfig('default');
-    }
-
-    /**
-     * 获取驱动配置
-     * @param string|null $name
-     * @param null        $default
-     * @return mixed
-     */
-    protected function getConfig(string $name = null, $default = null): mixed
-    {
-        if (!is_null($name)) {
-            return Config::get('xinadmin.token.' . $name, $default);
-        }
-
-        return Config::get('xinadmin.token');
-    }
-
-    /**
-     * 获取驱动配置参数
-     * @param $name
-     * @return array
-     */
-    protected function resolveParams($name): array
-    {
-        $config = $this->getStoreConfig($name);
-        return [$config];
+        $class = $this->resolveClass($name);
+        return new $class($config);
     }
 
     /**
@@ -118,41 +71,13 @@ class Token
      */
     protected function resolveClass(string $type): string
     {
-        if ($this->namespace || false !== strpos($type, '\\')) {
-            $class = false !== strpos($type, '\\') ? $type : $this->namespace . Str::studly($type);
-
+        if ($this->namespace || str_contains($type, '\\')) {
+            $class = str_contains($type, '\\') ? $type : $this->namespace . Str::studly($type);
             if (class_exists($class)) {
                 return $class;
             }
         }
-
         throw new InvalidArgumentException("Driver [$type] not supported.");
-    }
-
-    /**
-     * 获取驱动配置
-     * @param string      $store
-     * @param string|null $name
-     * @param null        $default
-     * @return array|string
-     */
-    protected function getStoreConfig(string $store, string $name = null, $default = null)
-    {
-        if ($config = $this->getConfig("stores.{$store}")) {
-            return Arr::get($config, $name, $default);
-        }
-
-        throw new InvalidArgumentException("Store [$store] not found.");
-    }
-
-    /**
-     * 获取驱动类型
-     * @param string $name
-     * @return array|string
-     */
-    protected function resolveType(string $name)
-    {
-        return $this->getStoreConfig($name, 'type', 'Mysql');
     }
 
     /**
