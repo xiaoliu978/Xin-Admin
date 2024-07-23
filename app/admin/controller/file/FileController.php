@@ -13,7 +13,7 @@ namespace app\admin\controller\file;
 use app\admin\controller\Controller;
 use app\admin\model\file\FileModel as FileModel;
 use app\common\attribute as XinAttr;
-use app\common\library\storage\Driver as StorageDriver;
+use app\common\library\storage\Storage as StorageDriver;
 use Exception;
 use think\db\exception\DbException;
 use think\response\Json;
@@ -94,17 +94,13 @@ class FileController extends Controller
         if (count($delArr) > 15) {
             return $this->error('一次性最多删除15个文件');
         }
-        // 存储配置信息
-        $config = ['default' => 'local', 'engine' => [
-            'local' => null
-        ]];
         foreach ($delArr as $fileId) {
             // 获取文件详情
             $fileInfo = $this->model->find($fileId);
             // 实例化存储驱动
-            $storage = new StorageDriver($config, $fileInfo['storage']);
+            $storage = new StorageDriver($fileInfo['storage']);
             // 删除文件
-            if (!$storage->delete($fileInfo['file_path'])) {
+            if (!$storage->delete($fileInfo->toArray())) {
                 return $this->error('文件删除失败：' . $storage->getError());
             }
             // 标记为已删除

@@ -37,7 +37,7 @@ class FileModel extends BaseFileModel
     public function add(array $data, int $fileType, $user_id, int $groupId = 0, int $channel = 10): bool
     {
         return $this->save([
-            'group_id' => $groupId > 0 ? (int)$groupId : 0,
+            'group_id' => max($groupId, 0),
             'channel' => $channel,
             'storage' => $data['storage'],
             'domain' => $data['domain'],

@@ -17,7 +17,7 @@ use app\BaseController;
 use app\common\attribute as XinAttr;
 use app\common\attribute\Auth;
 use app\common\enum\FileType as FileTypeEnum;
-use app\common\library\storage\Driver as StorageDriver;
+use app\common\library\storage\Storage as StorageDriver;
 use app\common\library\token\Token;
 use app\common\model\user\UserGroupModel;
 use app\common\model\user\UserMoneyLogModel;
@@ -144,13 +144,11 @@ class UserController extends BaseController
     public function upAvatar(): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver(['default' => 'local', 'engine' => [
-            'local' => null
-        ]]);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('image')
-            ->setValidationScene('image');
+        $storage->setUploadFile('file');
+        // 设置上传文件验证规则
+        $storage->setValidationScene('image');
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('图片上传失败：' . $storage->getError());

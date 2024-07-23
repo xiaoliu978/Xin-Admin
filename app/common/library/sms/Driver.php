@@ -17,16 +17,22 @@ abstract class Driver
 {
 
     /**
+     * 服务
+     * @var object|null
+     */
+    protected object|null $service = null;
+
+    /**
      * 获取服务
      */
-    abstract static function getService();
+    abstract protected function getService();
 
     /**
      * 发送验证码
      * @param $sendNo
      * @return bool|string
      */
-    abstract function sendCode($sendNo): bool|string;
+    abstract public function sendCode($sendNo): bool|string;
 
 
     /**
@@ -35,5 +41,5 @@ abstract class Driver
      * @param $code
      * @return bool|string
      */
-    abstract function verify($sendNo, $code): bool|string;
+    abstract public function verify($sendNo, $code): bool|string;
 }

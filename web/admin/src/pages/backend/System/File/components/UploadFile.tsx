@@ -19,7 +19,7 @@ export default (props: {selectGroup: GroupDataType,getFileList: (group_id: numbe
         message.error(info.file.response.msg);
       }
     } else if (info.file.status === 'error') {
-      message.error(`${info.file.name} 文件上传失败.`);
+      message.error(`${info.file.name} 文件上传失败，${info.file.response.msg}`);
     }
   }
 

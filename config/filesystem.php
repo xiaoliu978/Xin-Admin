@@ -5,10 +5,7 @@ return [
     'default' => 'public',
     // 磁盘列表
     'disks'   => [
-        'local'  => [
-            'type' => 'local',
-            'root' => app()->getRuntimePath() . 'storage',
-        ],
+        // 公共磁盘，所有人可读
         'public' => [
             // 磁盘类型
             'type'       => 'local',
@@ -19,12 +16,12 @@ return [
             // 可见性
             'visibility' => 'public',
         ],
-        // 更多的磁盘配置信息
+        // 私有磁盘，权限读取
         'data' => [
             // 磁盘类型
             'type'       => 'local',
             // 磁盘路径
-            'root'       => app()->getRootPath() . 'data',
+            'root'       => app()->getRootPath() . 'storage',
         ],
     ],
 
