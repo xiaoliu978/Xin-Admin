@@ -1,7 +1,7 @@
 <?php
 namespace app;
 
-use app\common\library\RequestJson;
+use app\common\trait\RequestJson;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;
@@ -59,7 +59,7 @@ class ExceptionHandle extends Handle
         if($e instanceof HttpResponseException) {
             return  parent::render($request, $e);
         }
-        return $this->error($e->getMessage(), (array)$e);
+        return $this->error((array)$e, $e->getMessage());
 
 
     }

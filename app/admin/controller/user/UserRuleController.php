@@ -59,7 +59,7 @@ class UserRuleController extends Controller
     {
         $rootNode = $this->model->order('sort', 'desc')->select()->toArray();
         $data = $this->getTreeData($rootNode);
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
     }
 
     /**
@@ -83,6 +83,6 @@ class UserRuleController extends Controller
             ->select()
             ->toArray();
         $data = $this->getTreeData($rootNode);
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
     }
 }

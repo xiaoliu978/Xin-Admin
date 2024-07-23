@@ -66,7 +66,7 @@ class SettingController extends Controller
             ->order('sort', 'desc')
             ->select()
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
     /**
@@ -140,7 +140,7 @@ class SettingController extends Controller
     {
         $settingGroupModel = new SettingGroupModel();
         $rootGroup = $settingGroupModel->field('id,key,title as label')->select()->toArray();
-        return $this->success('ok', $rootGroup);
+        return $this->success($rootGroup);
     }
 
 }

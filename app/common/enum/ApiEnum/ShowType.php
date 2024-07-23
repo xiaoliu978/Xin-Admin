@@ -10,7 +10,8 @@
 // +----------------------------------------------------------------------
 namespace app\common\enum\ApiEnum;
 
-enum ShowType: int {
+enum ShowType: int
+{
 
     // 无状态响应
 	case SILENT = 0;

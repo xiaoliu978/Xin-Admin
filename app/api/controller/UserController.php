@@ -17,8 +17,8 @@ use app\BaseController;
 use app\common\attribute as XinAttr;
 use app\common\attribute\Auth;
 use app\common\enum\FileType as FileTypeEnum;
-use app\common\library\storage\Driver as StorageDriver;
-use app\common\library\Token;
+use app\common\library\storage\Storage as StorageDriver;
+use app\common\library\token\Token;
 use app\common\model\user\UserGroupModel;
 use app\common\model\user\UserMoneyLogModel;
 use app\common\model\user\UserRuleModel as UserRuleModel;
@@ -71,7 +71,7 @@ class UserController extends BaseController
         $menus = $rule_model->where($where)->order('sort', 'desc')->select()->toArray();
         $menus = $this->getTreeData($menus);
 
-        return $this->success('ok', compact('info', 'access', 'menus'));
+        return $this->success(compact('info', 'access', 'menus'));
     }
 
     /**
@@ -96,9 +96,9 @@ class UserController extends BaseController
             $user_id = $Token->get($reToken)['user_id'];
             $token = md5(random_bytes(10));
             $Token->set($token, 'user', $user_id);
-            return $this->success('ok', compact('token'));
+            return $this->success(compact('token'));
         } else {
-            return $this->error('请先登录！', [], 403);
+            return $this->error('请先登录！');
         }
     }
 
@@ -144,13 +144,11 @@ class UserController extends BaseController
     public function upAvatar(): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver(['default' => 'local', 'engine' => [
-            'local' => null
-        ]]);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('image')
-            ->setValidationScene('image');
+        $storage->setUploadFile('file');
+        // 设置上传文件验证规则
+        $storage->setValidationScene('image');
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('图片上传失败：' . $storage->getError());
@@ -162,7 +160,7 @@ class UserController extends BaseController
         $user_id = Auth::getUserId();
         $model->add($fileInfo, FileTypeEnum::IMAGE->value, $user_id, 14, 20);
         // 图片上传成功
-        return $this->success('图片上传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '图片上传成功');
     }
 
 
@@ -263,7 +261,7 @@ class UserController extends BaseController
             ->where('user_id', $user_id)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
 }

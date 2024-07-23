@@ -14,7 +14,7 @@ namespace app;
 
 use app\common\attribute\Auth;
 use app\common\attribute\Method;
-use app\common\library\RequestJson;
+use app\common\trait\RequestJson;
 use OpenApi\Attributes as OAT;
 use think\App;
 use think\db\exception\PDOException;
@@ -100,7 +100,7 @@ abstract class BaseController
         try {
             Db::execute("SELECT 1");
         } catch (PDOException $e) {
-            $this->error($e->getMessage(), [], 200, 'throw');
+            $this->throwError($e->getMessage());
         }
         // 获取请求路由信息
         $this->getRouteInfo();
@@ -117,7 +117,7 @@ abstract class BaseController
                 }
             }
         } catch (\ReflectionException $e) {
-            $this->error('当前方法未找到', [], 200, 'throw');
+            $this->throwError('当前方法未找到');
         }
 
     }

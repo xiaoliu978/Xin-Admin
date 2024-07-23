@@ -79,6 +79,6 @@ class UserController extends Controller
                 ->paginate(10)
                 ->toArray();
         }
-        return $this->success('ok', $data);
+        return $this->success($data);
     }
 }

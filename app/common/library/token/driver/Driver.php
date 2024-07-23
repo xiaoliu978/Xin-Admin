@@ -8,7 +8,7 @@
 // +----------------------------------------------------------------------
 // | Author: 小刘同学 <2302563948@qq.com>
 // +----------------------------------------------------------------------
-namespace app\common\library\token;
+namespace app\common\library\token\driver;
 
 use think\facade\Config;
 
@@ -30,7 +30,7 @@ abstract class Driver
     /**
      * 设置 token
      * @param string $token   Token
-     * @param string $type    Type:admin|user
+     * @param string $type    Type: admin | user
      * @param int    $user_id 用户ID
      * @param int    $expire  过期时间
      * @return bool
@@ -86,7 +86,7 @@ abstract class Driver
      */
     protected function getEncryptedToken(string $token): string
     {
-        $config = Config::get('xinadmin.token');
+        $config = Config::get('xin.token');
         return hash_hmac($config['algo'], $token, $config['key']);
     }
 

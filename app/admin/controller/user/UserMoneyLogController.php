@@ -49,7 +49,7 @@ class UserMoneyLogController extends Controller
             ->where($where)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
     #[XinAttr\OpenApi\Post(
@@ -77,7 +77,7 @@ class UserMoneyLogController extends Controller
         } else {
             $userModel->setDecMoney($data['id'], abs($data['money']), $data['remark'], '0', []);
         }
-        return $this->success('ok');
+        return $this->success();
 
     }
 

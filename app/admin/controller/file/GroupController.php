@@ -57,7 +57,7 @@ class GroupController extends Controller
     {
         $list = $this->model->order(['sort', 'create_time'])->select()->toArray();
         $data = $this->getTreeData($list);
-        return $this->success('ok', $data);
+        return $this->success($data);
     }
 
     /**
@@ -89,7 +89,7 @@ class GroupController extends Controller
             }
         }
         $this->model->update($data);
-        return $this->success('ok');
+        return $this->success();
     }
 
     /**

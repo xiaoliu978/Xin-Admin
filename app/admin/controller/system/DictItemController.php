@@ -62,7 +62,7 @@ class DictItemController extends Controller
             ->order($order)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
     #[XinAttr\OpenApi\Get(
@@ -75,6 +75,6 @@ class DictItemController extends Controller
     public function dictList(): Json
     {
         $dict = (new DictModel())->with('dictItems')->visible(['dictItems'=>['label','value','status']])->select()->toArray();
-        return $this->success('ok',$dict);
+        return $this->success($dict);
     }
 }

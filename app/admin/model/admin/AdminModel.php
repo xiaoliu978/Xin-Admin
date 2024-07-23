@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 namespace app\admin\model\admin;
 
-use app\common\library\Token;
+use app\common\library\token\Token;
 use app\common\model\admin\AdminModel as BaseAdminModel;
 use app\common\model\file\FileModel;
 use Exception;
@@ -43,10 +43,7 @@ class AdminModel extends BaseAdminModel
                 $this->setErrorMsg('密码错误');
                 return false;
             }
-
             $token = new Token();
-            $token->clear('admin', $user['id']);
-            $token->clear('admin-refresh', $user['id']);
 
             $data = [];
             $data['refresh_token'] = md5(random_bytes(10));

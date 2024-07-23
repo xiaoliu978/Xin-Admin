@@ -22,7 +22,7 @@ class Mail extends Driver
      * 获取服务
      * @return PHPMailer
      */
-    static function getService(): PHPMailer
+    protected function getService(): PHPMailer
     {
         $mail = new PHPMailer(true);
         $mail->CharSet = get_setting('mail.char');                     //设定邮件编码
@@ -36,7 +36,6 @@ class Mail extends Driver
         $mail->Port = get_setting('mail.Port');                            // 服务器端口 25 或者465 具体要看邮箱服务器支持
         return $mail;
     }
-
 
     /**
      * @inheritDoc
@@ -70,7 +69,7 @@ class Mail extends Driver
     /**
      * @inheritDoc
      */
-    function verify($sendNo, $code): bool|string
+    public function verify($sendNo, $code): bool|string
     {
         $model = new VerificationCodeModel();
         // 获取最新的一条验证码数据

@@ -14,25 +14,15 @@ use app\admin\controller\Controller;
 use app\admin\model\file\FileModel as UploadFileModel;
 use app\common\attribute\Auth;
 use app\common\enum\FileType as FileTypeEnum;
-use app\common\library\storage\Driver as StorageDriver;
+use app\common\library\storage\Storage as StorageDriver;
 use Exception;
 use think\response\Json;
 use app\common\attribute as XinAttr;
 
 class UploadController extends Controller
 {
-    private string|array $config;
 
     protected string $authName = 'file.upload';
-
-    public function initialize(): void
-    {
-        parent::initialize();
-        // 存储配置信息
-        $this->config = ['default' => 'local', 'engine' => [
-            'local' => null
-        ]];
-    }
 
     /**
      * @param int $groupId 分组ID
@@ -54,11 +44,11 @@ class UploadController extends Controller
     public function image(int $groupId = 0): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
-        // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('image')
-            ->setValidationScene('image');
+        $storage = new StorageDriver('local');
+        // 设置上传文件
+        $storage->setUploadFile('file');
+        // 设置上传验证规则
+        $storage->setValidationScene(FileTypeEnum::image());
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('图片上传失败：' . $storage->getError());
@@ -68,9 +58,9 @@ class UploadController extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getAdminId();
-        $model->add($fileInfo, FileTypeEnum::IMAGE->value, $user_id, $groupId);
+        $model->add($fileInfo, FileTypeEnum::image(), $user_id, $groupId);
         // 图片上传成功
-        return $this->success('图片上传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '图片上传成功');
     }
 
     /**
@@ -93,11 +83,11 @@ class UploadController extends Controller
     public function video(int $groupId = 0): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('video')
-            ->setValidationScene('video');
+        $storage->setUploadFile('file');
+        // 设置上传验证规则
+        $storage->setValidationScene(FileTypeEnum::video());
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('视频上传失败：' . $storage->getError());
@@ -107,9 +97,9 @@ class UploadController extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getAdminId();
-        $model->add($fileInfo, FileTypeEnum::VIDEO->value, $user_id, $groupId);
-        // 图片上传成功
-        return $this->success('视频上传成功', ['fileInfo' => $model->toArray()]);
+        $model->add($fileInfo, FileTypeEnum::video(), $user_id, $groupId);
+        // 上传成功
+        return $this->success(['fileInfo' => $model->toArray()], '视频上传成功');
     }
 
     /**
@@ -132,11 +122,11 @@ class UploadController extends Controller
     public function zip(int $groupId = 0): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('zip')
-            ->setValidationScene('zip');
+        $storage->setUploadFile('file');
+        // 设置上传验证规则
+        $storage->setValidationScene(FileTypeEnum::zip());
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('压缩包上传失败：' . $storage->getError());
@@ -146,9 +136,9 @@ class UploadController extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getAdminId();
-        $model->add($fileInfo, FileTypeEnum::ZIP->value, $user_id, $groupId);
-        // 图片上传成功
-        return $this->success('压缩包传成功', ['fileInfo' => $model->toArray()]);
+        $model->add($fileInfo, FileTypeEnum::zip(), $user_id, $groupId);
+        // 上传成功
+        return $this->success(['fileInfo' => $model->toArray()], '压缩包传成功');
     }
 
     /**
@@ -171,11 +161,11 @@ class UploadController extends Controller
     public function mp3(int $groupId = 0): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('mp3')
-            ->setValidationScene('mp3');
+        $storage->setUploadFile('file');
+        // 设置上传验证规则
+        $storage->setValidationScene(FileTypeEnum::mp3());
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('音频文件上传失败：' . $storage->getError());
@@ -185,9 +175,9 @@ class UploadController extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getAdminId();
-        $model->add($fileInfo, FileTypeEnum::MP3->value, $user_id, $groupId);
-        // 图片上传成功
-        return $this->success('音频文件传成功', ['fileInfo' => $model->toArray()]);
+        $model->add($fileInfo, FileTypeEnum::mp3(), $user_id, $groupId);
+        // 上传成功
+        return $this->success(['fileInfo' => $model->toArray()], '音频文件传成功');
     }
 
     /**
@@ -210,11 +200,11 @@ class UploadController extends Controller
     public function annex(int $groupId = 0): Json
     {
         // 实例化存储驱动
-        $storage = new StorageDriver($this->config);
+        $storage = new StorageDriver('local');
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
-            ->setRootDirName('annex')
-            ->setValidationScene('annex');
+        $storage->setUploadFile('file');
+        // 设置上传验证规则
+        $storage->setValidationScene(FileTypeEnum::annex());
         // 执行文件上传
         if (!$storage->upload()) {
             return $this->error('文件上传失败：' . $storage->getError());
@@ -224,9 +214,9 @@ class UploadController extends Controller
         // 添加文件库记录
         $model = new UploadFileModel;
         $user_id = Auth::getAdminId();
-        $model->add($fileInfo, FileTypeEnum::ANNEX->value, $user_id, $groupId);
-        // 图片上传成功
-        return $this->success('文件传成功', ['fileInfo' => $model->toArray()]);
+        $model->add($fileInfo, FileTypeEnum::annex(), $user_id, $groupId);
+        // 上传成功
+        return $this->success(['fileInfo' => $model->toArray()], '文件传成功');
     }
 
 }

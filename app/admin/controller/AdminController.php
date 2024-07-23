@@ -67,7 +67,7 @@ class AdminController extends Controller
         }
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
         $this->model->save($data);
-        return $this->success('ok');
+        return $this->success();
     }
 
     /**
@@ -91,7 +91,7 @@ class AdminController extends Controller
             return $this->warn($this->validate->getError());
         }
         $this->model->allowField(['nickname', 'email', 'sex', 'group_id', 'avatar', 'status'])->update($data);
-        return $this->success('ok');
+        return $this->success();
     }
 
     /**
@@ -152,7 +152,7 @@ class AdminController extends Controller
         $user_id = Auth::getAdminId();
         $model = $this->model->findOrEmpty($user_id);
         $model->allowField(['mobile', 'nickname', 'email', 'avatar_id'])->save($data);
-        return $this->success('ok');
+        return $this->success();
     }
 
 

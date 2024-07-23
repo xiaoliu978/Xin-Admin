@@ -60,7 +60,7 @@ class AdminRuleController extends Controller
     {
         $rootNode = $this->model->order('sort', 'desc')->select()->toArray();
         $data = $this->getTreeData($rootNode);
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
     }
 
     /**
@@ -84,6 +84,6 @@ class AdminRuleController extends Controller
             ->select()
             ->toArray();
         $data = $this->getTreeData($rootNode);
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
     }
 }

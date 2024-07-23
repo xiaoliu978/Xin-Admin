@@ -53,7 +53,7 @@ class IndexController extends BaseController
         $menus = $rule_model->where('id','in',$group['rules'])->order('sort', 'desc')->select()->toArray();
         $menus = $this->getTreeData($menus);
         $web_setting = get_setting('web');
-        return $this->success('ok',compact('web_setting', 'menus'));
+        return $this->success(compact('web_setting', 'menus'));
     }
 
     /**
@@ -90,7 +90,7 @@ class IndexController extends BaseController
             }
             $data = $model->login($data['username'],$data['password']);
             if($data) {
-                return $this->success('ok',$data);
+                return $this->success($data);
             }
             return $this->error($model->getErrorMsg());
         }
@@ -111,7 +111,7 @@ class IndexController extends BaseController
             }
             $data = $model->mailLogin($data['email']);
             if($data){
-                return $this->success('ok',$data);
+                return $this->success($data);
             }
             return $this->error($model->getErrorMsg());
         }
@@ -160,7 +160,7 @@ class IndexController extends BaseController
         }
         $data = $model->register($data);
         if($data) {
-            return $this->success('ok',$data);
+            return $this->success($data);
         }
         return $this->error($model->getErrorMsg());
     }
