@@ -8,14 +8,14 @@
 // +----------------------------------------------------------------------
 // | Author: 小刘同学 <2302563948@qq.com>
 // +----------------------------------------------------------------------
-namespace app\common\library;
+namespace app\common\trait;
 
-use app\common\enum\ApiEnum\StatusCode;
-use think\Response;
-use think\exception\HttpResponseException;
-use think\response\Json;
 use app\common\enum\ApiEnum\ShowType as ShopTypeEnum;
+use app\common\enum\ApiEnum\StatusCode;
 use OpenApi\Attributes as OAT;
+use think\exception\HttpResponseException;
+use think\Response;
+use think\response\Json;
 
 /**
  * 控制器基础类
@@ -24,11 +24,9 @@ trait RequestJson
 {
 
     /**
-     *  成功响应，支持抛出响应中断程序和返回 json
+     *  成功响应
+     * @param string|array $data 响应数据
      * @param string $message 响应内容
-     * @param array $data 响应数据
-     * @param int $status 响应状态码
-     * @param string $type 响应类型 render | throw
      * @return Json
      */
     #[OAT\Schema(schema: 'requestSuccess', properties: [
@@ -38,21 +36,33 @@ trait RequestJson
         new OAT\Property(property: 'success', description: '成功状态', type: 'boolean'),
         new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
     ])]
-    protected function success(string $message, array $data = [], int $status = StatusCode::OK->value, string $type = 'render'): Json
+    protected function success(string | array $data = [], string $message = 'ok'): Json
     {
-        if ($type === 'throw') {
-            self::renderThrow(true, $data, $status, $message);
+        if(is_array($data)) {
+            return self::renderJson(true, $data, StatusCode::OK->value, $message);
         }
-        return self::renderJson(true, $data, $status, $message);
+        return self::renderJson(true, [], StatusCode::OK->value, $data);
+    }
+
+    /**
+     * 抛出成功响应，中断程序运行
+     * @param string|array $data 响应数据
+     * @param string $message 响应内容
+     * @return void
+     */
+    protected function throwSuccess(string | array $data = [], string $message = 'ok'): void
+    {
+        if(is_array($data)) {
+            self::renderThrow(true, $data, StatusCode::OK->value, $message);
+        }
+        self::renderThrow(true, [], StatusCode::OK->value, $data);
     }
 
 
     /**
-     *  返回失败响应，支持抛出响应中断程序和返回 json
+     *  返回失败响应
+     * @param string|array $data 响应数据
      * @param string $message 响应内容
-     * @param array $data 响应数据
-     * @param int $status 响应状态码
-     * @param string $type 响应类型 render | throw
      * @return Json
      */
     #[OAT\Schema(schema: 'requestError', properties: [
@@ -62,20 +72,33 @@ trait RequestJson
         new OAT\Property(property: 'success', description: '成功状态', type: 'boolean', default: false),
         new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
     ])]
-    protected function error(string $message, array $data = [], int $status = StatusCode::ERROR->value, string $type = 'render'): Json
+    protected function error(string | array $data = [], string $message = ''): Json
     {
-        if ($type === 'throw') {
-            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
+        if(is_array($data)) {
+            return self::renderJson(false, $data, StatusCode::ERROR->value, $message, ShopTypeEnum::ERROR_MESSAGE->value);
         }
-        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::ERROR_MESSAGE->value);
+        return self::renderJson(false, [], StatusCode::ERROR->value, $data, ShopTypeEnum::ERROR_MESSAGE->value);
     }
 
     /**
-     *  返回警告响应，支持抛出响应中断程序和返回 json
+     * 抛出失败响应，中断程序运行
+     * @param string|array $data
+     * @param string $message
+     * @return void
+     */
+    protected function throwError(string | array $data = [], string $message = ''): void
+    {
+        if(is_array($data)) {
+            self::renderThrow(false, $data, StatusCode::ERROR->value, $message, ShopTypeEnum::ERROR_MESSAGE->value);
+        }
+        self::renderThrow(false, [], StatusCode::ERROR->value, $data, ShopTypeEnum::ERROR_MESSAGE->value);
+    }
+
+
+    /**
+     *  返回警告响应
+     * @param string|array $data 响应数据
      * @param string $message 响应内容
-     * @param array $data 响应数据
-     * @param int $status 响应状态码
-     * @param string $type 响应类型 render | throw
      * @return Json
      */
     #[OAT\Schema(schema: 'requestWarn', properties: [
@@ -85,28 +108,27 @@ trait RequestJson
         new OAT\Property(property: 'success', description: '成功状态', type: 'boolean', default: false),
         new OAT\Property(property: 'data', description: '响应数据', type: 'object', default: [])
     ])]
-    protected function warn(string $message, array $data = [], int $status = StatusCode::WARN->value, string $type = 'render'): Json
+    protected function warn(string | array $data = [], string $message = ''): Json
     {
-        if ($type === 'throw') {
-            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
+        if(is_array($data)) {
+            return self::renderJson(false, $data, StatusCode::WARN->value, $message, ShopTypeEnum::WARN_MESSAGE->value);
         }
-        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::WARN_MESSAGE->value);
+        return self::renderJson(false, [], StatusCode::WARN->value, $data, ShopTypeEnum::WARN_MESSAGE->value);
     }
 
+
     /**
-     *  返回没有任何状态的响应，支持抛出响应中断程序和返回 json
-     * @param string $message 响应内容
-     * @param array $data 响应数据
-     * @param int $status 响应状态码
-     * @param string $type 响应类型 render | throw
-     * @return Json
+     * 抛出警告响应，中断程序运行
+     * @param string|array $data
+     * @param string $message
+     * @return void
      */
-    protected function silent(string $message, array $data = [], int $status = 200, string $type = 'render'): Json
+    protected function throwWarn(string | array $data = [], string $message = ''): void
     {
-        if ($type === 'throw') {
-            self::renderThrow(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
+        if(is_array($data)) {
+            self::renderThrow(false, $data, StatusCode::WARN->value, $message, ShopTypeEnum::WARN_MESSAGE->value);
         }
-        return self::renderJson(false, $data, $status, $message, ShopTypeEnum::SILENT->value);
+        self::renderThrow(false, [], StatusCode::WARN->value, $data, ShopTypeEnum::WARN_MESSAGE->value);
     }
 
     /**

@@ -18,7 +18,7 @@ use app\common\attribute as XinAttr;
 use app\common\attribute\Auth;
 use app\common\enum\FileType as FileTypeEnum;
 use app\common\library\storage\Driver as StorageDriver;
-use app\common\library\Token;
+use app\common\library\token\Token;
 use app\common\model\user\UserGroupModel;
 use app\common\model\user\UserMoneyLogModel;
 use app\common\model\user\UserRuleModel as UserRuleModel;
@@ -71,7 +71,7 @@ class UserController extends BaseController
         $menus = $rule_model->where($where)->order('sort', 'desc')->select()->toArray();
         $menus = $this->getTreeData($menus);
 
-        return $this->success('ok', compact('info', 'access', 'menus'));
+        return $this->success(compact('info', 'access', 'menus'));
     }
 
     /**
@@ -96,9 +96,9 @@ class UserController extends BaseController
             $user_id = $Token->get($reToken)['user_id'];
             $token = md5(random_bytes(10));
             $Token->set($token, 'user', $user_id);
-            return $this->success('ok', compact('token'));
+            return $this->success(compact('token'));
         } else {
-            return $this->error('请先登录！', [], 403);
+            return $this->error('请先登录！');
         }
     }
 
@@ -162,7 +162,7 @@ class UserController extends BaseController
         $user_id = Auth::getUserId();
         $model->add($fileInfo, FileTypeEnum::IMAGE->value, $user_id, 14, 20);
         // 图片上传成功
-        return $this->success('图片上传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '图片上传成功');
     }
 
 
@@ -263,7 +263,7 @@ class UserController extends BaseController
             ->where('user_id', $user_id)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
 }

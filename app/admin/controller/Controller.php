@@ -156,7 +156,7 @@ class Controller extends BaseController
             ->order($order)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
     /**

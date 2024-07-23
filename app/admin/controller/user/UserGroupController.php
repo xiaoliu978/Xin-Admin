@@ -57,7 +57,7 @@ class UserGroupController extends Controller
     {
         $rootNode = $this->model->select()->toArray();
         $data = $this->getTreeData($rootNode);
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
     }
 
     /**
@@ -90,6 +90,6 @@ class UserGroupController extends Controller
         }
         $group->rules = implode(',', $params['rule_ids']);
         $group->save();
-        return $this->success('ok');
+        return $this->success();
     }
 }

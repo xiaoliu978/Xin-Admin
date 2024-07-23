@@ -2,13 +2,12 @@
 // 应用公共文件
 use app\admin\model\setting\SettingGroupModel;
 use app\common\enum\ApiEnum\ShowType;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\DbException;
-use think\db\exception\ModelNotFoundException;
+use app\common\enum\ApiEnum\StatusCode;
 use think\exception\HttpResponseException;
 use think\facade\Request;
 use think\Response;
-use think\facade\Config;
+
+use app\common\trait\RequestJson;
 /**
  * 驼峰转下划线
  * @param string $camelCaps
@@ -20,13 +19,12 @@ function uncamelize(string $camelCaps, string $separator = '_'): string
     return strtolower(preg_replace('/([a-z])([A-Z])/', "$1" . $separator . "$2", $camelCaps));
 }
 
-
 /**
  * 获取站点的系统配置，不传递参数则获取所有配置项
  * @param string $name 变量名
  * @return string | array
  */
-function get_setting(string $name): array|string
+function get_setting(string $name): array | string
 {
     $setting_name = explode('.',$name);
     $setting_group = (new SettingGroupModel())->where('key',$setting_name[0])->findOrEmpty();
@@ -34,11 +32,11 @@ function get_setting(string $name): array|string
         $data = [
             'data' => [],
             'success' => false,
-            'status' => 200,
+            'status' => StatusCode::WARN->value,
             'msg'   => '设置不存在',
             'showType' => ShowType::WARN_MESSAGE->value
         ];
-        $response = Response::create($data, 'json', 200);
+        $response = Response::create($data, 'json', StatusCode::WARN->value);
         throw new HttpResponseException($response);
     }
     if(count($setting_name) > 1){
@@ -47,11 +45,11 @@ function get_setting(string $name): array|string
             $data = [
                 'data' => [],
                 'success' => false,
-                'status' => 200,
+                'status' => StatusCode::WARN->value,
                 'msg'   => '设置不存在',
                 'showType' => ShowType::WARN_MESSAGE->value
             ];
-            $response = Response::create($data, 'json', 200);
+            $response = Response::create($data, 'json', StatusCode::WARN->value);
             throw new HttpResponseException($response);
         }
         return $setting['values'];
@@ -62,11 +60,11 @@ function get_setting(string $name): array|string
             $data = [
                 'data' => [],
                 'success' => false,
-                'status' => 200,
+                'status' => StatusCode::WARN->value,
                 'msg'   => $e->getMessage(),
                 'showType' => ShowType::WARN_MESSAGE->value
             ];
-            $response = Response::create($data, 'json', 200);
+            $response = Response::create($data, 'json', StatusCode::WARN->value);
             throw new HttpResponseException($response);
         }
         $arr = [];
@@ -76,7 +74,6 @@ function get_setting(string $name): array|string
         return $arr;
     }
 }
-
 
 /**
  * 文本左斜杠转换为右斜杠

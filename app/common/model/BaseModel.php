@@ -10,10 +10,11 @@
 // +----------------------------------------------------------------------
 namespace app\common\model;
 
-use app\common\library\RequestJson;
-use think\exception\HttpResponseException;
+use app\common\enum\ApiEnum\ShowType as ShopTypeEnum;
+use app\common\enum\ApiEnum\StatusCode;
+use app\common\trait\RequestJson;
 use think\Model;
-use think\Response;
+
 
 /**
  * 基础模型
@@ -21,6 +22,7 @@ use think\Response;
 class BaseModel extends Model
 {
     use RequestJson;
+
     /**
      * 错误信息
      */
@@ -38,27 +40,15 @@ class BaseModel extends Model
 
     public static function onBeforeWrite(Model $model): void
     {
-        if(env('WEB_NAME') && env('WEB_NAME') == 'xin_test'){
-            $response = Response::create([
-                'success' => false,
-                'msg' => '演示站已禁止此操作',
-                'showType' => 1,
-                'status' => 200
-            ], 'json', 200);
-            throw new HttpResponseException($response);
+        if (env('WEB_NAME') && env('WEB_NAME') == 'xin_test') {
+            self::renderThrow(false, [], StatusCode::WARN->value, '演示站已禁止此操作', ShopTypeEnum::WARN_MESSAGE->value);
         }
     }
 
     public static function onBeforeDelete(Model $model): void
     {
-        if(env('WEB_NAME') && env('WEB_NAME') == 'xin_test'){
-            $response = Response::create([
-                'success' => false,
-                'msg' => '演示站已禁止此操作,',
-                'showType' => 1,
-                'status' => 200
-            ], 'json', 200);
-            throw new HttpResponseException($response);
+        if (env('WEB_NAME') && env('WEB_NAME') == 'xin_test') {
+            self::renderThrow(false, [], StatusCode::WARN->value, '演示站已禁止此操作', ShopTypeEnum::WARN_MESSAGE->value);
         }
     }
 
@@ -87,14 +77,14 @@ class BaseModel extends Model
      * @param int|bool|array $where
      * @param string $field
      * @param float $step
-     * @return mixed
+     * @return bool
      */
-    protected function setInc(int|bool|array $where, string $field, float $step = 1): mixed
+    protected function setInc(int|bool|array $where, string $field, float $step = 1): bool
     {
         if (is_numeric($where)) {
             $where = [$this->getPk() => (int)$where];
         }
-        return $this->where($where)->inc($field, $step)->update();
+        return $this->where($where)->inc($field, $step)->save();
     }
 
     /**
@@ -102,14 +92,14 @@ class BaseModel extends Model
      * @param int|bool|array $where
      * @param string $field
      * @param float $step
-     * @return mixed
+     * @return bool
      */
-    protected function setDec(int|bool|array $where, string $field, float $step = 1): mixed
+    protected function setDec(int|bool|array $where, string $field, float $step = 1): bool
     {
         if (is_numeric($where)) {
             $where = [$this->getPk() => (int)$where];
         }
-        return $this->where($where)->dec($field, $step)->update();
+        return $this->where($where)->dec($field, $step)->save();
     }
 
     /**

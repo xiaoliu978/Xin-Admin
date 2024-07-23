@@ -56,7 +56,7 @@ class UploadController extends Controller
         // 实例化存储驱动
         $storage = new StorageDriver($this->config);
         // 设置上传文件的信息
-        $storage->setUploadFile('file')
+        $storage->setUploadFile()
             ->setRootDirName('image')
             ->setValidationScene('image');
         // 执行文件上传
@@ -70,7 +70,7 @@ class UploadController extends Controller
         $user_id = Auth::getAdminId();
         $model->add($fileInfo, FileTypeEnum::IMAGE->value, $user_id, $groupId);
         // 图片上传成功
-        return $this->success('图片上传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '图片上传成功');
     }
 
     /**
@@ -109,7 +109,7 @@ class UploadController extends Controller
         $user_id = Auth::getAdminId();
         $model->add($fileInfo, FileTypeEnum::VIDEO->value, $user_id, $groupId);
         // 图片上传成功
-        return $this->success('视频上传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '视频上传成功');
     }
 
     /**
@@ -148,7 +148,7 @@ class UploadController extends Controller
         $user_id = Auth::getAdminId();
         $model->add($fileInfo, FileTypeEnum::ZIP->value, $user_id, $groupId);
         // 图片上传成功
-        return $this->success('压缩包传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '压缩包传成功');
     }
 
     /**
@@ -187,7 +187,7 @@ class UploadController extends Controller
         $user_id = Auth::getAdminId();
         $model->add($fileInfo, FileTypeEnum::MP3->value, $user_id, $groupId);
         // 图片上传成功
-        return $this->success('音频文件传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '音频文件传成功');
     }
 
     /**
@@ -226,7 +226,7 @@ class UploadController extends Controller
         $user_id = Auth::getAdminId();
         $model->add($fileInfo, FileTypeEnum::ANNEX->value, $user_id, $groupId);
         // 图片上传成功
-        return $this->success('文件传成功', ['fileInfo' => $model->toArray()]);
+        return $this->success(['fileInfo' => $model->toArray()], '文件传成功');
     }
 
 }

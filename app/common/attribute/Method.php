@@ -11,7 +11,7 @@
 namespace app\common\attribute;
 
 use app\common\enum\ApiEnum\StatusCode;
-use app\common\library\RequestJson;
+use app\common\trait\RequestJson;
 use Attribute;
 
 /**
@@ -32,7 +32,7 @@ class Method
             if ($method == $currentMethod) {
                 return;
             }
-            $this->error('请求方式错误，请检查！', [], StatusCode::ERROR->value, 'throw');
+            $this->throwError('请求方式错误，请检查！');
         }
     }
 

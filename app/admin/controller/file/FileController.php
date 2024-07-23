@@ -67,7 +67,7 @@ class FileController extends Controller
             ->where($where)
             ->paginate($paginate)
             ->toArray();
-        return $this->success('ok', $list);
+        return $this->success($list);
     }
 
     /**

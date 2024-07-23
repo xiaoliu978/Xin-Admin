@@ -92,7 +92,7 @@ class OnlineTableController extends Controller
         if (!$data) {
             return $this->warn('表单不存在');
         }
-        return $this->success('ok', compact('data'));
+        return $this->success(compact('data'));
 
     }
 

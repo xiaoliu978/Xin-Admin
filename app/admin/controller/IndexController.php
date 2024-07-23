@@ -16,7 +16,7 @@ use app\admin\model\admin\AdminRuleModel;
 use app\admin\validate\Admin as AdminVal;
 use app\common\attribute as XinAttr;
 use app\common\attribute\Auth;
-use app\common\library\Token;
+use app\common\library\token\Token;
 use Exception;
 use think\response\Json;
 
@@ -50,7 +50,7 @@ class IndexController extends Controller
     public function index(): Json
     {
         $webSetting = get_setting('web');
-        return $this->success('恭喜你已经成功安装 XinAttr Admin', compact('webSetting'));
+        return $this->success(compact('webSetting'), '恭喜你已经成功安装 XinAttr Admin');
     }
 
     /**
@@ -66,6 +66,7 @@ class IndexController extends Controller
             ['token', '令牌', 'string']
         ]
     )]
+    #[XinAttr\Auth]
     public function refreshToken(): Json
     {
         $token = $this->request->header('x-token');
@@ -76,9 +77,9 @@ class IndexController extends Controller
             $user_id = $Token->get($reToken)['user_id'];
             $token = md5(random_bytes(10));
             $Token->set($token, 'admin', $user_id);
-            return $this->success('ok', compact('token'));
+            return $this->success(compact('token'));
         } else {
-            return $this->error('请先登录！', [], 403);
+            return $this->error('请先登录！');
         }
     }
 
@@ -122,7 +123,7 @@ class IndexController extends Controller
             $model = new AdminModel();
             $data = $model->login($username, $password);
             if ($data) {
-                return $this->success('ok', $data);
+                return $this->success($data);
             }
             return $this->error($model->getErrorMsg());
         }
@@ -200,7 +201,7 @@ class IndexController extends Controller
         $menus = $rule_model->where($where)->order('sort', 'desc')->select()->toArray();
         trace($menus);
         $menus = $this->getTreeData($menus);
-        return $this->success('ok', compact('menus', 'access', 'info'));
+        return $this->success(compact('menus', 'access', 'info'));
     }
 
 }
