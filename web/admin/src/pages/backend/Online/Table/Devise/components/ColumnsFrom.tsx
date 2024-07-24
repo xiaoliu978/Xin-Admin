@@ -3,7 +3,7 @@ import React, { useContext, useState } from 'react';
 import { EditableProTable, ProColumns, useDebounceFn } from '@ant-design/pro-components';
 import { useModel } from '@umijs/max';
 import defaultSql from './defaultSql';
-import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
+import TableConfigContext from './TableConfigContext';
 
 
 const CardStyle: React.CSSProperties = {
@@ -12,7 +12,7 @@ const CardStyle: React.CSSProperties = {
   position: 'fixed',
   top: 0,
   left: 0,
-  zIndex: 99,
+  zIndex: 9999,
   background: '#fff',
   paddingBottom: 100,
   overflow: 'auto',

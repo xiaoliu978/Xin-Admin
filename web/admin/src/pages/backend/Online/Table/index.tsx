@@ -53,7 +53,7 @@ const OnlineTable = () => {
         operateRender = { (record: Data) => {
           return (
             <Access accessible={access.buttonAccess('online.table.devise')}>
-              <Link to={'/online/table/devise/'+record.id} target="_blank">设计页面</Link>
+              <Link to={'/online/table/devise?id='+record.id}>设计页面</Link>
             </Access>
           )
         }}

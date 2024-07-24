@@ -3,7 +3,7 @@ import { BetaSchemaForm } from '@ant-design/pro-components';
 import React, { useContext, useEffect } from 'react';
 import { useRef } from 'react';
 import { Typography } from 'antd';
-import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
+import TableConfigContext from './TableConfigContext';
 
 const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
   {
@@ -14,6 +14,7 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
       placeholder: '请输入数据表名称',
       addonBefore: 'xin-',
     },
+    tooltip: '必填'
   },
   {
     title: '数据库备注',
@@ -24,15 +25,17 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
     title: '生成文件名',
     dataIndex: 'name',
     valueType: 'text',
+    tooltip: '请使用大驼峰命名'
   },
   {
     title: '控制器目录',
     dataIndex: 'controllerPath',
     valueType: 'text',
     fieldProps: {
-      placeholder: '请输入控制器路径',
+      placeholder: '请输入路径',
       addonBefore: 'app/admin/controller/',
     },
+    tooltip: '将生成（app/admin/controller/ + 输入路径 + 文件名 + Controller.php）文件， 如果在控制器根目录则省略不填'
   },
   {
     title: '模型目录',
@@ -42,6 +45,7 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
       placeholder: '请输入模型路径',
       addonBefore: 'app/admin/model/',
     },
+    tooltip: '将生成（app/admin/model/ + 输入路径 + 文件名 + Model.php）文件， 如果在模型根目录则省略不填'
   },
   {
     title: '验证器目录',
@@ -51,6 +55,7 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
       placeholder: '请输入验证器路径',
       addonBefore: 'app/admin/validate/',
     },
+    tooltip: '将生成（app/admin/validate/ + 输入路径 + 文件名 + .php）文件， 如果在验证器根目录则省略不填'
   },
   {
     title: '前端页面目录',
@@ -60,6 +65,7 @@ const columns: ProFormColumnsType<OnlineType.CrudConfig>[] = [
       placeholder: '请输入前端页面目录',
       addonBefore: 'src/pages/backend/',
     },
+    tooltip: '将生成（web/admin/src/pages/backend/ + 输入路径 + 文件夹（文件名） + .tsx）文件， 如果在前端页面根目录则省略不填，如果自行迁移前端项目路径请在 .env 文件中修改路径'
   },
   {
     valueType: 'switch',
@@ -86,7 +92,6 @@ export default () => {
 
   return (
     <>
-      <Typography.Title level={5} style={{ margin: '0 0 10px 0' }}>代码生成设置</Typography.Title>
       <BetaSchemaForm<OnlineType.CrudConfig>
         onValuesChange={() => setTableConfig({
           ...tableConfig,
@@ -95,7 +100,7 @@ export default () => {
         layoutType={'Form'}
         layout={'inline'}
         colProps={{span: 8}}
-        labelCol={{span: 5}}
+        labelCol={{span: 7}}
         grid={true}
         initialValues={{
           name: 'TableName',

@@ -1,5 +1,4 @@
 import Mock from 'mockjs';
-import {OnlineType} from "@/pages/Online/typings";
 
 export default {
   /**
@@ -12,7 +11,7 @@ export default {
     // console.log(req.params.data)
     let data = JSON.parse(req.param('data'))
     let dataIndex = {}
-    data.forEach((item: OnlineType.ColumnsConfig) => {
+    data.forEach((item: any) => {
       // @ts-ignore
       dataIndex[item.dataIndex] = item.mock
     })

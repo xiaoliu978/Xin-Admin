@@ -1,8 +1,8 @@
 import {mock} from 'mockjs';
 import XinTable from '@/components/XinTable';
 import React, { useContext, useEffect, useState } from 'react';
-import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
-import { buildColumns } from '@/pages/backend/Online/Table/components/utils';
+import TableConfigContext from './TableConfigContext';
+import { buildColumns } from './utils';
 const api = '/online.onlineTable';
 export default () => {
   const {tableConfig} = useContext(TableConfigContext)
