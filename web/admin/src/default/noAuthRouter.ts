@@ -1,5 +1,5 @@
 /**
- * 权限验证白名单
+ * 路由权限验证白名单
  */
 export default [
   '/admin/login',
