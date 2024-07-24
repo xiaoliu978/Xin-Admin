@@ -1,33 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { AreaMap } from '@ant-design/charts';
-
+import jsonData from './index.json';
 const DemoAreaMap = () => {
-  const [data, setData] = useState({ type: 'FeatureCollection', features: [] });
+  const [data, setData] = useState<any>({ type: 'FeatureCollection', features: [] });
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    asyncFetch();
+    let featuresData = jsonData.features.map((item: { properties: any; }) => {
+      return {
+        ...item,
+        properties: {
+          ...item.properties,
+          price: (Math.random() * 100000).toFixed(2)
+        }
+      }
+    })
+    setData({...data, features: featuresData})
   }, []);
 
-  const asyncFetch = () => {
-    fetch('https://geo.datav.aliyun.com/areas_v3/bound/410000_full.json')
-      .then((response) => response.json())
-      .then((json) => {
-        let data = { type: 'FeatureCollection', features:  json.features.map((item: { properties: any; }) => {
-          return {
-            ...item,
-            properties: {
-              ...item.properties,
-              price: (Math.random() * 100000).toFixed(2)
-            }
-          }
-        })}
-        setData(data)
-      })
-      .catch((error) => {
-        console.log('fetch data failed', error);
-      });
-  };
+
   const color = [
     '#6395fa',
     '#62daab'

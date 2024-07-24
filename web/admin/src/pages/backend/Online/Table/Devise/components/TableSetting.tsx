@@ -1,7 +1,7 @@
 import { BetaSchemaForm, ProFormColumnsType, ProFormInstance, useDebounceFn } from '@ant-design/pro-components';
 import React, { useContext, useEffect, useRef } from 'react';
 import { Typography } from 'antd';
-import TableConfigContext from '@/pages/backend/Online/Table/components/TableConfigContext';
+import TableConfigContext from './TableConfigContext';
 
 export const defaultTableSetting: OnlineType.TableConfig = {
   bordered: false,

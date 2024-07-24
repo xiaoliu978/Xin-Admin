@@ -15,6 +15,7 @@ import SettingLayout from '@/components/SettingDrawer';
 import ActionsRender from '@/components/Layout/ActionsRender';
 import AvatarRender from '@/components/Layout/AvatarRender';
 import './app.less';
+import XinTabs from '@/components/XinTabs';
 
 
 /**
@@ -85,8 +86,8 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
       render: () => <AvatarRender/>,
     },
     childrenRender: (children: any) => {
-      if (initialState?.app === 'admin') return <Access><SettingLayout />{children}</Access>;
-      return <Access><SettingLayout />{children}</Access>;
+      if (initialState?.app === 'admin') return <XinTabs><Access><SettingLayout />{children}</Access></XinTabs>;
+      return <Access>{children}</Access>;
     },
     ...initialState?.settings,
   }

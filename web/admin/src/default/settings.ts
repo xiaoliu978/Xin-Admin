@@ -1,14 +1,13 @@
 import { ProLayoutProps } from '@ant-design/pro-components';
 
 /**
- * @name
+ * 默认 Layout
  */
 const Settings: ProLayoutProps & {
   pwa?: boolean;
   logo?: string;
 } = {
   navTheme: 'light',
-  // 拂晓蓝
   colorPrimary: '#1890ff',
   layout: 'mix',
   contentWidth: 'Fluid',
@@ -19,12 +18,11 @@ const Settings: ProLayoutProps & {
   pwa: true,
   logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
   iconfontUrl: '',
-  token: {
-    // 参见ts声明，demo 见文档，通过token 修改样式
-    //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F
-  },
 };
 
+/**
+ * 前台 Layout
+ */
 export const appSettings: ProLayoutProps  = {
   navTheme: 'light',
   layout: 'top',
@@ -41,9 +39,12 @@ export const appSettings: ProLayoutProps  = {
   siderMenuType: "sub"
 };
 
+/**
+ * 后台
+ */
 export const adminSettings: ProLayoutProps = {
   navTheme: 'light',
-  layout: 'mix',
+  layout: 'side',
   contentWidth: 'Fluid',
   fixedHeader: true,
   token: {
@@ -52,6 +53,8 @@ export const adminSettings: ProLayoutProps = {
       paddingInlinePageContainerContent: 24,
     },
   },
+  fixSiderbar: true,
+  splitMenus: false,
 }
 
 export default Settings;
