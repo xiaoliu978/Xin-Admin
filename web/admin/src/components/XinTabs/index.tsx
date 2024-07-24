@@ -5,7 +5,7 @@ import type { TabsProps } from 'antd';
 import './index.less';
 import { useModel } from '@umijs/max';
 import {ConfigProvider} from "antd";
-const XinTabs = (props: {children: never[]}) => {
+const XinTabs = (props: {children: React.ReactNode}) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState<string>('');
@@ -58,8 +58,8 @@ const XinTabs = (props: {children: never[]}) => {
     items: tabsItem,
     onTabClick: onClick,
     onEdit: onEdit,
+    id: 'xin-tabs'
   }
-
 
   return (
     <ConfigProvider
@@ -69,13 +69,14 @@ const XinTabs = (props: {children: never[]}) => {
             cardGutter: 100
           },
         },
-        token: {
-          /* here is your global tokens */
-        },
       }}
     >
       <PageContainer
-        header={{title: null}} tabProps={tabProps} tabList={tabProps.items} breadcrumb={{}}>
+        header={{title: null}}
+        tabProps={tabProps}
+        tabList={tabProps.items}
+        breadcrumb={{}}
+      >
         {props.children}
       </PageContainer>
     </ConfigProvider>
