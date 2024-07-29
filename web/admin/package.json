@@ -22,7 +22,6 @@
     "antd-img-crop": "^4.21.0",
     "dayjs": "^1.11.10",
     "mockjs": "^1.1.0",
-    "rc-resize-observer": "^1.4.0",
     "swagger-ui-dist": "^5.17.10"
   },
   "devDependencies": {
