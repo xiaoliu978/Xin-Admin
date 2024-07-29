@@ -84,11 +84,6 @@ const itemWeb: DescriptionsProps['items'] = [
     key: '9',
     label: '数据模拟',
     children: 'mockjs: ^1.1.0'
-  },
-  {
-    key: '10',
-    label: 'rc-resize-observer',
-    children: 'rc-resize-observer: ^1.4.0'
   }
 ];
 
