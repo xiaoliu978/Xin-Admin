@@ -1,10 +1,10 @@
 import {useLocation, useNavigate, FormattedMessage} from '@umijs/max'
 import {useEffect, useState} from "react";
-import {getMenuData, PageContainer} from "@ant-design/pro-components";
+import {getMenuData} from "@ant-design/pro-components";
 import type { TabsProps } from 'antd';
 import './index.less';
 import { useModel } from '@umijs/max';
-import {ConfigProvider} from "antd";
+import { ConfigProvider, Tabs } from 'antd';
 const XinTabs = (props: {children: React.ReactNode}) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -71,14 +71,8 @@ const XinTabs = (props: {children: React.ReactNode}) => {
         },
       }}
     >
-      <PageContainer
-        header={{title: null}}
-        tabProps={tabProps}
-        tabList={tabProps.items}
-        breadcrumb={{}}
-      >
-        {props.children}
-      </PageContainer>
+      <Tabs {...tabProps}/>
+      {props.children}
     </ConfigProvider>
   )
 }
