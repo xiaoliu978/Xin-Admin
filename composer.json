@@ -25,7 +25,7 @@
         "ext-pdo": "*",
         "ext-zip": "*",
         "topthink/framework": "^8.0",
-        "topthink/think-orm": "^3.0",
+        "topthink/think-orm": "3.0.18",
         "topthink/think-filesystem": "^2.0",
         "topthink/think-multi-app": "^1.0",
         "topthink/think-migration": "^3.1",
